@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="no"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERA — Velkommen til en ny ERA</title>
+<meta name="description" content="ERA forstår boligen din og hjelper deg å vite hva som bør gjøres — og hva som kan vente.">
+<meta name="theme-color" content="#0F1830">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>window.__resources = {
+  "slotHouseDay": "/assets/story/house-day.jpg",
+  "chaosBath": "/assets/story/chaos-bath.png",
+  "slotFoliage": "/assets/story/foliage.jpg",
+  "slotContractor": "/assets/story/contractor.jpg",
+  "chaosPhone": "/assets/story/chaos-phone.png",
+  "slotBath": "/assets/story/bath.jpg",
+  "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
+  "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
+};</script>
+<script src="/js/dc-runtime.js"></script>
+
+
+
+
+
+
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/946fc81e-5de4-4a9d-aa2d-69445e0ad04d.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/2d9b3434-77cb-4a44-a64f-3870ecc88f2d.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/920e3da2-b227-4185-9560-97c5aa9feb7d.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/08fb38fa-583d-4863-ae4b-41d1a2f78d7f.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/3176a05d-6385-4c7c-8a4e-9909dec2a271.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/b0e3b92d-b418-4aac-b3e4-86e7eff9a194.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ef8b8418-a615-4570-bff6-6718cd9876ac.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ee8e78ed-1be4-4ceb-a230-e4ab8ff4693f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/50d747c8-2a13-4f45-a465-d618c835714f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c317ac25-22d2-4bb8-9450-6b56e19b35cc.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/3176a05d-6385-4c7c-8a4e-9909dec2a271.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/b0e3b92d-b418-4aac-b3e4-86e7eff9a194.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ef8b8418-a615-4570-bff6-6718cd9876ac.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ee8e78ed-1be4-4ceb-a230-e4ab8ff4693f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/50d747c8-2a13-4f45-a465-d618c835714f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/c317ac25-22d2-4bb8-9450-6b56e19b35cc.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/8d8804f0-d9c1-4444-934e-22a455c8e3ba.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/8d8804f0-d9c1-4444-934e-22a455c8e3ba.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/8d8804f0-d9c1-4444-934e-22a455c8e3ba.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/8d8804f0-d9c1-4444-934e-22a455c8e3ba.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/8d8804f0-d9c1-4444-934e-22a455c8e3ba.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<script src="/js/image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: #0F1830; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #B0935F; text-decoration: none; }
+  a:hover { color: #131E3A; }
+  a:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 6px; }
+</style>
+</helmet>
+
+<div style="font-family: 'Schibsted Grotesk', sans-serif; color: #131E3A; background: #F7F4EE">
+
+  <!-- STICKY COMMERCIAL NAV -->
+  <nav aria-label="Hovedmeny" style="position: fixed; top: 14px; left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
+    <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
+      <a href="#hjem" aria-label="ERA — til toppen" style="font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
+      <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+          <a href="{{ n.href }}" style="position: relative; padding: 9px 12px; border-radius: 999px; color: inherit; opacity: {{ n.op }}">{{ n.label }}<span style="position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: #D4B17A; opacity: {{ n.markOp }}"></span></a>
+        </sc-for>
+      </div>
+      <a href="#start" style="display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 600; font-size: 14.5px; transition: background 0.5s, color 0.5s; white-space: nowrap">Finn min bolig</a>
+    </div>
+  </nav>
+
+  <!-- STORY PROGRESS RAIL -->
+  <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; transition: opacity 0.5s; pointer-events: none">
+    <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="7">
+      <div style="display: flex; flex-direction: column; align-items: flex-end">
+        <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; color: inherit">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: {{ railFg }}; opacity: {{ c.labelOp }}; transition: opacity 0.4s">{{ c.label }}</span>
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ c.dot }}; box-shadow: {{ c.glow }}; transition: background 0.4s"></span>
+        </a>
+        <span style="width: 1px; height: 20px; margin-right: 3px; background: {{ railLine }}; opacity: {{ c.lineOp }}"></span>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- 0 · DØREN — WIDE, kveld -->
+  <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: 200vh; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <img src="/assets/story/house-evening.jpg" alt="Hjemmet om kvelden — varmt lys i stua" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ doorPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.1) 0%, transparent 40%, rgba(15,24,48,{{ doorDim }}) 100%)"></div>
+      <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
+      <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 50%; background: #0B1226; transform: translateX({{ doorRightTx }}); box-shadow: -30px 0 80px rgba(0,0,0,0.5)"></div>
+      <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, #D4B17A 40%, #D4B17A 60%, transparent); transform: translateX(-50%); opacity: {{ doorSeamOp }}"></div>
+      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 32px">
+        <div style="opacity: {{ door0Op }}; transform: {{ door0Ty }}">
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 20px">era.</div>
+          <h1 style="margin: 0; font-size: clamp(30px, 4vw, 52px); font-weight: 700; letter-spacing: -0.02em; color: #F7F4EE">Velkommen til en ny ERA.</h1>
+          <div style="margin-top: 26px; font-size: 13px; color: rgba(247,244,238,0.55)">Scroll for å åpne</div>
+        </div>
+        <div style="position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12vh; opacity: {{ door1Op }}; transform: {{ door1Ty }}">
+          <div style="font-size: clamp(26px, 3.2vw, 42px); font-weight: 700; letter-spacing: -0.02em; color: #F7F4EE; text-shadow: 0 2px 24px rgba(0,0,0,0.45)">Et hjem er fullt av valg.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 · HJEMMET — HUMAN MEDIUM, paret til høyre, tekst i negativt rom -->
+  <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: 260vh; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
+        <image-slot id="shot-couple-wide" shape="rect" src="{{ resFoliage }}" placeholder="Shot 2 · Paret i stua/kjøkkenet — plasser dem 60–70 % mot høyre, mykt dagslys"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.78) 0%, rgba(15,24,48,0.4) 42%, rgba(15,24,48,0.05) 68%, transparent 100%)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ homeDim }})"></div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 0; bottom: 0; pointer-events: none">
+        <p style="position: absolute; left: 0; top: 46%; margin: 0; max-width: 420px; font-size: clamp(22px, 2.6vw, 34px); font-weight: 500; color: #F7F4EE; font-style: italic; line-height: 1.25; opacity: {{ home0Op }}; transform: {{ home0Ty }}">«Vi burde få malt stua.»</p>
+        <p style="position: absolute; left: 0; top: 46%; margin: 0; max-width: 420px; font-size: clamp(22px, 2.6vw, 34px); font-weight: 500; color: #F7F4EE; font-style: italic; line-height: 1.25; opacity: {{ home1Op }}; transform: {{ home1Ty }}">«Men hva med badet?»</p>
+        <p style="position: absolute; left: {{ home2Left }}; right: 0; top: 46%; margin: 0; text-align: {{ home2Align }}; font-size: clamp(24px, 3vw, 40px); font-weight: 600; color: #F7F4EE; font-style: italic; line-height: 1.25; opacity: {{ home2Op }}; transform: {{ home2Ty }}">«Hva burde vi egentlig gjøre først?»</p>
+        <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ home3Ty }}; text-align: center; opacity: {{ home3Op }}">
+          <h2 style="margin: 0 auto; max-width: 900px; font-size: clamp(34px, 5vw, 66px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Det er vanskelig å vite hva boligen faktisk trenger.</h2>
+          <p style="margin: 22px auto 0; max-width: 700px; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.3; font-weight: 500; color: rgba(247,244,238,0.85); text-wrap: balance">Og enda vanskeligere å vite hva som bør gjøres først.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · KAOS → KLARHET — GRAPHIC, blandede objekttyper -->
+  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: 320vh; background: #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center">
+      <div style="position: relative; width: min(960px, 94vw); height: min(560px, 64vh)">
+        <sc-for list="{{ chaosItems }}" as="it" hint-placeholder-count="9">
+          <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">
+            <sc-if value="{{ it.hasImg }}" hint-placeholder-val="{{ false }}">
+              <div style="width: 100%; height: {{ it.imgH }}; background-image: {{ it.imgUrl }}; background-size: cover; background-position: {{ it.imgPos }}"></div>
+            </sc-if>
+            <sc-if value="{{ it.kind }}" hint-placeholder-val="{{ true }}">
+              <div style="padding: {{ it.textPad }}">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: {{ it.kindColor }}">{{ it.kind }}</div>
+                <div style="margin-top: 4px; font-size: {{ it.titleSize }}; font-weight: {{ it.titleWeight }}; color: {{ it.fg }}; line-height: 1.3">{{ it.title }}</div>
+                <div style="margin-top: 2px; font-size: 12px; color: {{ it.metaColor }}">{{ it.meta }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale({{ chaosLogoScale }}); opacity: {{ chaosLogoOp }}; width: 140px; height: 140px; border-radius: 50%; background: #131E3A; display: flex; align-items: center; justify-content: center; color: #F7F4EE; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; box-shadow: 0 30px 80px rgba(19,30,58,0.3); z-index: 20">era<span style="color: #D4B17A">.</span></div>
+      </div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 9vh; text-align: center; padding: 0 32px">
+        <h2 style="position: absolute; left: 32px; right: 32px; bottom: 0; margin: 0; font-size: clamp(24px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; opacity: {{ chaos0Op }}; transform: {{ chaos0Ty }}; text-wrap: balance">Boligen har allerede masse informasjon.</h2>
+        <h2 style="position: absolute; left: 32px; right: 32px; bottom: 0; margin: 0; font-size: clamp(24px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; opacity: {{ chaos1Op }}; transform: {{ chaos1Ty }}; text-wrap: balance">Problemet er å vite hva som betyr noe.</h2>
+        <div style="position: absolute; left: 32px; right: 32px; bottom: 0; opacity: {{ chaos2Op }}; transform: {{ chaos2Ty }}">
+          <h2 style="margin: 0; font-size: clamp(32px, 4.4vw, 56px); font-weight: 800; letter-spacing: -0.03em">ERA samler boligen.</h2>
+          <p style="margin: 14px 0 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; letter-spacing: 0.06em; color: #8A8579; opacity: {{ chaos3Op }}">Historikk · Tilstand · Dokumentasjon · Behov</p>
+          <p style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; color: #B0935F; opacity: {{ chaos4Op }}; transform: {{ chaos4Ty }}">Og gjør det forståelig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · ERA SER — WIDE arkitektonisk, dagslys, hus til høyre -->
+  <section id="hva" ref="{{ refSee }}" data-theme="dark" style="position: relative; height: 340vh; background: #0F1830" data-screen-label="03 ERA ser" aria-label="ERA forstår hva som betyr noe">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <img src="/assets/story/house-day-sun.jpg" alt="Boligen i dagslys — fasade, tak og vinduer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
+      <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.5) 34%, rgba(15,24,48,0.08) 60%, transparent 100%)"></div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.35) 0%, transparent 30%, transparent 70%, rgba(15,24,48,0.45) 100%)"></div>
+      <sc-for list="{{ seeSpots }}" as="s" hint-placeholder-count="3">
+        <div style="position: absolute; left: {{ s.x }}; top: {{ s.y }}; opacity: {{ s.op }}; transform: translate(-50%, -50%) scale({{ s.scale }})">
+          <span style="position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #D4B17A; box-shadow: 0 0 0 5px rgba(212,177,122,0.3), 0 0 0 12px rgba(212,177,122,0.12)"></span>
+          <span style="position: absolute; left: 0; top: 0; width: {{ s.lineW }}; height: 1px; background: rgba(212,177,122,0.8); transform-origin: 0 0; transform: rotate({{ s.lineRot }})"></span>
+          <div style="position: absolute; left: {{ s.lx }}; top: {{ s.ly }}; width: 224px; padding: 14px 16px; border-radius: 12px; background: rgba(255,253,248,0.97); box-shadow: 0 24px 60px rgba(15,24,48,0.35)">
+            <div style="font-size: 15px; font-weight: 700; color: #131E3A">{{ s.name }}</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12.5px"><span style="color: #8A8579">{{ s.k1 }}</span><span style="font-weight: 600; color: #131E3A">{{ s.v1 }}</span></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 12.5px"><span style="color: #8A8579">{{ s.k2 }}</span><span style="font-weight: 600; color: {{ s.c2 }}">{{ s.v2 }}</span></div>
+          </div>
+        </div>
+      </sc-for>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 420px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; opacity: {{ seeLabelOp }}">Hva ERA gjør</div>
+        <div style="margin-top: 20px; opacity: {{ seeHeadOp }}; transform: {{ seeHeadTy }}">
+          <h2 style="margin: 0; font-size: clamp(32px, 4.2vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance">Se hva som bør gjøres.</h2>
+          <p style="margin: 12px 0 0; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.3; font-weight: 500; color: rgba(247,244,238,0.8)">Og hva som kan vente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · PRIORITER — samme hus, annet perspektiv (skumring, fasadedetalj) -->
+  <section id="prioriter" ref="{{ refPrio }}" data-theme="light" style="position: relative; height: 280vh; background: #FFFDF9" data-screen-label="04 Prioriter" aria-label="Prioritering">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
+      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.18)">
+        <img src="/assets/story/facade-detail.jpg" alt="Fasade, terrasse og tak i skumring" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 42%; transform: translateZ(0); backface-visibility: hidden">
+      </div>
+      <div style="position: relative; min-height: 52vh; display: flex; flex-direction: column; justify-content: center">
+        <div style="position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; gap: 12px; opacity: {{ prioCloudOp }}; transform: {{ prioCloudTy }}">
+          <sc-for list="{{ prioCloud }}" as="c" hint-placeholder-count="8">
+            <span style="padding: 12px 20px; border-radius: 999px; border: 1px solid #E3DDD0; background: #FFFFFF; font-size: 15px; font-weight: 600; color: #3D4354">{{ c }}</span>
+          </sc-for>
+        </div>
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; opacity: {{ prioListOp }}; transform: {{ prioListTy }}">
+          <div style="display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: 18px; background: #131E3A; color: #F7F4EE">
+            <span style="width: 74px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #D4B17A">Nå</span>
+            <span style="font-size: 20px; font-weight: 700">Fasade</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3DDD0">
+            <span style="width: 74px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Neste</span>
+            <span style="font-size: 20px; font-weight: 700">Terrasse</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3DDD0; opacity: 0.7">
+            <span style="width: 74px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9A968C">Senere</span>
+            <span style="font-size: 20px; font-weight: 700">Tak</span>
+          </div>
+        </div>
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: {{ prioHeadOp }}; transform: {{ prioHeadTy }}">
+          <h2 style="margin: 0; font-size: clamp(32px, 3.8vw, 50px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance">Ikke alt på én gang.</h2>
+          <p style="margin: 10px 0 0; font-size: clamp(24px, 3vw, 38px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: #B0935F">Bare det som betyr mest nå.</p>
+          <p style="margin: 22px 0 0; font-size: 16px; color: #5E6472">ERA hjelper deg prioritere tid, penger og oppmerksomhet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · MALE STUA — ekte stue, veggen skifter farge, plan til høyre -->
+  <section id="boligeier" ref="{{ refMagic }}" data-theme="dark" style="position: relative; height: 360vh; background: #131E3A" data-screen-label="05 Fra behov til plan" aria-label="Fra behov til plan">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
+        <image-slot id="shot-livingroom-wall" shape="rect" placeholder="Shot 5 · Stua, vegg-fokusert vinkel — den valgte veggen bør fylle venstre 35–55 % av bildet"></image-slot>
+        <!-- Veggmaske: farge legges på den ekte veggen -->
+        <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; background: {{ wallPaint }}; mix-blend-mode: multiply; opacity: {{ wallPaintOp }}; border-radius: 2px"></div>
+        <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; border: 1.5px solid rgba(212,177,122,{{ wallOutlineOp }}); box-shadow: inset 0 0 0 1px rgba(212,177,122,{{ wallOutlineInnerOp }}), 0 0 0 9999px rgba(15,24,48,{{ wallVignette }})"></div>
+        <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; pointer-events: none; transform: translate(12px, 12px); padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); font-size: 12px; font-weight: 700; color: #131E3A; box-shadow: 0 10px 30px rgba(15,24,48,0.3); opacity: {{ wallTagOp }}; display: flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #D4B17A"></span>Vegg · 42 m²</div>
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, transparent 50%, rgba(15,24,48,0.35) 78%, rgba(15,24,48,0.6) 100%)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ magicDim }})"></div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); top: 50%; transform: translateY(-50%); max-width: 520px; pointer-events: none">
+        <div style="opacity: {{ magic0Op }}; transform: {{ magic0Ty }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">For boligeier</div>
+          <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; font-style: italic; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">«Vi vil male stua.»</h2>
+        </div>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6); white-space: nowrap">ERA forstår rommet.</div>
+      </div>
+      <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: 50%; transform: translateY(-50%) {{ magicPlanTy }}; width: min(380px, 84vw); padding: 28px 30px; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Plan · Male stua</div>
+          <div style="font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0 12px; border-bottom: 1px solid #EFEAE0">
+          <span style="width: 22px; height: 22px; border-radius: 6px; background: {{ wallPaint }}; border: 1px solid rgba(19,30,58,0.1)"></span>
+          <span style="font-size: 14px; font-weight: 600">{{ wallPaintName }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <sc-for list="{{ planRows }}" as="r" hint-placeholder-count="5">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid #EFEAE0; opacity: {{ r.op }}; transform: {{ r.ty }}">
+              <span style="font-size: 14.5px; color: #8A8579">{{ r.k }}</span>
+              <span style="font-size: 17px; font-weight: 700; font-family: 'JetBrains Mono', monospace">{{ r.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; opacity: {{ magicDoneOp }}">
+          <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
+          <a href="#start" style="display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Finn min bolig</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · VALGET -->
+  <section id="gjennomfor" ref="{{ refChoice }}" data-theme="light" style="position: relative; height: 180vh; background: #FFFDF9" data-screen-label="06 Valget" aria-label="Gjør det selv eller få hjelp">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
+      <div style="text-align: center; opacity: {{ choiceHeadOp }}; transform: {{ choiceHeadTy }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 16px">Ett behov. To veier.</div>
+        <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); font-weight: 800; letter-spacing: -0.03em">Hvordan vil du gjøre det?</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; width: 100%; max-width: 860px">
+        <div style="padding: 36px; border-radius: 26px; background: #F2E9DC; opacity: {{ choiceLOp }}; transform: {{ choiceLTx }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A7758">A</div>
+          <div style="margin-top: 12px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Gjøre det selv</div>
+          <p style="margin: 10px 0 0; font-size: 15.5px; line-height: 1.5; color: #6E5F44">Materialer og mengder — ferdig beregnet.</p>
+        </div>
+        <div style="padding: 36px; border-radius: 26px; background: #131E3A; color: #F7F4EE; opacity: {{ choiceROp }}; transform: {{ choiceRTx }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #D4B17A">B</div>
+          <div style="margin-top: 12px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Få hjelp</div>
+          <p style="margin: 10px 0 0; font-size: 15.5px; line-height: 1.5; color: rgba(247,244,238,0.7)">Jobben går til fagfolk — ferdig beskrevet.</p>
+        </div>
+      </div>
+      <div style="font-size: 14px; color: #9A968C; opacity: {{ choiceNoteOp }}">Scroll videre — vi viser begge.</div>
+    </div>
+  </section>
+
+  <!-- 7 · GJØRE DET SELV — DETAIL: materialer i kontekst -->
+  <section id="partnere" ref="{{ refCommerce }}" data-theme="light" style="position: relative; height: 300vh; background: #F1EDE4" data-screen-label="07 Gjøre det selv" aria-label="Produkter og faghandel">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
+      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+        <div style="position: absolute; inset: 0; opacity: {{ comShotAOp }}">
+          <image-slot id="shot-paint-detail" shape="rect" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
+        </div>
+        <div style="position: absolute; inset: 0; opacity: {{ comShotBOp }}">
+          <image-slot id="shot-materials" shape="rect" placeholder="Shot 10 · Maling, sparkel, rulle, pensler og maskering på tildekket gulv"></image-slot>
+        </div>
+        <sc-for list="{{ productTags }}" as="pt" hint-placeholder-count="5">
+          <div style="position: absolute; left: {{ pt.x }}; top: {{ pt.y }}; pointer-events: none; transform: translate(-50%, -50%); opacity: {{ pt.op }}; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.25); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D4B17A"></span>{{ pt.label }}</div>
+        </sc-for>
+      </div>
+      <div style="position: relative">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">A · Gjøre det selv</div>
+        <h2 style="margin: 18px 0 0; font-size: clamp(32px, 4.2vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; opacity: {{ comHeadOp }}; transform: {{ comHeadTy }}">Alt du trenger.<br><span style="font-weight: 500; color: #5E6472">Allerede beregnet.</span></h2>
+        <div style="display: flex; flex-direction: column; margin-top: 26px; max-width: 420px">
+          <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid rgba(19,30,58,0.1); opacity: {{ p.op }}; transform: {{ p.ty }}">
+              <span style="font-size: 16px; font-weight: 600">{{ p.name }}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13.5px; color: #5E6472">{{ p.qty }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top: 26px; opacity: {{ comDeliveryOp }}; transform: {{ comDeliveryTy }}">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8579; margin-bottom: 10px">Levering</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <span style="padding: 10px 16px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 13.5px; font-weight: 600">Kjøres hjem</span>
+            <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Hentes i butikk</span>
+            <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Håndverker henter</span>
+          </div>
+          <p style="margin: 20px 0 0; max-width: 400px; font-size: 14px; line-height: 1.5; color: #8A8579">For faghandel: riktige produkter kobles til et faktisk behov i boligen. <a href="#start" style="font-weight: 600">Snakk med ERA →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · FÅ HJELP — HUMAN: håndverker i arbeid, brief i negativt rom -->
+  <section id="handverker" ref="{{ refPro }}" data-theme="dark" style="position: relative; height: 260vh; background: #131E3A" data-screen-label="08 Håndverker" aria-label="For håndverkeren">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
+        <image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Håndverker i arbeid, hender/verktøy synlig, plassert til venstre"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, rgba(19,30,58,0.1) 40%, rgba(19,30,58,0.7) 68%, rgba(19,30,58,0.92) 100%)"></div>
+      <div style="position: absolute; right: clamp(24px, 7vw, 120px); left: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
+        <div style="max-width: 440px; text-align: right">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">B · Få hjelp</div>
+          <h2 style="margin: 16px 0 0; font-size: clamp(30px, 3.8vw, 50px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; opacity: {{ proHeadOp }}; transform: {{ proHeadTy }}; text-wrap: balance">Jobben kommer ferdig forstått.</h2>
+          <p style="margin: 14px 0 0; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.35; font-weight: 500; color: rgba(247,244,238,0.75); opacity: {{ proSubOp }}">Mindre tid på befaring og tilbud. Mer tid på jobben.</p>
+        </div>
+        <div style="width: min(360px, 100%); padding: 20px 22px; border-radius: 20px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); transform: {{ proCardTy }}; opacity: {{ proCardOp }}">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">Male stue · 42 m²</div>
+            <span style="padding: 5px 10px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 11px; font-weight: 700">Nytt oppdrag</span>
+          </div>
+          <div style="margin-top: 3px; font-size: 13px; color: #8A8579">Borgveien 14 · 4 bilder vedlagt</div>
+          <div style="display: flex; flex-direction: column; margin-top: 12px">
+            <sc-for list="{{ jobRows }}" as="j" hint-placeholder-count="3">
+              <div style="display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #EFEAE0; font-size: 13.5px; opacity: {{ j.op }}"><span style="color: #8A8579">{{ j.k }}</span><span style="font-weight: 600">{{ j.v }}</span></div>
+            </sc-for>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 14px; opacity: {{ proBtnOp }}">
+            <div style="flex: 1; padding: 11px; border-radius: 10px; background: #131E3A; color: #F7F4EE; text-align: center; font-weight: 700; font-size: 13.5px">Gi tilbud</div>
+            <a href="#start" style="pointer-events: auto; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · TILLIT — HUMAN close, rolig -->
+  <section ref="{{ refTrust }}" data-theme="dark" style="position: relative; height: 320vh; background: #0F1830" data-screen-label="09 Tillit" aria-label="Tillit">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ trustImgOp }}">
+        <image-slot id="shot-couple-relief" shape="rect" src="{{ resBath }}" placeholder="Shot 3 · Paret, medium/nær — rolig lettelse, naturlig kroppsspråk, til høyre"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.85) 0%, rgba(15,24,48,0.55) 45%, rgba(15,24,48,0.15) 75%, transparent 100%)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ trustDim }})"></div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 640px; pointer-events: none">
+        <p style="position: absolute; left: 0; top: 50%; margin: 0; transform: translateY(-50%) {{ trust0Ty }}; font-size: clamp(24px, 3.2vw, 40px); font-weight: 500; font-style: italic; color: #F7F4EE; opacity: {{ trust0Op }}; line-height: 1.25">«Må vi egentlig pusse opp badet?»</p>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); opacity: {{ trust1Op }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 20px">ERA svarer</div>
+          <h2 style="margin: 0; font-size: clamp(56px, 9vw, 120px); font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; line-height: 1">Ikke nå.</h2>
+          <p style="margin: 22px 0 0; font-size: clamp(16px, 1.8vw, 20px); color: rgba(247,244,238,0.75); opacity: {{ trust2Op }}; transform: {{ trust2Ty }}">Inspeksjon anbefales innen 12 måneder.</p>
+        </div>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ trust3Ty }}; opacity: {{ trust3Op }}">
+          <h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; line-height: 1.1">Riktig beslutning er ikke alltid å gjøre mer.</h2>
+        </div>
+        <div style="height: 40vh"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · HUKOMMELSE — samme hus, fire årstider -->
+  <section id="husk" ref="{{ refMemory }}" data-theme="light" style="position: relative; height: 340vh; background: #FFFDF9" data-screen-label="10 Hukommelse" aria-label="Boligen får en hukommelse">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
+      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+        <sc-for list="{{ seasons }}" as="se" hint-placeholder-count="4">
+          <div style="position: absolute; inset: 0; opacity: {{ se.op }}; filter: {{ se.filter }}">
+            <image-slot id="{{ se.id }}" shape="rect" src="{{ resHouseDay }}" placeholder="{{ se.placeholder }}"></image-slot>
+          </div>
+        </sc-for>
+        <div style="position: absolute; left: 20px; top: 20px; pointer-events: none; padding: 9px 14px; border-radius: 999px; background: rgba(255,253,248,0.92); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center">{{ memYear }}<span style="font-family: 'Schibsted Grotesk', sans-serif; font-size: 12px; color: #8A8579">{{ memSeason }}</span></div>
+        <div style="position: absolute; left: 20px; right: 20px; bottom: 20px; pointer-events: none; display: flex; gap: 8px; flex-wrap: wrap">
+          <sc-for list="{{ memDocs }}" as="d" hint-placeholder-count="4">
+            <span style="padding: 8px 14px; border-radius: 999px; background: rgba(19,30,58,0.85); color: #F7F4EE; font-size: 12.5px; font-weight: 600; opacity: {{ d.op }}; transform: {{ d.ty }}">{{ d.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position: relative; display: flex; flex-direction: column; justify-content: center">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 22px">Over tid</div>
+        <div style="position: relative; padding-left: 36px">
+          <div style="position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: #E3DDD0"></div>
+          <div style="position: absolute; left: 9px; top: 6px; width: 2px; height: {{ memLineH }}; background: #B0935F"></div>
+          <sc-for list="{{ memEvents }}" as="e" hint-placeholder-count="4">
+            <div style="position: relative; padding: 10px 0 18px; opacity: {{ e.op }}">
+              <span style="position: absolute; left: -36px; top: 14px; width: 20px; height: 20px; border-radius: 50%; background: {{ e.dot }}; box-shadow: {{ e.glow }}; display: flex; align-items: center; justify-content: center; color: #F7F4EE; font-size: 11px; font-weight: 800">{{ e.check }}</span>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #B0935F">{{ e.year }}</div>
+              <div style="margin-top: 2px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; color: {{ e.fg }}">{{ e.title }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top: 22px; opacity: {{ memHeadOp }}; transform: {{ memHeadTy }}">
+          <h2 style="margin: 0; font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; letter-spacing: -0.03em">Boligen får en hukommelse.</h2>
+          <p style="margin: 6px 0 0; font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; letter-spacing: -0.03em; color: #B0935F; opacity: {{ memHead2Op }}">Og en plan.</p>
+          <p style="margin: 16px 0 0; font-size: 16px; color: #5E6472; opacity: {{ memHead2Op }}">Det som blir gjort i dag gjør neste beslutning enklere.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · HELE BYGGET — WIDE strukturell: boligblokk til høyre, tekst venstre -->
+  <section id="styret" ref="{{ refBoard }}" data-theme="dark" style="position: relative; height: 340vh; background: #131E3A" data-screen-label="11 Styret" aria-label="For styret">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ boardBgOp }}">
+        <image-slot id="shot-building" shape="rect" placeholder="Shot 16 · Norsk boligblokk / borettslag — balkonger, fasade, fellesareal — bygget til høyre"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 38%, rgba(19,30,58,0.3) 65%, rgba(19,30,58,0.15) 100%)"></div>
+      <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: 50%; transform: translateY(-50%); width: min(520px, 46vw); height: min(340px, 40vh); display: flex; align-items: center; justify-content: center; pointer-events: none">
+        <div style="position: absolute; width: 200px; height: 200px; border-radius: 22px; overflow: hidden; transform: scale({{ boardOneScale }}); opacity: {{ boardOneOp }}; box-shadow: 0 30px 80px rgba(0,0,0,0.5)">
+          <img src="/assets/story/house-day.jpg" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%">
+        </div>
+        <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px; opacity: {{ boardGridOp }}">
+          <sc-for list="{{ boardUnits }}" as="u" hint-placeholder-count="18">
+            <div style="position: relative; border-radius: 10px; background: {{ u.bg }}; border: 1px solid rgba(247,244,238,0.25); backdrop-filter: blur(2px); opacity: {{ u.op }}; transform: {{ u.sc }}; display: flex; align-items: flex-end; padding: 8px">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ u.dot }}"></span>
+              <span style="position: absolute; left: 8px; top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #D4B17A; opacity: {{ u.tagOp }}">{{ u.tag }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 460px; opacity: {{ boardHeadOp }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret</div>
+        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">For styret gjelder det samme.</h2>
+        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Bare for hele eiendommen.</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
+          <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
+            <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
+          </sc-for>
+        </div>
+        <a href="#start" style="display: inline-flex; align-items: center; margin-top: 26px; height: 44px; padding: 0 20px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 14.5px; font-weight: 700; opacity: {{ boardCtaOp }}" style-hover="background: #E2C48F; color: #131E3A">Se ERA for borettslag og sameier →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · BOLIGEIER × STYRET — interiør vs. bygg -->
+  <section ref="{{ refSplit }}" data-theme="split" style="position: relative; height: 280vh; background: #F7F4EE" data-screen-label="12 Boligeier og styret" aria-label="ERA kobler dem sammen">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr">
+      <div style="position: relative; overflow: hidden; background: #F7F4EE; transform: translateX({{ splitLTx }})">
+        <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="{{ resFoliage }}" placeholder="Shot 4 · Stua, ren vid — intim skala"></image-slot></div>
+        <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.15), rgba(15,24,48,0.7))"></div>
+        <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Boligeier</div>
+          <p style="margin: 14px auto 0; max-width: 380px; font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; letter-spacing: -0.02em; font-style: italic; color: #F7F4EE; opacity: {{ splitQ0Op }}; transform: {{ splitQ0Ty }}">«Hva trenger min bolig?»</p>
+        </div>
+      </div>
+      <div style="position: relative; overflow: hidden; background: #131E3A; transform: translateX({{ splitRTx }})">
+        <div style="position: absolute; inset: 0"><image-slot id="shot-building-facade" shape="rect" placeholder="Shot 17 · Byggets fasade — systemisk skala"></image-slot></div>
+        <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.25), rgba(15,24,48,0.8))"></div>
+        <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Styret</div>
+          <p style="margin: 14px auto 0; max-width: 380px; font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; letter-spacing: -0.02em; font-style: italic; color: #F7F4EE; opacity: {{ splitQ1Op }}; transform: {{ splitQ1Ty }}">«Hva trenger hele eiendommen?»</p>
+        </div>
+      </div>
+      <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 0 24px; text-align: center; background: #FFFDF9; opacity: {{ splitMergeOp }}; pointer-events: none">
+        <div style="width: 140px; height: 140px; border-radius: 50%; background: #131E3A; display: flex; align-items: center; justify-content: center; color: #F7F4EE; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; box-shadow: 0 30px 80px rgba(19,30,58,0.3); transform: scale({{ splitLogoScale }})">era<span style="color: #D4B17A">.</span></div>
+        <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; transform: {{ splitHeadTy }}">ERA kobler dem sammen.</h2>
+        <p style="margin: 0; max-width: 480px; font-size: 17px; line-height: 1.5; color: #5E6472">Én forståelse av eiendommen — for styret og for hver enkelt bolig.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · FRA BEHOV TIL FERDIG JOBB — GRAPHIC -->
+  <section id="reisen" ref="{{ refEco }}" data-theme="dark" style="position: relative; height: 300vh; background: #0F1830" data-screen-label="13 Reisen" aria-label="Fra behov til ferdig jobb">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; padding: 0 24px">
+      <div style="text-align: center; opacity: {{ ecoHeadOp }}; transform: {{ ecoHeadTy }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">Én reise</div>
+        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF">Fra behov til ferdig jobb.</h2>
+        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.7); opacity: {{ ecoHead2Op }}">Og alt som kommer etterpå.</p>
+      </div>
+      <div style="position: relative; width: 100%; max-width: 1040px">
+        <div style="position: absolute; left: 6%; right: 6%; top: 27px; height: 2px; background: rgba(247,244,238,0.12)"></div>
+        <div style="position: absolute; left: 6%; top: 27px; height: 2px; width: {{ ecoLineW }}; background: #D4B17A"></div>
+        <div style="position: relative; display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px">
+          <sc-for list="{{ ecoSteps }}" as="st" hint-placeholder-count="7">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; opacity: {{ st.op }}; transform: {{ st.ty }}">
+              <span style="width: 56px; height: 56px; border-radius: 50%; background: {{ st.bg }}; border: 1px solid rgba(247,244,238,0.18); display: flex; align-items: center; justify-content: center; color: {{ st.fg }}; font-size: 13px; font-weight: 800; font-family: 'JetBrains Mono', monospace">{{ st.n }}</span>
+              <div>
+                <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #D4B17A">{{ st.who }}</div>
+                <div style="margin-top: 4px; font-size: 14.5px; font-weight: 600; color: #F7F4EE; line-height: 1.3">{{ st.what }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13b · DINE DATA — rolig tillitskort -->
+  <section id="data" data-theme="light" style="position: relative; padding: clamp(80px, 12vh, 140px) clamp(24px, 7vw, 120px); background: #FFFDF9" data-screen-label="13b Dine data" aria-label="Din bolig. Dine data.">
+    <div style="max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 48px; align-items: center">
+      <div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">Personvern</div>
+        <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance">Din bolig.<br>Dine data.</h2>
+        <p style="margin: 18px 0 0; max-width: 420px; font-size: 17px; line-height: 1.5; color: #5E6472">ERA lagrer boligens historie for deg — ikke om deg. Du eier den, og du bestemmer hvem som ser den.</p>
+        <a href="#data" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px">
+        <div style="padding: 26px 24px; border-radius: 20px; background: #131E3A; color: #F7F4EE">
+          <svg width="24" height="28" sc-camel-view-box="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 2L21 5.5V13C21 19 17 23.5 12 26C7 23.5 3 19 3 13V5.5L12 2Z" stroke="#D4B17A" stroke-width="1.6"></path><path d="M8.5 13.5L11 16L16 11" stroke="#D4B17A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em">Beskyttet</div>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.7)">Lagret kryptert i Norge, i tråd med GDPR.</p>
+        </div>
+        <div style="padding: 26px 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E3DDD0">
+          <svg width="24" height="28" sc-camel-view-box="0 0 24 28" fill="none" aria-hidden="true"><rect x="4" y="12" width="16" height="13" rx="3" stroke="#B0935F" stroke-width="1.6"></rect><path d="M7.5 12V8a4.5 4.5 0 019 0v4" stroke="#B0935F" stroke-width="1.6"></path><circle cx="12" cy="18.5" r="1.6" fill="#B0935F"></circle></svg>
+          <div style="margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em">Du bestemmer</div>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: #5E6472">Del med håndverker, styret eller kjøper — bare når du vil.</p>
+        </div>
+        <div style="padding: 26px 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E3DDD0">
+          <svg width="26" height="28" sc-camel-view-box="0 0 26 28" fill="none" aria-hidden="true"><path d="M4 13L13 5L22 13V24H4V13Z" stroke="#B0935F" stroke-width="1.6" stroke-linejoin="round"></path><path d="M9 24V17H17V24" stroke="#B0935F" stroke-width="1.6" stroke-linejoin="round"></path><path d="M17 8.5H21V5" stroke="#B0935F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em">Følger eierskiftet</div>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: #5E6472">Historikken følger boligen til ny eier — ikke dine personopplysninger.</p>
+        </div>
+        <div style="padding: 26px 24px; border-radius: 20px; background: #F1EDE4">
+          <svg width="26" height="26" sc-camel-view-box="0 0 26 26" fill="none" aria-hidden="true"><path d="M4 8h18M4 13h12M4 18h8" stroke="#B0935F" stroke-width="1.6" stroke-linecap="round"></path><path d="M19 15l3 3-3 3" stroke="#B0935F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em">Ta det med deg</div>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: #5E6472">Eksporter eller slett alt når du vil. Ingen binding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · ERA — WIDE finale, hus til høyre, tekst venstre -->
+  <section id="start" ref="{{ refFinale }}" data-theme="dark" style="position: relative; height: 240vh; background: #0F1830" data-screen-label="14 Finale" aria-label="Finn min bolig">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <img src="/assets/story/house-day-sun.jpg" alt="Hjemmet vi har fulgt — i kveldssol" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.88) 0%, rgba(15,24,48,0.6) 38%, rgba(15,24,48,0.15) 65%, transparent 100%)"></div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.5) 0%, transparent 35%, transparent 70%, rgba(15,24,48,0.5) 100%)"></div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 560px">
+        <div style="font-size: clamp(56px, 8vw, 120px); font-weight: 800; letter-spacing: -0.05em; color: #FFFFFF; line-height: 1; opacity: {{ finLogoOp }}; transform: {{ finLogoTy }}">era<span style="color: #D4B17A">.</span></div>
+        <h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">Boligeierskap uten gjetting.</h2>
+        <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.</p>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 36px; opacity: {{ finCtaOp }}; transform: {{ finCtaTy }}">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
+            <span style="flex: 1; text-align: left; font-size: 16px; color: #9A968C">Skriv adressen din</span>
+            <span style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 15px; font-weight: 600; white-space: nowrap">Finn min bolig</span>
+          </div>
+          <a href="#styret" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">Se ERA for borettslag og sameier →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-theme="light" style="padding: 64px 32px 40px; background: #FFFDF9">
+    <div style="max-width: 1080px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding-bottom: 32px; border-bottom: 1px solid #E3DDD0; flex-wrap: wrap">
+      <div>
+        <div style="font-size: 28px; font-weight: 800; letter-spacing: -0.03em">era<span style="color: #B0935F">.</span></div>
+        <div style="margin-top: 6px; font-size: 15px; color: #4E5464">Boligeierskap uten gjetting</div>
+      </div>
+      <div style="display: flex; gap: 48px; font-size: 15px; color: #4E5464">
+        <div style="display: flex; flex-direction: column; gap: 10px"><a href="#hva">Hva ERA gjør</a><a href="#boligeier">Boligeier</a><a href="#styret">Styret</a></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><a href="#handverker">Håndverker</a><a href="#partnere">Partnere</a><a href="#data">Personvern</a><a href="#start">Finn min bolig</a></div>
+      </div>
+    </div>
+    <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA AS</span><span>Oslo</span></div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:60,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:46,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:66,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
+class Component extends DCLogic {
+  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false };
+  pinRefs = {};
+  _refFns = {};
+
+  componentDidMount() {
+    this._mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this._raf = null;
+    this._onScroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = null; this.update(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll, { passive: true });
+    this.update();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+  }
+
+  update() {
+    const vh = window.innerHeight;
+    const reduced = this._mq.matches;
+    const prog = {};
+    Object.keys(this.pinRefs).forEach((k) => {
+      const el = this.pinRefs[k];
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const total = r.height - vh;
+      let p = Math.max(0, Math.min(1, total > 0 ? -r.top / total : 0));
+      if (reduced && r.top < vh * 0.6) p = 1;
+      prog[k] = p;
+    });
+    let theme = 'dark';
+    document.querySelectorAll('[data-theme]').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= 44 && r.bottom > 44) theme = el.getAttribute('data-theme');
+    });
+    let activeNav = '';
+    ['hva', 'boligeier', 'styret', 'handverker', 'partnere'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) activeNav = id;
+    });
+    const chapMap = { door: 0, home: 0, chaos: 1, see: 1, prio: 2, magic: 3, choice: 4, commerce: 4, pro: 4, trust: 4, memory: 5, board: 6, split: 6, eco: 6, finale: 6 };
+    let chapter = 0;
+    Object.keys(chapMap).forEach((k) => {
+      const el = this.pinRefs[k];
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) chapter = chapMap[k];
+    });
+    this.setState({ prog, theme, activeNav, chapter, navShown: (prog.door || 0) > 0.55, mobile: window.innerWidth < 900, reduced });
+  }
+
+  ref(k) {
+    if (!this._refFns[k]) this._refFns[k] = (el) => { this.pinRefs[k] = el; };
+    return this._refFns[k];
+  }
+  seg(p, s, e, f = 0.06) {
+    if (p < s - f) return 0;
+    if (p < s) return (p - (s - f)) / f;
+    if (p <= e) return 1;
+    if (p < e + f) return 1 - (p - e) / f;
+    return 0;
+  }
+  ramp(p, s, e) { return Math.max(0, Math.min(1, (p - s) / (e - s))); }
+  ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }
+  mix(a, b, t) { return a + (b - a) * t; }
+
+  renderVals() {
+    const P = this.state.prog;
+    const g = (k) => P[k] || 0;
+    const seg = this.seg.bind(this), ty = this.ty.bind(this), ramp = this.ramp.bind(this), ease = this.ease.bind(this);
+    const dark = this.state.theme === 'dark', split = this.state.theme === 'split', mobile = this.state.mobile;
+    const navShown = this.state.navShown;
+
+    const wallX = this.props.wallX ?? 4, wallW = this.props.wallW ?? 46, wallY = this.props.wallY ?? 6, wallH = this.props.wallH ?? 66;
+    const paintKey = this.props.wallColor ?? '#B9C4B1';
+    const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
+
+    const navItems = [['hva', 'Hva ERA gjør'], ['boligeier', 'Boligeier'], ['styret', 'Styret'], ['handverker', 'Håndverker'], ['partnere', 'Partnere']]
+      .map(([id, label]) => ({ href: '#' + id, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
+    const chapData = [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå'], ['#prioriter', 'Prioriter'], ['#boligeier', 'Planlegg'], ['#gjennomfor', 'Gjennomfør'], ['#husk', 'Husk'], ['#styret', 'Hele bygget']];
+    const chapters = chapData.map(([href, label], i) => {
+      const active = i === this.state.chapter;
+      return { href, label, labelOp: active ? 1 : 0, dot: active ? '#D4B17A' : (dark ? 'rgba(247,244,238,0.35)' : 'rgba(19,30,58,0.25)'), glow: active ? '0 0 0 5px rgba(212,177,122,0.25)' : 'none', lineOp: i === chapData.length - 1 ? 0 : 1 };
+    });
+
+    const d = g('door'), open = ease(ramp(d, 0.12, 0.7));
+    const h = g('home');
+    const home2 = seg(h, 0.52, 0.68);
+
+    const c = g('chaos'), gather = ease(ramp(c, 0.5, 0.76));
+    const white = '#FFFFFF', shadowLg = '0 30px 70px rgba(19,30,58,0.16)', shadowMd = '0 18px 50px rgba(19,30,58,0.1)', shadowSm = '0 10px 26px rgba(19,30,58,0.08)';
+    const chaosData = [
+      { kind: 'PDF · 48 SIDER', title: 'Tilstandsrapport 2021', meta: 'Takstmann Berg AS', x: -340, y: -160, rot: -5, w: '210px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
+      { kind: 'E-POST', title: 'Re: Tilbud rørlegger', meta: 'mars 2023 · 2 vedlegg', x: 300, y: -200, rot: 4, w: '200px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
+      { kind: 'FDV', title: 'Vinduer · Nordan', meta: 'Garanti til 2029', x: -400, y: 60, rot: 3, w: '180px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1 },
+      { img: (window.__resources && window.__resources.chaosBath) || 'assets/sharp/bath.jpg', imgH: '120px', imgPos: '50% 20%', kind: 'BILDE', title: 'Bad etter rehab', meta: 'IMG_4471.jpg', x: 350, y: 40, rot: -6, w: '190px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
+      { kind: 'SMS', title: '«Kan komme torsdag»', meta: 'Elektriker · i går', x: -230, y: 220, rot: 6, w: '200px', scale: 0.9, keep: 0, shadow: shadowSm, z: 1, bg: '#E9F3E6' },
+      { kind: 'KVITTERING', title: 'Byggmakker', meta: 'kr 8 420 · 14.05.2024', x: 240, y: 230, rot: -7, w: '150px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1, font: "'JetBrains Mono', monospace", titleSize: '13px', titleWeight: 500 },
+      { kind: 'NOTAT', title: 'Bør sjekke takrenner før vinteren', meta: '— Håndverker', x: 30, y: -250, rot: 2, w: '220px', scale: 1, keep: 1, shadow: shadowMd, z: 2, bg: '#F6EFD9', font: "'Caveat', cursive", titleSize: '20px', titleWeight: 500 },
+      { img: (window.__resources && window.__resources.chaosPhone) || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
+      { kind: 'PDF · DUPLIKAT', title: 'Tilstandsrapport 2021', meta: 'kopi (2)', x: -80, y: 20, rot: 9, w: '190px', scale: 0.85, keep: 0, shadow: shadowSm, z: 0 }
+    ];
+    const chaosItems = chaosData.map((it, i) => {
+      const appear = seg(c, 0.06 + i * 0.035, 0.6, 0.05);
+      const k = 1 - gather;
+      const noise = it.keep ? 1 : 1 - ramp(c, 0.4, 0.5);
+      return {
+        kind: it.kind, title: it.title, meta: it.meta, hasImg: !!it.img, imgUrl: it.img ? `url("${it.img}")` : 'none', imgH: it.imgH || '0', imgPos: it.imgPos || '50% 50%',
+        tx: `${it.x * k}px`, ty: `${it.y * k}px`, rot: `${it.rot * k}deg`, scale: it.scale, w: it.w, op: appear * (1 - gather) * noise,
+        bg: it.bg || white, shadow: it.shadow, z: it.z, pad: '0', textPad: '14px 16px', radius: it.img ? '14px' : '12px',
+        font: it.font || 'inherit', titleSize: it.titleSize || '14px', titleWeight: it.titleWeight || 600,
+        fg: '#131E3A', kindColor: '#B0935F', metaColor: '#8A8579'
+      };
+    });
+
+    const s = g('see');
+    const spotData = [
+      { name: 'Tak', k1: 'Tilstand', v1: 'God', k2: 'Neste kontroll', v2: 'Senere', c2: '#5E6472', x: '61%', y: '38%', lx: '20px', ly: '-120px', lineW: '124px', lineRot: '-80deg', a: 0.1, b: 0.32 },
+      { name: 'Fasade', k1: 'Inspeksjon', v1: 'Anbefalt', k2: 'Innen', v2: '12 måneder', c2: '#B0935F', x: '73%', y: '52%', lx: '40px', ly: '-22px', lineW: '40px', lineRot: '0deg', a: 0.38, b: 0.6 },
+      { name: 'Bad', k1: 'Dokumentasjon', v1: 'Delvis', k2: 'Rehabilitering nå', v2: 'Ikke anbefalt', c2: '#5E6472', x: '47%', y: '64%', lx: '-112px', ly: '48px', lineW: '48px', lineRot: '90deg', a: 0.66, b: 0.84 }
+    ];
+    const seeSpots = spotData.map((sp) => { const op = seg(s, sp.a, sp.b, 0.04); return { ...sp, op, scale: 0.94 + op * 0.06 }; });
+
+    const p = g('prio');
+    const prioCloudOp = seg(p, 0.05, 0.38, 0.06), prioListOp = seg(p, 0.48, 0.72, 0.06), prioHeadOp = seg(p, 0.82, 1, 0.06);
+
+    const m = g('magic');
+    const planData = [['Vegg', '42 m²'], ['Forbehandling', 'Lett sparkling'], ['Strøk', '2'], ['Tid', '1–2 dager'], ['Estimert kostnad', 'ca. 6 800 kr']];
+    const planRows = planData.map(([k, v], i) => { const op = seg(m, 0.42 + i * 0.08, 1, 0.05); return { k, v, op, ty: ty(op, 12) }; });
+    const wallHighlight = seg(m, 0.24, 0.42, 0.05);
+    const wallPaintOp = ease(ramp(m, 0.36, 0.56)) * 0.92;
+
+    const ch = g('choice');
+    const choiceLOp = seg(ch, 0.22, 1, 0.1), choiceROp = seg(ch, 0.38, 1, 0.1);
+
+    const co = g('commerce');
+    const prodData = [['Maling', '2 × 10 L'], ['Sparkel', '1 × 5 kg'], ['Ruller', '2 stk'], ['Pensler', '3 stk'], ['Maskering', '2 ruller']];
+    const products = prodData.map(([name, qty], i) => { const op = seg(co, 0.3 + i * 0.09, 1, 0.05); return { name, qty, op, ty: ty(op, 14) }; });
+    const productTags = [['2 × maling', '30%', '58%'], ['1 × sparkel', '62%', '40%'], ['2 × ruller', '48%', '74%'], ['3 × pensler', '74%', '66%'], ['Maskering', '24%', '32%']]
+      .map(([label, x, y], i) => ({ label, x, y, op: seg(co, 0.32 + i * 0.09, 1, 0.05) }));
+    const comShotBOp = ease(ramp(co, 0.18, 0.3));
+
+    const pr = g('pro');
+    const jobRows = [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']].map(([k, v], i) => ({ k, v, op: seg(pr, 0.3 + i * 0.12, 1, 0.05) }));
+    const proCardOp = seg(pr, 0.12, 1, 0.1);
+
+    const t = g('trust');
+
+    const me = g('memory');
+    const memData = [['2019', 'Vinduer skiftet', 0.08], ['2026', 'ERA kobles til', 0.3], ['2027', 'Fasade vurderes', 0.5], ['2029', 'Mulig takarbeid', 0.68]];
+    const memEvents = memData.map(([year, title, at], i) => {
+      const reached = me >= at, op = seg(me, at - 0.02, 1, 0.05);
+      return { year, title, op: 0.35 + op * 0.65, dot: reached ? (i < 2 ? '#131E3A' : '#B0935F') : '#E3DDD0', glow: reached && me < at + 0.18 ? '0 0 0 6px rgba(176,147,95,0.2)' : 'none', check: i < 2 && reached ? '✓' : '', fg: reached ? '#131E3A' : '#9A968C' };
+    });
+    let memYear = '2019', memIdx = 0;
+    memData.forEach(([y, , at], i) => { if (me >= at) { memYear = y; memIdx = i; } });
+    const seasonDefs = [
+      ['shot-home-winter', 'Vinter', 'saturate(0.35) brightness(1.12) contrast(0.95)', 'Shot 15 · Samme hus — vinter, samme kameraposisjon'],
+      ['shot-home-spring', 'Vår', 'saturate(1.1) brightness(1.05) hue-rotate(6deg)', 'Shot 13 · Samme hus — vår'],
+      ['shot-home-summer', 'Sommer', 'none', 'Shot 7 · Samme hus — sommer, dagslys'],
+      ['shot-home-autumn', 'Høst', 'sepia(0.35) saturate(1.25) hue-rotate(-14deg) brightness(0.96)', 'Shot 14 · Samme hus — høst']
+    ];
+    const seasons = seasonDefs.map(([id, name, filter, placeholder], i) => ({ id, placeholder, filter, op: i === memIdx ? 1 : 0 }));
+    const memSeason = seasonDefs[memIdx][1];
+    const memLineH = `${Math.round(ramp(me, 0.08, 0.68) * 100)}%`;
+    const memDocs = [['Vindusgaranti', 0.1], ['Tilstandsrapport', 0.32], ['Fasadeinspeksjon', 0.52], ['Takplan', 0.7]].map(([label, at]) => { const op = seg(me, at, 1, 0.05); return { label, op, ty: ty(op, 8) }; });
+
+    const b = g('board'), shrink = ease(ramp(b, 0.08, 0.32));
+    const tagMap = { 4: 'Fasade', 9: 'FDV', 14: 'Kostnad', 1: 'Tak', 16: 'Prioritet' };
+    const boardUnits = Array.from({ length: 18 }, (_, i) => {
+      const op = seg(b, 0.28 + (i % 6) * 0.03 + Math.floor(i / 6) * 0.05, 1, 0.05);
+      const tag = tagMap[i];
+      return { bg: tag ? 'rgba(212,177,122,0.22)' : 'rgba(19,30,58,0.25)', dot: tag ? '#D4B17A' : 'rgba(247,244,238,0.5)', op, sc: `scale(${0.85 + op * 0.15})`, tag: tag || '', tagOp: tag ? seg(b, 0.6, 1, 0.06) : 0 };
+    });
+    const boardChips = ['Vedlikehold', 'FDV', 'Dokumentasjon', 'Kostnader', 'Prioritering', 'Kommende behov'].map((label, i) => ({ label, op: seg(b, 0.62 + i * 0.035, 1, 0.04) }));
+
+    const sp = g('split'), merge = ease(ramp(sp, 0.6, 0.8));
+
+    const ec = g('eco');
+    const ecoData = [['Boligeier', 'Vil male stua'], ['ERA', 'Forstår behovet'], ['ERA', 'Lager planen'], ['Faghandel', 'Riktige produkter'], ['Håndverker', 'Om ønskelig'], ['Jobb', 'Ferdig'], ['Boligen', 'Dokumentert']];
+    const ecoSteps = ecoData.map(([who, what], i) => {
+      const op = seg(ec, 0.15 + i * 0.09, 1, 0.05);
+      const isEra = who === 'ERA';
+      return { n: `0${i + 1}`, who, what, op, ty: ty(op, 14), bg: isEra ? '#D4B17A' : 'rgba(247,244,238,0.06)', fg: isEra ? '#131E3A' : '#F7F4EE' };
+    });
+    const ecoLineW = `${Math.round(ramp(ec, 0.15, 0.72) * 88)}%`;
+
+    const f = g('finale');
+
+    const themeVals = dark ? {
+      navBg: 'rgba(15,24,48,0.55)', navBorder: 'rgba(247,244,238,0.14)', navFg: '#F7F4EE', navCtaBg: '#D4B17A', navCtaFg: '#131E3A', railFg: '#F7F4EE', railLine: 'rgba(247,244,238,0.2)'
+    } : {
+      navBg: 'rgba(255,253,248,0.8)', navBorder: 'rgba(19,30,58,0.08)', navFg: '#131E3A', navCtaBg: '#131E3A', navCtaFg: '#F7F4EE', railFg: split ? '#F7F4EE' : '#131E3A', railLine: split ? 'rgba(247,244,238,0.25)' : 'rgba(19,30,58,0.15)'
+    };
+
+    const R = window.__resources || {};
+    return {
+      resFoliage: R.slotFoliage || 'assets/sharp/foliage.jpg', resContractor: R.slotContractor || 'assets/sharp/contractor.jpg', resBath: R.slotBath || 'assets/sharp/bath.jpg', resHouseDay: R.slotHouseDay || 'assets/sharp/house-day.jpg',
+      refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
+      refMagic: this.ref('magic'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
+      refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refEco: this.ref('eco'), refFinale: this.ref('finale'),
+      ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '32vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
+      door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
+      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.45,
+      home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
+      home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '12%', home2Align: mobile ? 'left' : 'center',
+      home3Op: seg(h, 0.78, 1, 0.07), home3Ty: ty(seg(h, 0.78, 1, 0.07)),
+      chaosItems, chaosLogoOp: seg(c, 0.76, 1, 0.06), chaosLogoScale: 0.6 + seg(c, 0.76, 1, 0.06) * 0.4,
+      chaos0Op: seg(c, 0.08, 0.3), chaos0Ty: ty(seg(c, 0.08, 0.3)), chaos1Op: seg(c, 0.38, 0.6), chaos1Ty: ty(seg(c, 0.38, 0.6)),
+      chaos2Op: seg(c, 0.78, 1, 0.06), chaos2Ty: ty(seg(c, 0.78, 1, 0.06)), chaos3Op: seg(c, 0.85, 1, 0.05), chaos4Op: seg(c, 0.92, 1, 0.05), chaos4Ty: ty(seg(c, 0.92, 1, 0.05), 10),
+      seePos: mobile ? '70% 50%' : `${62 + s * 3}% 48%`, seeImgScale: 1 + s * 0.035, seeSat: 0.95 - s * 0.15, seeSpots, seeLabelOp: ramp(s, 0.02, 0.1), seeHeadOp: seg(s, 0.88, 1, 0.06), seeHeadTy: ty(seg(s, 0.88, 1, 0.06)),
+      prioImgScale: 1 + p * 0.035, prioCloud: ['Bad', 'Tak', 'Fasade', 'Vinduer', 'Terrasse', 'Energi', 'Elektrisk', 'Ventilasjon'],
+      prioCloudOp, prioCloudTy: ty(prioCloudOp), prioListOp, prioListTy: ty(prioListOp), prioHeadOp, prioHeadTy: ty(prioHeadOp),
+      magicImgScale: 1 + m * 0.03, magicDim: 0.1 + seg(m, 0, 0.2, 0.08) * 0.25,
+      wallLeft: `${wallX}%`, wallTop: `${wallY}%`, wallWidth: `${wallW}%`, wallHeight: `${wallH}%`, wallPaint: paintKey, wallPaintName: paintNames[paintKey] || 'Valgt farge', wallPaintOp,
+      wallOutlineOp: wallHighlight * 0.9, wallOutlineInnerOp: wallHighlight * 0.4, wallVignette: wallHighlight * 0.35, wallTagOp: seg(m, 0.28, 0.9, 0.05),
+      magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magic1Op: seg(m, 0.26, 0.4, 0.04), magic1Ty: ty(seg(m, 0.26, 0.4, 0.04), 12),
+      magicPlanOp: seg(m, 0.44, 1, 0.05), magicPlanTy: ty(seg(m, 0.44, 1, 0.05), 30), planRows, magicDoneOp: seg(m, 0.9, 1, 0.05),
+      choiceHeadOp: seg(ch, 0.06, 1, 0.1), choiceHeadTy: ty(seg(ch, 0.06, 1, 0.1)), choiceLOp, choiceLTx: `translateX(${(1 - choiceLOp) * -50}px)`, choiceROp, choiceRTx: `translateX(${(1 - choiceROp) * 50}px)`, choiceNoteOp: seg(ch, 0.65, 1, 0.1),
+      comHeadOp: seg(co, 0.06, 1, 0.08), comHeadTy: ty(seg(co, 0.06, 1, 0.08)), comShotAOp: 1, comShotBOp, productTags, products,
+      comDeliveryOp: seg(co, 0.8, 1, 0.06), comDeliveryTy: ty(seg(co, 0.8, 1, 0.06)),
+      proImgScale: 1 + pr * 0.035, proHeadOp: seg(pr, 0.05, 1, 0.08), proHeadTy: ty(seg(pr, 0.05, 1, 0.08)), proSubOp: seg(pr, 0.5, 1, 0.08), proCardOp, proCardTy: ty(proCardOp, 40), jobRows, proBtnOp: seg(pr, 0.72, 1, 0.06),
+      trustImgOp: 0.35 + seg(t, 0.03, 1, 0.1) * 0.65, trustImgScale: 1 + t * 0.035, trustDim: ramp(t, 0.3, 0.5) * 0.35,
+      trust0Op: seg(t, 0.05, 0.28), trust0Ty: ty(seg(t, 0.05, 0.28)), trust1Op: seg(t, 0.38, 0.7, 0.06), trust2Op: seg(t, 0.5, 0.7, 0.05), trust2Ty: ty(seg(t, 0.5, 0.7, 0.05), 12),
+      trust3Op: seg(t, 0.8, 1, 0.06), trust3Ty: ty(seg(t, 0.8, 1, 0.06)),
+      seasons, memSeason, memYear, memDocs, memEvents, memLineH,
+      memHeadOp: seg(me, 0.78, 1, 0.06), memHeadTy: ty(seg(me, 0.78, 1, 0.06)), memHead2Op: seg(me, 0.88, 1, 0.05),
+      boardImgScale: 1 + b * 0.035, boardBgOp: 0.55 + ramp(b, 0.05, 0.4) * 0.45,
+      boardOneScale: 1 - shrink * 0.7, boardOneOp: 1 - ramp(b, 0.26, 0.34), boardGridOp: ramp(b, 0.28, 0.42), boardUnits, boardChips,
+      boardHeadOp: seg(b, 0.44, 1, 0.08), boardHeadTy: ty(seg(b, 0.44, 1, 0.08)), boardCtaOp: seg(b, 0.8, 1, 0.06),
+      splitLTx: `${-merge * 100}%`, splitRTx: `${merge * 100}%`, splitQ0Op: seg(sp, 0.1, 0.58, 0.06), splitQ0Ty: ty(seg(sp, 0.1, 0.58, 0.06)), splitQ1Op: seg(sp, 0.26, 0.58, 0.06), splitQ1Ty: ty(seg(sp, 0.26, 0.58, 0.06)),
+      splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: 0.7 + ramp(sp, 0.64, 0.84) * 0.3, splitHeadTy: ty(ramp(sp, 0.7, 0.9), 24),
+      ecoHeadOp: seg(ec, 0.04, 1, 0.08), ecoHeadTy: ty(seg(ec, 0.04, 1, 0.08)), ecoHead2Op: seg(ec, 0.8, 1, 0.06), ecoSteps, ecoLineW,
+      finPos: mobile ? '72% 50%' : `${70 - f * 3}% 52%`, finImgScale: 1.04 - f * 0.035, finBright: 0.92 - f * 0.12,
+      finLogoOp: seg(f, 0.08, 1, 0.1), finLogoTy: ty(seg(f, 0.08, 1, 0.1), 30),
+      finTagOp: seg(f, 0.32, 1, 0.08), finTagTy: ty(seg(f, 0.32, 1, 0.08)), finCtaOp: seg(f, 0.55, 1, 0.08), finCtaTy: ty(seg(f, 0.55, 1, 0.08))
+    };
+  }
+}
+
+</script>
+
+
+</body></html>

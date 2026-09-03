@@ -330,8 +330,8 @@
   <!-- 1 · HJEMMET — HUMAN MEDIUM, paret til høyre, tekst i negativt rom -->
   <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: 260vh; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
-        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-table.jpg" placeholder="Shot 2 · Paret i stua/kjøkkenet — plasser dem 60–70 % mot høyre, mykt dagslys"></image-slot>
+      <div style="position: absolute; inset: 0; overflow: hidden; transform: translateZ(0); backface-visibility: hidden">
+        <div style="position: absolute; top: 0; bottom: 0; left: {{ homeSlotLeft }}; width: {{ homeSlotWidth }}"><image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-table.jpg" placeholder="Shot 2 · Paret i stua/kjøkkenet — plasser dem 60–70 % mot høyre, mykt dagslys"></image-slot></div>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.78) 0%, rgba(15,24,48,0.4) 42%, rgba(15,24,48,0.05) 68%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ homeDim }})"></div>
@@ -1059,6 +1059,8 @@ class Component extends DCLogic {
       comImgH: mobile ? '16vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
+      // mobile: slide the frame so the couple (right side of the photo) stays in view under the portrait crop
+      homeSlotLeft: mobile ? '-160%' : '0', homeSlotWidth: mobile ? '260%' : '100%',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.45,
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
       home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '12%', home2Align: mobile ? 'left' : 'center',

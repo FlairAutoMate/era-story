@@ -9,7 +9,7 @@
 <script>window.__resources = {
   "slotHouseDay": "/assets/story/house-day.jpg",
   "chaosBath": "/assets/story/chaos-bath.png",
-  "slotFoliage": "/assets/story/foliage.jpg",
+  "slotFoliage": "/assets/story/house-day.jpg",
   "slotContractor": "/assets/story/contractor.jpg",
   "chaosPhone": "/assets/story/chaos-phone.png",
   "slotBath": "/assets/story/couple-relief.jpg",
@@ -643,7 +643,7 @@
   <section id="styret" ref="{{ refBoard }}" data-theme="dark" style="position: relative; height: 340vh; background: #131E3A" data-screen-label="11 Styret" aria-label="For styret">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ boardBgOp }}">
-        <image-slot id="shot-building" shape="rect" placeholder="Shot 16 · Norsk boligblokk / borettslag — balkonger, fasade, fellesareal — bygget til høyre"></image-slot>
+        <image-slot id="shot-building" shape="rect" src="/assets/story/block-exterior.jpg" placeholder="Shot 16 · Norsk boligblokk / borettslag — balkonger, fasade, fellesareal — bygget til høyre"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 38%, rgba(19,30,58,0.3) 65%, rgba(19,30,58,0.15) 100%)"></div>
       <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: 50%; transform: translateY(-50%); width: min(520px, 46vw); height: min(340px, 40vh); display: flex; align-items: center; justify-content: center; pointer-events: none">
@@ -677,7 +677,7 @@
   <section ref="{{ refSplit }}" data-theme="split" style="position: relative; height: 280vh; background: #F7F4EE" data-screen-label="12 Boligeier og styret" aria-label="ERA kobler dem sammen">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr">
       <div style="position: relative; overflow: hidden; background: #F7F4EE; transform: translateX({{ splitLTx }})">
-        <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="{{ resFoliage }}" placeholder="Shot 4 · Stua, ren vid — intim skala"></image-slot></div>
+        <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="/assets/story/house-day.jpg" placeholder="Shot 4 · Stua, ren vid — intim skala"></image-slot></div>
         <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.15), rgba(15,24,48,0.7))"></div>
         <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Boligeier</div>
@@ -685,7 +685,7 @@
         </div>
       </div>
       <div style="position: relative; overflow: hidden; background: #131E3A; transform: translateX({{ splitRTx }})">
-        <div style="position: absolute; inset: 0"><image-slot id="shot-building-facade" shape="rect" placeholder="Shot 17 · Byggets fasade — systemisk skala"></image-slot></div>
+        <div style="position: absolute; inset: 0"><image-slot id="shot-building-facade" shape="rect" src="/assets/story/facade-wood.jpg" placeholder="Shot 17 · Byggets fasade — systemisk skala"></image-slot></div>
         <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.25), rgba(15,24,48,0.8))"></div>
         <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Styret</div>

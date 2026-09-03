@@ -8,3 +8,4 @@ Stockfoto fra Pexels (Pexels-lisens, fri bruk):
 Øvrige bilder følger Claude Design-eksporten.
 - assets/story/block-exterior.jpg — https://www.pexels.com/photo/27075286/
 - assets/story/facade-wood.jpg — https://www.pexels.com/photo/18513513/
+- assets/story/livingroom-wall.jpg — https://www.pexels.com/photo/8143672/

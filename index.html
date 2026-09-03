@@ -548,12 +548,11 @@
 
   <!-- 8 · FÅ HJELP — HUMAN: håndverker i arbeid, brief i negativt rom -->
   <section id="handverker" ref="{{ refPro }}" data-theme="dark" style="position: relative; height: 260vh; background: #131E3A" data-screen-label="08 Håndverker" aria-label="For håndverkeren">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
-        <image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Håndverker i arbeid, hender/verktøy synlig, plassert til venstre"></image-slot>
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
+      <div style="position: relative; height: {{ sideImgH }}; width: min(100%, calc({{ sideImgH }} * 0.66)); justify-self: center; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.45); transform: translateZ(0); backface-visibility: hidden">
+        <div style="position: absolute; inset: 0"><image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Håndverker i arbeid, hender/verktøy synlig, plassert til venstre"></image-slot></div>
       </div>
-      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, rgba(19,30,58,0.1) 40%, rgba(19,30,58,0.7) 68%, rgba(19,30,58,0.92) 100%)"></div>
-      <div style="position: absolute; right: clamp(24px, 7vw, 120px); left: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
+      <div style="position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
         <div style="max-width: 440px; text-align: right">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">B · Få hjelp</div>
           <h2 style="margin: 16px 0 0; font-size: clamp(30px, 3.8vw, 50px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; opacity: {{ proHeadOp }}; transform: {{ proHeadTy }}; text-wrap: balance">Jobben kommer ferdig forstått.</h2>

@@ -16,7 +16,7 @@ await page.waitForTimeout(1500);
 const total = await page.evaluate(() => document.documentElement.scrollHeight);
 const stops = [0, 0.03, 0.06, 0.1, 0.14, 0.2, 0.26, 0.32, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.97];
 for (const s of stops) {
-  await page.evaluate((y) => window.scrollTo(0, y), Math.round((total - 900) * s));
+  await page.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), Math.round((total - 900) * s));
   await page.waitForTimeout(500);
   await page.screenshot({ path: `qa/scroll-${String(Math.round(s * 100)).padStart(2, "0")}.png` });
 }

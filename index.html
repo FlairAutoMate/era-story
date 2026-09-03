@@ -540,7 +540,11 @@
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Hentes i butikk</span>
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Håndverker henter</span>
           </div>
-          <p style="margin: 20px 0 0; max-width: 400px; font-size: 14px; line-height: 1.5; color: #8A8579">For faghandel: riktige produkter kobles til et faktisk behov i boligen. <a href="#start" data-partner="1" style="font-weight: 600">Snakk med ERA →</a></p>
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(19,30,58,0.1); max-width: 420px">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">For faghandel</div>
+            <p style="margin: 8px 0 0; font-size: 16px; line-height: 1.45; color: #131E3A">Bestillingen kommer ferdig beregnet, fra et faktisk behov i boligen. Uavhengig av kjede.</p>
+            <a href="#start" data-partner="1" style="display: inline-flex; align-items: center; margin-top: 14px; height: 40px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Bli partner →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -791,7 +795,7 @@
       </div>
       <div style="display: flex; gap: 48px; font-size: 15px; color: #4E5464">
         <div style="display: flex; flex-direction: column; gap: 10px"><a href="#hva">Hva ERA gjør</a><a href="#boligeier">Boligeier</a><a href="#styret">Styret</a></div>
-        <div style="display: flex; flex-direction: column; gap: 10px"><a href="#handverker">Håndverker</a><a href="#partnere">Partnere</a><a href="#data">Personvern</a><a href="#start">Finn min bolig</a></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><a href="#handverker">Håndverker</a><a href="#partnere">Faghandel</a><a href="#data">Personvern</a><a href="#start">Finn min bolig</a></div>
       </div>
     </div>
     <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA AS</span><span>Oslo</span></div>
@@ -914,7 +918,7 @@ class Component extends DCLogic {
     const paintKey = this.props.wallColor ?? '#B9C4B1';
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
 
-    const navItems = [['hva', 'Hva ERA gjør'], ['boligeier', 'Boligeier'], ['styret', 'Styret'], ['handverker', 'Håndverker'], ['partnere', 'Partnere']]
+    const navItems = [['hva', 'Hva ERA gjør'], ['boligeier', 'Boligeier'], ['styret', 'Styret'], ['handverker', 'Håndverker'], ['partnere', 'Faghandel']]
       .map(([id, label]) => ({ href: '#' + id, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå'], ['#prioriter', 'Prioriter'], ['#boligeier', 'Planlegg'], ['#gjennomfor', 'Gjennomfør'], ['#husk', 'Husk'], ['#styret', 'Hele bygget']];
     const chapters = chapData.map(([href, label], i) => {

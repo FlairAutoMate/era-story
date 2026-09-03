@@ -513,10 +513,10 @@
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
       <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; opacity: {{ comShotAOp }}">
-          <image-slot id="shot-paint-detail" shape="rect" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
+          <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/illus-paint-detail.svg" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
         </div>
         <div style="position: absolute; inset: 0; opacity: {{ comShotBOp }}">
-          <image-slot id="shot-materials" shape="rect" placeholder="Shot 10 · Maling, sparkel, rulle, pensler og maskering på tildekket gulv"></image-slot>
+          <image-slot id="shot-materials" shape="rect" src="/assets/story/illus-materials.svg" placeholder="Shot 10 · Maling, sparkel, rulle, pensler og maskering på tildekket gulv"></image-slot>
         </div>
         <sc-for list="{{ productTags }}" as="pt" hint-placeholder-count="5">
           <div style="position: absolute; left: {{ pt.x }}; top: {{ pt.y }}; pointer-events: none; transform: translate(-50%, -50%); opacity: {{ pt.op }}; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.25); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D4B17A"></span>{{ pt.label }}</div>

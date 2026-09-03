@@ -540,7 +540,7 @@
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Hentes i butikk</span>
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Håndverker henter</span>
           </div>
-          <p style="margin: 20px 0 0; max-width: 400px; font-size: 14px; line-height: 1.5; color: #8A8579">For faghandel: riktige produkter kobles til et faktisk behov i boligen. <a href="#start" style="font-weight: 600">Snakk med ERA →</a></p>
+          <p style="margin: 20px 0 0; max-width: 400px; font-size: 14px; line-height: 1.5; color: #8A8579">For faghandel: riktige produkter kobles til et faktisk behov i boligen. <a href="#start" data-partner="1" style="font-weight: 600">Snakk med ERA →</a></p>
         </div>
       </div>
     </div>
@@ -571,9 +571,10 @@
           </div>
           <div style="display: flex; gap: 10px; margin-top: 14px; opacity: {{ proBtnOp }}">
             <div style="flex: 1; padding: 11px; border-radius: 10px; background: #131E3A; color: #F7F4EE; text-align: center; font-weight: 700; font-size: 13.5px">Gi tilbud</div>
-            <a href="#start" style="pointer-events: auto; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
+            <a href="#start" data-pro="1" style="pointer-events: auto; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
           </div>
         </div>
+        <p style="margin: 0; max-width: 440px; text-align: right; font-size: 15px; line-height: 1.5; color: rgba(247,244,238,0.8); opacity: {{ proBtnOp }}">Oppdraget kommer med omfang, bilder, ønsket tid og materialer. Du gir tilbud, ikke befaring. Jobben blir en del av boligens historikk.</p>
       </div>
     </div>
   </section>
@@ -800,7 +801,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:11,&quot;min&quot;:0,&quot;max&quot;:60,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:26,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
 class Component extends DCLogic {
-  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, board: false };
+  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner' };
   pinRefs = {};
   _refFns = {};
 
@@ -819,11 +820,12 @@ class Component extends DCLogic {
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
       if (!a) return;
       const href = a.getAttribute('href');
-      if (href === '#styret' || a.hasAttribute('data-board')) this.setState({ board: true });
-      else if (href === '#boligeier' || href === '#hva' || href === '#handverker' || href === '#partnere' || href === '#hjem') this.setState({ board: false });
+      const aud = this.audienceFor(href, a);
+      if (aud) this.setState({ audience: aud });
     };
     document.addEventListener('click', this._onClick);
-    if (location.hash === '#styret') this.setState({ board: true });
+    const initial = this.audienceFor(location.hash, null);
+    if (initial && initial !== 'owner') this.setState({ audience: initial });
     this.update();
   }
   componentWillUnmount() {
@@ -868,6 +870,18 @@ class Component extends DCLogic {
     this.setState({ prog, theme, activeNav, chapter, navShown: (prog.door || 0) > 0.55, mobile: window.innerWidth < 900, reduced });
   }
 
+  // Which reader is this? Decided by the last story link they followed: the board, contractor
+  // and partner chapters (and their CTAs / deep links) switch the finale to their own words.
+  audienceFor(href, a) {
+    if (a && a.hasAttribute('data-board')) return 'board';
+    if (a && a.hasAttribute('data-pro')) return 'pro';
+    if (a && a.hasAttribute('data-partner')) return 'partner';
+    if (href === '#styret') return 'board';
+    if (href === '#handverker') return 'pro';
+    if (href === '#partnere') return 'partner';
+    if (href === '#boligeier' || href === '#hva' || href === '#hjem') return 'owner';
+    return null;
+  }
   ref(k) {
     if (!this._refFns[k]) this._refFns[k] = (el) => { this.pinRefs[k] = el; };
     return this._refFns[k];
@@ -1002,7 +1016,7 @@ class Component extends DCLogic {
     const sp = g('split'), merge = ease(ramp(sp, 0.6, 0.8));
 
     const ec = g('eco');
-    const ecoData = [['Boligeier · Styret', 'Melder et behov'], ['ERA', 'Forstår behovet'], ['ERA', 'Lager planen'], ['Faghandel', 'Riktige produkter'], ['Håndverker', 'Om ønskelig'], ['Jobb', 'Ferdig'], ['Boligen', 'Dokumentert']];
+    const ecoData = [['Boligeier · Styret', 'Melder et behov'], ['ERA', 'Forstår behovet'], ['ERA', 'Lager planen'], ['Faghandel', 'Riktige produkter'], ['Håndverker', 'Utfører jobben'], ['Jobb', 'Ferdig'], ['Boligen', 'Dokumentert']];
     const ecoSteps = ecoData.map(([who, what], i) => {
       const op = seg(ec, 0.15 + i * 0.09, 1, 0.05);
       const isEra = who === 'ERA';
@@ -1011,14 +1025,17 @@ class Component extends DCLogic {
     const ecoLineW = `${Math.round(ramp(ec, 0.15, 0.72) * 88)}%`;
 
     const f = g('finale');
-    const board = this.state.board;
-    const finaleVals = board ? {
-      finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Forstå eiendommen. Prioriter riktig. Ta en ferdig plan med til generalforsamlingen.',
-      finField: 'Adressen til bygget', finCta: 'Se planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →'
-    } : {
-      finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
-      finField: 'Skriv adressen din', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →'
+    const finaleByAudience = {
+      owner: { finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
+        finField: 'Skriv adressen din', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
+      board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Forstå eiendommen. Prioriter riktig. Ta en ferdig plan med til generalforsamlingen.',
+        finField: 'Adressen til bygget', finCta: 'Se planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+      pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Omfang, bilder, ønsket tid og materialer, før du gir tilbud. Mindre befaring, mer jobb.',
+        finField: 'Firmanavn eller organisasjonsnummer', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+      partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Bestillingen kommer ferdig beregnet, fra et reelt behov i boligen. Uavhengig av kjede.',
+        finField: 'Kjede eller butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
     };
+    const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
 
     const themeVals = dark ? {
       navBg: 'rgba(15,24,48,0.55)', navBorder: 'rgba(247,244,238,0.14)', navFg: '#F7F4EE', navCtaBg: '#D4B17A', navCtaFg: '#131E3A', railFg: '#F7F4EE', railLine: 'rgba(247,244,238,0.2)'

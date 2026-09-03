@@ -1,4 +1,5 @@
-// QA for the board (styret) reading path: chapter 11, the journey, both finale variants, the priority cloud.
+// QA for the audience reading paths: chapter 11 (styret), chapter 8 (håndverker), chapter 7 (partner),
+// the journey, and the four finale variants (owner, board, pro, partner).
 import { chromium } from "file:///C:/Users/mcspa/Documents/ERA/node_modules/playwright/index.mjs";
 const url = process.argv[2] ?? "http://localhost:8787/";
 const browser = await chromium.launch({ executablePath: "C:/Users/mcspa/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe" });
@@ -12,11 +13,14 @@ const at = async (id, f) => {
   await p.evaluate((v) => scrollTo({ top: v, behavior: "instant" }), y + (h - 900) * f);
   await p.waitForTimeout(800);
 };
-await at("styret", 0.85); await p.screenshot({ path: "qa/board-11.png" });
-await at("reisen", 0.9); await p.screenshot({ path: "qa/board-13.png" });
-await at("start", 0.9); await p.screenshot({ path: "qa/board-finale-owner.png" });
-await at("styret", 0.85); await p.click("a[data-board]"); await p.waitForTimeout(1500);
-await at("start", 0.9); await p.screenshot({ path: "qa/board-finale-board.png" });
-await at("prioriter", 0.2); await p.screenshot({ path: "qa/board-04.png" });
-console.log("errors", errs);
+const finaleText = async () => p.evaluate(() => { const s = document.getElementById("start"); return [...s.querySelectorAll("h2, span, a")].map((e) => e.textContent.trim()).filter((t) => t && t.length < 90).slice(0, 6); });
+const out = {};
+await at("handverker", 0.85); await p.screenshot({ path: "qa/pro-08.png" });
+await at("reisen", 0.9); await p.screenshot({ path: "qa/pro-13.png" });
+await at("start", 0.9); out.owner = await finaleText();
+await at("handverker", 0.85); await p.click("a[data-pro]"); await p.waitForTimeout(1200); await at("start", 0.9); out.pro = await finaleText(); await p.screenshot({ path: "qa/finale-pro.png" });
+await p.click('nav a[href="#partnere"]'); await p.waitForTimeout(1200); await at("start", 0.9); out.partner = await finaleText(); await p.screenshot({ path: "qa/finale-partner.png" });
+await p.click('nav a[href="#styret"]'); await p.waitForTimeout(1200); await at("start", 0.9); out.board = await finaleText();
+await p.click('nav a[href="#boligeier"]'); await p.waitForTimeout(1200); await at("start", 0.9); out.ownerAgain = await finaleText();
+console.log(JSON.stringify({ errs, out }, null, 1));
 await browser.close();

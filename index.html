@@ -444,8 +444,8 @@
   <!-- 5 · MALE STUA — ekte stue, veggen skifter farge, plan til høyre -->
   <section id="boligeier" ref="{{ refMagic }}" data-theme="dark" style="position: relative; height: 360vh; background: #131E3A" data-screen-label="05 Fra behov til plan" aria-label="Fra behov til plan">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
-        <image-slot id="shot-livingroom-wall" shape="rect" src="/assets/story/livingroom-wall.jpg" placeholder="Shot 5 · Stua, vegg-fokusert vinkel — den valgte veggen bør fylle venstre 35–55 % av bildet"></image-slot>
+      <div style="position: absolute; inset: {{ wallBoxInset }}; overflow: hidden; transform: translateZ(0); backface-visibility: hidden">
+        <div style="position: absolute; left: {{ wallSlotLeft }}; top: {{ wallSlotTop }}; width: {{ wallSlotWidth }}; height: {{ wallSlotHeight }}"><image-slot id="shot-livingroom-wall" shape="rect" src="/assets/story/livingroom-wall.jpg" placeholder="Shot 5 · Stua, vegg-fokusert vinkel — den valgte veggen bør fylle venstre 35–55 % av bildet"></image-slot></div>
         <!-- Veggmaske: farge legges på den ekte veggen -->
         <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; background: {{ wallPaint }}; mix-blend-mode: multiply; opacity: {{ wallPaintOp }}; border-radius: 2px"></div>
         <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; border: 1.5px solid rgba(212,177,122,{{ wallOutlineOp }}); box-shadow: inset 0 0 0 1px rgba(212,177,122,{{ wallOutlineInnerOp }}), 0 0 0 9999px rgba(15,24,48,{{ wallVignette }})"></div>
@@ -453,14 +453,14 @@
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, transparent 50%, rgba(15,24,48,0.35) 78%, rgba(15,24,48,0.6) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ magicDim }})"></div>
-      <div style="position: absolute; left: clamp(24px, 7vw, 120px); top: 50%; transform: translateY(-50%); max-width: 520px; pointer-events: none">
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ magicTextTop }}; bottom: {{ magicTextBottom }}; transform: {{ magicTextTf }}; max-width: 520px; pointer-events: none">
         <div style="opacity: {{ magic0Op }}; transform: {{ magic0Ty }}">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">For boligeier</div>
           <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; font-style: italic; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">«Vi vil male stua.»</h2>
         </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6); white-space: nowrap">ERA forstår rommet.</div>
       </div>
-      <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: 50%; transform: translateY(-50%) {{ magicPlanTy }}; width: min(380px, 84vw); padding: 28px 30px; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
+      <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: {{ magicPlanTop }}; bottom: {{ magicPlanBottom }}; transform: {{ magicPlanTf }} {{ magicPlanTy }}; width: min(380px, 84vw); padding: 28px 30px; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Plan · Male stua</div>
           <div style="font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14</div>
@@ -878,7 +878,12 @@ class Component extends DCLogic {
     const dark = this.state.theme === 'dark', split = this.state.theme === 'split', mobile = this.state.mobile;
     const navShown = this.state.navShown;
 
-    const wallX = this.props.wallX ?? 4, wallW = this.props.wallW ?? 46, wallY = this.props.wallY ?? 6, wallH = this.props.wallH ?? 66;
+    // Desktop: the wall mask follows the editor props. Mobile (< 900 px): a dedicated
+    // composition — the photo is framed so the panelled wall fills the top 52 % of the
+    // viewport, and the text and plan card live in the navy band below it, off the wall.
+    const wallX = mobile ? 8 : (this.props.wallX ?? 4), wallW = mobile ? 52 : (this.props.wallW ?? 46), wallY = mobile ? 16 : (this.props.wallY ?? 6), wallH = mobile ? 74 : (this.props.wallH ?? 66);
+    const wallMobile = mobile ? { wallBoxInset: '0 0 50% 0', wallSlotLeft: '-14%', wallSlotTop: '6.4%', wallSlotWidth: '201%', wallSlotHeight: '119.4%', magicTextTop: 'auto', magicTextBottom: '30%', magicTextTf: 'none', magicPlanTop: 'auto', magicPlanBottom: '16px', magicPlanTf: 'translateY(0)' }
+      : { wallBoxInset: '0', wallSlotLeft: '0', wallSlotTop: '0', wallSlotWidth: '100%', wallSlotHeight: '100%', magicTextTop: '50%', magicTextBottom: 'auto', magicTextTf: 'translateY(-50%)', magicPlanTop: '50%', magicPlanBottom: 'auto', magicPlanTf: 'translateY(-50%)' };
     const paintKey = this.props.wallColor ?? '#B9C4B1';
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
 
@@ -1021,7 +1026,7 @@ class Component extends DCLogic {
       prioImgScale: 1 + p * 0.035, prioCloud: ['Bad', 'Tak', 'Fasade', 'Vinduer', 'Terrasse', 'Energi', 'Elektrisk', 'Ventilasjon'],
       prioCloudOp, prioCloudTy: ty(prioCloudOp), prioListOp, prioListTy: ty(prioListOp), prioHeadOp, prioHeadTy: ty(prioHeadOp),
       magicImgScale: 1 + m * 0.03, magicDim: 0.1 + seg(m, 0, 0.2, 0.08) * 0.25,
-      wallLeft: `${wallX}%`, wallTop: `${wallY}%`, wallWidth: `${wallW}%`, wallHeight: `${wallH}%`, wallPaint: paintKey, wallPaintName: paintNames[paintKey] || 'Valgt farge', wallPaintOp,
+      ...wallMobile, wallLeft: `${wallX}%`, wallTop: `${wallY}%`, wallWidth: `${wallW}%`, wallHeight: `${wallH}%`, wallPaint: paintKey, wallPaintName: paintNames[paintKey] || 'Valgt farge', wallPaintOp,
       wallOutlineOp: wallHighlight * 0.9, wallOutlineInnerOp: wallHighlight * 0.4, wallVignette: wallHighlight * 0.35, wallTagOp: seg(m, 0.28, 0.9, 0.05),
       magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magic1Op: seg(m, 0.26, 0.4, 0.04), magic1Ty: ty(seg(m, 0.26, 0.4, 0.04), 12),
       magicPlanOp: seg(m, 0.44, 1, 0.05), magicPlanTy: ty(seg(m, 0.44, 1, 0.05), 30), planRows, magicDoneOp: seg(m, 0.9, 1, 0.05),

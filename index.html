@@ -511,7 +511,7 @@
   <!-- 7 · GJØRE DET SELV — DETAIL: materialer i kontekst -->
   <section id="partnere" ref="{{ refCommerce }}" data-theme="light" style="position: relative; height: 300vh; background: #F1EDE4" data-screen-label="07 Gjøre det selv" aria-label="Produkter og faghandel">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
-      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+      <div style="position: relative; height: {{ comImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; opacity: {{ comShotAOp }}">
           <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/illus-paint-detail.svg" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
         </div>
@@ -1055,6 +1055,8 @@ class Component extends DCLogic {
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refEco: this.ref('eco'), refFinale: this.ref('finale'),
       ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '32vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      // chapter 7 carries the longest column (list, delivery, faghandel) — a shorter card on mobile keeps it all inside one screen
+      comImgH: mobile ? '16vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.45,

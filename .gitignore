@@ -1,3 +1,4 @@
 .vercel
 qa/
 node_modules
+.env*

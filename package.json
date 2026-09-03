@@ -1,0 +1,15 @@
+{
+  "name": "era-story",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ERA Scroll Story — static landing page with a serverless lead intake",
+  "type": "module",
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
+  },
+  "scripts": {
+    "leads": "node leads.mjs",
+    "leads:csv": "node leads.mjs --csv",
+    "qa": "node qa-story.mjs"
+  }
+}

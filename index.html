@@ -777,10 +777,17 @@
         <h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">{{ finHead }}</h2>
         <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">{{ finSub }}</p>
         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 36px; opacity: {{ finCtaOp }}; transform: {{ finCtaTy }}">
-          <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
-            <span style="flex: 1; text-align: left; font-size: 16px; color: #9A968C">{{ finField }}</span>
-            <span style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 15px; font-weight: 600; white-space: nowrap">{{ finCta }}</span>
+          <form id="era-lead" data-audience="{{ leadAudience }}" style="display: {{ leadFormDisplay }}; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%; margin: 0">
+            <label for="era-lead-value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ finField }}</label>
+            <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+            <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
+            <button type="submit" style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #131E3A; color: #F7F4EE; font: inherit; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; opacity: {{ leadBtnOp }}">{{ leadBtnLabel }}</button>
+          </form>
+          <div role="status" aria-live="polite" style="display: {{ leadDoneDisplay }}; flex-direction: column; gap: 6px; padding: 18px 24px; border-radius: 22px; background: rgba(255,253,248,0.97); color: #131E3A; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
+            <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ leadDoneHead }}</div>
+            <div style="font-size: 14.5px; color: #5E6472">{{ leadDoneSub }}</div>
           </div>
+          <div style="font-size: 13.5px; color: rgba(247,244,238,0.7); display: {{ leadErrorDisplay }}">{{ leadError }}</div>
           <a href="{{ finLinkHref }}" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>
         </div>
       </div>
@@ -805,7 +812,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:11,&quot;min&quot;:0,&quot;max&quot;:60,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:26,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
 class Component extends DCLogic {
-  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner' };
+  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '' };
   pinRefs = {};
   _refFns = {};
 
@@ -828,6 +835,26 @@ class Component extends DCLogic {
       if (aud) this.setState({ audience: aud });
     };
     document.addEventListener('click', this._onClick);
+    // The finale form posts to /api/lead — one JSON document per lead, stored privately.
+    this._onSubmit = async (e) => {
+      const form = e.target;
+      if (!form || form.id !== 'era-lead') return;
+      e.preventDefault();
+      if (this.state.lead === 'sending') return;
+      const value = (form.elements.value && form.elements.value.value || '').trim();
+      const website = (form.elements.website && form.elements.website.value || '').trim();
+      if (value.length < 3) { this.setState({ lead: 'error', leadError: 'Skriv inn litt mer, så finner vi riktig sted.' }); return; }
+      this.setState({ lead: 'sending', leadError: '' });
+      try {
+        const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ audience: this.state.audience, value, website, page: location.href }) });
+        const j = await r.json().catch(() => ({}));
+        if (r.ok && j.ok) this.setState({ lead: 'done', leadError: '' });
+        else this.setState({ lead: 'error', leadError: 'Noe gikk galt hos oss. Prøv igjen om et øyeblikk.' });
+      } catch (err) {
+        this.setState({ lead: 'error', leadError: 'Ingen kontakt med serveren. Sjekk nettet og prøv igjen.' });
+      }
+    };
+    document.addEventListener('submit', this._onSubmit);
     const initial = this.audienceFor(location.hash, null);
     if (initial && initial !== 'owner') this.setState({ audience: initial });
     this.update();
@@ -836,6 +863,7 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onScroll);
     document.removeEventListener('click', this._onClick);
+    document.removeEventListener('submit', this._onSubmit);
   }
 
   update() {
@@ -1040,6 +1068,20 @@ class Component extends DCLogic {
         finField: 'Kjede eller butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
     };
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
+    const doneByAudience = {
+      owner: ['Takk. Vi finner boligen din.', 'Du hører fra oss når ERA er klar for adressen.'],
+      board: ['Takk. Vi ser på eiendommen.', 'Styret hører fra oss med et forslag til plan.'],
+      pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er oppdrag i ditt område.'],
+      partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan behov i boligen blir bestillinger hos dere.']
+    };
+    const lead = this.state.lead, ld = doneByAudience[this.state.audience] || doneByAudience.owner;
+    const leadVals = {
+      leadAudience: this.state.audience,
+      leadFormDisplay: lead === 'done' ? 'none' : 'flex', leadDoneDisplay: lead === 'done' ? 'flex' : 'none',
+      leadBtnLabel: lead === 'sending' ? 'Sender…' : finaleVals.finCta, leadBtnOp: lead === 'sending' ? 0.7 : 1,
+      leadDoneHead: ld[0], leadDoneSub: ld[1],
+      leadErrorDisplay: lead === 'error' ? 'block' : 'none', leadError: this.state.leadError
+    };
 
     const themeVals = dark ? {
       navBg: 'rgba(15,24,48,0.55)', navBorder: 'rgba(247,244,238,0.14)', navFg: '#F7F4EE', navCtaBg: '#D4B17A', navCtaFg: '#131E3A', railFg: '#F7F4EE', railLine: 'rgba(247,244,238,0.2)'
@@ -1091,7 +1133,7 @@ class Component extends DCLogic {
       splitLTx: `${-merge * 100}%`, splitRTx: `${merge * 100}%`, splitQ0Op: seg(sp, 0.1, 0.58, 0.06), splitQ0Ty: ty(seg(sp, 0.1, 0.58, 0.06)), splitQ1Op: seg(sp, 0.26, 0.58, 0.06), splitQ1Ty: ty(seg(sp, 0.26, 0.58, 0.06)),
       splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: 0.7 + ramp(sp, 0.64, 0.84) * 0.3, splitHeadTy: ty(ramp(sp, 0.7, 0.9), 24),
       ecoHeadOp: seg(ec, 0.04, 1, 0.08), ecoHeadTy: ty(seg(ec, 0.04, 1, 0.08)), ecoHead2Op: seg(ec, 0.8, 1, 0.06), ecoSteps, ecoLineW,
-      ...finaleVals, finPos: mobile ? '72% 50%' : `${70 - f * 3}% 52%`, finImgScale: 1.04 - f * 0.035, finBright: 0.92 - f * 0.12,
+      ...finaleVals, ...leadVals, finPos: mobile ? '72% 50%' : `${70 - f * 3}% 52%`, finImgScale: 1.04 - f * 0.035, finBright: 0.92 - f * 0.12,
       finLogoOp: seg(f, 0.08, 1, 0.1), finLogoTy: ty(seg(f, 0.08, 1, 0.1), 30),
       finTagOp: seg(f, 0.32, 1, 0.08), finTagTy: ty(seg(f, 0.32, 1, 0.08)), finCtaOp: seg(f, 0.55, 1, 0.08), finCtaTy: ty(seg(f, 0.55, 1, 0.08))
     };

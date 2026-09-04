@@ -14,3 +14,7 @@ Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (
 - Honeypot-feltet `website` stopper enkle roboter. Verdier under tre tegn avvises.
 - Hent ut leads: `npm run leads` (tabell) eller `npm run leads:csv`. Krever `BLOB_READ_WRITE_TOKEN` i `.env.local` (`npx vercel env pull .env.local`).
 - Lageret administreres i Vercel-dashbordet under Storage, eller med `npx vercel blob`.
+
+## Undersider per målgruppe
+
+`/boligeier`, `/styret`, `/handverker`, `/faghandel` genereres av `python tools/build-pages.py` fra én innholdsstruktur (hook, verdiforslag, fire steg, gevinst, eksempel, spørsmål, skjema). Delt stil i `pages.css`, fonter i `fonts.css`, skjema i `pages.js` (samme `/api/lead`). Endre tekst i generatoren og kjør den på nytt.

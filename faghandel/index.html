@@ -84,12 +84,18 @@
       <h2>Behovet er beregnet før kunden går i butikken.</h2>
       <p class="lede light">Riktig produkt, riktig mengde, riktig tid, i én bestilling. Fra boliger og fra hele borettslag. Uavhengig av kjede.</p>
       <form id="era-lead" class="lead" data-audience="partner">
-        <label class="sr" for="lead-value">Kjede eller butikk</label>
-        <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Kjede eller butikk">
-        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-        <button type="submit">Bli partner</button>
+        <div class="lead-pill">
+          <label class="sr" for="lead-value">Kjede eller butikk</label>
+          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Kjede eller butikk">
+        </div>
+        <div class="lead-pill">
+          <label class="sr" for="lead-email">E-postadressen din</label>
+          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Bli partner</button>
+        </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi tar kontakt.</b><span>Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere.</span></div>
+      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi tar kontakt.</b><span>Vi sender en e-post og viser hvordan beregnede behov blir bestillinger hos dere.</span></div>
       <div class="err" hidden></div>
       <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
     </div>

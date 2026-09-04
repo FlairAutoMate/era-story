@@ -84,12 +84,18 @@
       <h2>Jobben kommer ferdig forstått.</h2>
       <p class="lede light">Omfang, bilder, mål og ønsket tid ligger klart. Materialene også. Du gir tilbud, ikke befaring.</p>
       <form id="era-lead" class="lead" data-audience="pro">
-        <label class="sr" for="lead-value">Firmanavn eller organisasjonsnummer</label>
-        <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Firmanavn eller organisasjonsnummer">
-        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-        <button type="submit">Motta oppdrag</button>
+        <div class="lead-pill">
+          <label class="sr" for="lead-value">Firmanavn eller organisasjonsnummer</label>
+          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Firmanavn eller organisasjonsnummer">
+        </div>
+        <div class="lead-pill">
+          <label class="sr" for="lead-email">E-postadressen din</label>
+          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Motta oppdrag</button>
+        </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Du er registrert.</b><span>Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område.</span></div>
+      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Du er registrert.</b><span>Vi sender e-post når det er ferdig beskrevne oppdrag i ditt område.</span></div>
       <div class="err" hidden></div>
       <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
     </div>

@@ -84,12 +84,18 @@
       <h2>Boligeierskap uten gjetting.</h2>
       <p class="lede light">ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.</p>
       <form id="era-lead" class="lead" data-audience="owner">
-        <label class="sr" for="lead-value">Adressen til boligen</label>
-        <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til boligen">
-        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-        <button type="submit">Finn min bolig</button>
+        <div class="lead-pill">
+          <label class="sr" for="lead-value">Adressen til boligen</label>
+          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til boligen">
+        </div>
+        <div class="lead-pill">
+          <label class="sr" for="lead-email">E-postadressen din</label>
+          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Finn min bolig</button>
+        </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi finner boligen din.</b><span>Du hører fra oss når ERA er klar for adressen.</span></div>
+      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi finner boligen din.</b><span>Vi svarer på e-posten du oppga, når ERA er klar for adressen.</span></div>
       <div class="err" hidden></div>
       <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
     </div>

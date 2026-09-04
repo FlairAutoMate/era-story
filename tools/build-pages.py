@@ -30,7 +30,7 @@ AUDIENCES = {
             ("Hva skjer med dataene mine?", "De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper."),
         ],
         form_field="Adressen til boligen", form_cta="Finn min bolig",
-        done=("Takk. Vi finner boligen din.", "Du hører fra oss når ERA er klar for adressen."),
+        done=("Takk. Vi finner boligen din.", "Vi svarer på e-posten du oppga, når ERA er klar for adressen."),
         story="#boligeier",
     ),
     "styret": dict(
@@ -57,7 +57,7 @@ AUDIENCES = {
             ("Hvem eier dataene?", "Eiendommen. Styret bestemmer hvem som ser dem. Ved styreskifte følger alt med."),
         ],
         form_field="Adressen til bygget", form_cta="Få planen for eiendommen",
-        done=("Takk. Vi ser på eiendommen.", "Styret får et forslag til plan, klart til neste møte."),
+        done=("Takk. Vi ser på eiendommen.", "Vi sender et forslag til plan på e-post, klart til neste møte."),
         story="#styret",
     ),
     "handverker": dict(
@@ -84,7 +84,7 @@ AUDIENCES = {
             ("Hva med dokumentasjon etter jobben?", "Bilder og beskrivelse legges i boligens historikk. Det er din referanse neste gang."),
         ],
         form_field="Firmanavn eller organisasjonsnummer", form_cta="Motta oppdrag",
-        done=("Takk. Du er registrert.", "Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område."),
+        done=("Takk. Du er registrert.", "Vi sender e-post når det er ferdig beskrevne oppdrag i ditt område."),
         story="#handverker",
     ),
     "faghandel": dict(
@@ -111,7 +111,7 @@ AUDIENCES = {
             ("Hva med borettslag?", "Styrets vedlikeholdsplan gir store, planlagte bestillinger. Fasade, tak og vinduer, år for år."),
         ],
         form_field="Kjede eller butikk", form_cta="Bli partner",
-        done=("Takk. Vi tar kontakt.", "Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere."),
+        done=("Takk. Vi tar kontakt.", "Vi sender en e-post og viser hvordan beregnede behov blir bestillinger hos dere."),
         story="#partnere",
     ),
 }
@@ -243,10 +243,16 @@ def page(slug, a):
       <h2>{esc(a["hook"])}</h2>
       <p class="lede light">{esc(a["lede"])}</p>
       <form id="era-lead" class="lead" data-audience="{a["key"]}">
-        <label class="sr" for="lead-value">{esc(a["form_field"])}</label>
-        <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
-        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-        <button type="submit">{esc(a["form_cta"])}</button>
+        <div class="lead-pill">
+          <label class="sr" for="lead-value">{esc(a["form_field"])}</label>
+          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
+        </div>
+        <div class="lead-pill">
+          <label class="sr" for="lead-email">E-postadressen din</label>
+          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">{esc(a["form_cta"])}</button>
+        </div>
       </form>
       <div class="done" role="status" aria-live="polite" hidden><b>{esc(done_head)}</b><span>{esc(done_sub)}</span></div>
       <div class="err" hidden></div>

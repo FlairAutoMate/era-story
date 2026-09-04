@@ -2,8 +2,9 @@
 // (private access, EU region) and, when RESEND_API_KEY + LEAD_NOTIFY_TO are set, e-mails a
 // notification. Nothing else is sent anywhere.
 //
-// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, website?: string, page?: string }
-// `website` is a honeypot: humans never fill it, bots do.
+// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, email: string, website?: string, page?: string }
+// `website` is a honeypot: humans never fill it, bots do. `email` is required — it's the only
+// way ERA (or a human reading the Blob store) can actually get back to the lead.
 //
 // Read leads: `npm run leads`. Notify: `vercel env add RESEND_API_KEY` and `vercel env add LEAD_NOTIFY_TO`.
 import { put } from "@vercel/blob";
@@ -12,6 +13,7 @@ import { randomUUID } from "node:crypto";
 const AUDIENCES = new Set(["owner", "board", "pro", "partner"]);
 const NAMES = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel" };
 const MAX_LEN = 200;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function notify(doc) {
   const key = process.env.RESEND_API_KEY;
@@ -23,6 +25,7 @@ async function notify(doc) {
     `Ny henvendelse fra ${who.toLowerCase()} via era-story.`,
     ``,
     `${who}: ${doc.value}`,
+    `E-post: ${doc.email}`,
     `Tidspunkt: ${doc.receivedAt}`,
     `Side: ${doc.page || "-"}`,
     ``,
@@ -31,7 +34,7 @@ async function notify(doc) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), subject: `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
+    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), reply_to: doc.email, subject: `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
   });
   if (!r.ok) throw new Error(`resend ${r.status}: ${(await r.text()).slice(0, 200)}`);
   return "sent";
@@ -51,11 +54,14 @@ export default async function handler(req, res) {
 
   const audience = AUDIENCES.has(body.audience) ? body.audience : "owner";
   const value = String(body.value ?? "").trim().replace(/\s+/g, " ").slice(0, MAX_LEN);
+  const email = String(body.email ?? "").trim().slice(0, MAX_LEN);
   const honeypot = String(body.website ?? "").trim();
 
-  // Bots get a friendly 200 and nothing stored; humans need at least a few characters.
+  // Bots get a friendly 200 and nothing stored; humans need at least a few characters and a
+  // real-shaped e-mail — it's the only way back to the lead.
   if (honeypot) return res.status(200).json({ ok: true });
   if (value.length < 3) return res.status(400).json({ ok: false, error: "short" });
+  if (!EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: "email" });
 
   const now = new Date();
   const id = randomUUID();
@@ -63,6 +69,7 @@ export default async function handler(req, res) {
     id,
     audience,
     value,
+    email,
     receivedAt: now.toISOString(),
     source: "era-story",
     page: typeof body.page === "string" ? body.page.slice(0, 200) : undefined,

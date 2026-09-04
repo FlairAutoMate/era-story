@@ -37,10 +37,10 @@ if (mode === "json") {
   console.log(JSON.stringify(leads, null, 2));
 } else if (mode === "csv") {
   const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  console.log(["receivedAt", "audience", "value", "page", "id"].join(","));
-  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.page, l.id].map(esc).join(","));
+  console.log(["receivedAt", "audience", "value", "email", "page", "id"].join(","));
+  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.page, l.id].map(esc).join(","));
 } else {
   if (!leads.length) console.log("Ingen leads ennå.");
-  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}`);
+  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${l.email || ""}`);
   console.log(`\n${leads.length} lead(s).`);
 }

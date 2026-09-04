@@ -217,11 +217,17 @@ rep('''<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8p
             <span style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 15px; font-weight: 600; white-space: nowrap">Finn min bolig</span>
           </div>
           <a href="#styret" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">Se ERA for borettslag og sameier →</a>''',
-    '''<form id="era-lead" data-audience="{{ leadAudience }}" style="display: {{ leadFormDisplay }}; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%; margin: 0">
-            <label for="era-lead-value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ finField }}</label>
-            <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
-            <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
-            <button type="submit" style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #131E3A; color: #F7F4EE; font: inherit; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; opacity: {{ leadBtnOp }}">{{ leadBtnLabel }}</button>
+    '''<form id="era-lead" data-audience="{{ leadAudience }}" style="display: {{ leadFormDisplay }}; flex-direction: column; align-items: flex-start; gap: 10px; width: 460px; max-width: 100%; margin: 0">
+            <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
+              <label for="era-lead-value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ finField }}</label>
+              <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
+              <label for="era-lead-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">E-postadressen din</label>
+              <input id="era-lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+              <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
+              <button type="submit" style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #131E3A; color: #F7F4EE; font: inherit; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; opacity: {{ leadBtnOp }}">{{ leadBtnLabel }}</button>
+            </div>
           </form>
           <div role="status" aria-live="polite" style="display: {{ leadDoneDisplay }}; flex-direction: column; gap: 6px; padding: 18px 24px; border-radius: 22px; background: rgba(255,253,248,0.97); color: #131E3A; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
             <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ leadDoneHead }}</div>
@@ -264,11 +270,13 @@ rep('''    this._onVis = () => { this._raf = null; this.update(); };
       e.preventDefault();
       if (this.state.lead === 'sending') return;
       const value = (form.elements.value && form.elements.value.value || '').trim();
+      const email = (form.elements.email && form.elements.email.value || '').trim();
       const website = (form.elements.website && form.elements.website.value || '').trim();
       if (value.length < 3) { this.setState({ lead: 'error', leadError: 'Skriv inn litt mer, så finner vi riktig sted.' }); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.setState({ lead: 'error', leadError: 'Skriv inn en gyldig e-postadresse.' }); return; }
       this.setState({ lead: 'sending', leadError: '' });
       try {
-        const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ audience: this.state.audience, value, website, page: location.href }) });
+        const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ audience: this.state.audience, value, email, website, page: location.href }) });
         const j = await r.json().catch(() => ({}));
         if (r.ok && j.ok) this.setState({ lead: 'done', leadError: '' });
         else this.setState({ lead: 'error', leadError: 'Noe gikk galt hos oss. Prøv igjen om et øyeblikk.' });
@@ -381,10 +389,10 @@ rep("    const f = g('finale');\n",
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
     if (mobile && this.state.audience === 'owner') finaleVals.finField = 'Adresse';
     const doneByAudience = {
-      owner: ['Takk. Vi finner boligen din.', 'Du hører fra oss når ERA er klar for adressen.'],
-      board: ['Takk. Vi ser på eiendommen.', 'Styret får et forslag til plan, klart til neste møte.'],
-      pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område.'],
-      partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere.']
+      owner: ['Takk. Vi finner boligen din.', 'Vi svarer på e-posten du oppga, når ERA er klar for adressen.'],
+      board: ['Takk. Vi ser på eiendommen.', 'Vi sender et forslag til plan på e-post, klart til neste møte.'],
+      pro: ['Takk. Du er registrert.', 'Vi sender e-post når det er ferdig beskrevne oppdrag i ditt område.'],
+      partner: ['Takk. Vi tar kontakt.', 'Vi sender en e-post og viser hvordan beregnede behov blir bestillinger hos dere.']
     };
     const menuOpen = this.state.menuOpen;
     const menuVals = {

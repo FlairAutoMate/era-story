@@ -84,12 +84,18 @@
       <h2>Styret skifter. Planen består.</h2>
       <p class="lede light">Tilstand, dokumentasjon og vedlikeholdsplan for hele eiendommen, klar til hvert styremøte og hver generalforsamling. Planen følger bygget, ikke menneskene.</p>
       <form id="era-lead" class="lead" data-audience="board">
-        <label class="sr" for="lead-value">Adressen til bygget</label>
-        <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til bygget">
-        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-        <button type="submit">Få planen for eiendommen</button>
+        <div class="lead-pill">
+          <label class="sr" for="lead-value">Adressen til bygget</label>
+          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til bygget">
+        </div>
+        <div class="lead-pill">
+          <label class="sr" for="lead-email">E-postadressen din</label>
+          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Få planen for eiendommen</button>
+        </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi ser på eiendommen.</b><span>Styret får et forslag til plan, klart til neste møte.</span></div>
+      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi ser på eiendommen.</b><span>Vi sender et forslag til plan på e-post, klart til neste møte.</span></div>
       <div class="err" hidden></div>
       <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
     </div>

@@ -540,9 +540,9 @@
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Hentes i butikk</span>
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Håndverker henter</span>
           </div>
-          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(19,30,58,0.1); max-width: 420px">
+          <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(19,30,58,0.1); max-width: 420px">
             <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">For faghandel</div>
-            <p style="margin: 8px 0 0; font-size: 16px; line-height: 1.45; color: #131E3A">Bestillingen kommer ferdig beregnet, fra et faktisk behov i boligen. Uavhengig av kjede.</p>
+            <p style="margin: 8px 0 0; font-size: 16px; line-height: 1.45; color: #131E3A">ERA beregner behovet før kunden går i butikken. Riktig produkt, riktig mengde, riktig tid, i én bestilling. Også for et helt borettslag. Uavhengig av kjede.</p>
             <a href="#start" data-partner="1" style="display: inline-flex; align-items: center; margin-top: 14px; height: 40px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Bli partner →</a>
           </div>
         </div>
@@ -553,14 +553,14 @@
   <!-- 8 · FÅ HJELP — HUMAN: håndverker i arbeid, brief i negativt rom -->
   <section id="handverker" ref="{{ refPro }}" data-theme="dark" style="position: relative; height: 260vh; background: #131E3A" data-screen-label="08 Håndverker" aria-label="For håndverkeren">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
-      <div style="position: relative; height: {{ sideImgH }}; width: min(100%, calc({{ sideImgH }} * 0.66)); justify-self: center; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.45); transform: translateZ(0); backface-visibility: hidden">
+      <div style="position: relative; height: {{ proImgH }}; width: min(100%, calc({{ proImgH }} * 0.66)); justify-self: center; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.45); transform: translateZ(0); backface-visibility: hidden">
         <div style="position: absolute; inset: 0"><image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Håndverker i arbeid, hender/verktøy synlig, plassert til venstre"></image-slot></div>
       </div>
       <div style="position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
         <div style="max-width: 440px; text-align: right">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">B · Få hjelp</div>
           <h2 style="margin: 16px 0 0; font-size: clamp(30px, 3.8vw, 50px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; opacity: {{ proHeadOp }}; transform: {{ proHeadTy }}; text-wrap: balance">Jobben kommer ferdig forstått.</h2>
-          <p style="margin: 14px 0 0; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.35; font-weight: 500; color: rgba(247,244,238,0.75); opacity: {{ proSubOp }}">Mindre tid på befaring og tilbud. Mer tid på jobben.</p>
+          <p style="margin: 14px 0 0; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.35; font-weight: 500; color: rgba(247,244,238,0.75); opacity: {{ proSubOp }}">Omfang, bilder, mål og ønsket tid ligger klart. Materialene også. Du gir tilbud, ikke befaring.</p>
         </div>
         <div style="width: min(360px, 100%); padding: 20px 22px; border-radius: 20px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); transform: {{ proCardTy }}; opacity: {{ proCardOp }}">
           <div style="display: flex; justify-content: space-between; align-items: center">
@@ -578,7 +578,7 @@
             <a href="#start" data-pro="1" style="pointer-events: auto; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
           </div>
         </div>
-        <p style="margin: 0; max-width: 440px; text-align: right; font-size: 15px; line-height: 1.5; color: rgba(247,244,238,0.8); opacity: {{ proBtnOp }}">Oppdraget kommer med omfang, bilder, ønsket tid og materialer. Du gir tilbud, ikke befaring. Jobben blir en del av boligens historikk.</p>
+        <p style="margin: 0; max-width: 440px; text-align: right; font-size: 15px; line-height: 1.5; color: rgba(247,244,238,0.8); opacity: {{ proBtnOp }}">Kunden har plan, estimat og materialer klare. Færre bomturer, mindre papir. Og jobben blir stående i boligens historikk, med ditt navn på.</p>
       </div>
     </div>
   </section>
@@ -666,14 +666,14 @@
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 460px; opacity: {{ boardHeadOp }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret</div>
-        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Samme oversikt. Hele eiendommen.</h2>
-        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Én vedlikeholdsplan for bygget, klar til generalforsamlingen.</p>
+        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Styret skifter. Planen består.</h2>
+        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Tilstand, dokumentasjon og vedlikeholdsplan for hele eiendommen, klar til hvert styremøte og hver generalforsamling.</p>
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
           <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
             <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
           </sc-for>
         </div>
-        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}">Fasaden males i 2027. Kostnaden er fordelt på 24 seksjoner. Ingen overraskelser på generalforsamlingen.</p>
+        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}">Fasaden males i 2027. 1,2 millioner, fordelt på 24 seksjoner, med tilbud fra håndverker som allerede har fått jobben beskrevet. Vedtaket tar ti minutter, ikke to møter.</p>
         <a href="#start" data-board="1" style="display: inline-flex; align-items: center; margin-top: 22px; height: 44px; padding: 0 20px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 14.5px; font-weight: 700; opacity: {{ boardCtaOp }}" style-hover="background: #E2C48F; color: #131E3A">Se planen for eiendommen →</a>
       </div>
     </div>
@@ -1043,7 +1043,7 @@ class Component extends DCLogic {
       const tag = tagMap[i];
       return { bg: tag ? 'rgba(212,177,122,0.22)' : 'rgba(19,30,58,0.25)', dot: tag ? '#D4B17A' : 'rgba(247,244,238,0.5)', op, sc: `scale(${0.85 + op * 0.15})`, tag: tag || '', tagOp: tag ? seg(b, 0.6, 1, 0.06) : 0 };
     });
-    const boardChips = ['Vedlikeholdsplan', 'FDV', 'Dokumentasjon', 'Felleskostnader', 'Prioritering', 'Generalforsamling'].map((label, i) => ({ label, op: seg(b, 0.62 + i * 0.035, 1, 0.04) }));
+    const boardChips = ['Tilstand', 'Vedlikeholdsplan', 'FDV samlet', 'Felleskostnader', 'Generalforsamling', 'Styreskifte'].map((label, i) => ({ label, op: seg(b, 0.62 + i * 0.035, 1, 0.04) }));
 
     const sp = g('split'), merge = ease(ramp(sp, 0.6, 0.8));
 
@@ -1060,19 +1060,19 @@ class Component extends DCLogic {
     const finaleByAudience = {
       owner: { finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
         finField: 'Skriv adressen din', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
-      board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Forstå eiendommen. Prioriter riktig. Ta en ferdig plan med til generalforsamlingen.',
-        finField: 'Adressen til bygget', finCta: 'Se planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
-      pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Omfang, bilder, ønsket tid og materialer, før du gir tilbud. Mindre befaring, mer jobb.',
+      board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Tilstand, plan og kostnader for hele eiendommen, klar til neste generalforsamling. Planen følger bygget, ikke styret.',
+        finField: 'Adressen til bygget', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+      pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Kvalifiserte kunder med plan og estimat, ferdig beskrevet omfang og materialer som ligger klart. Mindre befaring, mer jobb.',
         finField: 'Firmanavn eller organisasjonsnummer', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
-      partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Bestillingen kommer ferdig beregnet, fra et reelt behov i boligen. Uavhengig av kjede.',
+      partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Ferdig beregnede bestillinger fra boliger og borettslag, levert slik kunden vil ha det. Færre feilkjøp, større prosjekter, uavhengig av kjede.',
         finField: 'Kjede eller butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
     };
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
     const doneByAudience = {
       owner: ['Takk. Vi finner boligen din.', 'Du hører fra oss når ERA er klar for adressen.'],
-      board: ['Takk. Vi ser på eiendommen.', 'Styret hører fra oss med et forslag til plan.'],
-      pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er oppdrag i ditt område.'],
-      partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan behov i boligen blir bestillinger hos dere.']
+      board: ['Takk. Vi ser på eiendommen.', 'Styret får et forslag til plan, klart til neste møte.'],
+      pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område.'],
+      partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere.']
     };
     const lead = this.state.lead, ld = doneByAudience[this.state.audience] || doneByAudience.owner;
     const leadVals = {
@@ -1098,7 +1098,8 @@ class Component extends DCLogic {
       ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '32vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       // chapter 7 carries the longest column (list, delivery, faghandel) — a shorter card on mobile keeps it all inside one screen
-      comImgH: mobile ? '16vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      proImgH: mobile ? '24vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      comImgH: mobile ? '13vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       // mobile: slide the frame so the couple (right side of the photo) stays in view under the portrait crop
@@ -1128,7 +1129,7 @@ class Component extends DCLogic {
       seasons, memSeason, memYear, memDocs, memEvents, memLineH,
       memHeadOp: seg(me, 0.78, 1, 0.06), memHeadTy: ty(seg(me, 0.78, 1, 0.06)), memHead2Op: seg(me, 0.88, 1, 0.05),
       boardImgScale: 1 + b * 0.035, boardBgOp: 0.55 + ramp(b, 0.05, 0.4) * 0.45,
-      boardOneScale: 1 - shrink * 0.7, boardOneOp: 1 - ramp(b, 0.26, 0.34), boardGridOp: ramp(b, 0.28, 0.42), boardUnits, boardChips,
+      boardOneScale: 1 - shrink * 0.7, boardOneOp: 1 - ramp(b, 0.26, 0.34), boardGridOp: ramp(b, 0.28, 0.42) * (mobile ? 0.3 : 1), boardUnits, boardChips,
       boardHeadOp: seg(b, 0.44, 1, 0.08), boardHeadTy: ty(seg(b, 0.44, 1, 0.08)), boardCtaOp: seg(b, 0.8, 1, 0.06),
       splitLTx: `${-merge * 100}%`, splitRTx: `${merge * 100}%`, splitQ0Op: seg(sp, 0.1, 0.58, 0.06), splitQ0Ty: ty(seg(sp, 0.1, 0.58, 0.06)), splitQ1Op: seg(sp, 0.26, 0.58, 0.06), splitQ1Ty: ty(seg(sp, 0.26, 0.58, 0.06)),
       splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: 0.7 + ramp(sp, 0.64, 0.84) * 0.3, splitHeadTy: ty(ramp(sp, 0.7, 0.9), 24),

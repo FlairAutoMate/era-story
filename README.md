@@ -6,6 +6,14 @@ Lokalt: `python -m http.server 8787` og åpne http://localhost:8787/. Visuell QA
 
 Deploy: `npx vercel --prod`.
 
+## Om ERA-kapittelet
+
+Etter «Din bolig. Vårt bygg.» og personvern-blokken følger siste akt, `#om-era` (seksjonene 15–28 i `index.html`): bro fra ett bygg til alle boliger, den fragmenterte boligen, den agentiske sløyfen, «fra et bilde» (se → forstå → vurdere), veivalget, gjør det selv / få hjelp, lukk sløyfen, hvor kundereisen starter, teknologi (fem evner), fra assistent til agent, aktørene, visjon og menneskene bak ERA. Finalen (`29`) åpner med kapittelets sluttfraser før logo og skjema; ankeret `#start` ligger nå der skjemaet er synlig.
+
+Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI: `about-hero`, `about-bridge`, `fragmented-home`, `loop-home`, `photo-observation`, `diy-commerce`, `tradesperson`, `completed-work`, `property-intelligence`, `agentic-future-0..3`, `ecosystem`, samt `finale-neighbourhood` (`data-story-image`). Inntil endelig foto foreligger peker de på eksisterende bilder i `assets/story/`. Portrettene (`team-lars`, `team-ragnvald`, `team-thomas`, `team-magnus`, `team-eskild`, `team-william`) er nøytrale plassholdere; sett `src` i `teamDefs` i skriptet når bildene er klare (samme utsnitt, 4:5).
+
+Visuell QA av kapittelet: `node qa-om.mjs http://localhost:8787/` (skjermbilder til `qa/om-era/`).
+
 ## Mottak av leads
 
 Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (`api/lead.js`) lagrer ett JSON-dokument per lead i det private Vercel Blob-lageret `era-leads` under `leads/<målgruppe>/<dato>/`. Ingenting sendes videre.

@@ -345,8 +345,9 @@
         <span style="width: 1px; height: 20px; margin-right: 3px; background: {{ railLine }}; opacity: {{ c.lineOp }}"></span>
       </div>
     </sc-for>
-    <a href="#start" style="pointer-events: auto; margin-top: 14px; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); transition: background 0.5s, color 0.5s">{{ finCta }}</a>
   </div>
+  <!-- Fast CTA nederst til høyre, utenfor skinnen så den ikke kolliderer med siste kapitteletikett -->
+  <a href="#start" style="position: fixed; right: 24px; bottom: 24px; z-index: 290; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
 
   <!-- 0 · DØREN — WIDE, kveld -->
   <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: {{ h_door }}; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
@@ -2286,7 +2287,7 @@ class Component extends DCLogic {
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
-      chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      chapters, railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),

@@ -1369,9 +1369,9 @@ class Component extends DCLogic {
 
     const s = g('see');
     const healthScore = 67, healthRing = this.ring(healthScore);
-    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';
-    const healthLegendOp = ramp(s, 0.88, 0.93), healthLegendTy = ty(healthLegendOp, 10);
-    const healthCtaOp = ramp(s, 0.93, 0.97);
+    const healthCardOp = seg(s, 0.93, 1, 0.05), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';
+    const healthLegendOp = ramp(s, 0.93, 0.96), healthLegendTy = ty(healthLegendOp, 10);
+    const healthCtaOp = ramp(s, 0.96, 0.99);
     const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;
     const healthScoreShown = Math.round(healthScore * healthCardOp);
     const spotData = [

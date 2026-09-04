@@ -81,7 +81,7 @@ rep("      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5,",
 
 # ── chapter 3: building health-score card, next to the existing spot markers ──
 rep("const s = g('see');",
-    "const s = g('see');\n    const healthScore = 67, healthRing = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';\n    const healthLegendOp = ramp(s, 0.88, 0.93), healthLegendTy = ty(healthLegendOp, 10);\n    const healthCtaOp = ramp(s, 0.93, 0.97);\n    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;\n    const healthScoreShown = Math.round(healthScore * healthCardOp);")
+    "const s = g('see');\n    const healthScore = 67, healthRing = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.93, 1, 0.05), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';\n    const healthLegendOp = ramp(s, 0.93, 0.96), healthLegendTy = ty(healthLegendOp, 10);\n    const healthCtaOp = ramp(s, 0.96, 0.99);\n    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;\n    const healthScoreShown = Math.round(healthScore * healthCardOp);")
 rep('''Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         </div>
       </div>

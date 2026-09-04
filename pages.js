@@ -62,7 +62,14 @@
     input.setAttribute("aria-expanded", "true");
     if (active >= 0) input.setAttribute("aria-activedescendant", "era-addr-" + active); else input.removeAttribute("aria-activedescendant");
   }
-  function select(i) { var it = items[i]; if (!it) return; input.value = it.full; close(); }
+  function select(i) {
+    var it = items[i]; if (!it) return;
+    input.value = it.full; close();
+    var btn = input.closest("form") && input.closest("form").querySelector('button[type="submit"]');
+    if (btn && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      btn.animate([{ boxShadow: "0 0 0 0 rgba(212,177,122,0.6)" }, { boxShadow: "0 0 0 4px rgba(212,177,122,0.35)" }, { boxShadow: "0 0 0 14px rgba(212,177,122,0)" }], { duration: 900, easing: "ease-out", iterations: 2 });
+    }
+  }
   function search(q) {
     if (ctrl) ctrl.abort();
     ctrl = new AbortController();
@@ -104,4 +111,40 @@
   });
   window.addEventListener("scroll", function () { if (box.style.display === "block") place(); }, { passive: true });
   window.addEventListener("resize", function () { if (box.style.display === "block") place(); });
+})();
+
+// Placeholder typewriter: cycles a few real-looking examples through the address/company
+// field until the visitor focuses or types, so the empty field feels alive rather than inert.
+(function () {
+  var form = document.getElementById("era-lead");
+  var input = document.getElementById("lead-value");
+  var span = document.getElementById("lead-typewriter");
+  if (!form || !input || !span) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var EXAMPLES = {
+    owner: ["Storgata 1, Oslo", "Kirkeveien 44, Bergen", "Skogveien 12, Trondheim"],
+    board: ["Sameiet Solsiden, Oslo", "Borettslaget Utsikten, Bergen", "Sameiet Fjordblikk, Stavanger"],
+    pro: ["Byggmester Hansen AS", "Mester Rørlegger AS", "987 654 321"],
+    partner: ["Byggmakker Lillestrøm", "Montér Sandvika", "XL-BYGG Ringerike"]
+  };
+  var list = EXAMPLES[form.dataset.audience] || EXAMPLES.owner;
+  var stopped = false;
+  function stop() { stopped = true; span.style.display = "none"; }
+  input.addEventListener("focus", stop, { once: true });
+  input.addEventListener("pointerdown", stop, { once: true });
+  input.addEventListener("input", stop, { once: true });
+  var exIdx = 0;
+  function after(ms, fn) { if (!stopped) setTimeout(fn, ms); }
+  function eraseFrom(text, j) {
+    if (j < 0) { exIdx++; after(300, nextWord); return; }
+    span.textContent = text.slice(0, j);
+    after(25, function () { eraseFrom(text, j - 1); });
+  }
+  function typeFrom(text, i) {
+    if (i > text.length) { after(1300, function () { eraseFrom(text, text.length); }); return; }
+    span.textContent = text.slice(0, i);
+    after(45, function () { typeFrom(text, i + 1); });
+  }
+  function nextWord() { typeFrom(list[exIdx % list.length], 0); }
+  nextWord();
 })();

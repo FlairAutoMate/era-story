@@ -245,7 +245,10 @@ def page(slug, a):
       <form id="era-lead" class="lead" data-audience="{a["key"]}">
         <div class="lead-pill">
           <label class="sr" for="lead-value">{esc(a["form_field"])}</label>
-          <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
+          <div class="lead-value-wrap">
+            <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
+            <span id="lead-typewriter" aria-hidden="true"></span>
+          </div>
         </div>
         <div class="lead-pill">
           <label class="sr" for="lead-email">E-postadressen din</label>

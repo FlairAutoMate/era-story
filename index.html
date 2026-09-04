@@ -848,7 +848,10 @@
           <form id="era-lead" data-audience="{{ leadAudience }}" style="display: {{ leadFormDisplay }}; flex-direction: column; align-items: flex-start; gap: 10px; width: 460px; max-width: 100%; margin: 0">
             <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
               <label for="era-lead-value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ finField }}</label>
-              <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+              <div style="position: relative; flex: 1; min-width: 0; display: flex; align-items: center">
+                <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="width: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+                <span id="era-lead-typewriter" aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; pointer-events: none; background: #FFFFFF; font-size: 16px; color: #9A968C; white-space: nowrap; overflow: hidden"></span>
+              </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
               <label for="era-lead-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">E-postadressen din</label>
@@ -943,6 +946,7 @@ class Component extends DCLogic {
     };
     document.addEventListener('submit', this._onSubmit);
     this.initAddressAutocomplete();
+    this.initPlaceholderTypewriter();
     this.update();
   }
   componentWillUnmount() {
@@ -981,7 +985,14 @@ class Component extends DCLogic {
       input.setAttribute('aria-expanded', 'true');
       if (active >= 0) input.setAttribute('aria-activedescendant', 'era-addr-' + active); else input.removeAttribute('aria-activedescendant');
     };
-    const select = (i) => { const it = items[i]; if (!it) return; input.value = it.full; close(); };
+    const select = (i) => {
+      const it = items[i]; if (!it) return;
+      input.value = it.full; close();
+      const btn = input.closest('form') && input.closest('form').querySelector('button[type="submit"]');
+      if (btn && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        btn.animate([{ boxShadow: '0 0 0 0 rgba(212,177,122,0.6)' }, { boxShadow: '0 0 0 4px rgba(212,177,122,0.35)' }, { boxShadow: '0 0 0 14px rgba(212,177,122,0)' }], { duration: 900, easing: 'ease-out', iterations: 2 });
+      }
+    };
     const search = (q) => {
       if (ctrl) ctrl.abort();
       ctrl = new AbortController();
@@ -1021,6 +1032,40 @@ class Component extends DCLogic {
     });
     window.addEventListener('scroll', () => { if (box.style.display === 'block') place(); }, { passive: true });
     window.addEventListener('resize', () => { if (box.style.display === 'block') place(); });
+  }
+  initPlaceholderTypewriter() {
+    const input = document.getElementById('era-lead-value');
+    const span = document.getElementById('era-lead-typewriter');
+    if (!input || !span) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const EXAMPLES = {
+      owner: ['Storgata 1, Oslo', 'Kirkeveien 44, Bergen', 'Skogveien 12, Trondheim'],
+      board: ['Sameiet Solsiden, Oslo', 'Borettslaget Utsikten, Bergen', 'Sameiet Fjordblikk, Stavanger'],
+      pro: ['Byggmester Hansen AS', 'Mester Rørlegger AS', '987 654 321'],
+      partner: ['Byggmakker Lillestrøm', 'Montér Sandvika', 'XL-BYGG Ringerike'],
+    };
+    let stopped = false;
+    const stop = () => { stopped = true; span.style.display = 'none'; };
+    input.addEventListener('focus', stop, { once: true });
+    input.addEventListener('pointerdown', stop, { once: true });
+    input.addEventListener('input', stop, { once: true });
+    let exIdx = 0;
+    const after = (ms, fn) => { if (!stopped) setTimeout(fn, ms); };
+    const eraseFrom = (text, j) => {
+      if (j < 0) { exIdx++; after(300, nextWord); return; }
+      span.textContent = text.slice(0, j);
+      after(25, () => eraseFrom(text, j - 1));
+    };
+    const typeFrom = (text, i) => {
+      if (i > text.length) { after(1300, () => eraseFrom(text, text.length)); return; }
+      span.textContent = text.slice(0, i);
+      after(45, () => typeFrom(text, i + 1));
+    };
+    const nextWord = () => {
+      const list = EXAMPLES[this.state.audience] || EXAMPLES.owner;
+      typeFrom(list[exIdx % list.length], 0);
+    };
+    nextWord();
   }
 
   update() {

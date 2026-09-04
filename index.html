@@ -859,6 +859,14 @@ class Component extends DCLogic {
     document.addEventListener('submit', this._onSubmit);
     const initial = this.audienceFor(location.hash, null);
     if (initial && initial !== 'owner') this.setState({ audience: initial });
+    // Deep links (/#styret from the audience pages): the browser jumps to the anchor before
+    // this template has rendered, so re-apply the jump once the chapters exist.
+    const hash = location.hash.slice(1);
+    if (hash) {
+      const jump = () => { const el = document.getElementById(hash); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'instant' }); };
+      window.setTimeout(jump, 60);
+      window.setTimeout(jump, 500);
+    }
     this.update();
   }
   componentWillUnmount() {

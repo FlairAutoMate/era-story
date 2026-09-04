@@ -446,6 +446,25 @@
           <p style="margin: 18px 0 0; font-size: 15px; line-height: 1.5; color: rgba(247,244,238,0.6)">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         </div>
       </div>
+      <div style="position: absolute; right: clamp(24px, 6vw, 90px); bottom: 6vh; width: min(260px, 82vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ healthCardOp }}; transform: {{ healthCardTy }}; display: {{ healthCardDisplay }}">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+          <div style="font-size: 14.5px; font-weight: 700; letter-spacing: -0.01em; color: #131E3A; max-width: 150px">Eiendommens helsetilstand</div>
+          <div style="position: relative; width: 56px; height: 56px; flex: none">
+            <svg width="56" height="56" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
+              <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ healthRingDash }}" transform="rotate(-90 28 28)"></circle>
+            </svg>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">67</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px">
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C0483A"></span><span style="color: #131E3A">2 høy risiko</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #B0935F"></span><span style="color: #131E3A">4 middels risiko</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63"></span><span style="color: #131E3A">8 ok</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #8A8579">1 ikke vurdert</span></div>
+        </div>
+        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F">Se alle tiltak →</a>
+      </div>
     </div>
   </section>
 
@@ -504,6 +523,7 @@
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6)">ERA forstår rommet.</div>
       </div>
       <div style="position: absolute; left: {{ planLeft }}; right: {{ planRight }}; top: {{ planTop }}; bottom: {{ planBottom }}; transform: {{ planBaseTy }} {{ magicPlanTy }}; width: {{ planWidth }}; padding: {{ planPad }}; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
+        <div style="height: 88px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img src="/assets/story/livingroom-wall-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Plan · Male stua</div>
           <div style="font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14</div>
@@ -522,7 +542,10 @@
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; opacity: {{ magicDoneOp }}">
           <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
-          <a href="#start" style="display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Finn min bolig</a>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a href="#partnere" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
+            <a href="#handverker" style="display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Finn håndverker</a>
+          </div>
         </div>
       </div>
     </div>
@@ -571,7 +594,7 @@
         <div style="display: flex; flex-direction: column; margin-top: 26px; max-width: 420px">
           <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid rgba(19,30,58,0.1); opacity: {{ p.op }}; transform: {{ p.ty }}">
-              <span style="font-size: 16px; font-weight: 600">{{ p.name }}</span>
+              <span style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600"><span style="width: 6px; height: 6px; border-radius: 50%; background: #D4B17A; flex: none"></span>{{ p.name }}</span>
               <span style="font-family: 'JetBrains Mono', monospace; font-size: 13.5px; color: #5E6472">{{ p.qty }}</span>
             </div>
           </sc-for>
@@ -648,6 +671,31 @@
         </div>
         <div style="height: 40vh"></div>
       </div></div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); top: 100px; width: min(280px, 84vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); opacity: {{ bathCardOp }}; transform: {{ bathCardTy }}">
+        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img src="/assets/story/bathroom-old-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div>
+            <div style="font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">Bad</div>
+            <div style="font-size: 12px; color: #9A968C">Ca. 5 m²</div>
+          </div>
+          <div style="position: relative; width: 56px; height: 56px; flex: none">
+            <svg width="56" height="56" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
+              <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ bathRingDash }}" transform="rotate(-90 28 28)"></circle>
+            </svg>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">58</div>
+          </div>
+        </div>
+        <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
+        <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6">
+          <span style="flex: none; width: 18px; height: 18px; border-radius: 50%; background: #3E7B4F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">✓</span>
+          <div>
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #3E7B4F">Anbefaling fra ERA</div>
+            <div style="margin-top: 2px; font-size: 13.5px; line-height: 1.4; color: #2E5C3C">Inspeksjon innen 12 måneder. Oppgradering kan vente 5–10 år.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -957,6 +1005,7 @@ class Component extends DCLogic {
   ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }
   mix(a, b, t) { return a + (b - a) * t; }
+  ring(score, r = 24) { const c = 2 * Math.PI * r; return `${(score / 100) * c} ${c}`; }
 
   renderVals() {
     const RS = window.__resources || {};
@@ -1011,6 +1060,8 @@ class Component extends DCLogic {
     });
 
     const s = g('see');
+    const healthScore = 67, healthRingDash = this.ring(healthScore);
+    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';
     const spotData = [
       { name: 'Tak og beslag', k1: 'Alder og tetting', v1: 'Bør kontrolleres', k2: 'Ansvar', v2: 'Felles', c2: '#B0935F', x: '66%', y: '22%', lx: '20px', ly: '30px', lineW: '52px', lineRot: '50deg', a: 0.1, b: 0.32 },
       { name: 'Fasade', k1: 'Maling flasser', v1: 'Innen 12 mnd', k2: 'Ansvar', v2: 'Felles', c2: '#B0935F', x: '72%', y: '50%', lx: '-262px', ly: '-22px', lineW: '40px', lineRot: '180deg', a: 0.38, b: 0.6 },
@@ -1042,6 +1093,8 @@ class Component extends DCLogic {
     const proCardOp = seg(pr, 0.12, 1, 0.1);
 
     const t = g('trust');
+    const bathScore = 58, bathRingDash = this.ring(bathScore);
+    const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);
 
     const me = g('memory');
     const memData = [['2026', 'ERA kobles til', 0.08], ['2028', 'Fasade og balkonger utbedres', 0.3], ['2031', 'Tak og vinduer fornyes', 0.5], ['2036', 'Godt vedlikeholdt — verdien består', 0.68]];
@@ -1137,7 +1190,7 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'),
-      ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      healthScore, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),

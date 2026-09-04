@@ -1090,6 +1090,14 @@ class Component extends DCLogic {
   update() {
     const vh = window.innerHeight;
     const reduced = this._mq.matches;
+    const nowT = performance.now(), scrollNow = window.scrollY;
+    if (this._lastScrollT == null) { this._lastScrollT = nowT; this._lastScrollY = scrollNow; this._scrollSpeed = 0; }
+    else {
+      const dt = Math.max(1, nowT - this._lastScrollT), dy = Math.abs(scrollNow - this._lastScrollY);
+      const inst = Math.min(1, (dy / dt) / 2.5);
+      this._scrollSpeed = this._scrollSpeed * 0.7 + inst * 0.3;
+      this._lastScrollT = nowT; this._lastScrollY = scrollNow;
+    }
     const prog = {};
     Object.keys(this.pinRefs).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1334,7 +1342,7 @@ class Component extends DCLogic {
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'),
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
-      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
+      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),

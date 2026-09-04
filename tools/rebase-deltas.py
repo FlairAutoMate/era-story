@@ -498,6 +498,24 @@ rep('''        <span style="width: 1px; height: 20px; margin-right: 3px; backgro
     <a href="#start" style="pointer-events: auto; margin-top: 14px; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); transition: background 0.5s, color 0.5s">{{ finCta }}</a>
   </div>''')
 
+# ── door glow tied to scroll speed, not just progress ──
+rep('''  update() {
+    const vh = window.innerHeight;
+    const reduced = this._mq.matches;''',
+    '''  update() {
+    const vh = window.innerHeight;
+    const reduced = this._mq.matches;
+    const nowT = performance.now(), scrollNow = window.scrollY;
+    if (this._lastScrollT == null) { this._lastScrollT = nowT; this._lastScrollY = scrollNow; this._scrollSpeed = 0; }
+    else {
+      const dt = Math.max(1, nowT - this._lastScrollT), dy = Math.abs(scrollNow - this._lastScrollY);
+      const inst = Math.min(1, (dy / dt) / 2.5);
+      this._scrollSpeed = this._scrollSpeed * 0.7 + inst * 0.3;
+      this._lastScrollT = nowT; this._lastScrollY = scrollNow;
+    }''')
+rep("      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,",
+    "      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,")
+
 if missing:
     print("MISSING:"); [print(" -", x) for x in missing]; sys.exit(1)
 open(dst, 'w', encoding='utf-8').write(s)

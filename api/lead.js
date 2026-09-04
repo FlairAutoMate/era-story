@@ -3,8 +3,8 @@
 // notification. Nothing else is sent anywhere.
 //
 // Body: { audience: "owner" | "board" | "pro" | "partner", value: string, email: string, website?: string, page?: string }
-// `website` is a honeypot: humans never fill it, bots do. `email` is required — it's the only
-// way ERA (or a human reading the Blob store) can actually get back to the lead.
+// `website` is a honeypot: humans never fill it, bots do. `email` is optional — the forms only ask
+// for an address today; sign-in via Vipps/Google comes later. A real-shaped e-mail is kept if sent.
 //
 // Read leads: `npm run leads`. Notify: `vercel env add RESEND_API_KEY` and `vercel env add LEAD_NOTIFY_TO`.
 import { put } from "@vercel/blob";
@@ -25,7 +25,7 @@ async function notify(doc) {
     `Ny henvendelse fra ${who.toLowerCase()} via era-story.`,
     ``,
     `${who}: ${doc.value}`,
-    `E-post: ${doc.email}`,
+    `E-post: ${doc.email || "-"}`,
     `Tidspunkt: ${doc.receivedAt}`,
     `Side: ${doc.page || "-"}`,
     ``,
@@ -34,7 +34,7 @@ async function notify(doc) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), reply_to: doc.email, subject: `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
+    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), reply_to: doc.email || undefined, subject: `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
   });
   if (!r.ok) throw new Error(`resend ${r.status}: ${(await r.text()).slice(0, 200)}`);
   return "sent";
@@ -58,10 +58,9 @@ export default async function handler(req, res) {
   const honeypot = String(body.website ?? "").trim();
 
   // Bots get a friendly 200 and nothing stored; humans need at least a few characters and a
-  // real-shaped e-mail — it's the only way back to the lead.
+  // an e-mail is kept only if it looks real.
   if (honeypot) return res.status(200).json({ ok: true });
   if (value.length < 3) return res.status(400).json({ ok: false, error: "short" });
-  if (!EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: "email" });
 
   const now = new Date();
   const id = randomUUID();
@@ -69,7 +68,7 @@ export default async function handler(req, res) {
     id,
     audience,
     value,
-    email,
+    email: EMAIL_RE.test(email) ? email : undefined,
     receivedAt: now.toISOString(),
     source: "era-story",
     page: typeof body.page === "string" ? body.page.slice(0, 200) : undefined,

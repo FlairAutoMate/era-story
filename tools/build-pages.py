@@ -30,7 +30,7 @@ AUDIENCES = {
             ("Hva skjer med dataene mine?", "De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper."),
         ],
         form_field="Adressen til boligen", form_label="Adresse", form_cta="Finn min bolig",
-        done=("Takk. Vi finner boligen din.", "Vi svarer på e-posten du oppga, når ERA er klar for adressen."),
+        done=("Takk. Vi finner boligen din.", "Vi sier fra når ERA er klar for adressen."),
         story="#boligeier",
     ),
     "styret": dict(
@@ -57,7 +57,7 @@ AUDIENCES = {
             ("Hvem eier dataene?", "Eiendommen. Styret bestemmer hvem som ser dem. Ved styreskifte følger alt med."),
         ],
         form_field="Adressen til bygget", form_label="Adresse", form_cta="Få planen for eiendommen",
-        done=("Takk. Vi ser på eiendommen.", "Vi sender et forslag til plan på e-post, klart til neste møte."),
+        done=("Takk. Vi ser på eiendommen.", "Vi tar kontakt med et forslag til plan, klart til neste møte."),
         story="#styret",
     ),
     "handverker": dict(
@@ -84,7 +84,7 @@ AUDIENCES = {
             ("Hva med dokumentasjon etter jobben?", "Bilder og beskrivelse legges i boligens historikk. Det er din referanse neste gang."),
         ],
         form_field="Firmanavn eller organisasjonsnummer", form_label="Firma", form_cta="Motta oppdrag",
-        done=("Takk. Du er registrert.", "Vi sender e-post når det er ferdig beskrevne oppdrag i ditt område."),
+        done=("Takk. Du er registrert.", "Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område."),
         story="#handverker",
     ),
     "faghandel": dict(
@@ -111,7 +111,7 @@ AUDIENCES = {
             ("Hva med borettslag?", "Styrets vedlikeholdsplan gir store, planlagte bestillinger. Fasade, tak og vinduer, år for år."),
         ],
         form_field="Kjede eller butikk", form_label="Butikk", form_cta="Bli partner",
-        done=("Takk. Vi tar kontakt.", "Vi sender en e-post og viser hvordan beregnede behov blir bestillinger hos dere."),
+        done=("Takk. Vi tar kontakt.", "Vi tar kontakt og viser hvordan beregnede behov blir bestillinger hos dere."),
         story="#partnere",
     ),
 }
@@ -249,13 +249,6 @@ def page(slug, a):
             <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
             <span id="lead-typewriter" aria-hidden="true"></span>
             <span class="field-label" aria-hidden="true">{esc(a["form_label"])}</span>
-          </div>
-        </div>
-        <div class="lead-pill">
-          <label class="sr" for="lead-email">E-postadressen din</label>
-          <div class="lead-value-wrap">
-            <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
-            <span class="field-label" aria-hidden="true">E-post</span>
           </div>
           <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
           <button type="submit">{esc(a["form_cta"])}</button>

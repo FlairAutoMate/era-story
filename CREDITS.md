@@ -9,3 +9,5 @@ Alle kontekst- og personbilder i historien og på undersidene kommer fra Claude 
 Tidligere Pexels-bilder er fjernet fra prosjektet.
 
 Om ERA-kapittelet gjenbruker de samme bildene som plassholdere (neighbourhood-dusk, block-facade, couple-sofa-window, couple-window, bathroom-old, materials-floor, painter, couple-sofa, roof-detail, block-season-0..3, block-bikes) til endelig fotografi foreligger. Portrettene er plassholdere uten foto.
+
+whole-home-v2 (oversikt: stue, kjøkken, bad) og plumber-v2 (rørlegger under kjøkkenbenk) levert av ERA 2026-09-05, oppskalert til 2400 px.

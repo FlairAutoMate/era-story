@@ -214,12 +214,13 @@ def page(slug, a):
 <html lang="no">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(a["title"])} — ERA</title>
 <meta name="description" content="{esc(a["lede"])}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {head_meta("/" + slug, a["title"] + " — ERA", a["lede"])}
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>
@@ -343,12 +344,13 @@ def privacy_page():
 <html lang="no">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Personvern — ERA</title>
 <meta name="description" content="{esc(PRIVACY_DESC)}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {head_meta("/personvern", "Personvern — ERA", PRIVACY_DESC)}
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>

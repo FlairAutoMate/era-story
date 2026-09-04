@@ -362,7 +362,10 @@
   <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: {{ h_home }}; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
-        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/bathroom-v2.jpg" placeholder="Shot 2 · Paret i leiligheten"></image-slot>
+        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-sofa-window-v2.jpg" placeholder="Shot 2 · Paret i stua"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ homeBathOp }}">
+        <image-slot id="shot-bathroom-old" shape="rect" src="/assets/story/bathroom-old-v2.jpg" placeholder="Shot 2b · Det eldre badet"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: {{ homeGrad }}"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ homeDim }})"></div>
@@ -450,7 +453,7 @@
   <section id="prioriter" ref="{{ refPrio }}" data-theme="light" style="position: relative; height: {{ h_prio }}; background: #FFFDF9" data-screen-label="04 Prioriter" aria-label="Prioritering">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
       <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.18)">
-        <img src="/assets/story/couple-sofa-window-v2.jpg" alt="Badet — ett av mange valg i boligen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%; transform: translateZ(0); backface-visibility: hidden">
+        <img src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade og balkonger — der prioriteringen begynner" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; transform: translateZ(0); backface-visibility: hidden">
       </div>
       <div style="position: relative; min-height: 52vh; display: flex; flex-direction: column; justify-content: center">
         <div style="position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; gap: 12px; opacity: {{ prioCloudOp }}; transform: {{ prioCloudTy }}">
@@ -1138,7 +1141,7 @@ class Component extends DCLogic {
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
-      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5,
+      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
       home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '30%', home2Align: mobile ? 'left' : 'right',
       home3Op: seg(h, 0.78, 1, 0.07), home3Ty: ty(seg(h, 0.78, 1, 0.07)),

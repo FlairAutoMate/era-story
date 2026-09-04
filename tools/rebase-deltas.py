@@ -62,6 +62,22 @@ rep('>Lagret kryptert i Norge, i tråd med GDPR.</p>', '>Lagret kryptert innenfo
 rep('<a href="#data" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>', '<a href="/personvern" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>')
 rep('<a href="#data">Personvern</a>', '<a href="/personvern">Personvern</a>')
 
+# ── chapter 1: we walk through the home — the living room with the couple first, then the
+#    older bathroom fades in exactly when «Men hva med badet?» is asked. The answer waits until chapter 9. ──
+rep('''        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/bathroom-v2.jpg" placeholder="Shot 2 · Paret i leiligheten"></image-slot>
+      </div>''',
+    '''        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-sofa-window-v2.jpg" placeholder="Shot 2 · Paret i stua"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ homeBathOp }}">
+        <image-slot id="shot-bathroom-old" shape="rect" src="/assets/story/bathroom-old-v2.jpg" placeholder="Shot 2b · Det eldre badet"></image-slot>
+      </div>''')
+rep("      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5,",
+    "      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),")
+
+# ── chapter 4: ERA starts prioritising from the outside of the building ──
+rep('<img src="/assets/story/couple-sofa-window-v2.jpg" alt="Badet — ett av mange valg i boligen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%;',
+    '<img src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade og balkonger — der prioriteringen begynner" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%;')
+
 # ── chapter 4: early cue for the board ──
 rep("prioCloud: ['Bad', 'Kjøkken', 'Stue', 'Vinduer', 'Balkong', 'Gulv', 'Elektrisk', 'Ventilasjon'],", "prioCloud: ['Bad', 'Kjøkken', 'Stue', 'Vinduer', 'Balkong', 'Fellesareal', 'Gulv', 'Elektrisk', 'Ventilasjon'],")
 

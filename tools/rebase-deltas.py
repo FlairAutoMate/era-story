@@ -18,7 +18,7 @@ def rep(a, b, count=1):
 # ── shared score-gauge helper: an SVG stroke-dasharray for a 0-100 score on a 24px ring,
 #    used by the two new "ERA insight" cards below (chapters 3 and 9) ──
 rep("  ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }\n  mix(a, b, t) { return a + (b - a) * t; }",
-    "  ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }\n  mix(a, b, t) { return a + (b - a) * t; }\n  ring(score, r = 24) { const c = 2 * Math.PI * r; return `${(score / 100) * c} ${c}`; }")
+    "  ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }\n  mix(a, b, t) { return a + (b - a) * t; }\n  ring(score, r = 24) { const c = 2 * Math.PI * r; return { full: c, target: (score / 100) * c }; }")
 
 # ── menu + footer ──
 rep("const navItems = [['hva', 'Hva ERA gjør'], ['boligeier', 'Boligeier'], ['styret', 'Styret'], ['handverker', 'Håndverker'], ['partnere', 'Partnere']]\n      .map(([id, label]) => ({ href: '#' + id, label,",
@@ -81,7 +81,7 @@ rep("      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5,",
 
 # ── chapter 3: building health-score card, next to the existing spot markers ──
 rep("const s = g('see');",
-    "const s = g('see');\n    const healthScore = 67, healthRingDash = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';")
+    "const s = g('see');\n    const healthScore = 67, healthRing = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';\n    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;\n    const healthScoreShown = Math.round(healthScore * healthCardOp);")
 rep('''Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         </div>
       </div>
@@ -98,7 +98,7 @@ rep('''Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA h
               <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
               <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ healthRingDash }}" transform="rotate(-90 28 28)"></circle>
             </svg>
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">67</div>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">{{ healthScoreShown }}</div>
           </div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px">
@@ -164,7 +164,7 @@ rep('''<a href="#start" style="pointer-events: auto; display: inline-flex; align
 
 # ── chapter 9: ERA insight card for the bathroom, evidence for "Ikke nå." ──
 rep("const t = g('trust');",
-    "const t = g('trust');\n    const bathScore = 58, bathRingDash = this.ring(bathScore);\n    const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);")
+    "const t = g('trust');\n    const bathScore = 58, bathRing = this.ring(bathScore);\n    const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);\n    const bathRingDash = `${this.mix(0, bathRing.target, bathCardOp)} ${bathRing.full}`;\n    const bathScoreShown = Math.round(bathScore * bathCardOp);")
 rep('''<h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; line-height: 1.1">Riktig beslutning er ikke alltid å gjøre mer.</h2>
         </div>
         <div style="height: 40vh"></div>
@@ -185,7 +185,7 @@ rep('''<h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 8
               <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
               <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ bathRingDash }}" transform="rotate(-90 28 28)"></circle>
             </svg>
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">58</div>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">{{ bathScoreShown }}</div>
           </div>
         </div>
         <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
@@ -335,7 +335,7 @@ rep("    const f = g('finale');\n",
 # spread the new values into the returned bindings
 rep("...heights, ...resp, ...themeVals,", "...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
 rep("...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,",
-    "healthScore, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
+    "healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
 
 # chaos card: bathroom, not the couple
 rep('"chaosBath": "/assets/story/couple-sofa-window-v2.jpg"', '"chaosBath": "/assets/story/bathroom-v2.jpg"')

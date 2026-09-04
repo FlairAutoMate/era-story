@@ -454,7 +454,7 @@
               <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
               <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ healthRingDash }}" transform="rotate(-90 28 28)"></circle>
             </svg>
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">67</div>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">{{ healthScoreShown }}</div>
           </div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px">
@@ -683,7 +683,7 @@
               <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
               <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ bathRingDash }}" transform="rotate(-90 28 28)"></circle>
             </svg>
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">58</div>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">{{ bathScoreShown }}</div>
           </div>
         </div>
         <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
@@ -1005,7 +1005,7 @@ class Component extends DCLogic {
   ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   ty(op, d = 20) { return `translateY(${(1 - op) * d}px)`; }
   mix(a, b, t) { return a + (b - a) * t; }
-  ring(score, r = 24) { const c = 2 * Math.PI * r; return `${(score / 100) * c} ${c}`; }
+  ring(score, r = 24) { const c = 2 * Math.PI * r; return { full: c, target: (score / 100) * c }; }
 
   renderVals() {
     const RS = window.__resources || {};
@@ -1060,8 +1060,10 @@ class Component extends DCLogic {
     });
 
     const s = g('see');
-    const healthScore = 67, healthRingDash = this.ring(healthScore);
+    const healthScore = 67, healthRing = this.ring(healthScore);
     const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';
+    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;
+    const healthScoreShown = Math.round(healthScore * healthCardOp);
     const spotData = [
       { name: 'Tak og beslag', k1: 'Alder og tetting', v1: 'Bør kontrolleres', k2: 'Ansvar', v2: 'Felles', c2: '#B0935F', x: '66%', y: '22%', lx: '20px', ly: '30px', lineW: '52px', lineRot: '50deg', a: 0.1, b: 0.32 },
       { name: 'Fasade', k1: 'Maling flasser', v1: 'Innen 12 mnd', k2: 'Ansvar', v2: 'Felles', c2: '#B0935F', x: '72%', y: '50%', lx: '-262px', ly: '-22px', lineW: '40px', lineRot: '180deg', a: 0.38, b: 0.6 },
@@ -1093,8 +1095,10 @@ class Component extends DCLogic {
     const proCardOp = seg(pr, 0.12, 1, 0.1);
 
     const t = g('trust');
-    const bathScore = 58, bathRingDash = this.ring(bathScore);
+    const bathScore = 58, bathRing = this.ring(bathScore);
     const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);
+    const bathRingDash = `${this.mix(0, bathRing.target, bathCardOp)} ${bathRing.full}`;
+    const bathScoreShown = Math.round(bathScore * bathCardOp);
 
     const me = g('memory');
     const memData = [['2026', 'ERA kobles til', 0.08], ['2028', 'Fasade og balkonger utbedres', 0.3], ['2031', 'Tak og vinduer fornyes', 0.5], ['2036', 'Godt vedlikeholdt — verdien består', 0.68]];
@@ -1190,7 +1194,7 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'),
-      healthScore, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),

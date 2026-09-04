@@ -37,7 +37,7 @@
   "t1": "/assets/story/block-season-1-v2.jpg",
   "wholeHome": "",
   "plumber": "",
-  "electrician": "",
+  "electrician": "/assets/story/electrician-v2.jpg",
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
   "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
 };</script>
@@ -678,7 +678,7 @@
           <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 9 · Materialer i stua"></image-slot>
         </div>
         <div style="position: absolute; inset: 0; opacity: {{ comShotBOp }}">
-          <image-slot id="shot-materials" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 10 · Materialer i stua"></image-slot>
+          <image-slot id="shot-materials" shape="rect" src="/assets/story/floor-oil-v2.jpg" placeholder="Shot 10 · Materialer i stua"></image-slot>
         </div>
         <sc-for list="{{ productTags }}" as="pt" hint-placeholder-count="5">
           <div style="position: absolute; left: {{ pt.x }}; top: {{ pt.y }}; pointer-events: none; transform: translate(-50%, -50%); opacity: {{ pt.op }}; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.25); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D4B17A"></span>{{ pt.label }}</div>
@@ -1913,7 +1913,7 @@ class Component extends DCLogic {
     const products = prodData.map(([name, qty], i) => { const op = seg(co, 0.3 + i * 0.09, 1, 0.05); return { name, qty, op, ty: ty(op, 14) }; });
     const productTags = [['2 × maling 10 L', '34%', '54%'], ['1 × sparkel', '70%', '82%'], ['2 × ruller', '52%', '44%'], ['Maskering', '40%', '86%'], ['Prøvefarge', '60%', '22%']]
       .map(([label, x, y], i) => ({ label, x, y, op: seg(co, 0.32 + i * 0.09, 1, 0.05) }));
-    const comShotBOp = 0;
+    const comShotBOp = seg(co, 0.75, 1, 0.1);
     const comSteps = ['Arbeidsbeskrivelse', 'Materialer', 'Mengde', 'Produkter', 'Pris', 'Tilgjengelighet'].map((label, i, arr) => { const op = seg(co, 0.14 + i * 0.05, 1, 0.05); return { label, op, arrowOp: i < arr.length - 1 ? 1 : 0 }; });
     const comCatChips = ['Maling', 'Gulv', 'Bad', 'Kjøkken', 'Beslag', 'Verktøy'].map((label, i) => ({ label, op: seg(co, 0.55 + i * 0.045, 1, 0.05) }));
 

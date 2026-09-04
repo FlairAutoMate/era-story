@@ -891,6 +891,16 @@ rep("      trustImgOp: 0.6 + seg(t, 0.03, 1, 0.1) * 0.4, trustImgScale: 1 + t * 
 rep("      splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: 0.7 + ramp(sp, 0.64, 0.84) * 0.3, splitHeadTy: ty(ramp(sp, 0.7, 0.9), 24),",
     "      splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: (0.7 + ramp(sp, 0.64, 0.84) * 0.3) * (1 - splitLoopOp * 0.45), splitHeadTy: ty(ramp(sp, 0.7, 0.88), 24),")
 
+# ── two real photos to reduce painting's visual dominance, replacing a placeholder and a
+#    same-image crossfade: floor oiling (chapter 7's second material shot) and a real
+#    electrician photo (chapter 5c's placeholder + the choice-section's fagperson slot) ──
+rep('<image-slot id="shot-materials" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 10 · Materialer i stua"></image-slot>',
+    '<image-slot id="shot-materials" shape="rect" src="/assets/story/floor-oil-v2.jpg" placeholder="Shot 10 · Materialer i stua"></image-slot>')
+rep('"electrician": "",', '"electrician": "/assets/story/electrician-v2.jpg",')
+# comShotBOp was permanently 0 (a crossfade slot with no second photo yet) — now that
+# floor-oil-v2.jpg exists, activate the crossfade in the chapter's last quarter.
+rep("    const comShotBOp = 0;", "    const comShotBOp = seg(co, 0.75, 1, 0.1);")
+
 if missing:
     print("MISSING:"); [print(" -", x) for x in missing]; sys.exit(1)
 open(dst, 'w', encoding='utf-8').write(s)

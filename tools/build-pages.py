@@ -14,7 +14,7 @@ AUDIENCES = {
         steps=[
             ("Boligen kartlegges", "Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted. Det du har liggende i skuffen, på e-post og på telefonen."),
             ("ERA forstår", "Hver del av boligen får tilstand, alder og neste forventede behov. Ikke bare det du ser, men det bak veggen også."),
-            ("Du får en plan", "Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris."),
+            ("Du får en plan", "Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris. Det samme gjelder bad, gulv, elektro, rør og tak — og ERA sier fra når jobben krever fagperson."),
             ("Gjør det selv, eller få hjelp", "Materialene er beregnet og kan bestilles. Eller jobben går til håndverker, ferdig beskrevet. Alt blir historikk i boligen."),
         ],
         gains=[

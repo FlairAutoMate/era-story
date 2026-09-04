@@ -28,7 +28,26 @@ AUDIENCES = {
             ("Må jeg ha tilstandsrapport?", "Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen."),
             ("Er ERA en markedsplass?", "Nei. ERA hjelper deg å ta riktig avgjørelse, også når den er å vente. Vi tjener ikke på at du pusser opp."),
             ("Hva skjer med dataene mine?", "De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper."),
+            ("Hva koster ERA for boligeiere?", "ERA er gratis for de 300 boligeierne som deltar i betafasen. Du trenger ikke registrere betalingskort, og det er ingen binding. Eventuelle priser etter beta kommuniseres tydelig før noe endres."),
+            ("Hvorfor er det bare 300 plasser?", "Vi begrenser betafasen for å kunne følge opp brukerne tett, forbedre ERA basert på reelle boligbehov og sikre kvalitet før en bredere lansering."),
         ],
+        beta=dict(
+            badge="Nå i kontrollert beta — åpnes for 300 boligeiere",
+            note="Gratis for boligeiere i betaperioden. Begrenset antall plasser.",
+            cta_primary="Søk om betatilgang", cta_secondary="Se hvordan ERA fungerer",
+            heading="Bli en av 300 boligeiere som tester ERA",
+            lede="ERA åpner nå en kontrollert betafase for 300 boligeiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i boligen, uten abonnement eller kostnad i betaperioden.",
+            items=[
+                "Ta bilde av et behov i boligen.",
+                "Få analyse, oppgaveliste og prisestimat.",
+                "Finn relevante produkter.",
+                "Velg mellom å gjøre jobben selv eller få hjelp.",
+                "Samle utført arbeid og dokumentasjon på boligen.",
+                "Påminnelser om kommende vedlikehold.",
+            ],
+            cta="Søk om gratis betatilgang",
+            fine="Ingen betalingskort. Ingen binding. Vi inviterer brukere fortløpende.",
+        ),
         form_field="Adressen til boligen", form_label="Adresse", form_cta="Finn min bolig",
         done=("Takk. Vi finner boligen din.", "Vi sier fra når ERA er klar for adressen."),
         story="#boligeier",
@@ -164,6 +183,7 @@ def nav_html(current, cta_label, cta_href):
 
 def page(slug, a):
     cur = ' aria-current="page"'
+    beta = a.get("beta")
     nav_links = "".join(
         f'<a href="/{s}"{cur if s == slug else ""}>{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER
     )
@@ -174,6 +194,18 @@ def page(slug, a):
     ex = a["example"]
     rows = "".join(f'<div class="row"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in ex["rows"])
     faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>' for q, ans in a["faq"])
+    beta_section = ""
+    if beta:
+        beta_items = "".join(f"<li>{esc(it)}</li>" for it in beta["items"])
+        beta_section = (
+            '<section class="section dark beta"><div class="wrap narrow">'
+            f'<h2>{esc(beta["heading"])}</h2>'
+            f'<p class="lede light">{esc(beta["lede"])}</p>'
+            f'<ul class="beta-items">{beta_items}</ul>'
+            f'<a class="btn" href="#skjema">{esc(beta["cta"])}</a>'
+            f'<p class="fine">{esc(beta["fine"])}</p>'
+            '</div></section>'
+        )
     others = [s for s in ORDER if s != slug]
     other_links = " · ".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in others)
     done_head, done_sub = a["done"]
@@ -198,18 +230,20 @@ def page(slug, a):
   <div class="hero-media">{'<img src="' + a["image"] + '" alt="" style="object-position: ' + a["image_pos"] + '">'}</div>
   <div class="hero-text">
     <div class="label">{esc(a["label"])}</div>
-    <h1>{esc(a["hook"])}</h1>
+    <h1>{esc(a["hook"])}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}
     <p class="lede">{esc(a["lede"])}</p>
-    <div class="hero-actions"><a class="btn" href="#skjema">{esc(a["form_cta"])}</a><a class="link" href="/{a["story"]}">Se det i historien →</a></div>
+    <div class="hero-actions">{f'<a class="btn" href="#skjema">{esc(beta["cta_primary"])}</a><a class="link" href="#slik">{esc(beta["cta_secondary"])}</a>' if beta else f'<a class="btn" href="#skjema">{esc(a["form_cta"])}</a><a class="link" href="/{a["story"]}">Se det i historien →</a>'}</div>
   </div>
 </header>
 
 <main>
-  <section class="section">
+  <section class="section" id="slik">
     <div class="label">Slik fungerer det</div>
     <h2>Fire steg. Ingen gjetting.</h2>
     <ol class="steps">{steps}</ol>
   </section>
+
+  {beta_section}
 
   <section class="section alt">
     <div class="wrap">

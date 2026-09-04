@@ -18,3 +18,11 @@ Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (
 ## Undersider per målgruppe
 
 `/boligeier`, `/styret`, `/handverker`, `/faghandel` genereres av `python tools/build-pages.py` fra én innholdsstruktur (hook, verdiforslag, fire steg, gevinst, eksempel, spørsmål, skjema). Delt stil i `pages.css`, fonter i `fonts.css`, skjema i `pages.js` (samme `/api/lead`). Endre tekst i generatoren og kjør den på nytt.
+
+## Oppdatere fra en ny designeksport
+
+1. Pakk ut den frittstående eksporten (bilder til `assets/story/*-v2.*`, fonter til `fonts/`, malen til `base.html` med ressurskart i `<head>`).
+2. `python tools/rebase-deltas.py base.html index.html` legger ERAs egne endringer oppå (meny og bunntekst til undersidene, målgruppetekster, finale med skjema, dyplenker, firmanavn).
+3. `python tools/build-pages.py`, deretter `node qa-story.mjs` og `node qa-board.mjs`.
+
+Siste base ligger i `tools/base-export-2026-09-04.html`.

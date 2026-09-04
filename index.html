@@ -39,6 +39,7 @@
   "wholeHome": "/assets/story/whole-home-v2.jpg",
   "plumber": "/assets/story/plumber-v2.jpg",
   "electrician": "/assets/story/electrician-v2.jpg",
+  "agentHome": "/assets/story/agent-home-v2.jpg",
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
   "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
 };</script>
@@ -1091,7 +1092,7 @@
   <section ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Den agentiske sløyfen">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ lpImgScale }}); backface-visibility: hidden; opacity: 0.55">
-        <image-slot id="loop-home" shape="rect" src="/assets/story/couple-window-v2.jpg" placeholder="Sløyfen — samme bolig, sett utenfra"></image-slot>
+        <image-slot id="loop-home" shape="rect" src="/assets/story/loop-home-v2.jpg" placeholder="Sløyfen — samme bolig, sett utenfra"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 40%, rgba(19,30,58,0.45) 70%, rgba(19,30,58,0.6) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ lpTextTop }}; bottom: {{ lpTextBottom }}; transform: {{ lpTextTy }}; max-width: 480px; pointer-events: none">
@@ -1126,7 +1127,7 @@
   <section ref="{{ refPhoto }}" data-theme="dark" style="position: relative; height: {{ h_photo }}; background: #0F1830" data-screen-label="18 Fra et bilde" aria-label="Fra et bilde til ferdig dokumentert arbeid">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ phImgScale }}); backface-visibility: hidden">
-        <image-slot id="photo-observation" shape="rect" src="/assets/story/bathroom-old-v2.jpg" placeholder="Observasjon — boligeier fotograferer slitt fuge med telefonen, dagslys"></image-slot>
+        <image-slot id="photo-observation" shape="rect" src="/assets/story/photo-observation-v2.jpg" placeholder="Observasjon — boligeier fotograferer slitt fuge med telefonen, dagslys"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: {{ phGrad }}"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ phDim }})"></div>
@@ -1199,7 +1200,7 @@
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
       <div class="era-side" style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; transform: scale({{ dyImgScale }})">
-          <image-slot id="diy-commerce" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Gjør det selv — boligeier forbereder et lite prosjekt, materialer og verktøy"></image-slot>
+          <image-slot id="diy-commerce" shape="rect" src="/assets/story/diy-commerce-v2.jpg" placeholder="Gjør det selv — boligeier forbereder et lite prosjekt, materialer og verktøy"></image-slot>
         </div>
         <div style="position: absolute; left: 16px; right: 16px; bottom: 16px; padding: 16px 18px; border-radius: 18px; background: rgba(255,253,248,0.96); box-shadow: 0 20px 50px rgba(15,24,48,0.3); opacity: {{ dyCardOp }}; transform: {{ dyCardTy }}; display: {{ dyCardDisplay }}">
           <div style="display: flex; justify-content: space-between; align-items: baseline">
@@ -1237,7 +1238,7 @@
   <section ref="{{ refTrade }}" data-theme="dark" style="position: relative; height: {{ h_trade }}; background: #131E3A" data-screen-label="21 Få hjelp" aria-label="Eller få riktig hjelp">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ trImgScale }}); backface-visibility: hidden">
-        <image-slot id="tradesperson" shape="rect" src="/assets/story/painter-v2.jpg" placeholder="Håndverker — ekte fagperson i samme type bolig, håndverk og utførelse"></image-slot>
+        <image-slot id="tradesperson" shape="rect" src="/assets/story/tradesperson-v2.jpg" placeholder="Håndverker — ekte fagperson i samme type bolig, håndverk og utførelse"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: {{ trGrad }}"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ trTextTop }}; bottom: {{ trTextBottom }}; transform: {{ trTextTy }}; max-width: 520px; pointer-events: none">
@@ -1268,7 +1269,7 @@
   <section ref="{{ refClose }}" data-theme="dark" style="position: relative; height: {{ h_close }}; background: #0F1830" data-screen-label="22 Lukk sløyfen" aria-label="Jobben er ferdig. Boligen er oppdatert.">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ clImgScale }}); backface-visibility: hidden">
-        <image-slot id="completed-work" shape="rect" src="/assets/story/couple-sofa-v2.jpg" placeholder="Ferdig arbeid — samme bolig etterpå, boligeier lever normalt i rommet"></image-slot>
+        <image-slot id="completed-work" shape="rect" src="/assets/story/completed-work-v2.jpg" placeholder="Ferdig arbeid — samme bolig etterpå, boligeier lever normalt i rommet"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.15) 0%, rgba(15,24,48,0.35) 45%, rgba(15,24,48,0.85) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 50%, rgba(15,24,48,0.7) 100%)"></div>
@@ -1335,7 +1336,7 @@
   <section ref="{{ refTech }}" data-theme="dark" style="position: relative; height: {{ h_tech }}; background: #0B1226" data-screen-label="24 Teknologi" aria-label="Teknologi bygget for boligen">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: #0B1226">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ teImgScale }}); backface-visibility: hidden; opacity: {{ teImgOp }}; filter: grayscale(0.85) brightness(0.55) contrast(1.05)">
-        <image-slot id="property-intelligence" shape="rect" src="/assets/story/roof-detail-v2.jpg" placeholder="Digital boligmodell — ekte bygningssilhuett, arkitektonisk foto"></image-slot>
+        <image-slot id="property-intelligence" shape="rect" src="/assets/story/property-intelligence-v2.jpg" placeholder="Digital boligmodell — ekte bygningssilhuett, arkitektonisk foto"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(11,18,38,0.97) 0%, rgba(11,18,38,0.85) 38%, rgba(11,18,38,0.3) 65%, rgba(11,18,38,0.35) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(11,18,38,0.5) 0%, transparent 35%, transparent 70%, rgba(11,18,38,0.85) 100%)"></div>
@@ -1427,7 +1428,7 @@
   <section ref="{{ refEco }}" data-theme="dark" style="position: relative; height: {{ h_eco }}; background: #131E3A" data-screen-label="26 Aktørene" aria-label="Én bolig. Flere aktører. Samme kontekst.">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ ecImgScale }}); backface-visibility: hidden">
-        <image-slot id="ecosystem" shape="rect" src="/assets/story/block-bikes-v2.jpg" placeholder="Økosystem — boligblokk og nabolag, mennesker diskret til stede"></image-slot>
+        <image-slot id="ecosystem" shape="rect" src="/assets/story/ecosystem-v2.jpg" placeholder="Økosystem — boligblokk og nabolag, mennesker diskret til stede"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.92) 0%, rgba(19,30,58,0.72) 36%, rgba(19,30,58,0.2) 62%, rgba(19,30,58,0.15) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(19,30,58,0.3), transparent 30%, transparent 70%, rgba(19,30,58,0.6))"></div>
@@ -2122,7 +2123,7 @@ class Component extends DCLogic {
     });
     const phVals = {
       phImgScale: 1 + ph * 0.03, phDim: 0.05 + ramp(ph, 0.5, 0.8) * 0.3, phGrad: mobile ? 'linear-gradient(180deg, rgba(15,24,48,0.15) 0%, transparent 35%, rgba(15,24,48,0.85) 100%)' : 'linear-gradient(90deg, rgba(15,24,48,0.85) 0%, rgba(15,24,48,0.5) 40%, rgba(15,24,48,0.08) 70%, transparent 100%)',
-      phFrameX: mobile ? '30%' : '58%', phFrameY: mobile ? '30%' : '38%', phFrameW: mobile ? '42%' : '22%', phFrameH: mobile ? '20%' : '28%',
+      phFrameX: mobile ? '62%' : '50%', phFrameY: mobile ? '30%' : '30%', phFrameW: mobile ? '26%' : '16%', phFrameH: mobile ? '18%' : '26%',
       phFrameOp: phFrameIn * (1 - ramp(ph, 0.9, 1) * 0.6), phFrameScale: 1.06 - phFrameIn * 0.06, phTagOp: seg(ph, 0.24, 1, 0.04), phStates,
       phTextTop: mobile ? 'auto' : '50%', phTextBottom: mobile ? '8vh' : 'auto', phTextTy: mobile ? 'none' : 'translateY(-50%)',
       ph0Op: seg(ph, 0.02, 0.14), ph0Ty: ty(seg(ph, 0.02, 0.14)), ph1Op: seg(ph, 0.28, 0.42), ph1Ty: ty(seg(ph, 0.28, 0.42)),
@@ -2225,7 +2226,7 @@ class Component extends DCLogic {
     // Landscape source for the full-bleed scene (the portrait season shots are too small for wide screens); seasons are suggested with a subtle grade until real photos exist.
     const agSeasonDefs = [['agentic-future-0', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · høst', 'sepia(0.18) brightness(0.92) saturate(0.95)'], ['agentic-future-1', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · vinter', 'saturate(0.55) brightness(1.04) contrast(1.04)'], ['agentic-future-2', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · vår', 'saturate(1.1) brightness(1.02)'], ['agentic-future-3', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · sommer', 'sepia(0.08) saturate(1.15) brightness(1.0)']];
     const agSeasonIdx = Math.min(3, Math.floor(ramp(ag, 0.34, 0.9) * 4));
-    const agSeasons = agSeasonDefs.map(([id, src, placeholder, filter], i) => ({ id, src, placeholder, filter, op: i === agSeasonIdx ? 1 : 0 }));
+    const agSeasons = agSeasonDefs.map(([id, src, placeholder, filter], i) => ({ id, src, placeholder, filter: RS.agentHome ? 'none' : filter, op: i === agSeasonIdx ? 1 : 0 }));
     const agSeasonNames = ['Høst', 'Vinter', 'Vår', 'Sommer'];
     const agStepLabels = ['Oppdage', 'Forstå', 'Vurdere', 'Forberede', 'Handle', 'Dokumentere'];
     const agStepStart = 0.4, agStepStep = 0.055;

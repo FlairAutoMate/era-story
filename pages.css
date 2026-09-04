@@ -16,7 +16,7 @@ p { margin: 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .label { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-2); }
-.brand { display: inline-flex; align-items: center; min-height: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit; }
+.brand { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit; }
 .brand span { color: var(--gold); }
 .brand.big { font-size: clamp(48px, 7vw, 96px); line-height: 1; color: #fff; margin-bottom: 18px; }
 .wrap { max-width: 1080px; margin: 0 auto; }

@@ -9,7 +9,7 @@ const out = {};
 for (const [name, hash] of [["owner", ""], ["board", "#styret"], ["pro", "#handverker"], ["partner", "#partnere"]]) {
   const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   p.on("pageerror", (e) => errs.push(name + ": " + e.message));
-  await p.goto(base + "/" + hash, { waitUntil: "networkidle" });
+  await p.goto(base + "/" + hash, { waitUntil: "load" });
   await p.waitForTimeout(1500);
   const landed = hash ? await p.evaluate((id) => Math.round(document.getElementById(id).getBoundingClientRect().top), hash.slice(1)) : 0;
   const [y, h] = await p.evaluate(() => { const s = document.getElementById("start"); return [s.getBoundingClientRect().top + scrollY, s.offsetHeight]; });

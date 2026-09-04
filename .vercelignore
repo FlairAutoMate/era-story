@@ -1,0 +1,9 @@
+qa/
+tools/
+node_modules/
+.env*
+*.log
+qa-*.mjs
+leads.mjs
+README.md
+CREDITS.md

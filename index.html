@@ -1389,7 +1389,7 @@
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: #06090F">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ agImgScale }}); backface-visibility: hidden; opacity: {{ agImgOp }}">
         <sc-for list="{{ agSeasons }}" as="as" hint-placeholder-count="4">
-          <div style="position: absolute; inset: 0; opacity: {{ as.op }}">
+          <div style="position: absolute; inset: 0; opacity: {{ as.op }}; filter: {{ as.filter }}">
             <image-slot id="{{ as.id }}" shape="rect" src="{{ as.src }}" placeholder="{{ as.placeholder }}"></image-slot>
           </div>
         </sc-for>
@@ -2222,9 +2222,10 @@ class Component extends DCLogic {
 
     // 25 · Fra assistent til agent: nesten svart, så boligen gjennom årstidene.
     const ag = g('agent'), agReveal = ease(ramp(ag, 0.28, 0.42));
-    const agSeasonDefs = [['agentic-future-0', RS.t0 || '/assets/story/block-season-0-v2.jpg', 'Agentisk fremtid · nå'], ['agentic-future-1', RS.t1 || '/assets/story/block-season-1-v2.jpg', 'Agentisk fremtid · neste sesong'], ['agentic-future-2', RS.t2 || '/assets/story/block-season-2-v2.jpg', 'Agentisk fremtid · året etter'], ['agentic-future-3', RS.t3 || '/assets/story/block-season-3-v2.jpg', 'Agentisk fremtid · om noen år']];
+    // Landscape source for the full-bleed scene (the portrait season shots are too small for wide screens); seasons are suggested with a subtle grade until real photos exist.
+    const agSeasonDefs = [['agentic-future-0', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · høst', 'sepia(0.18) brightness(0.92) saturate(0.95)'], ['agentic-future-1', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · vinter', 'saturate(0.55) brightness(1.04) contrast(1.04)'], ['agentic-future-2', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · vår', 'saturate(1.1) brightness(1.02)'], ['agentic-future-3', RS.agentHome || '/assets/story/block-bikes-v2.jpg', 'Agentisk fremtid · sommer', 'sepia(0.08) saturate(1.15) brightness(1.0)']];
     const agSeasonIdx = Math.min(3, Math.floor(ramp(ag, 0.34, 0.9) * 4));
-    const agSeasons = agSeasonDefs.map(([id, src, placeholder], i) => ({ id, src, placeholder, op: i === agSeasonIdx ? 1 : 0 }));
+    const agSeasons = agSeasonDefs.map(([id, src, placeholder, filter], i) => ({ id, src, placeholder, filter, op: i === agSeasonIdx ? 1 : 0 }));
     const agSeasonNames = ['Høst', 'Vinter', 'Vår', 'Sommer'];
     const agStepLabels = ['Oppdage', 'Forstå', 'Vurdere', 'Forberede', 'Handle', 'Dokumentere'];
     const agStepStart = 0.4, agStepStep = 0.055;

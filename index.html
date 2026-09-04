@@ -956,8 +956,9 @@ class Component extends DCLogic {
     const paintKey = this.props.wallColor ?? '#B9C4B1';
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
 
-    const navItems = [['hva', 'Hva ERA gjør'], ['boligeier', 'Boligeier'], ['styret', 'Styret'], ['handverker', 'Håndverker'], ['partnere', 'Faghandel']]
-      .map(([id, label]) => ({ href: '#' + id, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
+    // The menu goes straight to the audience pages; only "Hva ERA gjør" stays inside the story.
+    const navItems = [['hva', 'Hva ERA gjør', '#hva'], ['boligeier', 'Boligeier', '/boligeier'], ['styret', 'Styret', '/styret'], ['handverker', 'Håndverker', '/handverker'], ['partnere', 'Faghandel', '/faghandel']]
+      .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå'], ['#prioriter', 'Prioriter'], ['#boligeier', 'Planlegg'], ['#gjennomfor', 'Gjennomfør'], ['#husk', 'Husk'], ['#styret', 'Hele bygget']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;

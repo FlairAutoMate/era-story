@@ -81,7 +81,7 @@ rep("      homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5,",
 
 # ── chapter 3: building health-score card, next to the existing spot markers ──
 rep("const s = g('see');",
-    "const s = g('see');\n    const healthScore = 67, healthRing = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';\n    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;\n    const healthScoreShown = Math.round(healthScore * healthCardOp);")
+    "const s = g('see');\n    const healthScore = 67, healthRing = this.ring(healthScore);\n    const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';\n    const healthLegendOp = ramp(s, 0.88, 0.93), healthLegendTy = ty(healthLegendOp, 10);\n    const healthCtaOp = ramp(s, 0.93, 0.97);\n    const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;\n    const healthScoreShown = Math.round(healthScore * healthCardOp);")
 rep('''Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         </div>
       </div>
@@ -101,13 +101,13 @@ rep('''Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA h
             <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">{{ healthScoreShown }}</div>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px">
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px; opacity: {{ healthLegendOp }}; transform: {{ healthLegendTy }}">
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C0483A"></span><span style="color: #131E3A">2 høy risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #B0935F"></span><span style="color: #131E3A">4 middels risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63"></span><span style="color: #131E3A">8 ok</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #8A8579">1 ikke vurdert</span></div>
         </div>
-        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F">Se alle tiltak →</a>
+        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
       </div>
     </div>
   </section>''')
@@ -164,7 +164,7 @@ rep('''<a href="#start" style="pointer-events: auto; display: inline-flex; align
 
 # ── chapter 9: ERA insight card for the bathroom, evidence for "Ikke nå." ──
 rep("const t = g('trust');",
-    "const t = g('trust');\n    const bathScore = 58, bathRing = this.ring(bathScore);\n    const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);\n    const bathRingDash = `${this.mix(0, bathRing.target, bathCardOp)} ${bathRing.full}`;\n    const bathScoreShown = Math.round(bathScore * bathCardOp);")
+    "const t = g('trust');\n    const bathScore = 58, bathRing = this.ring(bathScore);\n    const bathCardOp = seg(t, 0.62, 1, 0.08), bathCardTy = ty(bathCardOp, 24);\n    const bathTextOp = ramp(t, 0.66, 0.74), bathTextTy = ty(bathTextOp, 10);\n    const bathRecOp = ramp(t, 0.74, 0.84), bathRecTy = ty(bathRecOp, 10);\n    const bathRingDash = `${this.mix(0, bathRing.target, bathCardOp)} ${bathRing.full}`;\n    const bathScoreShown = Math.round(bathScore * bathCardOp);")
 rep('''<h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; line-height: 1.1">Riktig beslutning er ikke alltid å gjøre mer.</h2>
         </div>
         <div style="height: 40vh"></div>
@@ -188,9 +188,11 @@ rep('''<h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 8
             <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: \'JetBrains Mono\', monospace">{{ bathScoreShown }}</div>
           </div>
         </div>
-        <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
-        <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
-        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6">
+        <div style="opacity: {{ bathTextOp }}; transform: {{ bathTextTy }}">
+          <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
+          <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6; opacity: {{ bathRecOp }}; transform: {{ bathRecTy }}">
           <span style="flex: none; width: 18px; height: 18px; border-radius: 50%; background: #3E7B4F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">✓</span>
           <div>
             <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #3E7B4F">Anbefaling fra ERA</div>
@@ -211,7 +213,8 @@ rep('''<a href="#start" style="display: inline-flex; align-items: center; margin
 rep('''<h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">Boligeierskap uten gjetting.</h2>
         <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.</p>''',
     '''<h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">{{ finHead }}</h2>
-        <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">{{ finSub }}</p>''')
+        <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">{{ finSub }}</p>
+        <p style="margin: 14px 0 0; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(212,177,122,0.85); opacity: {{ finTagOp }}">Bygget for norske boligeiere, styrer og håndverkere</p>''')
 rep('''<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
             <span style="flex: 1; min-width: 0; text-align: left; font-size: 16px; color: #9A968C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ finInputLabel }}</span>
             <span style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 15px; font-weight: 600; white-space: nowrap">Finn min bolig</span>
@@ -470,7 +473,7 @@ rep("    const f = g('finale');\n",
 # spread the new values into the returned bindings
 rep("...heights, ...resp, ...themeVals,", "...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
 rep("...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,",
-    "healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
+    "healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
 
 # chaos card: bathroom, not the couple
 rep('"chaosBath": "/assets/story/couple-sofa-window-v2.jpg"', '"chaosBath": "/assets/story/bathroom-v2.jpg"')
@@ -483,6 +486,45 @@ rep('''  a:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; bord
   #era-lead-value:focus ~ .field-label, #era-lead-value:not(:placeholder-shown) ~ .field-label,
   #era-lead-email:focus ~ .field-label, #era-lead-email:not(:placeholder-shown) ~ .field-label { opacity: 1; transform: translateY(0); }
 </style>''')
+
+# ── a persistent, discreet CTA below the chapter rail (second conversion surface) ──
+rep('''        <span style="width: 1px; height: 20px; margin-right: 3px; background: {{ railLine }}; opacity: {{ c.lineOp }}"></span>
+      </div>
+    </sc-for>
+  </div>''',
+    '''        <span style="width: 1px; height: 20px; margin-right: 3px; background: {{ railLine }}; opacity: {{ c.lineOp }}"></span>
+      </div>
+    </sc-for>
+    <a href="#start" style="pointer-events: auto; margin-top: 14px; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); transition: background 0.5s, color 0.5s">{{ finCta }}</a>
+  </div>''')
+
+# ── door glow tied to scroll speed, not just progress ──
+rep('''  update() {
+    const vh = window.innerHeight;
+    const reduced = this._mq.matches;''',
+    '''  update() {
+    const vh = window.innerHeight;
+    const reduced = this._mq.matches;
+    const nowT = performance.now(), scrollNow = window.scrollY;
+    if (this._lastScrollT == null) { this._lastScrollT = nowT; this._lastScrollY = scrollNow; this._scrollSpeed = 0; }
+    else {
+      const dt = Math.max(1, nowT - this._lastScrollT), dy = Math.abs(scrollNow - this._lastScrollY);
+      const inst = Math.min(1, (dy / dt) / 2.5);
+      this._scrollSpeed = this._scrollSpeed * 0.7 + inst * 0.3;
+      this._lastScrollT = nowT; this._lastScrollY = scrollNow;
+    }''')
+rep("      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,",
+    "      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,")
+
+# ── chapter 2: more photorealistic paper — grain texture, dual-layer contact shadows,
+#    and a faint desk-surface background, all CSS-only (no new image assets) ──
+rep("    const white = '#FFFFFF', shadowLg = '0 30px 70px rgba(19,30,58,0.16)', shadowMd = '0 18px 50px rgba(19,30,58,0.1)', shadowSm = '0 10px 26px rgba(19,30,58,0.08)';",
+    "    const white = '#FFFFFF', shadowLg = '0 2px 4px rgba(19,30,58,0.14), 0 30px 70px rgba(19,30,58,0.18)', shadowMd = '0 2px 3px rgba(19,30,58,0.12), 0 18px 50px rgba(19,30,58,0.12)', shadowSm = '0 1px 2px rgba(19,30,58,0.1), 0 10px 26px rgba(19,30,58,0.09)';")
+rep('''  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">''',
+    '''  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,0.7) 0%, transparent 62%), repeating-linear-gradient(118deg, rgba(19,30,58,0.02) 0px, rgba(19,30,58,0.02) 1px, transparent 1px, transparent 3px), #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">''')
+rep('''          <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">''',
+    '''          <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">
+            <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.07; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>''')
 
 # ══════════════════════════════════════════════════════════════════════════════════════════
 # ── HELE BOLIGEN (2026-09): maling er ett eksempel; ERA følger behovene rundt hele boligen,

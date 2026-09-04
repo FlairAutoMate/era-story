@@ -345,6 +345,7 @@
         <span style="width: 1px; height: 20px; margin-right: 3px; background: {{ railLine }}; opacity: {{ c.lineOp }}"></span>
       </div>
     </sc-for>
+    <a href="#start" style="pointer-events: auto; margin-top: 14px; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); transition: background 0.5s, color 0.5s">{{ finCta }}</a>
   </div>
 
   <!-- 0 · DØREN — WIDE, kveld -->
@@ -393,11 +394,12 @@
   </section>
 
   <!-- 2 · KAOS → KLARHET — GRAPHIC, blandede objekttyper -->
-  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
+  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,0.7) 0%, transparent 62%), repeating-linear-gradient(118deg, rgba(19,30,58,0.02) 0px, rgba(19,30,58,0.02) 1px, transparent 1px, transparent 3px), #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center">
       <div style="position: relative; width: min(960px, 94vw); height: min(560px, 64vh)">
         <sc-for list="{{ chaosItems }}" as="it" hint-placeholder-count="9">
           <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">
+            <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.07; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
             <sc-if value="{{ it.hasImg }}" hint-placeholder-val="{{ false }}">
               <div style="width: 100%; height: {{ it.imgH }}; background-image: {{ it.imgUrl }}; background-size: cover; background-position: {{ it.imgPos }}"></div>
             </sc-if>
@@ -468,13 +470,13 @@
             <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">{{ healthScoreShown }}</div>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px">
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 12.5px; opacity: {{ healthLegendOp }}; transform: {{ healthLegendTy }}">
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C0483A"></span><span style="color: #131E3A">2 høy risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #B0935F"></span><span style="color: #131E3A">4 middels risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63"></span><span style="color: #131E3A">8 ok</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #8A8579">1 ikke vurdert</span></div>
         </div>
-        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F">Se alle tiltak →</a>
+        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
       </div>
     </div>
   </section>
@@ -830,9 +832,11 @@
             <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">{{ bathScoreShown }}</div>
           </div>
         </div>
-        <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
-        <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
-        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6">
+        <div style="opacity: {{ bathTextOp }}; transform: {{ bathTextTy }}">
+          <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
+          <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6; opacity: {{ bathRecOp }}; transform: {{ bathRecTy }}">
           <span style="flex: none; width: 18px; height: 18px; border-radius: 50%; background: #3E7B4F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">✓</span>
           <div>
             <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #3E7B4F">Anbefaling fra ERA</div>
@@ -1013,6 +1017,7 @@
         <div style="font-size: clamp(56px, 8vw, 120px); font-weight: 800; letter-spacing: -0.05em; color: #FFFFFF; line-height: 1; opacity: {{ finLogoOp }}; transform: {{ finLogoTy }}">era<span style="color: #D4B17A">.</span></div>
         <h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">{{ finHead }}</h2>
         <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 19px); color: rgba(247,244,238,0.7); opacity: {{ finTagOp }}">{{ finSub }}</p>
+        <p style="margin: 14px 0 0; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(212,177,122,0.85); opacity: {{ finTagOp }}">Bygget for norske boligeiere, styrer og håndverkere</p>
         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 36px; opacity: {{ finCtaOp }}; transform: {{ finCtaTy }}">
           <form id="era-lead" data-audience="{{ leadAudience }}" style="display: {{ leadFormDisplay }}; flex-direction: column; align-items: flex-start; gap: 10px; width: 460px; max-width: 100%; margin: 0">
             <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
@@ -1252,6 +1257,14 @@ class Component extends DCLogic {
   update() {
     const vh = window.innerHeight;
     const reduced = this._mq.matches;
+    const nowT = performance.now(), scrollNow = window.scrollY;
+    if (this._lastScrollT == null) { this._lastScrollT = nowT; this._lastScrollY = scrollNow; this._scrollSpeed = 0; }
+    else {
+      const dt = Math.max(1, nowT - this._lastScrollT), dy = Math.abs(scrollNow - this._lastScrollY);
+      const inst = Math.min(1, (dy / dt) / 2.5);
+      this._scrollSpeed = this._scrollSpeed * 0.7 + inst * 0.3;
+      this._lastScrollT = nowT; this._lastScrollY = scrollNow;
+    }
     const prog = {};
     Object.keys(this.pinRefs).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1329,7 +1342,7 @@ class Component extends DCLogic {
     const home2 = seg(h, 0.52, 0.68);
 
     const c = g('chaos'), gRaw = ramp(c, 0.5, 0.78), gather = gRaw < 1 ? 1 - Math.pow(1 - gRaw, 3) * (1 + 0.35 * gRaw) : 1;
-    const white = '#FFFFFF', shadowLg = '0 30px 70px rgba(19,30,58,0.16)', shadowMd = '0 18px 50px rgba(19,30,58,0.1)', shadowSm = '0 10px 26px rgba(19,30,58,0.08)';
+    const white = '#FFFFFF', shadowLg = '0 2px 4px rgba(19,30,58,0.14), 0 30px 70px rgba(19,30,58,0.18)', shadowMd = '0 2px 3px rgba(19,30,58,0.12), 0 18px 50px rgba(19,30,58,0.12)', shadowSm = '0 1px 2px rgba(19,30,58,0.1), 0 10px 26px rgba(19,30,58,0.09)';
     const chaosData = [
       { kind: 'PDF · 48 SIDER', title: 'Tilstandsrapport 2021', meta: 'Takstmann Berg AS', x: -340, y: -160, rot: -5, w: '210px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
       { kind: 'E-POST', title: 'Re: Tilbud rørlegger', meta: 'mars 2023 · 2 vedlegg', x: 300, y: -200, rot: 4, w: '200px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
@@ -1357,6 +1370,8 @@ class Component extends DCLogic {
     const s = g('see');
     const healthScore = 67, healthRing = this.ring(healthScore);
     const healthCardOp = seg(s, 0.86, 1, 0.07), healthCardTy = ty(healthCardOp, 20), healthCardDisplay = mobile ? 'none' : 'block';
+    const healthLegendOp = ramp(s, 0.88, 0.93), healthLegendTy = ty(healthLegendOp, 10);
+    const healthCtaOp = ramp(s, 0.93, 0.97);
     const healthRingDash = `${this.mix(0, healthRing.target, healthCardOp)} ${healthRing.full}`;
     const healthScoreShown = Math.round(healthScore * healthCardOp);
     const spotData = [
@@ -1435,6 +1450,8 @@ class Component extends DCLogic {
     const bathScore = 58, bathRing = this.ring(bathScore);
     const bathCardOp = seg(t, 0.7, 1, 0.08), bathCardTy = ty(bathCardOp, 24);
     const trustDoneOp = seg(t, 0.03, 0.17, 0.05), trustDone2Op = seg(t, 0.09, 0.17, 0.04);
+    const bathTextOp = ramp(t, 0.66, 0.74), bathTextTy = ty(bathTextOp, 10);
+    const bathRecOp = ramp(t, 0.74, 0.84), bathRecTy = ty(bathRecOp, 10);
     const bathRingDash = `${this.mix(0, bathRing.target, bathCardOp)} ${bathRing.full}`;
     const bathScoreShown = Math.round(bathScore * bathCardOp);
 
@@ -1543,9 +1560,9 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'),
-      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
-      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
+      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),

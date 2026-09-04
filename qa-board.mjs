@@ -12,10 +12,10 @@ for (const [name, hash] of [["owner", ""], ["board", "#styret"], ["pro", "#handv
   await p.goto(base + "/" + hash, { waitUntil: "load" });
   await p.waitForTimeout(1500);
   const landed = hash ? await p.evaluate((id) => Math.round(document.getElementById(id).getBoundingClientRect().top), hash.slice(1)) : 0;
-  const [y, h] = await p.evaluate(() => { const s = document.getElementById("start"); return [s.getBoundingClientRect().top + scrollY, s.offsetHeight]; });
+  const [y, h] = await p.evaluate(() => { const s = document.getElementById("start").closest("section"); return [s.getBoundingClientRect().top + scrollY, s.offsetHeight]; });
   await p.evaluate((v) => scrollTo({ top: v, behavior: "instant" }), y + (h - 900) * 0.9);
   await p.waitForTimeout(900);
-  out[name] = { landed, finale: await p.evaluate(() => { const s = document.getElementById("start"); return [s.querySelector("h2").textContent.trim(), s.querySelector("#era-lead-value").placeholder, s.querySelector("#era-lead button").textContent.trim()]; }) };
+  out[name] = { landed, finale: await p.evaluate(() => { const box = document.getElementById("era-lead").closest('div[style*="max-width: 560px"]'); return [box.querySelector("h2").textContent.trim(), document.getElementById("era-lead-value").placeholder, document.querySelector("#era-lead button").textContent.trim()]; }) };
   if (name === "pro") { const [y2, h2] = await p.evaluate(() => { const s = document.getElementById("handverker"); return [s.getBoundingClientRect().top + scrollY, s.offsetHeight]; }); await p.evaluate((v) => scrollTo({ top: v, behavior: "instant" }), y2 + (h2 - 900) * 0.85); await p.waitForTimeout(800); await p.screenshot({ path: "qa/pro-08.png" }); }
   await p.close();
 }

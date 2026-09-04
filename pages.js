@@ -29,7 +29,10 @@
     try {
       var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, email: email, website: website, page: location.href }) });
       var j = await r.json().catch(function () { return {}; });
-      if (r.ok && j.ok) { form.hidden = true; done.hidden = false; }
+      if (r.ok && j.ok) {
+        form.hidden = true; done.hidden = false;
+        requestAnimationFrame(function () { requestAnimationFrame(function () { done.classList.add("drawn"); }); });
+      }
       else { err.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; err.hidden = false; }
     } catch (x) {
       err.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; err.hidden = false;

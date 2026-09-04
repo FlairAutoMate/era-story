@@ -223,25 +223,34 @@ rep('''<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8p
               <div style="position: relative; flex: 1; min-width: 0; display: flex; align-items: center">
                 <input id="era-lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{{ finField }}" style="width: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
                 <span id="era-lead-typewriter" aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; pointer-events: none; background: #FFFFFF; font-size: 16px; color: #9A968C; white-space: nowrap; overflow: hidden"></span>
+                <span class="field-label" aria-hidden="true">{{ finLabel }}</span>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%">
               <label for="era-lead-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">E-postadressen din</label>
-              <input id="era-lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+              <div style="position: relative; flex: 1; min-width: 0; display: flex; align-items: center">
+                <input id="era-lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post" style="width: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: #131E3A">
+                <span class="field-label" aria-hidden="true">E-post</span>
+              </div>
               <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
               <button type="submit" style="display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #131E3A; color: #F7F4EE; font: inherit; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; opacity: {{ leadBtnOp }}">{{ leadBtnLabel }}</button>
             </div>
           </form>
-          <div role="status" aria-live="polite" style="display: {{ leadDoneDisplay }}; flex-direction: column; gap: 6px; padding: 18px 24px; border-radius: 22px; background: rgba(255,253,248,0.97); color: #131E3A; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
-            <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ leadDoneHead }}</div>
-            <div style="font-size: 14.5px; color: #5E6472">{{ leadDoneSub }}</div>
+          <div role="status" aria-live="polite" style="display: {{ leadDoneDisplay }}; align-items: center; gap: 14px; padding: 18px 24px; border-radius: 22px; background: rgba(255,253,248,0.97); color: #131E3A; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 460px; max-width: 100%">
+            <div style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: #3E7B4F; display: flex; align-items: center; justify-content: center">
+              <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 24; stroke-dashoffset: {{ leadCheckOffset }}; transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s"></path></svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ leadDoneHead }}</div>
+              <div style="font-size: 14.5px; color: #5E6472">{{ leadDoneSub }}</div>
+            </div>
           </div>
           <div style="font-size: 13.5px; color: rgba(247,244,238,0.7); display: {{ leadErrorDisplay }}">{{ leadError }}</div>
           <a href="{{ finLinkHref }}" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>''')
 
 # ── state, handlers ──
 rep("state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false };",
-    "state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', menuOpen: false };")
+    "state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };")
 rep('''    this._onVis = () => { this._raf = null; this.update(); };
     document.addEventListener('visibilitychange', this._onVis);
     this.update();''',
@@ -281,7 +290,10 @@ rep('''    this._onVis = () => { this._raf = null; this.update(); };
       try {
         const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ audience: this.state.audience, value, email, website, page: location.href }) });
         const j = await r.json().catch(() => ({}));
-        if (r.ok && j.ok) this.setState({ lead: 'done', leadError: '' });
+        if (r.ok && j.ok) {
+          this.setState({ lead: 'done', leadError: '', leadCheckDrawn: false });
+          if (!this._mq.matches) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ leadCheckDrawn: true })));
+        }
         else this.setState({ lead: 'error', leadError: 'Noe gikk galt hos oss. Prøv igjen om et øyeblikk.' });
       } catch (err) {
         this.setState({ lead: 'error', leadError: 'Ingen kontakt med serveren. Sjekk nettet og prøv igjen.' });
@@ -422,13 +434,13 @@ rep("    const f = g('finale');\n",
     """    const f = g('finale');
     const finaleByAudience = {
       owner: { finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
-        finField: 'Skriv adressen din', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
+        finField: 'Skriv adressen din', finLabel: 'Adresse', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
       board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Tilstand, plan og kostnader for hele eiendommen, klar til neste generalforsamling. Planen følger bygget, ikke styret.',
-        finField: 'Adressen til bygget', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Adressen til bygget', finLabel: 'Adresse', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
       pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Kvalifiserte kunder med plan og estimat, ferdig beskrevet omfang og materialer som ligger klart. Mindre befaring, mer jobb.',
-        finField: 'Firmanavn eller organisasjonsnummer', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Firmanavn eller organisasjonsnummer', finLabel: 'Firma', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
       partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Ferdig beregnede bestillinger fra boliger og borettslag, levert slik kunden vil ha det. Færre feilkjøp, større prosjekter, uavhengig av kjede.',
-        finField: 'Kjede eller butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
+        finField: 'Kjede eller butikk', finLabel: 'Butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
     };
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
     if (mobile && this.state.audience === 'owner') finaleVals.finField = 'Adresse';
@@ -451,6 +463,7 @@ rep("    const f = g('finale');\n",
       leadFormDisplay: lead === 'done' ? 'none' : 'flex', leadDoneDisplay: lead === 'done' ? 'flex' : 'none',
       leadBtnLabel: lead === 'sending' ? 'Sender…' : finaleVals.finCta, leadBtnOp: lead === 'sending' ? 0.7 : 1,
       leadDoneHead: ld[0], leadDoneSub: ld[1],
+      leadCheckOffset: (lead === 'done' && (this.state.leadCheckDrawn || this._mq.matches)) ? 0 : 24,
       leadErrorDisplay: lead === 'error' ? 'block' : 'none', leadError: this.state.leadError
     };
 """)
@@ -461,6 +474,15 @@ rep("...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,
 
 # chaos card: bathroom, not the couple
 rep('"chaosBath": "/assets/story/couple-sofa-window-v2.jpg"', '"chaosBath": "/assets/story/bathroom-v2.jpg"')
+
+# ── floating field labels for the finale's two lead-form pills ──
+rep('''  a:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 6px; }
+</style>''',
+    '''  a:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 6px; }
+  .field-label { position: absolute; left: 0; top: -20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,244,238,0.65); opacity: 0; transform: translateY(4px); transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none; white-space: nowrap; }
+  #era-lead-value:focus ~ .field-label, #era-lead-value:not(:placeholder-shown) ~ .field-label,
+  #era-lead-email:focus ~ .field-label, #era-lead-email:not(:placeholder-shown) ~ .field-label { opacity: 1; transform: translateY(0); }
+</style>''')
 
 if missing:
     print("MISSING:"); [print(" -", x) for x in missing]; sys.exit(1)

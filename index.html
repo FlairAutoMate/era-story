@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="no"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 
 
@@ -27,6 +27,7 @@
 <meta name="twitter:title" content="ERA — Boligeierskap uten gjetting">
 <meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.__resources = {
   "chaosBath": "/assets/story/bathroom-v2.jpg",
@@ -46,7 +47,7 @@
 <body>
 <x-dc>
 <helmet>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 
 
@@ -299,7 +300,20 @@
   * { box-sizing: border-box; }
   a { color: #B0935F; text-decoration: none; }
   a:hover { color: #131E3A; }
-  a:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 6px; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 6px; }
+  /* Sticky scenes fill the *visible* viewport on iOS (dynamic toolbar); 100vh is the fallback. */
+  .era-vh { height: 100vh; }
+  .era-start { top: calc(100% - 100vh); }
+  @supports (height: 100dvh) { .era-vh { height: 100dvh; } .era-start { top: calc(100% - 100dvh); } }
+  /* Text links get a 44 px hit area without changing the visual rhythm. */
+  .era-link { display: inline-flex; align-items: center; min-height: 44px; }
+  footer a { display: inline-flex; align-items: center; min-height: 44px; }
+  @media (hover: none) { a:hover { color: inherit; } }
+  /* Short viewports (landscape phones): one idea per screen still has to fit under the nav. */
+  .era-short .era-vh { padding-top: 64px !important; }
+  .era-short .era-vh h2 { font-size: min(26px, 5vh + 6px) !important; line-height: 1.06 !important; }
+  .era-short .era-vh p { font-size: 13.5px !important; line-height: 1.35 !important; }
+  .era-short .era-side, .era-short .era-short-hide { display: none !important; }
   .field-label { position: absolute; left: 0; top: -20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,244,238,0.65); opacity: 0; transform: translateY(4px); transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none; white-space: nowrap; }
   #era-lead-value:focus ~ .field-label, #era-lead-value:not(:placeholder-shown) ~ .field-label,
   #era-lead-email:focus ~ .field-label, #era-lead-email:not(:placeholder-shown) ~ .field-label { opacity: 1; transform: translateY(0); }
@@ -314,9 +328,9 @@
 <div style="font-family: 'Schibsted Grotesk', sans-serif; color: #131E3A; background: #F7F4EE">
 
   <!-- STICKY COMMERCIAL NAV -->
-  <nav aria-label="Hovedmeny" style="position: fixed; top: 14px; left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
+  <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
     <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
-      <a href="#hjem" aria-label="ERA — til toppen" style="font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
+      <a href="#hjem" aria-label="ERA — til toppen" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
       <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
         <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
           <a href="{{ n.href }}" style="position: relative; padding: 9px 12px; border-radius: 999px; color: inherit; opacity: {{ n.op }}">{{ n.label }}<span style="position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: #D4B17A; opacity: {{ n.markOp }}"></span></a>
@@ -327,7 +341,7 @@
         <button type="button" data-menu-toggle="1" aria-label="{{ navMenuAria }}" aria-expanded="{{ navMenuExpanded }}" style="display: {{ navMenuBtnDisplay }}; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{ navBorder }}; background: transparent; color: inherit; font: inherit; font-size: 20px; line-height: 1; cursor: pointer">{{ navMenuIcon }}</button>
       </div>
     </div>
-    <div style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
+    <div data-menu-panel="1" style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; max-height: calc(100vh - 100px); max-height: calc(100dvh - 100px); overflow-y: auto; -webkit-overflow-scrolling: touch; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
       <sc-for list="{{ navMenuItems }}" as="mi" hint-placeholder-count="7">
         <a href="{{ mi.href }}" data-menu-close="1" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; color: inherit; font-size: 17px; font-weight: 600">{{ mi.label }}<span style="color: #D4B17A">→</span></a>
       </sc-for>
@@ -338,7 +352,7 @@
   <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; transition: opacity 0.5s; pointer-events: none">
     <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="8">
       <div style="display: flex; flex-direction: column; align-items: flex-end">
-        <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; color: inherit">
+        <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; min-height: 28px; padding: 0 0 0 12px; color: inherit">
           <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: {{ railFg }}; opacity: {{ c.labelOp }}; transition: opacity 0.4s">{{ c.label }}</span>
           <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ c.dot }}; box-shadow: {{ c.glow }}; transition: background 0.4s"></span>
         </a>
@@ -347,11 +361,11 @@
     </sc-for>
   </div>
   <!-- Fast CTA nederst til høyre, utenfor skinnen så den ikke kolliderer med siste kapitteletikett -->
-  <a href="#start" style="position: fixed; right: 24px; bottom: 24px; z-index: 290; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
+  <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
 
   <!-- 0 · DØREN — WIDE, kveld -->
   <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: {{ h_door }}; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0)"><image-slot id="shot-front-door" shape="rect" src="/assets/story/door-evening-v2.jpg" placeholder="Shot 1 · Universell ytterdør — nærbilde, varmt lys innenfra"></image-slot></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.1) 0%, transparent 40%, rgba(15,24,48,{{ doorDim }}) 100%)"></div>
       <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
@@ -373,7 +387,7 @@
 
   <!-- 1 · HJEMMET — HUMAN MEDIUM, paret til høyre, tekst i negativt rom -->
   <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: {{ h_home }}; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
         <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-sofa-window-v2.jpg" placeholder="Shot 2 · Paret i stua"></image-slot>
       </div>
@@ -396,7 +410,7 @@
 
   <!-- 2 · KAOS → KLARHET — GRAPHIC, blandede objekttyper -->
   <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,0.7) 0%, transparent 62%), repeating-linear-gradient(118deg, rgba(19,30,58,0.02) 0px, rgba(19,30,58,0.02) 1px, transparent 1px, transparent 3px), #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; align-items: center; justify-content: center">
       <div style="position: relative; width: min(960px, 94vw); height: min(560px, 64vh)">
         <sc-for list="{{ chaosItems }}" as="it" hint-placeholder-count="9">
           <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">
@@ -429,8 +443,8 @@
 
   <!-- 3 · ERA SER — WIDE arkitektonisk, dagslys, hus til høyre -->
   <section id="hva" ref="{{ refSee }}" data-theme="dark" style="position: relative; height: {{ h_see }}; background: #0F1830" data-screen-label="03 ERA ser" aria-label="ERA forstår hva som betyr noe">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <img src="/assets/story/roof-detail-v2.jpg" alt="Byggets fasade, tak og vinduer — sett fra balkongen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
+      <img loading="lazy" decoding="async" src="/assets/story/roof-detail-v2.jpg" alt="Byggets fasade, tak og vinduer — sett fra balkongen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.5) 34%, rgba(15,24,48,0.08) 60%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.35) 0%, transparent 30%, transparent 70%, rgba(15,24,48,0.45) 100%)"></div>
       <sc-for list="{{ seeSpots }}" as="s" hint-placeholder-count="3">
@@ -484,9 +498,9 @@
 
   <!-- 4 · PRIORITER — samme hus, annet perspektiv (skumring, fasadedetalj) -->
   <section id="prioriter" ref="{{ refPrio }}" data-theme="light" style="position: relative; height: {{ h_prio }}; background: #FFFDF9" data-screen-label="04 Prioriter" aria-label="Prioritering">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
-      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.18)">
-        <img src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade og balkonger — der prioriteringen begynner" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; transform: translateZ(0); backface-visibility: hidden">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
+      <div class="era-side" style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.18)">
+        <img loading="lazy" decoding="async" src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade og balkonger — der prioriteringen begynner" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; transform: translateZ(0); backface-visibility: hidden">
       </div>
       <div style="position: relative; min-height: 52vh; display: flex; flex-direction: column; justify-content: center">
         <div style="position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; gap: 12px; opacity: {{ prioCloudOp }}; transform: {{ prioCloudTy }}">
@@ -519,7 +533,7 @@
 
   <!-- 5 · MALE STUA — ekte stue, veggen skifter farge, plan til høyre -->
   <section id="boligeier" ref="{{ refMagic }}" data-theme="dark" style="position: relative; height: {{ h_magic }}; background: #131E3A" data-screen-label="05 Fra behov til plan" aria-label="Fra behov til plan">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
         <image-slot id="shot-livingroom-wall" shape="rect" src="/assets/story/livingroom-wall-v2.jpg" placeholder="Shot 5 · Stua med veggen som skal males"></image-slot>
         <!-- Veggmaske: farge legges på den ekte veggen -->
@@ -536,8 +550,8 @@
         </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6)">ERA forstår rommet.</div>
       </div>
-      <div style="position: absolute; left: {{ planLeft }}; right: {{ planRight }}; top: {{ planTop }}; bottom: {{ planBottom }}; transform: {{ planBaseTy }} {{ magicPlanTy }}; width: {{ planWidth }}; padding: {{ planPad }}; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
-        <div style="height: 88px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img src="/assets/story/livingroom-wall-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%"></div>
+      <div class="era-short-hide" style="position: absolute; left: {{ planLeft }}; right: {{ planRight }}; top: {{ planTop }}; bottom: {{ planBottom }}; transform: {{ planBaseTy }} {{ magicPlanTy }}; width: {{ planWidth }}; padding: {{ planPad }}; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
+        <div style="height: 88px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/livingroom-wall-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Plan · Male stua</div>
           <div style="font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14</div>
@@ -558,7 +572,7 @@
           <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
             <a href="#partnere" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
-            <a href="#handverker" style="display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Få hjelp</a>
+            <a href="#handverker" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Få hjelp</a>
           </div>
         </div>
       </div>
@@ -567,14 +581,14 @@
 
   <!-- 5b · HELE BOLIGEN — samme intelligens, hele boligen: markører på ett bilde, så ut til fasade og tak -->
   <section id="hele-boligen" ref="{{ refWhole }}" data-theme="dark" style="position: relative; height: {{ h_whole }}; background: #0F1830" data-screen-label="05b Hele boligen" aria-label="ERA følger behovene rundt hele boligen">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ wholeImgScale }}); backface-visibility: hidden">
         <div class="era-ph"></div>
         <image-slot class="era-ph-slot" id="whole-home-overview" shape="rect" src="{{ wholeHomeSrc }}" placeholder="Bilde · Hele boligen"></image-slot>
         <div class="era-ph-label" style="opacity: {{ wholeHomeDevOp }}">BILDE · HELE BOLIGEN</div>
       </div>
       <div style="position: absolute; inset: 0; opacity: {{ wholeOutOp }}; transform: translateZ(0); backface-visibility: hidden">
-        <img src="/assets/story/roof-detail-v2.jpg" alt="Byggets fasade og tak" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%">
+        <img loading="lazy" decoding="async" src="/assets/story/roof-detail-v2.jpg" alt="Byggets fasade og tak" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%">
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.72) 0%, rgba(15,24,48,0.35) 32%, rgba(15,24,48,0.05) 55%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ wholeDim }})"></div>
@@ -608,9 +622,9 @@
 
   <!-- 5c · FLERE TYPER BEHOV — tre crossfades: bad (eksisterende), elektro (placeholder), fasade/tak (eksisterende) -->
   <section id="behov" ref="{{ refNeeds }}" data-theme="dark" style="position: relative; height: {{ h_needs }}; background: #0F1830" data-screen-label="05c Flere behov" aria-label="Forskjellige behov, forskjellig kompetanse">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ needsAOp }}">
-        <img src="/assets/story/bathroom-old-v2.jpg" alt="Et eldre bad med slitte fuger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%">
+        <img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v2.jpg" alt="Et eldre bad med slitte fuger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%">
       </div>
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ needsBOp }}">
         <div class="era-ph"></div>
@@ -618,7 +632,7 @@
         <div class="era-ph-label" style="opacity: {{ electricianDevOp }}">BILDE · ELEKTRIKER</div>
       </div>
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ needsCOp }}">
-        <img src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%">
+        <img loading="lazy" decoding="async" src="/assets/story/block-facade-v2.jpg" alt="Byggets fasade" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%">
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.25) 0%, transparent 35%, transparent 60%, rgba(15,24,48,0.6) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ needsDim }})"></div>
@@ -641,7 +655,7 @@
 
   <!-- 6 · VALGET -->
   <section id="gjennomfor" ref="{{ refChoice }}" data-theme="light" style="position: relative; height: {{ h_choice }}; background: #FFFDF9" data-screen-label="06 Valget" aria-label="Gjør det selv eller få hjelp">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
       <div style="text-align: center; opacity: {{ choiceHeadOp }}; transform: {{ choiceHeadTy }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 16px">Ett behov. Riktig vei.</div>
         <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); font-weight: 800; letter-spacing: -0.03em">Hvordan bør dette løses?</h2>
@@ -672,8 +686,8 @@
 
   <!-- 7 · GJØRE DET SELV — DETAIL: materialer i kontekst -->
   <section id="partnere" ref="{{ refCommerce }}" data-theme="light" style="position: relative; height: {{ h_commerce }}; background: #F1EDE4" data-screen-label="07 Gjøre det selv" aria-label="Produkter og faghandel">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
-      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
+      <div class="era-side" style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; opacity: {{ comShotAOp }}">
           <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 9 · Materialer i stua"></image-slot>
         </div>
@@ -718,7 +732,7 @@
             <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">For faghandel</div>
             <p style="margin: 8px 0 0; font-size: 16px; line-height: 1.45; color: #131E3A">ERA beregner behovet før kunden går i butikken. Riktig produkt, riktig mengde, riktig tid, i én bestilling. Også for et helt borettslag. Uavhengig av kjede.</p>
             <a href="#start" data-partner="1" style="display: inline-flex; align-items: center; margin-top: 14px; height: 40px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Bli partner →</a>
-            <a href="/faghandel" style="display: inline-block; margin: 14px 0 0 16px; font-size: 14px; font-weight: 600" style-hover="color: #131E3A">Mer for faghandel →</a>
+            <a href="/faghandel" class="era-link" style="margin: 0 0 0 16px; font-size: 14px; font-weight: 600" style-hover="color: #131E3A">Mer for faghandel →</a>
           </div>
         </div>
       </div>
@@ -727,7 +741,7 @@
 
   <!-- 8 · FÅ HJELP — HUMAN: håndverker i arbeid, brief i negativt rom -->
   <section id="handverker" ref="{{ refPro }}" data-theme="dark" style="position: relative; height: {{ h_pro }}; background: #131E3A" data-screen-label="08 Håndverker" aria-label="For håndverkeren">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
         <image-slot id="shot-contractor" shape="rect" src="/assets/story/painter-v2.jpg" placeholder="Shot 11 · Maleren i stua"></image-slot>
       </div>
@@ -753,7 +767,7 @@
           <h2 style="margin: 12px 0 0; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; opacity: {{ proHeadOp }}; transform: {{ proHeadTy }}; text-wrap: balance">{{ proHead }}</h2>
           <p style="margin: 12px 0 0; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.35; font-weight: 500; color: rgba(247,244,238,0.75); opacity: {{ proSubOp }}">{{ proSub }}</p>
         </div>
-        <div style="width: min(360px, 100%); padding: 20px 22px; border-radius: 20px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); transform: {{ proCardTy }}; opacity: {{ proCardOp }}">
+        <div class="era-short-hide" style="width: min(360px, 100%); padding: 20px 22px; border-radius: 20px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); transform: {{ proCardTy }}; opacity: {{ proCardOp }}">
           <div style="display: flex; justify-content: space-between; align-items: center">
             <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ jobTitle }}</div>
             <span style="padding: 5px 10px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 11px; font-weight: 700; white-space: nowrap">{{ jobTrade }}</span>
@@ -766,7 +780,7 @@
           </div>
           <div style="display: flex; gap: 10px; margin-top: 14px; opacity: {{ proBtnOp }}">
             <div style="flex: 1; padding: 11px; border-radius: 10px; background: #131E3A; color: #F7F4EE; text-align: center; font-weight: 700; font-size: 13.5px">Gi tilbud</div>
-            <a href="/handverker" data-pro="1" style="pointer-events: auto; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
+            <a href="/handverker" data-pro="1" style="pointer-events: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">For håndverkere →</a>
           </div>
         </div>
         <div style="position: relative; width: min(440px, 100%); min-height: {{ proTailH }}; text-align: {{ proTextAlign }}">
@@ -796,7 +810,7 @@
 
   <!-- 9 · TILLIT — HUMAN close, rolig -->
   <section ref="{{ refTrust }}" data-theme="dark" style="position: relative; height: {{ h_trust }}; background: #0F1830" data-screen-label="09 Tillit" aria-label="Tillit">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ trustImgOp }}">
         <image-slot id="shot-couple-relief" shape="rect" src="/assets/story/couple-sofa-v2.jpg" placeholder="Shot 3 · Paret — rolig lettelse"></image-slot>
       </div>
@@ -818,8 +832,8 @@
         </div>
         <div style="height: 40vh"></div>
       </div></div>
-      <div style="position: absolute; left: clamp(24px, 7vw, 120px); top: 100px; width: min(280px, 84vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); opacity: {{ bathCardOp }}; transform: {{ bathCardTy }}">
-        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img src="/assets/story/bathroom-old-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
+      <div class="era-short-hide" style="position: absolute; left: clamp(24px, 7vw, 120px); top: 100px; width: min(280px, 84vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); opacity: {{ bathCardOp }}; transform: {{ bathCardTy }}">
+        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
         <div style="display: flex; justify-content: space-between; align-items: center">
           <div>
             <div style="font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">Bad</div>
@@ -850,8 +864,8 @@
 
   <!-- 10 · HUKOMMELSE — samme hus, fire årstider -->
   <section id="husk" ref="{{ refMemory }}" data-theme="light" style="position: relative; height: {{ h_memory }}; background: #FFFDF9" data-screen-label="10 Hukommelse" aria-label="Boligen får en hukommelse">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
-      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
+      <div class="era-side" style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <sc-for list="{{ seasons }}" as="se" hint-placeholder-count="4">
           <div style="position: absolute; inset: 0; opacity: {{ se.op }}; filter: {{ se.filter }}">
             <image-slot id="{{ se.id }}" shape="rect" src="{{ se.src }}" placeholder="{{ se.placeholder }}"></image-slot>
@@ -897,14 +911,14 @@
 
   <!-- 11 · HELE BYGGET — WIDE strukturell: boligblokk til høyre, tekst venstre -->
   <section id="styret" ref="{{ refBoard }}" data-theme="dark" style="position: relative; height: {{ h_board }}; background: #131E3A" data-screen-label="11 Styret" aria-label="For styret">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ boardBgOp }}">
         <image-slot id="shot-building" shape="rect" src="/assets/story/block-bikes-v2.jpg" placeholder="Shot 16 · Borettslaget"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.9) 0%, rgba(19,30,58,0.7) 36%, rgba(19,30,58,0.2) 62%, rgba(19,30,58,0.1) 100%)"></div>
       <div style="position: absolute; right: {{ boardGridRight }}; left: {{ boardGridLeft }}; top: {{ boardGridTop }}; transform: {{ boardGridTy }}; width: {{ boardGridW }}; height: {{ boardGridH }}; display: flex; align-items: center; justify-content: center; pointer-events: none">
         <div style="position: absolute; width: 200px; height: 200px; border-radius: 22px; overflow: hidden; transform: scale({{ boardOneScale }}); opacity: {{ boardOneOp }}; box-shadow: 0 30px 80px rgba(0,0,0,0.5)">
-          <img src="/assets/story/bathroom-v2.jpg" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%">
+          <img loading="lazy" decoding="async" src="/assets/story/bathroom-v2.jpg" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%">
         </div>
         <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px; opacity: {{ boardGridOp }}">
           <sc-for list="{{ boardUnits }}" as="u" hint-placeholder-count="18">
@@ -919,21 +933,21 @@
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret</div>
         <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Boligen din stopper ikke ved ytterdøren.</h2>
         <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
+        <div class="era-short-hide" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
           <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
             <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
           </sc-for>
         </div>
         <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}; display: {{ partnerNoteDisplay }}"><b style="color: #FFFFFF">Styret skifter. Planen består.</b> Fasaden males i 2027, 1,2 millioner fordelt på 24 seksjoner, med tilbud fra håndverker som allerede har fått jobben beskrevet. Vedtaket tar ti minutter, ikke to møter.</p>
         <a href="#start" data-board="1" style="display: inline-flex; align-items: center; margin-top: 22px; height: 44px; padding: 0 20px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 14.5px; font-weight: 700; opacity: {{ boardCtaOp }}" style-hover="background: #E2C48F; color: #131E3A">Se planen for eiendommen →</a>
-        <a href="/styret" style="display: inline-block; margin: 22px 0 0 18px; font-size: 14.5px; font-weight: 600; color: rgba(247,244,238,0.8); opacity: {{ boardCtaOp }}" style-hover="color: #FFFFFF">Mer for styret →</a>
+        <a href="/styret" class="era-link" style="margin: 22px 0 0 18px; font-size: 14.5px; font-weight: 600; color: rgba(247,244,238,0.8); opacity: {{ boardCtaOp }}" style-hover="color: #FFFFFF">Mer for styret →</a>
       </div>
     </div>
   </section>
 
   <!-- 12 · BOLIGEIER × STYRET — interiør vs. bygg -->
   <section ref="{{ refSplit }}" data-theme="split" style="position: relative; height: {{ h_split }}; background: #F7F4EE" data-screen-label="12 Boligeier og styret" aria-label="ERA kobler dem sammen">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: {{ splitCols }}; grid-template-rows: {{ splitRows }}">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: {{ splitCols }}; grid-template-rows: {{ splitRows }}">
       <div style="position: relative; overflow: hidden; background: #F7F4EE; transform: {{ splitLT }}">
         <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="/assets/story/couple-window-v2.jpg" placeholder="Shot 4 · Paret på balkongen — min bolig"></image-slot></div>
         <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.15), rgba(15,24,48,0.7))"></div>
@@ -968,7 +982,7 @@
         </div>
         <div style="max-width: 640px; opacity: {{ splitAgentOp }}; transform: {{ splitAgentTy }}">
           <div style="font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; letter-spacing: -0.02em; color: #131E3A">Et agentisk system for hele boligens livsløp.</div>
-          <a href="#om-era" style="display: inline-block; margin-top: 10px; pointer-events: auto; font-size: 15px; font-weight: 600; color: #B0935F" style-hover="color: #131E3A">Hvorfor ERA finnes →</a>
+          <a href="#om-era" class="era-link" style="pointer-events: auto; font-size: 15px; font-weight: 600; color: #B0935F" style-hover="color: #131E3A">Hvorfor ERA finnes →</a>
         </div>
       </div>
     </div>
@@ -981,7 +995,7 @@
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">Personvern</div>
         <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance">Din bolig.<br>Dine data.</h2>
         <p style="margin: 18px 0 0; max-width: 420px; font-size: 17px; line-height: 1.5; color: #5E6472">ERA lagrer boligens historie for deg — ikke om deg. Du eier den, og du bestemmer hvem som ser den.</p>
-        <a href="/personvern" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>
+        <a href="/personvern" class="era-link" style="gap: 6px; margin-top: 10px; font-size: 15px; font-weight: 600">Les om personvern →</a>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px">
         <div style="padding: 26px 24px; border-radius: 20px; background: #131E3A; color: #F7F4EE">
@@ -1018,7 +1032,7 @@
 
   <!-- 15 · BRO — fra ett bygg til alle boliger -->
   <section id="om-era" ref="{{ refAbout }}" data-theme="{{ abTheme }}" style="position: relative; height: {{ h_about }}; background: #0F1830" data-screen-label="15 Om ERA" aria-label="Om ERA">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate; background: {{ abBg }}">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: {{ abBg }}">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ abHeroScale }}); backface-visibility: hidden; opacity: {{ abHeroOp }}">
         <image-slot id="about-hero" shape="rect" src="/assets/story/neighbourhood-dusk-v2.jpg" placeholder="Om ERA · Hero — nordisk boligområde med blokker, rekkehus og eneboliger, blå time"></image-slot>
       </div>
@@ -1043,7 +1057,7 @@
 
   <!-- 16 · DEN FRAGMENTERTE BOLIGEN -->
   <section ref="{{ refFrag }}" data-theme="dark" style="position: relative; height: {{ h_frag }}; background: #0F1830" data-screen-label="16 Fragmentert" aria-label="Boligen har blitt digital. Livsløpet har ikke.">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ frImgScale }}); backface-visibility: hidden">
         <image-slot id="fragmented-home" shape="rect" src="/assets/story/couple-sofa-window-v2.jpg" placeholder="Fragmentert boligdata — vanlig norsk stue med papirer, telefon og laptop"></image-slot>
       </div>
@@ -1075,7 +1089,7 @@
 
   <!-- 17 · DEN AGENTISKE SLØYFEN -->
   <section ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Den agentiske sløyfen">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ lpImgScale }}); backface-visibility: hidden; opacity: 0.55">
         <image-slot id="loop-home" shape="rect" src="/assets/story/couple-window-v2.jpg" placeholder="Sløyfen — samme bolig, sett utenfra"></image-slot>
       </div>
@@ -1110,7 +1124,7 @@
 
   <!-- 18 · FRA ET BILDE — se, forstå, prioritere. Samme bilde hele veien. -->
   <section ref="{{ refPhoto }}" data-theme="dark" style="position: relative; height: {{ h_photo }}; background: #0F1830" data-screen-label="18 Fra et bilde" aria-label="Fra et bilde til ferdig dokumentert arbeid">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ phImgScale }}); backface-visibility: hidden">
         <image-slot id="photo-observation" shape="rect" src="/assets/story/bathroom-old-v2.jpg" placeholder="Observasjon — boligeier fotograferer slitt fuge med telefonen, dagslys"></image-slot>
       </div>
@@ -1159,7 +1173,7 @@
 
   <!-- 19 · VEIEN — historien deler seg, scrollen fortsetter -->
   <section ref="{{ refPath }}" data-theme="light" style="position: relative; height: {{ h_path }}; background: #FFFDF9" data-screen-label="19 Veien" aria-label="Hvordan vil du løse det?">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
       <div style="text-align: center; opacity: {{ paHeadOp }}; transform: {{ paHeadTy }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B0935F; margin-bottom: 16px">04 · Handle</div>
         <h2 style="margin: 0; font-size: clamp(30px, 3.8vw, 52px); font-weight: 800; letter-spacing: -0.03em">Hvordan vil du løse det?</h2>
@@ -1182,8 +1196,8 @@
 
   <!-- 20 · GJØR DET SELV — behov → produkter → betaling → levering -->
   <section ref="{{ refDiy }}" data-theme="light" style="position: relative; height: {{ h_diy }}; background: #F1EDE4" data-screen-label="20 Gjør det selv" aria-label="Fra behov til riktige produkter">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
-      <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
+      <div class="era-side" style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; transform: scale({{ dyImgScale }})">
           <image-slot id="diy-commerce" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Gjør det selv — boligeier forbereder et lite prosjekt, materialer og verktøy"></image-slot>
         </div>
@@ -1221,7 +1235,7 @@
 
   <!-- 21 · FÅ HJELP — behov → arbeidsgrunnlag → fagperson → utført -->
   <section ref="{{ refTrade }}" data-theme="dark" style="position: relative; height: {{ h_trade }}; background: #131E3A" data-screen-label="21 Få hjelp" aria-label="Eller få riktig hjelp">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ trImgScale }}); backface-visibility: hidden">
         <image-slot id="tradesperson" shape="rect" src="/assets/story/painter-v2.jpg" placeholder="Håndverker — ekte fagperson i samme type bolig, håndverk og utførelse"></image-slot>
       </div>
@@ -1252,7 +1266,7 @@
 
   <!-- 22 · LUKK SLØYFEN — jobben er ferdig, boligen er oppdatert -->
   <section ref="{{ refClose }}" data-theme="dark" style="position: relative; height: {{ h_close }}; background: #0F1830" data-screen-label="22 Lukk sløyfen" aria-label="Jobben er ferdig. Boligen er oppdatert.">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ clImgScale }}); backface-visibility: hidden">
         <image-slot id="completed-work" shape="rect" src="/assets/story/couple-sofa-v2.jpg" placeholder="Ferdig arbeid — samme bolig etterpå, boligeier lever normalt i rommet"></image-slot>
       </div>
@@ -1283,7 +1297,7 @@
 
   <!-- 23 · HVOR REISEN STARTER — i dag vs. med ERA -->
   <section ref="{{ refShift }}" data-theme="light" style="position: relative; height: {{ h_shift }}; background: #F7F4EE" data-screen-label="23 Reisen starter" aria-label="ERA endrer hvor kundereisen starter">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: {{ shPad }}">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: {{ shPad }}">
       <div style="max-width: 1080px; width: 100%; margin: 0 auto">
         <div style="opacity: {{ shHeadOp }}; transform: {{ shHeadTy }}">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B0935F">Hvor kundereisen starter</div>
@@ -1319,18 +1333,16 @@
 
   <!-- 24 · TEKNOLOGI — dypere navy, bygget forblir helten -->
   <section ref="{{ refTech }}" data-theme="dark" style="position: relative; height: {{ h_tech }}; background: #0B1226" data-screen-label="24 Teknologi" aria-label="Teknologi bygget for boligen">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate; background: #0B1226">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: #0B1226">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ teImgScale }}); backface-visibility: hidden; opacity: {{ teImgOp }}; filter: grayscale(0.85) brightness(0.55) contrast(1.05)">
         <image-slot id="property-intelligence" shape="rect" src="/assets/story/roof-detail-v2.jpg" placeholder="Digital boligmodell — ekte bygningssilhuett, arkitektonisk foto"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(11,18,38,0.97) 0%, rgba(11,18,38,0.85) 38%, rgba(11,18,38,0.3) 65%, rgba(11,18,38,0.35) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(11,18,38,0.5) 0%, transparent 35%, transparent 70%, rgba(11,18,38,0.85) 100%)"></div>
       <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; display: {{ teMarksDisplay }}">
-        <svg sc-camel-view-box="0 0 100 100" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%">
-          <sc-for list="{{ teMarks }}" as="tl" hint-placeholder-count="5">
-            <line x1="{{ tl.x }}" y1="{{ tl.y }}" x2="{{ tl.x2 }}" y2="{{ tl.y2 }}" stroke="#D4B17A" stroke-width="0.12" vector-effect="non-scaling-stroke" style="opacity: {{ tl.op }}"></line>
-          </sc-for>
-        </svg>
+        <sc-for list="{{ teMarks }}" as="tl" hint-placeholder-count="5">
+          <div style="position: absolute; left: {{ tl.xp }}; top: {{ tl.yp }}; width: {{ tl.lineW }}; height: 1px; background: #D4B17A; transform-origin: 0 50%; transform: rotate({{ tl.lineRot }}); opacity: {{ tl.op }}"></div>
+        </sc-for>
         <sc-for list="{{ teMarks }}" as="tm" hint-placeholder-count="5">
           <div style="position: absolute; left: {{ tm.xp }}; top: {{ tm.yp }}; transform: translate(-50%, -50%); opacity: {{ tm.op }}">
             <span style="display: block; width: 10px; height: 10px; border-radius: 50%; background: #D4B17A; box-shadow: 0 0 0 {{ tm.ring }} rgba(212,177,122,0.18)"></span>
@@ -1374,7 +1386,7 @@
 
   <!-- 25 · FRA ASSISTENT TIL AGENT -->
   <section ref="{{ refAgent }}" data-theme="dark" style="position: relative; height: {{ h_agent }}; background: #06090F" data-screen-label="25 Agent" aria-label="Fra assistent til agent">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate; background: #06090F">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: #06090F">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ agImgScale }}); backface-visibility: hidden; opacity: {{ agImgOp }}">
         <sc-for list="{{ agSeasons }}" as="as" hint-placeholder-count="4">
           <div style="position: absolute; inset: 0; opacity: {{ as.op }}">
@@ -1413,18 +1425,16 @@
 
   <!-- 26 · ÉN BOLIG, FLERE AKTØRER -->
   <section ref="{{ refEco }}" data-theme="dark" style="position: relative; height: {{ h_eco }}; background: #131E3A" data-screen-label="26 Aktørene" aria-label="Én bolig. Flere aktører. Samme kontekst.">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ ecImgScale }}); backface-visibility: hidden">
         <image-slot id="ecosystem" shape="rect" src="/assets/story/block-bikes-v2.jpg" placeholder="Økosystem — boligblokk og nabolag, mennesker diskret til stede"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.92) 0%, rgba(19,30,58,0.72) 36%, rgba(19,30,58,0.2) 62%, rgba(19,30,58,0.15) 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(19,30,58,0.3), transparent 30%, transparent 70%, rgba(19,30,58,0.6))"></div>
       <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; display: {{ ecMarksDisplay }}">
-        <svg sc-camel-view-box="0 0 100 100" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%">
-          <sc-for list="{{ ecActors }}" as="el" hint-placeholder-count="5">
-            <line x1="{{ el.x }}" y1="{{ el.y }}" x2="{{ ecCx }}" y2="{{ ecCy }}" stroke="#D4B17A" stroke-width="0.12" vector-effect="non-scaling-stroke" stroke-dasharray="{{ el.dash }}" style="opacity: {{ el.lineOp }}"></line>
-          </sc-for>
-        </svg>
+        <sc-for list="{{ ecActors }}" as="el" hint-placeholder-count="5">
+          <div style="position: absolute; left: {{ el.xp }}; top: {{ el.yp }}; width: {{ el.lineW }}; height: 1px; background: #D4B17A; transform-origin: 0 50%; transform: rotate({{ el.lineRot }}); opacity: {{ el.lineOp }}"></div>
+        </sc-for>
         <div style="position: absolute; left: {{ ecCxp }}; top: {{ ecCyp }}; transform: translate(-50%, -50%) scale({{ ecCoreScale }}); opacity: {{ ecCoreOp }}; width: 84px; height: 84px; border-radius: 50%; border: 1.5px solid rgba(212,177,122,0.9); background: rgba(15,24,48,0.6); backdrop-filter: blur(6px); box-shadow: 0 0 0 14px rgba(212,177,122,0.1); display: flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #F7F4EE">Boligen</div>
         <sc-for list="{{ ecActors }}" as="ea" hint-placeholder-count="5">
           <div style="position: absolute; left: {{ ea.xp }}; top: {{ ea.yp }}; transform: translate(-50%, -50%) scale({{ ea.scale }}); opacity: {{ ea.op }}; display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.35); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #131E3A; white-space: nowrap"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D4B17A"></span>{{ ea.label }}</div>
@@ -1436,7 +1446,7 @@
         <p style="margin: 14px 0 0; max-width: 440px; font-size: clamp(15px, 1.6vw, 19px); line-height: 1.45; color: rgba(247,244,238,0.8); opacity: {{ ecCopyOp }}">ERA skal koble aktørene rundt boligen sammen rundt den samme eiendommen og det samme behovet.</p>
         <div style="display: flex; flex-direction: column; gap: {{ ecBenefitGap }}; margin-top: 20px">
           <sc-for list="{{ ecBenefits }}" as="eb" hint-placeholder-count="4">
-            <div style="display: flex; align-items: baseline; gap: 12px; opacity: {{ eb.op }}; transform: {{ eb.ty }}; font-size: {{ ecBenefitSize }}"><span style="flex: none; min-width: 152px; font-weight: 800; color: #FFFFFF">{{ eb.who }}</span><span style="color: #D4B17A">→</span><span style="color: rgba(247,244,238,0.85); font-weight: 500">{{ eb.what }}</span></div>
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; opacity: {{ eb.op }}; transform: {{ eb.ty }}; font-size: {{ ecBenefitSize }}"><span style="flex: none; min-width: {{ ecWhoW }}; font-weight: 800; color: #FFFFFF">{{ eb.who }}</span><span style="color: #D4B17A">→</span><span style="color: rgba(247,244,238,0.85); font-weight: 500">{{ eb.what }}</span></div>
           </sc-for>
         </div>
       </div>
@@ -1445,7 +1455,7 @@
 
   <!-- 27 · VISJON — bare typografi -->
   <section ref="{{ refVision }}" data-theme="dark" style="position: relative; height: {{ h_vision }}; background: #0F1830" data-screen-label="27 Visjon" aria-label="Visjon">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0 clamp(24px, 7vw, 120px); background: #0F1830">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0 clamp(24px, 7vw, 120px); background: #0F1830">
       <div style="position: relative; width: 100%; max-width: 980px; min-height: 60vh; pointer-events: none">
         <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); opacity: {{ viAOp }}">
           <h2 style="margin: 0; font-size: clamp(34px, 5.6vw, 84px); line-height: 1.02; font-weight: 800; letter-spacing: -0.04em; color: rgba(247,244,238,{{ vi0Fg }}); text-wrap: balance; opacity: {{ vi0Op }}; transform: {{ vi0Ty }}">Boligen skal ikke bare være digital.</h2>
@@ -1498,9 +1508,9 @@
 
   <!-- 14 · ERA — WIDE finale, hus til høyre, tekst venstre -->
   <section ref="{{ refFinale }}" data-theme="dark" style="position: relative; height: {{ h_finale }}; background: #0F1830" data-screen-label="29 Finale" aria-label="Finn min bolig">
-    <div id="start" aria-hidden="true" style="position: absolute; left: 0; top: calc(100% - 100vh); width: 1px; height: 1px"></div>
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <img data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v2.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
+    <div id="start" class="era-start" aria-hidden="true" style="position: absolute; left: 0; width: 1px; height: 1px"></div>
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
+      <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v2.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.65) 38%, rgba(15,24,48,0.2) 65%, rgba(15,24,48,0.1) 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.4) 0%, transparent 30%, transparent 65%, rgba(15,24,48,0.55) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 760px; pointer-events: none; opacity: {{ omFinOp }}">
@@ -1542,7 +1552,7 @@
             </div>
           </div>
           <div style="font-size: 13.5px; color: rgba(247,244,238,0.7); display: {{ leadErrorDisplay }}">{{ leadError }}</div>
-          <a href="{{ finLinkHref }}" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>
+          <a href="{{ finLinkHref }}" class="era-link" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>
         </div>
       </div>
     </div>
@@ -1555,8 +1565,8 @@
         <div style="margin-top: 6px; font-size: 15px; color: #4E5464">Boligeierskap uten gjetting</div>
       </div>
       <div style="display: flex; gap: 48px; font-size: 15px; color: #4E5464">
-        <div style="display: flex; flex-direction: column; gap: 10px"><a href="#hva">Hva ERA gjør</a><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a></div>
-        <div style="display: flex; flex-direction: column; gap: 10px"><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="#om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="#start">Finn min bolig</a></div>
+        <div style="display: flex; flex-direction: column; gap: 0"><a href="#hva">Hva ERA gjør</a><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a></div>
+        <div style="display: flex; flex-direction: column; gap: 0"><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="#om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="#start">Finn min bolig</a></div>
       </div>
     </div>
     <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -1584,13 +1594,18 @@ class Component extends DCLogic {
     // Who is reading? The last story link decides the finale's wording and next step.
     this._onClick = (e) => {
       const t = e.target && e.target.closest && e.target.closest('[data-menu-toggle], [data-menu-close]');
-      if (t) { this.setState({ menuOpen: t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false }); if (t.hasAttribute('data-menu-toggle')) return; }
+      if (t) { this.setMenu(t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
       if (!a) return;
       const aud = this.audienceFor(a.getAttribute('href'), a);
       if (aud) this.setState({ audience: aud });
     };
     document.addEventListener('click', this._onClick);
+    // Menu: Escape closes; a tap outside the pill/panel closes; body scroll locks while open.
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.menuOpen) { this.setMenu(false); const b = document.querySelector('[data-menu-toggle]'); if (b) b.focus(); } };
+    document.addEventListener('keydown', this._onKey);
+    this._onOutside = (e) => { if (this.state.menuOpen && !(e.target.closest && e.target.closest('nav'))) this.setMenu(false); };
+    document.addEventListener('pointerdown', this._onOutside);
     const initial = this.audienceFor(location.hash, null);
     if (initial && initial !== 'owner') this.setState({ audience: initial });
     // Deep links (/#styret from the audience pages): re-apply the jump once the chapters exist.
@@ -1633,6 +1648,13 @@ class Component extends DCLogic {
     document.removeEventListener('visibilitychange', this._onVis);
     document.removeEventListener('click', this._onClick);
     document.removeEventListener('submit', this._onSubmit);
+    document.removeEventListener('keydown', this._onKey);
+    document.removeEventListener('pointerdown', this._onOutside);
+    document.body.style.overflowY = '';
+  }
+  setMenu(open) {
+    this.setState({ menuOpen: open });
+    document.body.style.overflowY = open ? 'hidden' : '';
   }
   audienceFor(href, a) {
     if (a && a.hasAttribute('data-board')) return 'board';
@@ -1749,6 +1771,7 @@ class Component extends DCLogic {
   update() {
     const vh = window.innerHeight;
     const reduced = this._mq.matches;
+    document.documentElement.classList.toggle('era-short', vh < 520);
     const nowT = performance.now(), scrollNow = window.scrollY;
     if (this._lastScrollT == null) { this._lastScrollT = nowT; this._lastScrollY = scrollNow; this._scrollSpeed = 0; }
     else {
@@ -1791,7 +1814,7 @@ class Component extends DCLogic {
       const r = el.getBoundingClientRect();
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) chapter = chapMap[k];
     });
-    this.setState({ prog, vis, theme, activeNav, chapter, navShown: (prog.door || 0) > 0.55, mobile: window.innerWidth < 820, reduced });
+    this.setState({ prog, vis, theme, activeNav, chapter, navShown: (prog.door || 0) > 0.55, mobile: window.innerWidth < 900, reduced });
   }
 
   ref(k) {
@@ -1850,13 +1873,15 @@ class Component extends DCLogic {
       { img: RS.chaosPhone || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
       { kind: 'PDF · DUPLIKAT', title: 'Tilstandsrapport 2021', meta: 'kopi (2)', x: -80, y: 20, rot: 9, w: '190px', scale: 0.85, keep: 0, shadow: shadowSm, z: 0 }
     ];
+    const chaosVw = window.innerWidth, chaosScale = chaosVw < 600 ? 0.72 : chaosVw < 900 ? 0.86 : 1, chaosK = Math.min(1, chaosVw / 1100), chaosKy = Math.min(1, window.innerHeight / 820);
+    const chaosMaxX = (it) => Math.max(0, chaosVw / 2 - 10 - (parseInt(it.w, 10) * it.scale * chaosScale) / 2);
     const chaosItems = chaosData.map((it, i) => {
       const appear = seg(c, 0.06 + i * 0.035, 0.6, 0.05);
       const k = 1 - gather;
       const noise = it.keep ? 1 : 1 - ramp(c, 0.4, 0.5);
       return {
         kind: it.kind, title: it.title, meta: it.meta, hasImg: !!it.img, imgUrl: it.img ? `url("${it.img}")` : 'none', imgH: it.imgH || '0', imgPos: it.imgPos || '50% 50%',
-        tx: `${it.x * k}px`, ty: `${it.y * k}px`, rot: `${it.rot * k}deg`, scale: it.scale, w: it.w, op: appear * (1 - gather) * noise,
+        tx: `${Math.max(-chaosMaxX(it), Math.min(chaosMaxX(it), it.x * chaosK * k))}px`, ty: `${it.y * chaosKy * k}px`, rot: `${it.rot * k}deg`, scale: it.scale * chaosScale, w: it.w, op: appear * (1 - gather) * noise,
         bg: it.bg || white, shadow: it.shadow, z: it.z, pad: '0', textPad: '14px 16px', radius: it.img ? '14px' : '12px',
         font: it.font || 'inherit', titleSize: it.titleSize || '14px', titleWeight: it.titleWeight || 600,
         fg: '#131E3A', kindColor: '#B0935F', metaColor: '#8A8579'
@@ -2059,7 +2084,8 @@ class Component extends DCLogic {
     const frK = mobile ? 0.32 : 1;
     const frItems = frDefs.map(([kind, label, x, y, rot, keepMobile], i) => {
       const appear = seg(fr, 0.04 + i * 0.03, 0.62, 0.05), k = 1 - frGather;
-      return { kind, label, tx: `${x * frK * k}px`, ty: `${y * frK * k}px`, rot: `${rot * k}deg`, scale: 0.7 + 0.3 * k, op: appear * (1 - frGather), display: mobile && !keepMobile ? 'none' : 'flex', kindDisplay: mobile ? 'none' : 'inline' };
+      const frHalf = (label.length * 7.6 + (mobile ? 30 : kind.length * 6.4 + 46)) / 2, frMax = Math.max(0, window.innerWidth / 2 - 12 - frHalf);
+      return { kind, label, tx: `${Math.max(-frMax, Math.min(frMax, x * frK * k))}px`, ty: `${y * frK * k}px`, rot: `${rot * k}deg`, scale: 0.7 + 0.3 * k, op: appear * (1 - frGather), display: mobile && !keepMobile ? 'none' : 'flex', kindDisplay: mobile ? 'none' : 'inline' };
     });
     const frCore = seg(fr, 0.74, 1, 0.06);
     const frVals = {
@@ -2140,7 +2166,8 @@ class Component extends DCLogic {
     const clK = mobile ? 0.55 : 1;
     const clItems = clDefs.map(([label, x, y], i) => {
       const appear = seg(cl, 0.16 + i * 0.02, 0.86, 0.05), k = 1 - clMove, landed = clMove > 0.9;
-      return { label, tx: `${x * clK * k}px`, ty: `${(y * k + (1 - k) * 210) * clK}px`, scale: 1 - clMove * 0.25, op: appear * (1 - ramp(cl, 0.7, 0.86)),
+      const clHalf = label.length * 7.4 / 2 + 12, clMax = Math.max(0, (mobile ? window.innerWidth * 0.36 : Math.min(340, window.innerWidth * 0.26) / 2 + 40) - clHalf);
+      return { label, tx: `${Math.max(-clMax, Math.min(clMax, x * clK * k))}px`, ty: `${(y * k + (1 - k) * 210) * clK}px`, scale: 1 - clMove * 0.25, op: appear * (1 - ramp(cl, 0.7, 0.86)),
         bg: landed ? gold : 'rgba(255,253,248,0.96)', fg: navy, border: landed ? gold : 'rgba(255,253,248,0.96)' };
     });
     const clNode = seg(cl, 0.3, 1, 0.06);
@@ -2179,7 +2206,8 @@ class Component extends DCLogic {
     });
     const teMarks = teCapDefs.map(([, , x, y, label], i) => {
       const at = teCapStart + i * teCapStep + (i >= 3 ? 0.07 : 0), op = seg(te, at + 0.02, 1, 0.04), dx = i % 2 ? 6 : -6, dy2 = i < 2 ? -7 : 7;
-      return { x, y, x2: x + dx, y2: y + dy2, xp: `${x}%`, yp: `${y}%`, x2p: `${x + dx}%`, y2p: `${y + dy2}%`, label, op, ring: `${Math.round(op * 10)}px` };
+      const lx = dx / 100 * window.innerWidth, ly = dy2 / 100 * window.innerHeight;
+      return { x, y, x2: x + dx, y2: y + dy2, xp: `${x}%`, yp: `${y}%`, x2p: `${x + dx}%`, y2p: `${y + dy2}%`, lineW: `${Math.round(Math.hypot(lx, ly))}px`, lineRot: `${(Math.atan2(ly, lx) * 180 / Math.PI).toFixed(1)}deg`, label, op, ring: `${Math.round(op * 10)}px` };
     });
     const teRing = ease(ramp(te, 0.92, 1)), teRingC = 2 * Math.PI * 92;
     const teVals = {
@@ -2216,11 +2244,11 @@ class Component extends DCLogic {
     // 26 · Aktørene: fem markører rundt samme bolig.
     const ec = g('eco'), ecCx = 70, ecCy = 52;
     const ecActorDefs = [['Boligeier', 58, 26], ['Styret', 86, 30], ['Håndverker', 90, 68], ['Faghandel', 60, 78], ['Produsent', 50, 50]];
-    const ecActors = ecActorDefs.map(([label, x, y], i) => { const op = seg(ec, 0.12 + i * 0.06, 1, 0.05); return { label, x, y, xp: `${x}%`, yp: `${y}%`, op, scale: 0.9 + op * 0.1, lineOp: op * 0.8, dash: '0' }; });
+    const ecActors = ecActorDefs.map(([label, x, y], i) => { const op = seg(ec, 0.12 + i * 0.06, 1, 0.05), lx = (ecCx - x) / 100 * window.innerWidth, ly = (ecCy - y) / 100 * window.innerHeight; return { label, x, y, xp: `${x}%`, yp: `${y}%`, op, scale: 0.9 + op * 0.1, lineOp: op * 0.8, lineW: `${Math.round(Math.hypot(lx, ly))}px`, lineRot: `${(Math.atan2(ly, lx) * 180 / Math.PI).toFixed(1)}deg` }; });
     const ecBenefits = [['Boligeier', 'enklere beslutninger'], ['Styret', 'bedre oversikt og planlegging'], ['Håndverker', 'tydeligere arbeidsgrunnlag'], ['Faghandel og produsent', 'relevant behov på riktig tidspunkt']].map(([who, what], i) => { const op = seg(ec, 0.6 + i * 0.07, 1, 0.05); return { who, what, op, ty: ty(op, 8) }; });
     const ecVals = {
       ecImgScale: 1 + ec * 0.035, ecActors, ecCx, ecCy, ecCxp: `${ecCx}%`, ecCyp: `${ecCy}%`, ecCoreOp: seg(ec, 0.06, 1, 0.06), ecCoreScale: 0.6 + seg(ec, 0.06, 1, 0.06) * 0.4, ecMarksDisplay: mobile ? 'none' : 'block',
-      ecHeadOp: seg(ec, 0.08, 1, 0.08), ecHeadTy: ty(seg(ec, 0.08, 1, 0.08)), ecCopyOp: seg(ec, 0.44, 1, 0.06), ecBenefits, ecBenefitGap: mobile ? '6px' : '10px', ecBenefitSize: mobile ? '14px' : 'clamp(14.5px, 1.4vw, 17px)',
+      ecHeadOp: seg(ec, 0.08, 1, 0.08), ecHeadTy: ty(seg(ec, 0.08, 1, 0.08)), ecCopyOp: seg(ec, 0.44, 1, 0.06), ecBenefits, ecWhoW: mobile ? '0' : '152px', ecBenefitGap: mobile ? '6px' : '10px', ecBenefitSize: mobile ? '14px' : 'clamp(14.5px, 1.4vw, 17px)',
       ecTextTop: mobile ? 'auto' : '50%', ecTextBottom: mobile ? '8vh' : 'auto', ecTextTy: mobile ? 'none' : 'translateY(-50%)'
     };
 

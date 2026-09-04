@@ -14,6 +14,26 @@ Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/
 
 Visuell QA av kapittelet: `node qa-om.mjs http://localhost:8787/` (skjermbilder til `qa/om-era/`).
 
+## Responsivitet og nettleser-QA
+
+Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index.html` (`<style>` i `<helmet>`) og `pages.css`:
+
+- Sticky-scener bruker `100dvh` med `100vh` som fallback (`.era-vh`), så de fyller det synlige vinduet på iOS. `#start`-ankeret følger samme høyde.
+- `viewport-fit=cover`; meny og fast CTA respekterer `safe-area-inset-*`.
+- Historien bytter til mobilkomposisjon under 900 px (samme bruddpunkt som undersidenes hamburger). Under 520 px høyde (liggende mobil) slår `html.era-short` inn: sidebilder og flytende kort skjules, typografien strammes.
+- Alle lenker og knapper har minst 44 px trykkflate (`.era-link`, bunntekst, skinne, pill). Inputtekst er 16 px.
+- Mobilmenyen låser bakgrunnsscroll, lukkes med Escape og ved trykk utenfor.
+- Flytende brikker (kaos, fragmentert bolig, lukk sløyfen) klemmes inn i viewporten.
+
+QA-skript (krever `node_modules` med Playwright og motorene `npx playwright install chromium firefox webkit`):
+
+- `node qa-responsive.mjs http://localhost:8787 chromium,firefox,webkit all` — alle ruter × 14 viewporter × motor. Rapporterer horisontal overflyt, elementer utenfor viewporten, avkuttet/overlappende tekst, trykkflater under 44 px, inputtekst under 16 px og konsollfeil. Rapport i `qa/responsive/`.
+- `node qa-tablet.mjs` — ett skjermbilde per scene på iPad portrett/landskap, liggende mobil og 768 px.
+- `node qa-a11y.mjs` — tab-rekkefølge, fokusmarkering, menylås/Escape/klikk utenfor, skjemavalidering.
+- `node qa-om.mjs` — Om ERA-kapittelet scene for scene.
+
+Ikke testet automatisk (krever ekte enheter): Safari på iPhone/iPad med dynamisk adressefelt, Samsung Internet, autofyll. WebKit-motoren i Playwright dekker Safari-rendering.
+
 ## Mottak av leads
 
 Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (`api/lead.js`) lagrer ett JSON-dokument per lead i det private Vercel Blob-lageret `era-leads` under `leads/<målgruppe>/<dato>/`. Ingenting sendes videre.

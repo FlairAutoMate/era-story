@@ -386,11 +386,12 @@
   </section>
 
   <!-- 2 · KAOS → KLARHET — GRAPHIC, blandede objekttyper -->
-  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
+  <section id="forsta" ref="{{ refChaos }}" data-theme="light" style="position: relative; height: {{ h_chaos }}; background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,0.7) 0%, transparent 62%), repeating-linear-gradient(118deg, rgba(19,30,58,0.02) 0px, rgba(19,30,58,0.02) 1px, transparent 1px, transparent 3px), #F7F4EE" data-screen-label="02 Informasjonskaos" aria-label="Informasjonen finnes overalt">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center">
       <div style="position: relative; width: min(960px, 94vw); height: min(560px, 64vh)">
         <sc-for list="{{ chaosItems }}" as="it" hint-placeholder-count="9">
           <div style="position: absolute; left: 50%; top: 50%; width: {{ it.w }}; transform: translate(-50%, -50%) translate({{ it.tx }}, {{ it.ty }}) rotate({{ it.rot }}) scale({{ it.scale }}); opacity: {{ it.op }}; padding: {{ it.pad }}; border-radius: {{ it.radius }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}; border: 1px solid rgba(19,30,58,0.06); overflow: hidden; font-family: {{ it.font }}; z-index: {{ it.z }}">
+            <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.07; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
             <sc-if value="{{ it.hasImg }}" hint-placeholder-val="{{ false }}">
               <div style="width: 100%; height: {{ it.imgH }}; background-image: {{ it.imgUrl }}; background-size: cover; background-position: {{ it.imgPos }}"></div>
             </sc-if>
@@ -1175,7 +1176,7 @@ class Component extends DCLogic {
     const home2 = seg(h, 0.52, 0.68);
 
     const c = g('chaos'), gRaw = ramp(c, 0.5, 0.78), gather = gRaw < 1 ? 1 - Math.pow(1 - gRaw, 3) * (1 + 0.35 * gRaw) : 1;
-    const white = '#FFFFFF', shadowLg = '0 30px 70px rgba(19,30,58,0.16)', shadowMd = '0 18px 50px rgba(19,30,58,0.1)', shadowSm = '0 10px 26px rgba(19,30,58,0.08)';
+    const white = '#FFFFFF', shadowLg = '0 2px 4px rgba(19,30,58,0.14), 0 30px 70px rgba(19,30,58,0.18)', shadowMd = '0 2px 3px rgba(19,30,58,0.12), 0 18px 50px rgba(19,30,58,0.12)', shadowSm = '0 1px 2px rgba(19,30,58,0.1), 0 10px 26px rgba(19,30,58,0.09)';
     const chaosData = [
       { kind: 'PDF · 48 SIDER', title: 'Tilstandsrapport 2021', meta: 'Takstmann Berg AS', x: -340, y: -160, rot: -5, w: '210px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
       { kind: 'E-POST', title: 'Re: Tilbud rørlegger', meta: 'mars 2023 · 2 vedlegg', x: 300, y: -200, rot: 4, w: '200px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },

@@ -10,7 +10,7 @@ AUDIENCES = {
         key="owner", nav="Boligeier", title="ERA for boligeiere",
         label="For boligeier", hook="Boligeierskap uten gjetting.",
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
-        image="/assets/story/house-day-sun.jpg", image_pos="62% 48%",
+        image="/assets/story/couple-sofa-window-v2.jpg", image_pos="45% 50%",
         steps=[
             ("Boligen kartlegges", "Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted. Det du har liggende i skuffen, på e-post og på telefonen."),
             ("ERA forstår", "Hver del av boligen får tilstand, alder og neste forventede behov. Ikke bare det du ser, men det bak veggen også."),
@@ -37,7 +37,7 @@ AUDIENCES = {
         key="board", nav="Styret", title="ERA for borettslag og sameier",
         label="For styret", hook="Styret skifter. Planen består.",
         lede="Tilstand, dokumentasjon og vedlikeholdsplan for hele eiendommen, klar til hvert styremøte og hver generalforsamling. Planen følger bygget, ikke menneskene.",
-        image="/assets/story/block-exterior.jpg", image_pos="50% 50%",
+        image="/assets/story/block-bikes-v2.jpg", image_pos="50% 50%",
         steps=[
             ("Bygget kartlegges", "Tilstand, FDV-dokumentasjon og historikk for fasade, tak, fellesareal og tekniske anlegg. Det forrige styre visste, og det ingen skrev ned."),
             ("ERA prioriterer", "Hva som haster, hva som kan vente, og hva det koster. Fordelt på seksjonene, år for år."),
@@ -64,7 +64,7 @@ AUDIENCES = {
         key="pro", nav="Håndverker", title="ERA for håndverkere",
         label="For håndverkere", hook="Jobben kommer ferdig forstått.",
         lede="Omfang, bilder, mål og ønsket tid ligger klart. Materialene også. Du gir tilbud, ikke befaring.",
-        image="/assets/story/contractor.jpg", image_pos="50% 30%",
+        image="/assets/story/painter-v2.jpg", image_pos="30% 50%",
         steps=[
             ("Boligeieren melder et behov", "«Vi vil male stua.» Eller styret vedtar en fasade. Behovet oppstår i en plan, ikke i en telefon på kvelden."),
             ("ERA beskriver jobben", "Flate, tilstand, forarbeid, ønsket tid og bilder. Materialene er beregnet, og kunden har allerede et estimat."),
@@ -91,7 +91,7 @@ AUDIENCES = {
         key="partner", nav="Faghandel", title="ERA for faghandel",
         label="For faghandel", hook="Behovet er beregnet før kunden går i butikken.",
         lede="Riktig produkt, riktig mengde, riktig tid, i én bestilling. Fra boliger og fra hele borettslag. Uavhengig av kjede.",
-        image="/assets/story/illus-materials.svg", image_pos="50% 50%",
+        image="/assets/story/materials-floor-v2.jpg", image_pos="50% 50%",
         steps=[
             ("ERA beregner behovet", "Flate, tilstand og forarbeid gir mengder: 2 × 10 liter maling, 1 × 5 kg sparkel, ruller, pensler, maskering."),
             ("Kunden velger levering", "Kjøres hjem, hentes i butikk, eller håndverkeren henter. Kunden bestemmer, dere leverer."),
@@ -229,7 +229,7 @@ def page(slug, a):
       <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/#data">Personvern</a><a href="/">Historien</a></div>
     </div>
   </div>
-  <div class="wrap legal"><span>© 2026 ERA AS</span><span>Oslo</span></div>
+  <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
 </footer>
 <script src="/pages.js" defer></script>
 </body>

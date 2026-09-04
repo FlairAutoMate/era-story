@@ -1,11 +1,7 @@
 # Foto
 
-Stockfoto fra Pexels (Pexels-lisens, fri bruk):
+Alle kontekst- og personbilder i historien og på undersidene kommer fra Claude Design-eksporten «ERA Scroll Story» (2026-09-04), levert av ERA. De er oppskalert til 2400 px bredde for fullskjermsbruk.
 
-- assets/story/couple-kitchen-table.jpg — https://www.pexels.com/photo/5481528/
-- assets/story/couple-kitchen-cooking.jpg — https://www.pexels.com/photo/5495059/
+- door-evening-v2, bathroom-v2, roof-detail-v2, couple-sofa-window-v2, livingroom-wall-v2, materials-floor-v2, painter-v2, couple-sofa-v2, block-bikes-v2, neighbourhood-dusk-v2, couple-window-v2, block-facade-v2, block-season-0..3-v2, chaos-phone-v2
 
-Øvrige bilder følger Claude Design-eksporten.
-- assets/story/block-exterior.jpg — https://www.pexels.com/photo/27075286/
-- assets/story/facade-wood.jpg — https://www.pexels.com/photo/18513513/
-- assets/story/livingroom-wall.jpg — https://www.pexels.com/photo/8143672/
+Tidligere Pexels-bilder er fjernet fra prosjektet.

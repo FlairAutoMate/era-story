@@ -7,12 +7,12 @@
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script>window.__resources = {
-  "slotHouseDay": "/assets/story/house-day.jpg",
-  "chaosBath": "/assets/story/chaos-bath.png",
-  "slotFoliage": "/assets/story/house-day.jpg",
-  "slotContractor": "/assets/story/contractor.jpg",
-  "chaosPhone": "/assets/story/chaos-phone.png",
-  "slotBath": "/assets/story/couple-kitchen-cooking.jpg",
+  "slotHouseDay": "/assets/story/block-season-0-v2.jpg",
+  "chaosBath": "/assets/story/bathroom-v2.jpg",
+  "slotFoliage": "/assets/story/couple-window-v2.jpg",
+  "slotContractor": "/assets/story/painter-v2.jpg",
+  "chaosPhone": "/assets/story/chaos-phone-v2.png",
+  "slotBath": "/assets/story/couple-sofa-v2.jpg",
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
   "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
 };</script>
@@ -309,7 +309,7 @@
   <!-- 0 · DØREN — WIDE, kveld -->
   <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: 200vh; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <img src="/assets/story/house-evening.jpg" alt="Hjemmet om kvelden — varmt lys i stua" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ doorPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <img src="/assets/story/door-evening-v2.jpg" alt="Ytterdøren om kvelden — varmt lys innenfra" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ doorPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.1) 0%, transparent 40%, rgba(15,24,48,{{ doorDim }}) 100%)"></div>
       <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
       <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 50%; background: #0B1226; transform: translateX({{ doorRightTx }}); box-shadow: -30px 0 80px rgba(0,0,0,0.5)"></div>
@@ -331,7 +331,7 @@
   <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: 260vh; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; overflow: hidden; transform: translateZ(0); backface-visibility: hidden">
-        <div style="position: absolute; top: 0; bottom: 0; left: {{ homeSlotLeft }}; width: {{ homeSlotWidth }}"><image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-kitchen-table.jpg" placeholder="Shot 2 · Paret i stua/kjøkkenet — plasser dem 60–70 % mot høyre, mykt dagslys"></image-slot></div>
+        <div style="position: absolute; top: 0; bottom: 0; left: {{ homeSlotLeft }}; width: {{ homeSlotWidth }}"><image-slot id="shot-couple-wide" shape="rect" src="/assets/story/bathroom-v2.jpg" placeholder="Shot 2 · Paret i stua/kjøkkenet — plasser dem 60–70 % mot høyre, mykt dagslys"></image-slot></div>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.78) 0%, rgba(15,24,48,0.4) 42%, rgba(15,24,48,0.05) 68%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ homeDim }})"></div>
@@ -382,7 +382,7 @@
   <!-- 3 · ERA SER — WIDE arkitektonisk, dagslys, hus til høyre -->
   <section id="hva" ref="{{ refSee }}" data-theme="dark" style="position: relative; height: 340vh; background: #0F1830" data-screen-label="03 ERA ser" aria-label="ERA forstår hva som betyr noe">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <img src="/assets/story/house-day-sun.jpg" alt="Boligen i dagslys — fasade, tak og vinduer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
+      <img src="/assets/story/roof-detail-v2.jpg" alt="Takkant og fasade — slitasje som må vurderes" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.5) 34%, rgba(15,24,48,0.08) 60%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.35) 0%, transparent 30%, transparent 70%, rgba(15,24,48,0.45) 100%)"></div>
       <sc-for list="{{ seeSpots }}" as="s" hint-placeholder-count="3">
@@ -410,7 +410,7 @@
   <section id="prioriter" ref="{{ refPrio }}" data-theme="light" style="position: relative; height: 280vh; background: #FFFDF9" data-screen-label="04 Prioriter" aria-label="Prioritering">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
       <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.18)">
-        <img src="/assets/story/facade-detail.jpg" alt="Fasade, terrasse og tak i skumring" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 42%; transform: translateZ(0); backface-visibility: hidden">
+        <img src="/assets/story/couple-sofa-window-v2.jpg" alt="Paret i stua om kvelden" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%; transform: translateZ(0); backface-visibility: hidden">
       </div>
       <div style="position: relative; min-height: 52vh; display: flex; flex-direction: column; justify-content: center">
         <div style="position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; gap: 12px; opacity: {{ prioCloudOp }}; transform: {{ prioCloudTy }}">
@@ -445,7 +445,7 @@
   <section id="boligeier" ref="{{ refMagic }}" data-theme="dark" style="position: relative; height: 360vh; background: #131E3A" data-screen-label="05 Fra behov til plan" aria-label="Fra behov til plan">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: {{ wallBoxInset }}; overflow: hidden; transform: translateZ(0); backface-visibility: hidden">
-        <div style="position: absolute; left: {{ wallSlotLeft }}; top: {{ wallSlotTop }}; width: {{ wallSlotWidth }}; height: {{ wallSlotHeight }}"><image-slot id="shot-livingroom-wall" shape="rect" src="/assets/story/livingroom-wall.jpg" placeholder="Shot 5 · Stua, vegg-fokusert vinkel — den valgte veggen bør fylle venstre 35–55 % av bildet"></image-slot></div>
+        <div style="position: absolute; left: {{ wallSlotLeft }}; top: {{ wallSlotTop }}; width: {{ wallSlotWidth }}; height: {{ wallSlotHeight }}"><image-slot id="shot-livingroom-wall" shape="rect" src="/assets/story/livingroom-wall-v2.jpg" placeholder="Shot 5 · Stua, vegg-fokusert vinkel — den valgte veggen bør fylle venstre 35–55 % av bildet"></image-slot></div>
         <!-- Veggmaske: farge legges på den ekte veggen -->
         <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; background: {{ wallPaint }}; mix-blend-mode: multiply; opacity: {{ wallPaintOp }}; border-radius: 2px"></div>
         <div style="position: absolute; left: {{ wallLeft }}; top: {{ wallTop }}; width: {{ wallWidth }}; height: {{ wallHeight }}; pointer-events: none; border: 1.5px solid rgba(212,177,122,{{ wallOutlineOp }}); box-shadow: inset 0 0 0 1px rgba(212,177,122,{{ wallOutlineInnerOp }}), 0 0 0 9999px rgba(15,24,48,{{ wallVignette }})"></div>
@@ -513,10 +513,10 @@
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
       <div style="position: relative; height: {{ comImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <div style="position: absolute; inset: 0; opacity: {{ comShotAOp }}">
-          <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/illus-paint-detail.svg" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
+          <image-slot id="shot-paint-detail" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 9 · Nærbilde: rulle mot nymalt vegg, kant og tekstur"></image-slot>
         </div>
         <div style="position: absolute; inset: 0; opacity: {{ comShotBOp }}">
-          <image-slot id="shot-materials" shape="rect" src="/assets/story/illus-materials.svg" placeholder="Shot 10 · Maling, sparkel, rulle, pensler og maskering på tildekket gulv"></image-slot>
+          <image-slot id="shot-materials" shape="rect" src="/assets/story/materials-floor-v2.jpg" placeholder="Shot 10 · Maling, sparkel, rulle, pensler og maskering på tildekket gulv"></image-slot>
         </div>
         <sc-for list="{{ productTags }}" as="pt" hint-placeholder-count="5">
           <div style="position: absolute; left: {{ pt.x }}; top: {{ pt.y }}; pointer-events: none; transform: translate(-50%, -50%); opacity: {{ pt.op }}; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.25); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D4B17A"></span>{{ pt.label }}</div>
@@ -553,11 +553,13 @@
 
   <!-- 8 · FÅ HJELP — HUMAN: håndverker i arbeid, brief i negativt rom -->
   <section id="handverker" ref="{{ refPro }}" data-theme="dark" style="position: relative; height: 260vh; background: #131E3A" data-screen-label="08 Håndverker" aria-label="For håndverkeren">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: center; gap: 48px; padding: 0 clamp(24px, 7vw, 120px)">
-      <div style="position: relative; height: {{ proImgH }}; width: min(100%, calc({{ proImgH }} * 0.66)); justify-self: center; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.45); transform: translateZ(0); backface-visibility: hidden">
-        <div style="position: absolute; inset: 0"><image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Håndverker i arbeid, hender/verktøy synlig, plassert til venstre"></image-slot></div>
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
+        <image-slot id="shot-contractor" shape="rect" src="{{ resContractor }}" placeholder="Shot 11 · Maleren i stua"></image-slot>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, transparent 40%, rgba(19,30,58,0.65) 68%, rgba(19,30,58,0.94) 100%)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(19,30,58,0.2), transparent 30%, transparent 60%, rgba(19,30,58,0.7))"></div>
+      <div style="position: absolute; right: clamp(24px, 7vw, 120px); left: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-end; gap: 28px; pointer-events: none">
         <div style="max-width: 440px; text-align: right">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">B · Få hjelp</div>
           <h2 style="margin: 16px 0 0; font-size: clamp(30px, 3.8vw, 50px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; opacity: {{ proHeadOp }}; transform: {{ proHeadTy }}; text-wrap: balance">Jobben kommer ferdig forstått.</h2>
@@ -613,7 +615,7 @@
       <div style="position: relative; height: {{ sideImgH }}; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(19,30,58,0.16)">
         <sc-for list="{{ seasons }}" as="se" hint-placeholder-count="4">
           <div style="position: absolute; inset: 0; opacity: {{ se.op }}; filter: {{ se.filter }}">
-            <image-slot id="{{ se.id }}" shape="rect" src="{{ resHouseDay }}" placeholder="{{ se.placeholder }}"></image-slot>
+            <image-slot id="{{ se.id }}" shape="rect" src="{{ se.src }}" placeholder="{{ se.placeholder }}"></image-slot>
           </div>
         </sc-for>
         <div style="position: absolute; left: 20px; top: 20px; pointer-events: none; padding: 9px 14px; border-radius: 999px; background: rgba(255,253,248,0.92); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center">{{ memYear }}<span style="font-family: 'Schibsted Grotesk', sans-serif; font-size: 12px; color: #8A8579">{{ memSeason }}</span></div>
@@ -649,12 +651,12 @@
   <section id="styret" ref="{{ refBoard }}" data-theme="dark" style="position: relative; height: 340vh; background: #131E3A" data-screen-label="11 Styret" aria-label="For styret">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ boardBgOp }}">
-        <image-slot id="shot-building" shape="rect" src="/assets/story/block-exterior.jpg" placeholder="Shot 16 · Norsk boligblokk / borettslag — balkonger, fasade, fellesareal — bygget til høyre"></image-slot>
+        <image-slot id="shot-building" shape="rect" src="/assets/story/block-bikes-v2.jpg" placeholder="Shot 16 · Norsk boligblokk / borettslag — balkonger, fasade, fellesareal — bygget til høyre"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 38%, rgba(19,30,58,0.3) 65%, rgba(19,30,58,0.15) 100%)"></div>
       <div style="position: absolute; right: clamp(24px, 6vw, 100px); top: 50%; transform: translateY(-50%); width: min(520px, 46vw); height: min(340px, 40vh); display: flex; align-items: center; justify-content: center; pointer-events: none">
         <div style="position: absolute; width: 200px; height: 200px; border-radius: 22px; overflow: hidden; transform: scale({{ boardOneScale }}); opacity: {{ boardOneOp }}; box-shadow: 0 30px 80px rgba(0,0,0,0.5)">
-          <img src="/assets/story/house-day.jpg" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%">
+          <img src="/assets/story/bathroom-v2.jpg" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%">
         </div>
         <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px; opacity: {{ boardGridOp }}">
           <sc-for list="{{ boardUnits }}" as="u" hint-placeholder-count="18">
@@ -685,7 +687,7 @@
   <section ref="{{ refSplit }}" data-theme="split" style="position: relative; height: 280vh; background: #F7F4EE" data-screen-label="12 Boligeier og styret" aria-label="ERA kobler dem sammen">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr">
       <div style="position: relative; overflow: hidden; background: #F7F4EE; transform: translateX({{ splitLTx }})">
-        <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="/assets/story/house-day.jpg" placeholder="Shot 4 · Stua, ren vid — intim skala"></image-slot></div>
+        <div style="position: absolute; inset: 0"><image-slot id="shot-livingroom-wide" shape="rect" src="/assets/story/couple-window-v2.jpg" placeholder="Shot 4 · Stua, ren vid — intim skala"></image-slot></div>
         <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.15), rgba(15,24,48,0.7))"></div>
         <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Boligeier</div>
@@ -693,7 +695,7 @@
         </div>
       </div>
       <div style="position: relative; overflow: hidden; background: #131E3A; transform: translateX({{ splitRTx }})">
-        <div style="position: absolute; inset: 0"><image-slot id="shot-building-facade" shape="rect" src="/assets/story/facade-wood.jpg" placeholder="Shot 17 · Byggets fasade — systemisk skala"></image-slot></div>
+        <div style="position: absolute; inset: 0"><image-slot id="shot-building-facade" shape="rect" src="/assets/story/block-facade-v2.jpg" placeholder="Shot 17 · Byggets fasade — systemisk skala"></image-slot></div>
         <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(15,24,48,0.25), rgba(15,24,48,0.8))"></div>
         <div style="position: absolute; left: 0; right: 0; bottom: 12vh; pointer-events: none; text-align: center; padding: 0 24px">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A">Styret</div>
@@ -771,7 +773,7 @@
   <!-- 14 · ERA — WIDE finale, hus til høyre, tekst venstre -->
   <section id="start" ref="{{ refFinale }}" data-theme="dark" style="position: relative; height: 240vh; background: #0F1830" data-screen-label="14 Finale" aria-label="Finn min bolig">
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
-      <img src="/assets/story/house-day-sun.jpg" alt="Hjemmet vi har fulgt — i kveldssol" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <img src="/assets/story/neighbourhood-dusk-v2.jpg" alt="Nabolaget i skumring — hjemmene som lyser" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.88) 0%, rgba(15,24,48,0.6) 38%, rgba(15,24,48,0.15) 65%, transparent 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.5) 0%, transparent 35%, transparent 70%, rgba(15,24,48,0.5) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 560px">
@@ -807,7 +809,7 @@
         <div style="display: flex; flex-direction: column; gap: 10px"><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="#data">Personvern</a><a href="#start">Finn min bolig</a></div>
       </div>
     </div>
-    <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA AS</span><span>Oslo</span></div>
+    <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
   </footer>
 </div>
 
@@ -950,8 +952,8 @@ class Component extends DCLogic {
     // Desktop: the wall mask follows the editor props. Mobile (< 900 px): a dedicated
     // composition — the photo is framed so the panelled wall fills the top 52 % of the
     // viewport, and the text and plan card live in the navy band below it, off the wall.
-    const wallX = mobile ? 8 : (this.props.wallX ?? 4), wallW = mobile ? 52 : (this.props.wallW ?? 46), wallY = mobile ? 16 : (this.props.wallY ?? 6), wallH = mobile ? 74 : (this.props.wallH ?? 66);
-    const wallMobile = mobile ? { wallBoxInset: '0 0 50% 0', wallSlotLeft: '-14%', wallSlotTop: '6.4%', wallSlotWidth: '201%', wallSlotHeight: '119.4%', magicTextTop: 'auto', magicTextBottom: '30%', magicTextTf: 'none', magicPlanTop: 'auto', magicPlanBottom: '16px', magicPlanTf: 'translateY(0)' }
+    const wallX = mobile ? 8 : (this.props.wallX ?? 41), wallW = mobile ? 90 : (this.props.wallW ?? 47), wallY = mobile ? 9 : (this.props.wallY ?? 9), wallH = mobile ? 62 : (this.props.wallH ?? 62);
+    const wallMobile = mobile ? { wallBoxInset: '0 0 50% 0', wallSlotLeft: '-71%', wallSlotTop: '0', wallSlotWidth: '193%', wallSlotHeight: '100%', magicTextTop: 'auto', magicTextBottom: '30%', magicTextTf: 'none', magicPlanTop: 'auto', magicPlanBottom: '16px', magicPlanTf: 'translateY(0)' }
       : { wallBoxInset: '0', wallSlotLeft: '0', wallSlotTop: '0', wallSlotWidth: '100%', wallSlotHeight: '100%', magicTextTop: '50%', magicTextBottom: 'auto', magicTextTf: 'translateY(-50%)', magicPlanTop: '50%', magicPlanBottom: 'auto', magicPlanTf: 'translateY(-50%)' };
     const paintKey = this.props.wallColor ?? '#B9C4B1';
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
@@ -1029,7 +1031,7 @@ class Component extends DCLogic {
     const t = g('trust');
 
     const me = g('memory');
-    const memData = [['2019', 'Vinduer skiftet', 0.08], ['2026', 'ERA kobles til', 0.3], ['2027', 'Fasade vurderes', 0.5], ['2029', 'Mulig takarbeid', 0.68]];
+    const memData = [['2026', 'ERA kobles til', 0.08], ['2028', 'Fasade og balkonger utbedres', 0.3], ['2031', 'Tak og vinduer fornyes', 0.5], ['2036', 'Godt vedlikeholdt — verdien består', 0.68]];
     const memEvents = memData.map(([year, title, at], i) => {
       const reached = me >= at, op = seg(me, at - 0.02, 1, 0.05);
       return { year, title, op: 0.35 + op * 0.65, dot: reached ? (i < 2 ? '#131E3A' : '#B0935F') : '#E3DDD0', glow: reached && me < at + 0.18 ? '0 0 0 6px rgba(176,147,95,0.2)' : 'none', check: i < 2 && reached ? '✓' : '', fg: reached ? '#131E3A' : '#9A968C' };
@@ -1037,15 +1039,15 @@ class Component extends DCLogic {
     let memYear = '2019', memIdx = 0;
     memData.forEach(([y, , at], i) => { if (me >= at) { memYear = y; memIdx = i; } });
     const seasonDefs = [
-      ['shot-home-winter', 'Vinter', 'saturate(0.35) brightness(1.12) contrast(0.95)', 'Shot 15 · Samme hus — vinter, samme kameraposisjon'],
-      ['shot-home-spring', 'Vår', 'saturate(1.1) brightness(1.05) hue-rotate(6deg)', 'Shot 13 · Samme hus — vår'],
-      ['shot-home-summer', 'Sommer', 'none', 'Shot 7 · Samme hus — sommer, dagslys'],
-      ['shot-home-autumn', 'Høst', 'sepia(0.35) saturate(1.25) hue-rotate(-14deg) brightness(0.96)', 'Shot 14 · Samme hus — høst']
+      ['shot-home-2026', '2026', '/assets/story/block-season-0-v2.jpg', 'Bygget — 2026'],
+      ['shot-home-2028', '2028', '/assets/story/block-season-1-v2.jpg', 'Bygget — 2028'],
+      ['shot-home-2031', '2031', '/assets/story/block-season-2-v2.jpg', 'Bygget — 2031'],
+      ['shot-home-2036', '2036', '/assets/story/block-season-3-v2.jpg', 'Bygget — 2036']
     ];
-    const seasons = seasonDefs.map(([id, name, filter, placeholder], i) => ({ id, placeholder, filter, op: i === memIdx ? 1 : 0 }));
+    const seasons = seasonDefs.map(([id, name, src, placeholder], i) => ({ id, src, placeholder, filter: 'none', op: i === memIdx ? 1 : 0 }));
     const memSeason = seasonDefs[memIdx][1];
     const memLineH = `${Math.round(ramp(me, 0.08, 0.68) * 100)}%`;
-    const memDocs = [['Vindusgaranti', 0.1], ['Tilstandsrapport', 0.32], ['Fasadeinspeksjon', 0.52], ['Takplan', 0.7]].map(([label, at]) => { const op = seg(me, at, 1, 0.05); return { label, op, ty: ty(op, 8) }; });
+    const memDocs = [['Tilstandsrapport', 0.1], ['Fasadeprosjekt · FDV', 0.32], ['Takgaranti', 0.52], ['Vedlikeholdsplan', 0.7]].map(([label, at]) => { const op = seg(me, at, 1, 0.05); return { label, op, ty: ty(op, 8) }; });
 
     const b = g('board'), shrink = ease(ramp(b, 0.08, 0.32));
     const tagMap = { 4: 'Fasade 2027', 9: 'FDV', 14: 'Kostnad', 1: 'Tak 2031', 16: 'Prioritet 1' };
@@ -1114,7 +1116,7 @@ class Component extends DCLogic {
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       // mobile: slide the frame so the couple (right side of the photo) stays in view under the portrait crop
-      homeSlotLeft: mobile ? '-160%' : '0', homeSlotWidth: mobile ? '260%' : '100%',
+      homeSlotLeft: '0', homeSlotWidth: '100%',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.45,
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
       home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '12%', home2Align: mobile ? 'left' : 'center',

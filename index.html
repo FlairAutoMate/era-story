@@ -36,8 +36,8 @@
   "t2": "/assets/story/block-season-2-v2.jpg",
   "chaosPhone": "/assets/story/chaos-phone-v2.png",
   "t1": "/assets/story/block-season-1-v2.jpg",
-  "wholeHome": "",
-  "plumber": "",
+  "wholeHome": "/assets/story/whole-home-v2.jpg",
+  "plumber": "/assets/story/plumber-v2.jpg",
   "electrician": "/assets/story/electrician-v2.jpg",
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
   "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
@@ -1916,8 +1916,8 @@ class Component extends DCLogic {
     const wh = g('whole');
     const wholeOut = ease(ramp(wh, 0.78, 0.9));
     const wholeSpotDefs = [
-      ['Maling', '30%', '36%', 0.2, 0], ['Gulv', '44%', '80%', 0.27, 0], ['Kjøkken', '68%', '46%', 0.4, 0], ['Bad', '84%', '28%', 0.47, 0],
-      ['Rør og sanitær', '76%', '72%', 0.6, 0], ['Elektro', '16%', '20%', 0.67, 0], ['Fasade', '58%', '56%', 0.86, 1], ['Tak', '64%', '18%', 0.91, 1]
+      ['Maling', '28%', '40%', 0.2, 0], ['Gulv', '46%', '82%', 0.27, 0], ['Kjøkken', '56%', '46%', 0.4, 0], ['Bad', '79%', '30%', 0.47, 0],
+      ['Rør og sanitær', '91%', '62%', 0.6, 0], ['Elektro', '22%', '24%', 0.67, 0], ['Fasade', '58%', '56%', 0.86, 1], ['Tak', '64%', '18%', 0.91, 1]
     ];
     const wholeSpots = wholeSpotDefs.map(([label, x, y, a, outer]) => { const op = outer ? seg(wh, a, 1, 0.04) : seg(wh, a, 0.8, 0.04); return { label, x, y, op, scale: 0.94 + op * 0.06 }; });
     const whole0Op = seg(wh, 0.03, 0.16, 0.05), whole1Op = seg(wh, 0.2, 0.36, 0.05), whole2Op = seg(wh, 0.92, 1, 0.04);

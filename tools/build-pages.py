@@ -21,13 +21,13 @@ AUDIENCES = {
             ("Vit hva som haster", "Og hva som kan vente. Noen ganger er riktig råd å gjøre ingenting ennå."),
             ("Slutt på gjetting", "Kostnad, tid og forarbeid er regnet ut før du bestemmer deg."),
             ("Alt på ett sted", "Dokumentasjonen følger boligen, også til neste eier."),
-            ("Dine data", "Lagret kryptert i Norge. Du bestemmer hvem som ser dem."),
+            ("Dine data", "Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem."),
         ],
         example=dict(title="Plan · Male stua", meta="Borgveien 14", rows=[("Vegg", "42 m²"), ("Forbehandling", "Lett sparkling"), ("Strøk", "2"), ("Tid", "1–2 dager"), ("Estimert kostnad", "ca. 6 800 kr")], note="Fra «vi vil male stua» til en plan du kan bestille etter. På minutter."),
         faq=[
             ("Må jeg ha tilstandsrapport?", "Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen."),
             ("Er ERA en markedsplass?", "Nei. ERA hjelper deg å ta riktig avgjørelse, også når den er å vente. Vi tjener ikke på at du pusser opp."),
-            ("Hva skjer med dataene mine?", "De lagres kryptert i Norge og deles bare når du velger det: med håndverker, styret eller kjøper."),
+            ("Hva skjer med dataene mine?", "De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper."),
         ],
         form_field="Adressen til boligen", form_cta="Finn min bolig",
         done=("Takk. Vi finner boligen din.", "Du hører fra oss når ERA er klar for adressen."),
@@ -107,7 +107,7 @@ AUDIENCES = {
         example=dict(title="Bestilling · Male stua", meta="Levering: kjøres hjem", rows=[("Maling", "2 × 10 L"), ("Sparkel", "1 × 5 kg"), ("Ruller", "2 stk"), ("Pensler", "3 stk"), ("Maskering", "2 ruller")], note="Mengder beregnet for 42 m², to strøk. Bestillingen er nesten skrevet før kunden har valgt farge."),
         faq=[
             ("Er ERA knyttet til én kjede?", "Nei. ERA kobler behov til partnere uavhengig av kjede. Kunden velger hvor bestillingen går."),
-            ("Hvordan får vi bestillingene?", "Vi tilpasser oss deres bestillingsflyt, fra e-post til integrasjon. Ta kontakt, så viser vi hvordan."),
+            ("Hvordan får vi bestillingene?", "Vi finner en bestillingsflyt som passer dere. Ta kontakt, så viser vi hvordan."),
             ("Hva med borettslag?", "Styrets vedlikeholdsplan gir store, planlagte bestillinger. Fasade, tak og vinduer, år for år."),
         ],
         form_field="Kjede eller butikk", form_cta="Bli partner",
@@ -121,6 +121,45 @@ ORDER = ["boligeier", "styret", "handverker", "faghandel"]
 
 def esc(t):
     return html.escape(t, quote=True)
+
+
+SITE = "https://era-story.vercel.app"
+
+
+def head_meta(path, title, description):
+    """Sharing metadata + cookieless Vercel analytics (enable Web Analytics once in the dashboard)."""
+    return f'''<link rel="canonical" href="{SITE}{path}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ERA">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(description)}">
+<meta property="og:image" content="{SITE}/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="{SITE}{path}">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(description)}">
+<meta name="twitter:image" content="{SITE}/og.jpg">
+<script defer src="/_vercel/insights/script.js"></script>'''
+
+
+MENU = [("/", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/personvern", "Personvern")]
+
+
+def nav_html(current, cta_label, cta_href):
+    cur = ' aria-current="page"'
+    links = "".join(f'<a href="{h}"{cur if h == "/" + current else ""}>{esc(l)}</a>' for h, l in MENU if h != "/personvern")
+    panel = "".join(f'<a href="{h}" data-menu-close="1">{esc(l)}<span>→</span></a>' for h, l in MENU)
+    return f'''<nav class="nav" aria-label="Hovedmeny">
+  <div class="pill">
+    <a class="brand" href="/">era<span>.</span></a>
+    <div class="links">{links}</div>
+    <div class="right"><a class="cta" href="{cta_href}">{cta_label}</a><button type="button" class="menu-btn" data-menu-toggle="1" aria-label="Åpne menyen" aria-expanded="false">☰</button></div>
+  </div>
+  <div class="menu-panel" hidden>{panel}</div>
+</nav>'''
 
 
 def page(slug, a):
@@ -148,17 +187,12 @@ def page(slug, a):
 <meta name="description" content="{esc(a["lede"])}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{head_meta("/" + slug, a["title"] + " — ERA", a["lede"])}
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>
 <body data-audience="{a["key"]}">
-<nav class="nav" aria-label="Hovedmeny">
-  <div class="pill">
-    <a class="brand" href="/">era<span>.</span></a>
-    <div class="links"><a href="/">Historien</a>{nav_links}</div>
-    <a class="cta" href="#skjema">{esc(a["form_cta"])}</a>
-  </div>
-</nav>
+{nav_html(slug, esc(a["form_cta"]), "#skjema")}
 
 <header class="hero">
   <div class="hero-media">{'<img src="' + a["image"] + '" alt="" style="object-position: ' + a["image_pos"] + '">'}</div>
@@ -226,7 +260,72 @@ def page(slug, a):
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/#data">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+    </div>
+  </div>
+  <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
+</footer>
+<script src="/pages.js" defer></script>
+</body>
+</html>
+'''
+
+
+PRIVACY_DESC = "Hva ERA lagrer når du bruker skjemaene på denne siden, hvor det lagres, hvor lenge, og hvordan du får det slettet."
+
+
+def privacy_page():
+    """Honest to what the site actually does today: one form, one private store in the EU, no cookies."""
+    sections = [
+        ("Hva vi samler inn", [
+            "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
+            "Vi samler ikke inn navn, e-post eller telefonnummer gjennom skjemaet i dag, og vi lagrer ikke IP-adressen din.",
+        ]),
+        ("Hvorfor", [
+            "For å ta kontakt om ERA for den adressen, eiendommen eller virksomheten du meldte inn. Ikke til noe annet. Vi selger eller deler ikke opplysningene.",
+        ]),
+        ("Hvor og hvor lenge", [
+            "Opplysningene lagres kryptert hos vår driftsleverandør Vercel, i et privat lager i Frankfurt (EU/EØS). Bare ERA technologies AS har tilgang.",
+            "Vi sletter innsendingen senest tolv måneder etter at den kom inn, eller så snart du ber om det.",
+        ]),
+        ("Informasjonskapsler og analyse", [
+            "Siden setter ingen informasjonskapsler. Vi bruker Vercel Web Analytics, som teller sidevisninger uten cookies og uten å identifisere deg. Derfor trenger vi ikke et samtykkebanner.",
+        ]),
+        ("Dine rettigheter", [
+            "Du kan når som helst be om innsyn i, retting av eller sletting av det du har sendt inn. Send oss en melding via skjemaet på siden med «personvern» først i teksten, så svarer vi. Behandlingsansvarlig er ERA technologies AS, Oslo.",
+        ]),
+    ]
+    body = "".join(f'<section class="pv"><h2>{esc(h)}</h2>{"".join(f"<p>{esc(p)}</p>" for p in ps)}</section>' for h, ps in sections)
+    return f'''<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personvern — ERA</title>
+<meta name="description" content="{esc(PRIVACY_DESC)}">
+<meta name="theme-color" content="#0F1830">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{head_meta("/personvern", "Personvern — ERA", PRIVACY_DESC)}
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body class="light">
+{nav_html("personvern", "Til historien", "/")}
+<main class="doc">
+  <div class="wrap narrow">
+    <div class="label">Personvern</div>
+    <h1>Din bolig. Dine data.</h1>
+    <p class="lede dark">ERA lagrer boligens historie for deg, ikke om deg. Her står nøyaktig hva denne nettsiden gjør med det du sender inn.</p>
+    <p class="fine dark">Sist oppdatert 4. september 2026.</p>
+    {body}
+  </div>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
+    <div class="cols">
+      <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -243,3 +342,7 @@ for slug in ORDER:
     with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as f:
         f.write(page(slug, AUDIENCES[slug]))
     print("wrote", slug)
+os.makedirs(os.path.join(ROOT, "personvern"), exist_ok=True)
+with open(os.path.join(ROOT, "personvern", "index.html"), "w", encoding="utf-8") as f:
+    f.write(privacy_page())
+print("wrote personvern")

@@ -7,6 +7,21 @@
 <meta name="description" content="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://era-story.vercel.app/boligeier">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ERA">
+<meta property="og:title" content="ERA for boligeiere — ERA">
+<meta property="og:description" content="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.">
+<meta property="og:image" content="https://era-story.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://era-story.vercel.app/boligeier">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ERA for boligeiere — ERA">
+<meta name="twitter:description" content="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.">
+<meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
+<script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>
@@ -15,8 +30,9 @@
   <div class="pill">
     <a class="brand" href="/">era<span>.</span></a>
     <div class="links"><a href="/">Historien</a><a href="/boligeier" aria-current="page">Boligeier</a><a href="/styret">Styret</a><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a></div>
-    <a class="cta" href="#skjema">Finn min bolig</a>
+    <div class="right"><a class="cta" href="#skjema">Finn min bolig</a><button type="button" class="menu-btn" data-menu-toggle="1" aria-label="Åpne menyen" aria-expanded="false">☰</button></div>
   </div>
+  <div class="menu-panel" hidden><a href="/" data-menu-close="1">Historien<span>→</span></a><a href="/boligeier" data-menu-close="1">Boligeier<span>→</span></a><a href="/styret" data-menu-close="1">Styret<span>→</span></a><a href="/handverker" data-menu-close="1">Håndverker<span>→</span></a><a href="/faghandel" data-menu-close="1">Faghandel<span>→</span></a><a href="/personvern" data-menu-close="1">Personvern<span>→</span></a></div>
 </nav>
 
 <header class="hero">
@@ -40,7 +56,7 @@
     <div class="wrap">
       <div class="label">Det får du</div>
       <h2>Gevinsten</h2>
-      <div class="gains"><div class="gain"><h3>Vit hva som haster</h3><p>Og hva som kan vente. Noen ganger er riktig råd å gjøre ingenting ennå.</p></div><div class="gain"><h3>Slutt på gjetting</h3><p>Kostnad, tid og forarbeid er regnet ut før du bestemmer deg.</p></div><div class="gain"><h3>Alt på ett sted</h3><p>Dokumentasjonen følger boligen, også til neste eier.</p></div><div class="gain"><h3>Dine data</h3><p>Lagret kryptert i Norge. Du bestemmer hvem som ser dem.</p></div></div>
+      <div class="gains"><div class="gain"><h3>Vit hva som haster</h3><p>Og hva som kan vente. Noen ganger er riktig råd å gjøre ingenting ennå.</p></div><div class="gain"><h3>Slutt på gjetting</h3><p>Kostnad, tid og forarbeid er regnet ut før du bestemmer deg.</p></div><div class="gain"><h3>Alt på ett sted</h3><p>Dokumentasjonen følger boligen, også til neste eier.</p></div><div class="gain"><h3>Dine data</h3><p>Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem.</p></div></div>
     </div>
   </section>
 
@@ -58,7 +74,7 @@
     <div class="wrap narrow">
       <div class="label">Spørsmål</div>
       <h2>Det folk lurer på.</h2>
-      <div class="faq"><details><summary>Må jeg ha tilstandsrapport?</summary><p>Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen.</p></details><details><summary>Er ERA en markedsplass?</summary><p>Nei. ERA hjelper deg å ta riktig avgjørelse, også når den er å vente. Vi tjener ikke på at du pusser opp.</p></details><details><summary>Hva skjer med dataene mine?</summary><p>De lagres kryptert i Norge og deles bare når du velger det: med håndverker, styret eller kjøper.</p></details></div>
+      <div class="faq"><details><summary>Må jeg ha tilstandsrapport?</summary><p>Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen.</p></details><details><summary>Er ERA en markedsplass?</summary><p>Nei. ERA hjelper deg å ta riktig avgjørelse, også når den er å vente. Vi tjener ikke på at du pusser opp.</p></details><details><summary>Hva skjer med dataene mine?</summary><p>De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper.</p></details></div>
     </div>
   </section>
 
@@ -85,7 +101,7 @@
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a></div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/#data">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>

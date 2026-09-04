@@ -22,6 +22,46 @@ rep('<a href="#hva">Hva ERA gjør</a><a href="#boligeier">Boligeier</a><a href="
 rep('<a href="#handverker">Håndverker</a><a href="#partnere">Partnere</a><a href="#data">Personvern</a>', '<a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="#data">Personvern</a>')
 rep('<span>© 2026 ERA AS</span>', '<span>© 2026 ERA technologies AS</span>')
 
+# ── head: sharing metadata + cookieless analytics ──
+rep('<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+    '''<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://era-story.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ERA">
+<meta property="og:title" content="ERA — Boligeierskap uten gjetting">
+<meta property="og:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs. For boligeiere, styrer, håndverkere og faghandel.">
+<meta property="og:image" content="https://era-story.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://era-story.vercel.app/">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ERA — Boligeierskap uten gjetting">
+<meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
+<meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
+<script defer src="/_vercel/insights/script.js"></script>''')
+
+# ── mobile menu: a button in the pill, a panel under it (designer hides the links < 820 px) ──
+rep('''      <a href="#start" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 600; font-size: 14.5px; transition: background 0.5s, color 0.5s; white-space: nowrap">{{ navCtaLabel }}</a>
+    </div>
+  </nav>''',
+    '''      <div style="display: flex; align-items: center; gap: 6px">
+        <a href="#start" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 600; font-size: 14.5px; transition: background 0.5s, color 0.5s; white-space: nowrap">{{ navCtaLabel }}</a>
+        <button type="button" data-menu-toggle="1" aria-label="{{ navMenuAria }}" aria-expanded="{{ navMenuExpanded }}" style="display: {{ navMenuBtnDisplay }}; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{ navBorder }}; background: transparent; color: inherit; font: inherit; font-size: 20px; line-height: 1; cursor: pointer">{{ navMenuIcon }}</button>
+      </div>
+    </div>
+    <div style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
+      <sc-for list="{{ navMenuItems }}" as="mi" hint-placeholder-count="6">
+        <a href="{{ mi.href }}" data-menu-close="1" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; color: inherit; font-size: 17px; font-weight: 600">{{ mi.label }}<span style="color: #D4B17A">→</span></a>
+      </sc-for>
+    </div>
+  </nav>''')
+
+# ── privacy: the story's claim must match where leads actually live, and link to the page ──
+rep('>Lagret kryptert i Norge, i tråd med GDPR.</p>', '>Lagret kryptert innenfor EU/EØS, i tråd med GDPR.</p>')
+rep('<a href="#data" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>', '<a href="/personvern" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>')
+rep('<a href="#data">Personvern</a>', '<a href="/personvern">Personvern</a>')
+
 # ── chapter 4: early cue for the board ──
 rep("prioCloud: ['Bad', 'Kjøkken', 'Stue', 'Vinduer', 'Balkong', 'Gulv', 'Elektrisk', 'Ventilasjon'],", "prioCloud: ['Bad', 'Kjøkken', 'Stue', 'Vinduer', 'Balkong', 'Fellesareal', 'Gulv', 'Elektrisk', 'Ventilasjon'],")
 
@@ -79,7 +119,7 @@ rep('''<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8p
 
 # ── state, handlers ──
 rep("state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false };",
-    "state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '' };")
+    "state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', menuOpen: false };")
 rep('''    this._onVis = () => { this._raf = null; this.update(); };
     document.addEventListener('visibilitychange', this._onVis);
     this.update();''',
@@ -87,6 +127,8 @@ rep('''    this._onVis = () => { this._raf = null; this.update(); };
     document.addEventListener('visibilitychange', this._onVis);
     // Who is reading? The last story link decides the finale's wording and next step.
     this._onClick = (e) => {
+      const t = e.target && e.target.closest && e.target.closest('[data-menu-toggle], [data-menu-close]');
+      if (t) { this.setState({ menuOpen: t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false }); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
       if (!a) return;
       const aud = this.audienceFor(a.getAttribute('href'), a);
@@ -161,6 +203,13 @@ rep("    const f = g('finale');\n",
       pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område.'],
       partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere.']
     };
+    const menuOpen = this.state.menuOpen;
+    const menuVals = {
+      navMenuBtnDisplay: mobile ? 'inline-flex' : 'none', navMenuDisplay: mobile && menuOpen ? 'flex' : 'none',
+      navMenuIcon: menuOpen ? '×' : '☰', navMenuAria: menuOpen ? 'Lukk menyen' : 'Åpne menyen', navMenuExpanded: menuOpen ? 'true' : 'false',
+      navMenuBg: dark ? 'rgba(15,24,48,0.92)' : 'rgba(255,253,248,0.96)', navMenuFg: dark ? '#F7F4EE' : '#131E3A',
+      navMenuItems: [['#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier'], ['/styret', 'Styret'], ['/handverker', 'Håndverker'], ['/faghandel', 'Faghandel'], ['/personvern', 'Personvern']].map(([href, label]) => ({ href, label }))
+    };
     const lead = this.state.lead, ld = doneByAudience[this.state.audience] || doneByAudience.owner;
     const leadVals = {
       leadAudience: this.state.audience,
@@ -171,7 +220,7 @@ rep("    const f = g('finale');\n",
     };
 """)
 # spread the new values into the returned bindings
-rep("...heights, ...resp, ...themeVals,", "...finaleVals, ...leadVals, ...heights, ...resp, ...themeVals,")
+rep("...heights, ...resp, ...themeVals,", "...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals,")
 
 # chaos card: bathroom, not the couple
 rep('"chaosBath": "/assets/story/couple-sofa-window-v2.jpg"', '"chaosBath": "/assets/story/bathroom-v2.jpg"')

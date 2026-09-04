@@ -1,3 +1,13 @@
+// Mobile menu: the pill's button toggles the panel; any link in it closes it.
+(function () {
+  var btn = document.querySelector("[data-menu-toggle]");
+  var panel = document.querySelector(".menu-panel");
+  if (!btn || !panel) return;
+  var set = function (open) { panel.hidden = !open; btn.textContent = open ? "×" : "☰"; btn.setAttribute("aria-expanded", open ? "true" : "false"); btn.setAttribute("aria-label", open ? "Lukk menyen" : "Åpne menyen"); };
+  btn.addEventListener("click", function () { set(panel.hidden); });
+  panel.addEventListener("click", function (e) { if (e.target.closest("a")) set(false); });
+})();
+
 // Audience pages: the lead form posts to /api/lead with the page's audience.
 (function () {
   var form = document.getElementById("era-lead");

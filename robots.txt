@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://era-story.vercel.app/sitemap.xml

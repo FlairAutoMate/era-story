@@ -13,6 +13,21 @@
 <meta name="description" content="ERA forstår boligen din og hjelper deg å vite hva som bør gjøres — og hva som kan vente.">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://era-story.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ERA">
+<meta property="og:title" content="ERA — Boligeierskap uten gjetting">
+<meta property="og:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs. For boligeiere, styrer, håndverkere og faghandel.">
+<meta property="og:image" content="https://era-story.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://era-story.vercel.app/">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ERA — Boligeierskap uten gjetting">
+<meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
+<meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
+<script defer src="/_vercel/insights/script.js"></script>
 <script>window.__resources = {
   "chaosBath": "/assets/story/bathroom-v2.jpg",
   "t0": "/assets/story/block-season-0-v2.jpg",
@@ -296,7 +311,15 @@
           <a href="{{ n.href }}" style="position: relative; padding: 9px 12px; border-radius: 999px; color: inherit; opacity: {{ n.op }}">{{ n.label }}<span style="position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: #D4B17A; opacity: {{ n.markOp }}"></span></a>
         </sc-for>
       </div>
-      <a href="#start" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 600; font-size: 14.5px; transition: background 0.5s, color 0.5s; white-space: nowrap">{{ navCtaLabel }}</a>
+      <div style="display: flex; align-items: center; gap: 6px">
+        <a href="#start" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 600; font-size: 14.5px; transition: background 0.5s, color 0.5s; white-space: nowrap">{{ navCtaLabel }}</a>
+        <button type="button" data-menu-toggle="1" aria-label="{{ navMenuAria }}" aria-expanded="{{ navMenuExpanded }}" style="display: {{ navMenuBtnDisplay }}; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{ navBorder }}; background: transparent; color: inherit; font: inherit; font-size: 20px; line-height: 1; cursor: pointer">{{ navMenuIcon }}</button>
+      </div>
+    </div>
+    <div style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
+      <sc-for list="{{ navMenuItems }}" as="mi" hint-placeholder-count="6">
+        <a href="{{ mi.href }}" data-menu-close="1" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; color: inherit; font-size: 17px; font-weight: 600">{{ mi.label }}<span style="color: #D4B17A">→</span></a>
+      </sc-for>
     </div>
   </nav>
 
@@ -733,13 +756,13 @@
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">Personvern</div>
         <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance">Din bolig.<br>Dine data.</h2>
         <p style="margin: 18px 0 0; max-width: 420px; font-size: 17px; line-height: 1.5; color: #5E6472">ERA lagrer boligens historie for deg — ikke om deg. Du eier den, og du bestemmer hvem som ser den.</p>
-        <a href="#data" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>
+        <a href="/personvern" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 15px; font-weight: 600">Les om personvern →</a>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px">
         <div style="padding: 26px 24px; border-radius: 20px; background: #131E3A; color: #F7F4EE">
           <svg width="24" height="28" sc-camel-view-box="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 2L21 5.5V13C21 19 17 23.5 12 26C7 23.5 3 19 3 13V5.5L12 2Z" stroke="#D4B17A" stroke-width="1.6"></path><path d="M8.5 13.5L11 16L16 11" stroke="#D4B17A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           <div style="margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em">Beskyttet</div>
-          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.7)">Lagret kryptert i Norge, i tråd med GDPR.</p>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.7)">Lagret kryptert innenfor EU/EØS, i tråd med GDPR.</p>
         </div>
         <div style="padding: 26px 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E3DDD0">
           <svg width="24" height="28" sc-camel-view-box="0 0 24 28" fill="none" aria-hidden="true"><rect x="4" y="12" width="16" height="13" rx="3" stroke="#B0935F" stroke-width="1.6"></rect><path d="M7.5 12V8a4.5 4.5 0 019 0v4" stroke="#B0935F" stroke-width="1.6"></path><circle cx="12" cy="18.5" r="1.6" fill="#B0935F"></circle></svg>
@@ -796,7 +819,7 @@
       </div>
       <div style="display: flex; gap: 48px; font-size: 15px; color: #4E5464">
         <div style="display: flex; flex-direction: column; gap: 10px"><a href="#hva">Hva ERA gjør</a><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a></div>
-        <div style="display: flex; flex-direction: column; gap: 10px"><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="#data">Personvern</a><a href="#start">Finn min bolig</a></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="/personvern">Personvern</a><a href="#start">Finn min bolig</a></div>
       </div>
     </div>
     <div style="max-width: 1080px; margin: 20px auto 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -806,7 +829,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:41,&quot;min&quot;:0,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:47,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
 class Component extends DCLogic {
-  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '' };
+  state = { prog: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
@@ -823,6 +846,8 @@ class Component extends DCLogic {
     document.addEventListener('visibilitychange', this._onVis);
     // Who is reading? The last story link decides the finale's wording and next step.
     this._onClick = (e) => {
+      const t = e.target && e.target.closest && e.target.closest('[data-menu-toggle], [data-menu-close]');
+      if (t) { this.setState({ menuOpen: t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false }); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
       if (!a) return;
       const aud = this.audienceFor(a.getAttribute('href'), a);
@@ -1064,6 +1089,13 @@ class Component extends DCLogic {
       pro: ['Takk. Du er registrert.', 'Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område.'],
       partner: ['Takk. Vi tar kontakt.', 'Vi viser hvordan beregnede behov i boliger og borettslag blir bestillinger hos dere.']
     };
+    const menuOpen = this.state.menuOpen;
+    const menuVals = {
+      navMenuBtnDisplay: mobile ? 'inline-flex' : 'none', navMenuDisplay: mobile && menuOpen ? 'flex' : 'none',
+      navMenuIcon: menuOpen ? '×' : '☰', navMenuAria: menuOpen ? 'Lukk menyen' : 'Åpne menyen', navMenuExpanded: menuOpen ? 'true' : 'false',
+      navMenuBg: dark ? 'rgba(15,24,48,0.92)' : 'rgba(255,253,248,0.96)', navMenuFg: dark ? '#F7F4EE' : '#131E3A',
+      navMenuItems: [['#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier'], ['/styret', 'Styret'], ['/handverker', 'Håndverker'], ['/faghandel', 'Faghandel'], ['/personvern', 'Personvern']].map(([href, label]) => ({ href, label }))
+    };
     const lead = this.state.lead, ld = doneByAudience[this.state.audience] || doneByAudience.owner;
     const leadVals = {
       leadAudience: this.state.audience,
@@ -1102,7 +1134,7 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'),
-      ...finaleVals, ...leadVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),

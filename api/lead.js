@@ -1,15 +1,41 @@
 // POST /api/lead — the finale's intake. Stores one JSON document per lead in Vercel Blob
-// (private access) and answers with a short confirmation. Nothing is sent anywhere else.
+// (private access, EU region) and, when RESEND_API_KEY + LEAD_NOTIFY_TO are set, e-mails a
+// notification. Nothing else is sent anywhere.
 //
-// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, website?: string }
+// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, website?: string, page?: string }
 // `website` is a honeypot: humans never fill it, bots do.
 //
-// Read leads: `npx vercel blob list --prefix leads/` (or download with `vercel blob get`).
+// Read leads: `npm run leads`. Notify: `vercel env add RESEND_API_KEY` and `vercel env add LEAD_NOTIFY_TO`.
 import { put } from "@vercel/blob";
 import { randomUUID } from "node:crypto";
 
 const AUDIENCES = new Set(["owner", "board", "pro", "partner"]);
+const NAMES = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel" };
 const MAX_LEN = 200;
+
+async function notify(doc) {
+  const key = process.env.RESEND_API_KEY;
+  const to = process.env.LEAD_NOTIFY_TO;
+  if (!key || !to) return "skipped";
+  const from = process.env.LEAD_NOTIFY_FROM || "ERA <onboarding@resend.dev>";
+  const who = NAMES[doc.audience] || doc.audience;
+  const text = [
+    `Ny henvendelse fra ${who.toLowerCase()} via era-story.`,
+    ``,
+    `${who}: ${doc.value}`,
+    `Tidspunkt: ${doc.receivedAt}`,
+    `Side: ${doc.page || "-"}`,
+    ``,
+    `Alle leads: npm run leads (i prosjektmappen) eller Vercel → Storage → era-leads-eu.`,
+  ].join("\n");
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), subject: `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
+  });
+  if (!r.ok) throw new Error(`resend ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  return "sent";
+}
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
@@ -55,5 +81,9 @@ export default async function handler(req, res) {
     console.error("[lead] store failed", err);
     return res.status(500).json({ ok: false, error: "store" });
   }
-  return res.status(200).json({ ok: true, id });
+
+  // The notification must never cost the visitor their confirmation.
+  let notified = "skipped";
+  try { notified = await notify(doc); } catch (err) { console.error("[lead] notify failed", err); notified = "failed"; }
+  return res.status(200).json({ ok: true, id, notified });
 }

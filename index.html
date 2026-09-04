@@ -311,9 +311,10 @@
     <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; isolation: isolate">
       <img src="/assets/story/door-evening-v2.jpg" alt="Ytterdøren om kvelden — varmt lys innenfra" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ doorPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.1) 0%, transparent 40%, rgba(15,24,48,{{ doorDim }}) 100%)"></div>
-      <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
-      <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 50%; background: #0B1226; transform: translateX({{ doorRightTx }}); box-shadow: -30px 0 80px rgba(0,0,0,0.5)"></div>
-      <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, #D4B17A 40%, #D4B17A 60%, transparent); transform: translateX(-50%); opacity: {{ doorSeamOp }}"></div>
+      <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
+      <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 38%; background: #0B1226; transform: translateX({{ doorRightTx }}); box-shadow: -30px 0 80px rgba(0,0,0,0.5)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 62% 55%, rgba(255,214,150,{{ doorGlowA }}) 0%, rgba(255,214,150,0) {{ doorGlowR }}); mix-blend-mode: screen; transform: scale({{ doorGlowScale }})"></div>
+      <div style="position: absolute; left: 62%; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, #D4B17A 40%, #D4B17A 60%, transparent); transform: translateX(-50%); opacity: {{ doorSeamOp }}; box-shadow: 0 0 40px 6px rgba(255,214,150,{{ doorSeamGlow }})"></div>
       <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 32px">
         <div style="opacity: {{ door0Op }}; transform: {{ door0Ty }}">
           <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 20px">era.</div>
@@ -669,14 +670,14 @@
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 460px; opacity: {{ boardHeadOp }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret</div>
-        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Styret skifter. Planen består.</h2>
-        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Tilstand, dokumentasjon og vedlikeholdsplan for hele eiendommen, klar til hvert styremøte og hver generalforsamling.</p>
+        <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Boligen din stopper ikke ved ytterdøren.</h2>
+        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
           <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
             <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
           </sc-for>
         </div>
-        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}">Fasaden males i 2027. 1,2 millioner, fordelt på 24 seksjoner, med tilbud fra håndverker som allerede har fått jobben beskrevet. Vedtaket tar ti minutter, ikke to møter.</p>
+        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}"><b style="color: #FFFFFF">Styret skifter. Planen består.</b> Fasaden males i 2027, 1,2 millioner fordelt på 24 seksjoner, med tilbud fra håndverker som allerede har fått jobben beskrevet. Vedtaket tar ti minutter, ikke to møter.</p>
         <a href="#start" data-board="1" style="display: inline-flex; align-items: center; margin-top: 22px; height: 44px; padding: 0 20px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 14.5px; font-weight: 700; opacity: {{ boardCtaOp }}" style-hover="background: #E2C48F; color: #131E3A">Se planen for eiendommen →</a>
         <a href="/styret" style="display: inline-block; margin: 26px 0 0 18px; font-size: 14.5px; font-weight: 600; color: rgba(247,244,238,0.8); opacity: {{ boardCtaOp }}" style-hover="color: #FFFFFF">Mer for styret →</a>
       </div>
@@ -704,7 +705,7 @@
       </div>
       <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 0 24px; text-align: center; background: #FFFDF9; opacity: {{ splitMergeOp }}; pointer-events: none">
         <div style="width: 140px; height: 140px; border-radius: 50%; background: #131E3A; display: flex; align-items: center; justify-content: center; color: #F7F4EE; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; box-shadow: 0 30px 80px rgba(19,30,58,0.3); transform: scale({{ splitLogoScale }})">era<span style="color: #D4B17A">.</span></div>
-        <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; transform: {{ splitHeadTy }}">ERA kobler dem sammen.</h2>
+        <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; transform: {{ splitHeadTy }}">Din bolig. Vårt bygg. Én sammenheng.</h2>
         <p style="margin: 0; max-width: 480px; font-size: 17px; line-height: 1.5; color: #5E6472">Én forståelse av eiendommen — for styret og for hver enkelt bolig.</p>
       </div>
     </div>
@@ -1056,7 +1057,7 @@ class Component extends DCLogic {
       const tag = tagMap[i];
       return { bg: tag ? 'rgba(212,177,122,0.22)' : 'rgba(19,30,58,0.25)', dot: tag ? '#D4B17A' : 'rgba(247,244,238,0.5)', op, sc: `scale(${0.85 + op * 0.15})`, tag: tag || '', tagOp: tag ? seg(b, 0.6, 1, 0.06) : 0 };
     });
-    const boardChips = ['Tilstand', 'Vedlikeholdsplan', 'FDV samlet', 'Felleskostnader', 'Generalforsamling', 'Styreskifte'].map((label, i) => ({ label, op: seg(b, 0.62 + i * 0.035, 1, 0.04) }));
+    const boardChips = ['Fasade · maling flasser', 'Tak · over 20 år', 'Balkonger · rekkverk', 'Vinduer · tetningslister', 'Ventilasjon · service', 'Fellesareal · ok'].map((label, i) => ({ label, op: seg(b, 0.62 + i * 0.035, 1, 0.04) }));
 
     const sp = g('split'), merge = ease(ramp(sp, 0.6, 0.8));
 
@@ -1113,7 +1114,7 @@ class Component extends DCLogic {
       // chapter 7 carries the longest column (list, delivery, faghandel) — a shorter card on mobile keeps it all inside one screen
       proImgH: mobile ? '24vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       comImgH: mobile ? '13vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
-      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorPos: `50% ${58 - open * 4}%`, doorDim: 0.55 - open * 0.25,
+      doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15), doorGlowR: `${30 + open * 50}%`, doorGlowScale: 1 + open * 0.08, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       // mobile: slide the frame so the couple (right side of the photo) stays in view under the portrait crop
       homeSlotLeft: '0', homeSlotWidth: '100%',
@@ -1141,7 +1142,7 @@ class Component extends DCLogic {
       trust3Op: seg(t, 0.8, 1, 0.06), trust3Ty: ty(seg(t, 0.8, 1, 0.06)),
       seasons, memSeason, memYear, memDocs, memEvents, memLineH,
       memHeadOp: seg(me, 0.78, 1, 0.06), memHeadTy: ty(seg(me, 0.78, 1, 0.06)), memHead2Op: seg(me, 0.88, 1, 0.05),
-      boardImgScale: 1 + b * 0.035, boardBgOp: 0.55 + ramp(b, 0.05, 0.4) * 0.45,
+      boardImgScale: 1 + b * 0.035, boardBgOp: 0.7 + ramp(b, 0.05, 0.4) * 0.3,
       boardOneScale: 1 - shrink * 0.7, boardOneOp: 1 - ramp(b, 0.26, 0.34), boardGridOp: ramp(b, 0.28, 0.42) * (mobile ? 0.3 : 1), boardUnits, boardChips,
       boardHeadOp: seg(b, 0.44, 1, 0.08), boardHeadTy: ty(seg(b, 0.44, 1, 0.08)), boardCtaOp: seg(b, 0.8, 1, 0.06),
       splitLTx: `${-merge * 100}%`, splitRTx: `${merge * 100}%`, splitQ0Op: seg(sp, 0.1, 0.58, 0.06), splitQ0Ty: ty(seg(sp, 0.1, 0.58, 0.06)), splitQ1Op: seg(sp, 0.26, 0.58, 0.06), splitQ1Ty: ty(seg(sp, 0.26, 0.58, 0.06)),

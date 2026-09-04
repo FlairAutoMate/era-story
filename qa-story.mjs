@@ -1,5 +1,5 @@
 // Full-story QA: one screenshot per chapter at a representative progress, desktop + mobile, composed into contact sheets.
-import { chromium } from "file:///C:/Users/mcspa/Documents/ERA/node_modules/playwright/index.mjs";
+import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
 const url = process.argv[2] ?? "http://localhost:8787/";
 mkdirSync("qa/story", { recursive: true });

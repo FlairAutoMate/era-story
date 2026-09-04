@@ -11,5 +11,8 @@
     "leads": "node leads.mjs",
     "leads:csv": "node leads.mjs --csv",
     "qa": "node qa-story.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

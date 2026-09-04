@@ -1,6 +1,6 @@
 // Visual QA: load the page in headless Chromium, capture console errors and screenshots at
 // a set of scroll positions. `node qa-scroll.mjs [url]` → qa/*.png
-import { chromium } from "file:///C:/Users/mcspa/Documents/ERA/node_modules/playwright/index.mjs";
+import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
 
 const url = process.argv[2] ?? "http://localhost:8787/";

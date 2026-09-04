@@ -1,7 +1,7 @@
 // QA for the audience paths: a fresh load per deep link, then the finale's wording; plus a
 // desktop screenshot of the håndverker chapter. Chapter CTAs now lead to the audience pages,
 // so the audience state is exercised through the deep links (/#styret etc.).
-import { chromium } from "file:///C:/Users/mcspa/Documents/ERA/node_modules/playwright/index.mjs";
+import { chromium } from "playwright";
 const base = (process.argv[2] ?? "http://localhost:8787/").replace(/\/$/, "");
 const browser = await chromium.launch({ executablePath: "C:/Users/mcspa/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe" });
 const errs = [];

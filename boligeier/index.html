@@ -49,7 +49,7 @@
   <section class="section">
     <div class="label">Slik fungerer det</div>
     <h2>Fire steg. Ingen gjetting.</h2>
-    <ol class="steps"><li><span class="n">01</span><div><h3>Boligen kartlegges</h3><p>Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted. Det du har liggende i skuffen, på e-post og på telefonen.</p></div></li><li><span class="n">02</span><div><h3>ERA forstår</h3><p>Hver del av boligen får tilstand, alder og neste forventede behov. Ikke bare det du ser, men det bak veggen også.</p></div></li><li><span class="n">03</span><div><h3>Du får en plan</h3><p>Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris.</p></div></li><li><span class="n">04</span><div><h3>Gjør det selv, eller få hjelp</h3><p>Materialene er beregnet og kan bestilles. Eller jobben går til håndverker, ferdig beskrevet. Alt blir historikk i boligen.</p></div></li></ol>
+    <ol class="steps"><li><span class="n">01</span><div><h3>Boligen kartlegges</h3><p>Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted. Det du har liggende i skuffen, på e-post og på telefonen.</p></div></li><li><span class="n">02</span><div><h3>ERA forstår</h3><p>Hver del av boligen får tilstand, alder og neste forventede behov. Ikke bare det du ser, men det bak veggen også.</p></div></li><li><span class="n">03</span><div><h3>Du får en plan</h3><p>Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris. Det samme gjelder bad, gulv, elektro, rør og tak — og ERA sier fra når jobben krever fagperson.</p></div></li><li><span class="n">04</span><div><h3>Gjør det selv, eller få hjelp</h3><p>Materialene er beregnet og kan bestilles. Eller jobben går til håndverker, ferdig beskrevet. Alt blir historikk i boligen.</p></div></li></ol>
   </section>
 
   <section class="section alt">
@@ -89,16 +89,16 @@
           <div class="lead-value-wrap">
             <input id="lead-value" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til boligen">
             <span id="lead-typewriter" aria-hidden="true"></span>
+            <span class="field-label" aria-hidden="true">Adresse</span>
           </div>
-        </div>
-        <div class="lead-pill">
-          <label class="sr" for="lead-email">E-postadressen din</label>
-          <input id="lead-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="Din e-post">
           <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
           <button type="submit">Finn min bolig</button>
         </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden><b>Takk. Vi finner boligen din.</b><span>Vi svarer på e-posten du oppga, når ERA er klar for adressen.</span></div>
+      <div class="done" role="status" aria-live="polite" hidden>
+        <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><b>Takk. Vi finner boligen din.</b><span>Vi sier fra når ERA er klar for adressen.</span></div>
+      </div>
       <div class="err" hidden></div>
       <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
     </div>

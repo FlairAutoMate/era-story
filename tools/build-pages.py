@@ -10,7 +10,7 @@ AUDIENCES = {
         key="owner", nav="Boligeier", title="ERA for boligeiere",
         label="For boligeier", hook="Boligeierskap uten gjetting.",
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
-        image="/assets/story/couple-sofa-window-v3.jpg", image_pos="45% 50%",
+        image="/assets/story/couple-sofa-window-v4.jpg", image_pos="45% 50%",
         steps=[
             ("Boligen kartlegges", "Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted. Det du har liggende i skuffen, på e-post og på telefonen."),
             ("ERA forstår", "Hver del av boligen får tilstand, alder og neste forventede behov. Ikke bare det du ser, men det bak veggen også."),

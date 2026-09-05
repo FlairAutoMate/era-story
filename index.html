@@ -367,7 +367,7 @@
   <!-- 0 · DØREN — WIDE, kveld -->
   <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: {{ h_door }}; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0)"><image-slot id="shot-front-door" shape="rect" src="/assets/story/door-evening-v3.jpg" placeholder="Shot 1 · Universell ytterdør — nærbilde, varmt lys innenfra"></image-slot></div>
+      <div style="position: absolute; inset: 0; transform: translateZ(0)"><image-slot id="shot-front-door" shape="rect" src="/assets/story/door-evening-v4.jpg" placeholder="Shot 1 · Universell ytterdør — nærbilde, varmt lys innenfra"></image-slot></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.1) 0%, transparent 40%, rgba(15,24,48,{{ doorDim }}) 100%)"></div>
       <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: #0B1226; transform: translateX({{ doorLeftTx }}); box-shadow: 30px 0 80px rgba(0,0,0,0.5)"></div>
       <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 38%; background: #0B1226; transform: translateX({{ doorRightTx }}); box-shadow: -30px 0 80px rgba(0,0,0,0.5)"></div>
@@ -390,10 +390,10 @@
   <section ref="{{ refHome }}" data-theme="dark" style="position: relative; height: {{ h_home }}; background: #0F1830" data-screen-label="01 Hjemmet" aria-label="Det menneskelige problemet">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden">
-        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-sofa-window-v3.jpg" placeholder="Shot 2 · Paret i stua"></image-slot>
+        <image-slot id="shot-couple-wide" shape="rect" src="/assets/story/couple-sofa-window-v4.jpg" placeholder="Shot 2 · Paret i stua"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ homeBathOp }}">
-        <image-slot id="shot-bathroom-old" shape="rect" src="/assets/story/bathroom-old-v3.jpg" placeholder="Shot 2b · Det eldre badet"></image-slot>
+        <image-slot id="shot-bathroom-old" shape="rect" src="/assets/story/bathroom-old-v4.jpg" placeholder="Shot 2b · Det eldre badet"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: {{ homeGrad }}"></div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ homeDim }})"></div>
@@ -625,7 +625,7 @@
   <section id="behov" ref="{{ refNeeds }}" data-theme="dark" style="position: relative; height: {{ h_needs }}; background: #0F1830" data-screen-label="05c Flere behov" aria-label="Forskjellige behov, forskjellig kompetanse">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ needsAOp }}">
-        <img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v3.jpg" alt="Et eldre bad med slitte fuger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%">
+        <img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v4.jpg" alt="Et eldre bad med slitte fuger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%">
       </div>
       <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ needsBOp }}">
         <div class="era-ph"></div>
@@ -834,7 +834,7 @@
         <div style="height: 40vh"></div>
       </div></div>
       <div class="era-short-hide" style="position: absolute; left: clamp(24px, 7vw, 120px); top: 100px; width: min(280px, 84vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); opacity: {{ bathCardOp }}; transform: {{ bathCardTy }}">
-        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v3.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
+        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v4.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
         <div style="display: flex; justify-content: space-between; align-items: center">
           <div>
             <div style="font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">Bad</div>
@@ -1511,7 +1511,7 @@
   <section ref="{{ refFinale }}" data-theme="dark" style="position: relative; height: {{ h_finale }}; background: #0F1830" data-screen-label="29 Finale" aria-label="Finn min bolig">
     <div id="start" class="era-start" aria-hidden="true" style="position: absolute; left: 0; width: 1px; height: 1px"></div>
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
-      <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v3.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v4.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.65) 38%, rgba(15,24,48,0.2) 65%, rgba(15,24,48,0.1) 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.4) 0%, transparent 30%, transparent 65%, rgba(15,24,48,0.55) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 760px; pointer-events: none; opacity: {{ omFinOp }}">

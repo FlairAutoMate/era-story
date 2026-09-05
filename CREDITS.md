@@ -14,3 +14,5 @@ whole-home-v2 (oversikt: stue, kjøkken, bad) og plumber-v2 (rørlegger under kj
 
 Batch 2026-09-05 (levert av ERA): block-season-0..3 (samme blokk i fire tilstander), couple-window, about-hero (nabolag i blå time), fragmented-home (kjøkkenbord med papirer). Oppskalert til 1600/3000 px.
 Batch 3 (2026-09-05): tradesperson, photo-observation, diy-commerce, completed-work (samme bad), loop-home, property-intelligence, ecosystem, agent-home (fire årstider i ett bilde). Oppskalert til 3000 px.
+
+Batch 4 (2026-09-05): door-evening, couple-sofa-window, bathroom-old, neighbourhood-dusk som -v4 (3000 px).

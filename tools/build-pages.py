@@ -164,7 +164,7 @@ def head_meta(path, title, description):
 <script defer src="/_vercel/insights/script.js"></script>'''
 
 
-MENU = [("/", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/personvern", "Personvern")]
+MENU = [("/", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/om-era", "Om ERA"), ("/personvern", "Personvern")]
 
 
 def nav_html(current, cta_label, cta_href):

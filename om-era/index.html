@@ -1135,7 +1135,7 @@ class Component extends DCLogic {
       const r = el.getBoundingClientRect();
       if (r.top <= 44 && r.bottom > 44) theme = el.getAttribute('data-theme');
     });
-    let activeNav = '';
+    let activeNav = document.body.getAttribute('data-page') === 'om-era' ? 'om-era' : '';
     ['hva', 'boligeier', 'styret', 'handverker', 'partnere'].forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
@@ -1187,7 +1187,7 @@ class Component extends DCLogic {
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
 
     // The menu goes straight to the audience pages; only "Hva ERA gjør" stays inside the story.
-    const navItems = [['hva', 'Hva ERA gjør', '/#hva'], ['boligeier', 'Boligeier', '/boligeier'], ['styret', 'Styret', '/styret'], ['handverker', 'Håndverker', '/handverker'], ['partnere', 'Faghandel', '/faghandel']]
+    const navItems = [['hva', 'Hva ERA gjør', '/#hva'], ['boligeier', 'Boligeier', '/boligeier'], ['styret', 'Styret', '/styret'], ['handverker', 'Håndverker', '/handverker'], ['partnere', 'Faghandel', '/faghandel'], ['om-era', 'Om ERA', '/om-era']]
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
       ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#fra-et-bilde', 'Fra et bilde'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#agent', 'Agent'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]

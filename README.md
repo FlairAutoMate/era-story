@@ -6,14 +6,17 @@ Lokalt: `python -m http.server 8787` og åpne http://localhost:8787/. Visuell QA
 
 Deploy: `npx vercel --prod`.
 
-## Om ERA-kapittelet
+## Om ERA — egen side
 
-Etter «Din bolig. Vårt bygg.» og personvern-blokken følger siste akt, `#om-era` (seksjonene 15–28 i `index.html`): bro fra ett bygg til alle boliger, den fragmenterte boligen, den agentiske sløyfen, «fra et bilde» (se → forstå → vurdere), veivalget, gjør det selv / få hjelp, lukk sløyfen, hvor kundereisen starter, teknologi (fem evner), fra assistent til agent, aktørene, visjon og menneskene bak ERA. Finalen (`29`) åpner med kapittelets sluttfraser før logo og skjema; ankeret `#start` ligger nå der skjemaet er synlig.
+`/om-era` er Om ERA-filmen som egen side (13 scener: bro fra ett bygg til alle boliger, den fragmenterte boligen, den agentiske sløyfen, «fra et bilde», gjør det selv / få hjelp i én scene, lukk sløyfen, hvor kundereisen starter, teknologi, agent, aktørene, visjon, menneskene, finale med kapittelets sluttfraser). Forsiden lenker dit fra split-scenen («Hvorfor ERA finnes →»), finalen, skinnen, mobilmenyen og bunnteksten.
 
-Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI: `about-hero`, `about-bridge`, `fragmented-home`, `loop-home`, `photo-observation`, `diy-commerce`, `tradesperson`, `completed-work`, `property-intelligence`, `agentic-future-0..3`, `ecosystem`, samt `finale-neighbourhood` (`data-story-image`). Inntil endelig foto foreligger peker de på eksisterende bilder i `assets/story/`. Portrettene (`team-lars`, `team-ragnvald`, `team-thomas`, `team-magnus`, `team-eskild`, `team-william`) er nøytrale plassholdere; sett `src` i `teamDefs` i skriptet når bildene er klare (samme utsnitt, 4:5).
+- Scenene ligger i `tools/om-era-template.html`. `python tools/build-om-era.py` setter dem sammen med forsidens hode, meny, skinne, finale, bunntekst og skript til `om-era/index.html`. Rediger malen, ikke den bygde filen.
+- Én scroll-motor for begge sider: skriptet i `index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
+- Etter en ny designeksport: `rebase-deltas.py` → `build-om-era.py` → `build-pages.py`. Merk at komprimeringen 2026-09-05 (05c fjernet, 20+21 slått sammen, nye scenehøyder) ikke ligger i `rebase-deltas.py` ennå.
 
-Visuell QA av kapittelet: `node qa-om.mjs http://localhost:8787/` (skjermbilder til `qa/om-era/`).
+Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
+Visuell QA: `node qa-om.mjs http://localhost:8787/om-era` (skjermbilder til `qa/om-era/`).
 ## Responsivitet og nettleser-QA
 
 Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index.html` (`<style>` i `<helmet>`) og `pages.css`:

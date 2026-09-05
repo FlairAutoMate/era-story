@@ -304,7 +304,7 @@ def page(slug, a):
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/#om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -370,7 +370,7 @@ def privacy_page():
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/#om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>

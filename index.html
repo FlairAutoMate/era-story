@@ -997,6 +997,21 @@
       <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v4.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.65) 38%, rgba(15,24,48,0.2) 65%, rgba(15,24,48,0.1) 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.4) 0%, transparent 30%, transparent 65%, rgba(15,24,48,0.55) 100%)"></div>
+      <!-- Teaser for Om ERA (kun forsiden): zoomer ut fra én bolig til hele livsløpet før logo og skjema -->
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 760px; display: {{ finTeaserDisplay }}; opacity: {{ finTeaserOp }}; pointer-events: {{ finTeaserPe }}">
+        <div style="position: relative; min-height: 260px">
+          <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ ft0Ty }}; opacity: {{ ft0Op }}">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Om ERA</div>
+            <h2 style="margin: 0; font-size: clamp(34px, 5.2vw, 76px); line-height: 1.02; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Dette var én bolig.<br><span style="color: #D4B17A">Ett behov.</span></h2>
+          </div>
+          <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ ft1Ty }}; opacity: {{ ft1Op }}">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Om ERA</div>
+            <h2 style="margin: 0; font-size: clamp(30px, 4.4vw, 64px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">ERA bygger et agentisk system for hele boligens livsløp.</h2>
+            <p style="margin: 16px 0 0; max-width: 560px; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.4; color: rgba(247,244,238,0.85)">Teknologien bak, hvor kundereisen starter, visjonen og menneskene som bygger den.</p>
+            <a href="/om-era" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; height: 50px; padding: 0 24px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 15.5px; font-weight: 700; box-shadow: 0 20px 60px rgba(0,0,0,0.3)" style-hover="background: #E2C48F; color: #131E3A">Se hvorfor ERA finnes <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: 50%; transform: translateY(-50%); max-width: 560px">
         <div style="font-size: clamp(56px, 8vw, 120px); font-weight: 800; letter-spacing: -0.05em; color: #FFFFFF; line-height: 1; opacity: {{ finLogoOp }}; transform: {{ finLogoTy }}">era<span style="color: #D4B17A">.</span></div>
         <h2 style="margin: 22px 0 0; font-size: clamp(24px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance; opacity: {{ finTagOp }}; transform: {{ finTagTy }}">{{ finHead }}</h2>
@@ -1766,7 +1781,7 @@ class Component extends DCLogic {
     // ── /OM ERA ─────────────────────────────────────────────────────────────
 
     const H = (d) => `${mobile ? Math.round(d * 0.75) : d}vh`;
-    const heights = { h_door: H(180), h_home: H(240), h_chaos: H(280), h_see: H(280), h_prio: H(240), h_magic: H(300), h_whole: H(300), h_choice: H(180), h_commerce: H(260), h_pro: H(300), h_trust: H(300), h_memory: H(300), h_board: H(280), h_split: H(300), h_finale: H(onOm ? 380 : 240), h_about: H(320), h_frag: H(280), h_loop: H(320), h_photo: H(340), h_diy: H(480), h_close: H(260), h_shift: H(280), h_tech: H(380), h_agent: H(320), h_eco: H(260), h_vision: H(320) };
+    const heights = { h_door: H(180), h_home: H(240), h_chaos: H(280), h_see: H(280), h_prio: H(240), h_magic: H(300), h_whole: H(300), h_choice: H(180), h_commerce: H(260), h_pro: H(300), h_trust: H(300), h_memory: H(300), h_board: H(280), h_split: H(300), h_finale: H(onOm ? 380 : 360), h_about: H(320), h_frag: H(280), h_loop: H(320), h_photo: H(340), h_diy: H(480), h_close: H(260), h_shift: H(280), h_tech: H(380), h_agent: H(320), h_eco: H(260), h_vision: H(320) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',
@@ -1841,9 +1856,10 @@ class Component extends DCLogic {
       splitLTx: `${-merge * 100}%`, splitRTx: `${merge * 100}%`, splitQ0Op: seg(sp, 0.1, 0.58, 0.06), splitQ0Ty: ty(seg(sp, 0.1, 0.58, 0.06)), splitQ1Op: seg(sp, 0.26, 0.58, 0.06), splitQ1Ty: ty(seg(sp, 0.26, 0.58, 0.06)),
       splitMergeOp: ramp(sp, 0.64, 0.78), splitLogoScale: (0.7 + ramp(sp, 0.64, 0.84) * 0.3) * (1 - splitLoopOp * 0.45), splitHeadTy: ty(ramp(sp, 0.7, 0.88), 24),
       finPos: mobile ? '60% 50%' : `${56 - f * 3}% 50%`, finImgScale: 1.04 - f * 0.035, finBright: 0.92 - f * 0.12,
-      finLogoOp: seg(f, onOm ? 0.82 : 0.08, 1, onOm ? 0.04 : 0.1), finLogoTy: ty(seg(f, onOm ? 0.82 : 0.08, 1, onOm ? 0.04 : 0.1), 30),
+      finLogoOp: seg(f, onOm ? 0.82 : 0.6, 1, onOm ? 0.04 : 0.06), finLogoTy: ty(seg(f, onOm ? 0.82 : 0.6, 1, onOm ? 0.04 : 0.06), 30),
+      finTeaserDisplay: onOm ? 'none' : 'block', finTeaserOp: 1 - ramp(f, 0.5, 0.56), finTeaserPe: f < 0.5 ? 'auto' : 'none', ft0Op: seg(f, 0.04, 0.2, 0.05), ft0Ty: ty(seg(f, 0.04, 0.2, 0.05)), ft1Op: seg(f, 0.26, 0.48, 0.05), ft1Ty: ty(seg(f, 0.26, 0.48, 0.05)),
       omFinOp: 1 - ramp(f, 0.75, 0.78), omf0Op: seg(f, 0.04, 0.16), omf0Ty: ty(seg(f, 0.04, 0.16)), omf1Op: seg(f, 0.2, 0.34), omf1Ty: ty(seg(f, 0.2, 0.34)), omf2Op: seg(f, 0.38, 0.52), omf2Ty: ty(seg(f, 0.38, 0.52)), omf2bOp: seg(f, 0.44, 0.52, 0.04), omf3Op: seg(f, 0.63, 0.74, 0.05), omf3Ty: ty(seg(f, 0.63, 0.74, 0.05)),
-      finTagOp: seg(f, onOm ? 0.85 : 0.32, 1, onOm ? 0.06 : 0.08), finTagTy: ty(seg(f, onOm ? 0.85 : 0.32, 1, onOm ? 0.06 : 0.08)), finCtaOp: seg(f, onOm ? 0.9 : 0.55, 1, onOm ? 0.06 : 0.08), finCtaTy: ty(seg(f, onOm ? 0.9 : 0.55, 1, onOm ? 0.06 : 0.08))
+      finTagOp: seg(f, onOm ? 0.85 : 0.66, 1, onOm ? 0.06 : 0.06), finTagTy: ty(seg(f, onOm ? 0.85 : 0.66, 1, 0.06)), finCtaOp: seg(f, onOm ? 0.9 : 0.74, 1, 0.06), finCtaTy: ty(seg(f, onOm ? 0.9 : 0.74, 1, 0.06))
     };
   }
 }

@@ -10,7 +10,7 @@ def esc(t):
     return html.escape(t, quote=True)
 
 
-TAG_LABELS = {"customer": "Fra kunden", "doc": "Dokumentert", "ai": "ERA-forslag", "check": "Avklares på befaring", "board": "Styret", "pro": "Håndverker", "resident": "Beboer", "order": "Bestilling og levering", "pilot": "I pilot", "planned": "Planlagt"}
+TAG_LABELS = {"customer": "Fra kunden", "doc": "Dokumentert", "ai": "ERA-forslag", "check": "Avklares på befaring", "board": "Styret", "pro": "Håndverker", "resident": "Beboer", "order": "Bestilling og levering", "pilot": "I pilot", "planned": "Planlagt", "illustration": "Illustrasjon av arbeidsflyt"}
 
 
 def detail_card(title, meta, groups, note=None):
@@ -88,6 +88,7 @@ AUDIENCES = {
         image="/assets/story/block-bikes-v3.jpg", image_pos="50% 50%",
         hero_secondary=("Se hvordan det henger sammen", "/#styret"),
         steps_label="Ett behov på fasaden, hele veien", steps_title="Én eiendom. Fem hendelser.",
+        steps_intro="Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere, og relevant informasjon om fellesarbeidet.",
         steps=[
             ("Hva trenger bygget deres nå?",
              "Samle rapporter, tidligere arbeid og innmeldte behov. ERA hjelper styret å forstå hva som trenger oppfølging.",
@@ -101,7 +102,8 @@ AUDIENCES = {
              ("Se vedlikeholdsplanen", detail_card(
                  "Vedlikeholdsplan · Fasade", "24 seksjoner",
                  [("doc", [("Grunnlag", "Tilstandsrapport 2021 + innmeldt behov")]),
-                  ("ai", [("Tilstand", "Slitt, ikke kritisk"), ("Anbefalt år", "2027"), ("Estimert kostnad", "1,2 mill"), ("Per seksjon", "ca. 50 000 kr"), ("Neste i planen", "Tak · 2031")])],
+                  ("ai", [("Tilstand", "Slitt, ikke kritisk"), ("Anbefalt år", "2027"), ("Estimert kostnad", "1,2 mill"), ("Per seksjon", "ca. 50 000 kr")]),
+                  ("doc", [("Egen oppgave i totalplanen", "Tak · 2031")])],
                  note="Forslaget bygger på rapporten og det som er meldt inn. Styret vurderer og beslutter; ERA foreslår."))),
             ("Et tydelig behov. Et tydelig oppdrag.",
              "Bruk underlaget videre til arbeidsbeskrivelse og innhenting av tilbud. Samle omfang og kostnader før styret tar beslutningen.",
@@ -117,20 +119,20 @@ AUDIENCES = {
                  [("board", [("Fremdrift", "Uke 2 av 6, i rute"), ("Avklaring", "Farge på beslag, svar innen fredag")]),
                   ("pro", [("Arbeidsgrunnlag", "Omfang, bilder og avtalt tid"), ("Dokumentasjon", "Bilder legges inn underveis")]),
                   ("resident", [("Når", "Stillas ved inngang B, uke 20–25"), ("Praktisk", "Balkonger ryddes før 12. mai")]),
-                  ("planned", [("Varsling til beboere", "Melding fra ERA når noe endrer seg")])],
+                  ("illustration", [("Varsling til beboere", "Melding når noe endrer seg")])],
                  note="Hver rolle ser det som gjelder dem. Beboerne ser fellesarbeidet, ikke styrets saksbehandling."))),
             ("Jobben er ferdig. Historikken lever videre.",
              "Samle utført arbeid, bilder og produktinformasjon rundt eiendommen. Oppdater vedlikeholdsplanen og gi neste styre et godt utgangspunkt.",
              ("Se dokumentasjonen", detail_card(
                  "Dokumentasjon · Fasade 2027", "Ferdigstilt",
                  [("doc", [("Utført arbeid", "Sør- og vestvegg, 2 strøk"), ("Bilder", "18 før og etter"), ("Produkter", "Maling og grunning, med batch"), ("Utført av", "Malermester Berg AS")]),
-                  ("ai", [("Neste i planen", "Tak · 2031, oppdatert etter jobben")]),
-                  ("pilot", [("Påminnelse", "Fasadekontroll 2032")])],
-                 note="Det som ble gjort følger eiendommen til neste styre. En ryddig logg, ikke en garanti."))),
+                  ("ai", [("Foreslått neste fasadekontroll", "2032")]),
+                  ("illustration", [("Påminnelse", "Fasadekontroll 2032")])],
+                 note="Fasaden er ferdig og dokumentert; kontrollen er foreslått i planen. Taket står som egen oppgave i totalplanen. En ryddig logg, ikke en garanti."))),
         ],
         aside=dict(
             label="Beboerverdi", heading="Verdi for styret. Hjelp til hver bolig.",
-            text="Styret får oversikt over felles vedlikehold. Boligeieren får relevant informasjon om fellesarbeidet, og hjelp til å følge opp egen bolig med dokumentasjon, vedlikeholdsplan og påminnelser. Fellesareal og privat bolig holdes adskilt: styret ser ikke den enkeltes boligdokumentasjon.",
+            text="Styret får oversikt over felles vedlikehold. Boligeieren får relevant informasjon om fellesarbeidet, og hjelp til å følge opp egen bolig med dokumentasjon, vedlikeholdsplan og påminnelser. Fellesareal og privat bolig holdes adskilt: privat boligdokumentasjon deles ikke automatisk med styret.",
             link="Se ERA for boligeiere →", href="/boligeier",
         ),
         gains=[
@@ -319,6 +321,7 @@ def page(slug, a):
     steps = "".join(step_li(i, s) for i, s in enumerate(a["steps"]))
     steps_label = a.get("steps_label", "Slik fungerer det")
     steps_title = a.get("steps_title", "Fire steg. Ingen gjetting.")
+    steps_intro = f'<p class="steps-intro">{esc(a["steps_intro"])}</p>' if a.get("steps_intro") else ""
     if beta:
         hero_secondary = (beta["cta_secondary"], "#slik")
     else:
@@ -423,7 +426,7 @@ def page(slug, a):
 <main>
   <section class="section" id="slik">
     <div class="label">{esc(steps_label)}</div>
-    <h2>{esc(steps_title)}</h2>
+    <h2>{esc(steps_title)}</h2>{steps_intro}
     <ol class="steps">{steps}</ol>
   </section>
 

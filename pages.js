@@ -18,15 +18,33 @@
   var err = document.querySelector(".err");
   var btn = form.querySelector("button[type=submit]");
   var label = btn.textContent;
+  // Intent toggle (e.g. "Meld interesse" / "Be om demo"): a hidden field, the submit label
+  // and the confirmation text follow the chosen button. Pages without a toggle skip all of it.
+  var intentInput = form.elements.intent;
+  var intentTexts = {};
+  try { intentTexts = JSON.parse(form.dataset.intents || "{}"); } catch (x) {}
+  document.querySelectorAll("[data-intent]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      if (!intentInput) return;
+      var k = el.getAttribute("data-intent");
+      intentInput.value = k;
+      document.querySelectorAll(".intent [data-intent]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-intent") === k ? "true" : "false"); });
+      label = el.getAttribute("data-label") || label; btn.textContent = label;
+      var t = intentTexts[k]; if (t) { done.querySelector("b").textContent = t[0]; done.querySelector("span").textContent = t[1]; }
+      if (el.tagName === "A") { form.scrollIntoView({ block: "center" }); }
+      document.getElementById("lead-value").focus({ preventScroll: el.tagName !== "A" });
+    });
+  });
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     var value = (form.elements.value.value || "").trim();
+    var intent = intentInput ? intentInput.value : undefined;
     var website = (form.elements.website && form.elements.website.value || "").trim();
     err.hidden = true;
     if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; return; }
     btn.disabled = true; btn.textContent = "Sender…";
     try {
-      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, website: website, page: location.href }) });
+      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.href }) });
       var j = await r.json().catch(function () { return {}; });
       if (r.ok && j.ok) {
         form.hidden = true; done.hidden = false;

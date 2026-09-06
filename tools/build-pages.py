@@ -10,7 +10,7 @@ def esc(t):
     return html.escape(t, quote=True)
 
 
-TAG_LABELS = {"customer": "Fra kunden", "ai": "ERA-forslag", "check": "Avklares på befaring", "pilot": "I pilot"}
+TAG_LABELS = {"customer": "Fra kunden", "ai": "ERA-forslag", "check": "Avklares på befaring", "order": "Bestilling og levering", "pilot": "I pilot", "planned": "Planlagt"}
 
 
 def detail_card(title, meta, groups, note=None):
@@ -134,8 +134,11 @@ AUDIENCES = {
              "Hold avtalt omfang, materialbehov og prosjektinformasjon samlet, så du og kunden vet hva som skal gjøres.",
              ("Se arbeidsgrunnlaget", detail_card(
                  "Arbeidsgrunnlag · Male stue", "Godkjent av kunde",
-                 [("customer", [("Omfang", "Vegger, 2 strøk"), ("Materialer", "2 × maling 10 L, 1 × sparkel 5 kg, 2 ruller"), ("Avtalt oppstart", "Uke 38")]),
-                  ("pilot", [("Betaling og status", "Bestilling og avtalt tid samlet")])]))),
+                 [("customer", [("Omfang", "Vegger, 2 strøk"), ("Avtalt oppstart", "Uke 38")]),
+                  ("ai", [("Produkter fra planen", "2 × maling 10 L, 1 × sparkel 5 kg, 2 ruller"), ("Materialpris", "ca. 1 900 kr")]),
+                  ("order", [("Bestilling", "Én bestilling fra planen, uavhengig av kjede"), ("Levering", "Kjøres hjem, hentes i butikk, eller du henter")]),
+                  ("pilot", [("Betaling i ERA", "Avtalt beløp og betalingsstatus")])],
+                 note="Mengder og pris kommer fra planen og kan justeres etter befaringen. Kunden velger levering. Betaling i ERA er i pilot."))),
             ("Kunden vil også male taket.",
              "Gjør endringen tydelig med beskrivelse, pris og konsekvens for fremdriften. Send den til kunden for godkjenning før ekstraarbeidet starter.",
              ("Se en endringsordre", detail_card(
@@ -147,8 +150,8 @@ AUDIENCES = {
              "Samle bilder, produktinformasjon og utført arbeid i en ryddig overlevering. Kunden beholder dokumentasjonen i boligen, og arbeidet ditt blir synlig for fremtidig oppfølging.",
              ("Se overleveringen", detail_card(
                  "Overlevering · Male stue", "Ferdigstilt",
-                 [("customer", [("Utført arbeid", "Vegger og tak, 2 strøk"), ("Bilder", "6 lagt til"), ("Produkter brukt", "Maling, sparkel, ruller")]),
-                  ("pilot", [("Betaling og status", "Oversikt for kunde og håndverker")])],
+                 [("customer", [("Utført arbeid", "Vegger og tak, 2 strøk"), ("Bilder", "6 lagt til"), ("Produkter brukt", "Maling, sparkel, ruller"), ("Status", "Ferdigstilt og overlevert")]),
+                  ("pilot", [("Betaling i ERA", "Avtalt beløp og om det er gjort opp")])],
                  note="Kunden finner det samme arbeidet igjen i boligens historikk, med ditt navn på. Ikke en sertifisering eller garanti, bare en ryddig logg."))),
         ],
         roles=[
@@ -171,8 +174,11 @@ AUDIENCES = {
         closing=dict(
             heading="Mer tid til faget. Bedre kontroll på jobben.",
             lede="Se hvordan ERA knytter kundens behov til arbeidsflyten din, fra første henvendelse til ferdig dokumentert oppdrag.",
-            note="Ønsker du en demo i stedet? Skriv «demo» i feltet under, så avtaler vi tid.",
         ),
+        intents=[
+            ("interest", "Meld interesse", "Takk. Du er registrert.", "Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område."),
+            ("demo", "Be om demo", "Takk. Vi tar kontakt for å avtale en demo.", "Du hører fra oss med forslag til tidspunkt."),
+        ],
         form_field="Firmanavn eller organisasjonsnummer", form_label="Firma", form_cta="Meld interesse",
         done=("Takk. Du er registrert.", "Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område."),
         story="#handverker",
@@ -291,6 +297,16 @@ def page(slug, a):
     closing_head = closing.get("heading", a["hook"])
     closing_lede = closing.get("lede", a["lede"])
     closing_note = f'<p class="fine">{esc(closing["note"])}</p>' if closing.get("note") else ""
+    intents = a.get("intents") or []
+    intent_toggle = ""
+    intents_attr = ""
+    if intents:
+        intent_toggle = '<div class="intent" role="group" aria-label="Hva ønsker du?">' + "".join(
+            f'<button type="button" data-intent="{k}" data-label="{esc(lbl)}" aria-pressed="{"true" if i == 0 else "false"}">{esc(lbl)}</button>'
+            for i, (k, lbl, _h, _s) in enumerate(intents)
+        ) + '</div>'
+        intents_attr = ' data-intents="' + esc(json.dumps({k: [h, sub] for k, _l, h, sub in intents}, ensure_ascii=False)) + '"'
+    intent_field = f'<input type="hidden" name="intent" value="{intents[0][0]}">' if intents else ""
     gains = "".join(f'<div class="gain"><h3>{esc(h)}</h3><p>{esc(t)}</p></div>' for h, t in a["gains"])
     example_section = ""
     if a.get("example"):
@@ -381,7 +397,9 @@ def page(slug, a):
       <div class="brand big">era<span>.</span></div>
       <h2>{esc(closing_head)}</h2>
       <p class="lede light">{esc(closing_lede)}</p>
-      <form id="era-lead" class="lead" data-audience="{a["key"]}">
+      {intent_toggle}
+      <form id="era-lead" class="lead" data-audience="{a["key"]}"{intents_attr}>
+        {intent_field}
         <div class="lead-pill">
           <label class="sr" for="lead-value">{esc(a["form_field"])}</label>
           <div class="lead-value-wrap">
@@ -427,7 +445,7 @@ def privacy_page():
     """Honest to what the site actually does today: one form, one private store in the EU, no cookies."""
     sections = [
         ("Hva vi samler inn", [
-            "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
+            "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
             "Vi samler ikke inn navn, e-post eller telefonnummer gjennom skjemaet i dag, og vi lagrer ikke IP-adressen din.",
         ]),
         ("Hvorfor", [

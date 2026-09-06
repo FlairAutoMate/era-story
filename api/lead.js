@@ -2,7 +2,7 @@
 // (private access, EU region) and, when RESEND_API_KEY + LEAD_NOTIFY_TO are set, e-mails a
 // notification. Nothing else is sent anywhere.
 //
-// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, email: string, website?: string, page?: string }
+// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, email?: string, intent?: "interest" | "demo", website?: string, page?: string }
 // `website` is a honeypot: humans never fill it, bots do. `email` is optional — the forms only ask
 // for an address today; sign-in via Vipps/Google comes later. A real-shaped e-mail is kept if sent.
 //
@@ -25,6 +25,7 @@ async function notify(doc) {
     `Ny henvendelse fra ${who.toLowerCase()} via era-story.`,
     ``,
     `${who}: ${doc.value}`,
+    `Ønsker: ${doc.intent === "demo" ? "demo" : "å bli kontaktet"}`,
     `E-post: ${doc.email || "-"}`,
     `Tidspunkt: ${doc.receivedAt}`,
     `Side: ${doc.page || "-"}`,
@@ -55,6 +56,7 @@ export default async function handler(req, res) {
   const audience = AUDIENCES.has(body.audience) ? body.audience : "owner";
   const value = String(body.value ?? "").trim().replace(/\s+/g, " ").slice(0, MAX_LEN);
   const email = String(body.email ?? "").trim().slice(0, MAX_LEN);
+  const intent = body.intent === "demo" ? "demo" : "interest";
   const honeypot = String(body.website ?? "").trim();
 
   // Bots get a friendly 200 and nothing stored; humans need at least a few characters and a
@@ -69,6 +71,7 @@ export default async function handler(req, res) {
     audience,
     value,
     email: EMAIL_RE.test(email) ? email : undefined,
+    intent,
     receivedAt: now.toISOString(),
     source: "era-story",
     page: typeof body.page === "string" ? body.page.slice(0, 200) : undefined,

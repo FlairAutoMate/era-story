@@ -170,18 +170,24 @@
 })();
 
 // Five-step story: tabs + prev/next. Only the selected scene is in the DOM flow; arrow keys move
-// between steps; earlier steps get a faint "done" state.
+// between steps; earlier steps get a faint state. The panel is sized to the tallest scene once, so
+// switching tabs never shifts the page.
 (function () {
   var nav = document.querySelector(".stepnav");
   if (!nav) return;
   var tabs = [].slice.call(nav.querySelectorAll('[role="tab"]'));
-  var panels = [].slice.call(document.querySelectorAll(".scene-panel .scene"));
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var panelBox = document.querySelector(".scene-panel");
+  var panels = [].slice.call(panelBox.querySelectorAll(".scene"));
+  function equalize() {
+    var max = 0;
+    panels.forEach(function (p) { var was = p.hidden; p.hidden = false; p.style.visibility = "hidden"; max = Math.max(max, p.offsetHeight); p.style.visibility = ""; p.hidden = was; });
+    panelBox.style.minHeight = max ? max + "px" : "";
+  }
   function show(i, focusTab) {
     i = Math.max(0, Math.min(tabs.length - 1, i));
     tabs.forEach(function (t, j) { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; t.classList.toggle("is-past", j < i); });
-    panels.forEach(function (p, j) { p.hidden = j !== i; });
-    if (!reduce && panels[i].animate) panels[i].animate([{ opacity: 0.4 }, { opacity: 1 }], { duration: 220, easing: "ease-out" });
+    panels.forEach(function (p, j) { p.hidden = j !== i; p.classList.remove("is-entering"); });
+    void panels[i].offsetWidth; panels[i].classList.add("is-entering");
     if (focusTab) tabs[i].focus();
   }
   tabs.forEach(function (t, i) {
@@ -193,10 +199,13 @@
       else if (e.key === "End") { e.preventDefault(); show(tabs.length - 1, true); }
     });
   });
-  document.querySelectorAll(".scene-nav button").forEach(function (b) {
+  panelBox.querySelectorAll(".scene-nav button").forEach(function (b) {
     b.addEventListener("click", function () {
       var cur = panels.findIndex(function (p) { return !p.hidden; });
       show(cur + Number(b.getAttribute("data-dir")), true);
     });
   });
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(equalize, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize); else equalize();
+  equalize();
 })();

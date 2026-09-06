@@ -297,7 +297,7 @@
     // same left/top/width/height in frame-%, computed by _applyView(), so the
     // inside-mask crop and the outside-mask spill stay pixel-aligned.
     '.frame img{position:absolute;max-width:none;transform:translate(-50%,-50%);' +
-    '  -webkit-user-drag:none;user-select:none;touch-action:none}' +
+    '  -webkit-user-drag:none;user-select:none;touch-action:pan-x pan-y pinch-zoom}' +
     // Reframe mode (double-click): the full image spills past the mask. The
     // spill layer is sized to the IMAGE bounds so its corners are where the
     // resize handles belong. The ghost <img> inside is translucent; the real
@@ -1097,7 +1097,9 @@
       if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
       const srcAttr = this.getAttribute('src') || '';
       this._userUrl = (stored && stored.u) || null;
-      const url = this._userUrl || srcAttr;
+      // ERA: on small screens (html[data-m]) a /assets/story/*.jpg source is served as its -m variant (1400 px wide).
+      const mobileUrl = (u) => (u && document.documentElement.hasAttribute('data-m') && /^\/assets\/story\/[^/]+-v\d\.jpg$/.test(u)) ? u.replace(/\.jpg$/, '-m.jpg') : u;
+      const url = this._userUrl || mobileUrl(srcAttr);
       // Don't clobber an in-flight reframe with a store-triggered re-render.
       if (!this.hasAttribute('data-reframe')) {
         this._view = {

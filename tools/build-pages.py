@@ -44,7 +44,7 @@ def dash(title, meta, kpis=(), groups=(), cols=(), footer=None, tag=None):
         out.append('<div class="kpis">' + "".join(
             f'<div class="kpi"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in kpis) + '</div>')
     for g_tag, rows in groups:
-        out.append(f'<div class="dash-group"><span class="tag tag-{g_tag}">{esc(TAG_LABELS[g_tag])}</span>' + "".join(
+        out.append(f'<div class="dash-group dash-group-{g_tag}"><span class="tag tag-{g_tag}">{esc(TAG_LABELS[g_tag])}</span>' + "".join(
             f'<div class="drow"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in rows) + '</div>')
     if cols:
         out.append('<div class="dash-cols">' + "".join(
@@ -118,7 +118,7 @@ AUDIENCES = {
                 dict(nav="Oversikt", heading="Hva trenger bygget deres nå?",
                      text="Rapporter, tidligere arbeid og innmeldte behov gir styret ett samlet utgangspunkt.",
                      value="ERA skiller dokumenterte funn fra forslag som styret må vurdere.",
-                     view=dash("Eiendomsoversikt", "Borgveien 14 · 24 seksjoner · Fasade",
+                     view=dash("Eiendomsoversikt", "Samlet utgangspunkt for styret",
                                kpis=[("Eiendom", "Borgveien 14"), ("Seksjoner", "24"), ("Område", "Fasade"), ("Sist utført", "Malt 2012")],
                                groups=[("doc", [("Tilstandsrapport 2021", "Maling flasser på sør- og vestvegg"), ("Innmeldt behov", "Avskalling ved inngang B")]),
                                        ("ai", [("Forslag", "Befaring innen 12 måneder")])],
@@ -126,7 +126,7 @@ AUDIENCES = {
                 dict(nav="Prioritering", heading="Fra rapport til neste steg.",
                      text="Det dokumenterte behovet omformes til et konkret tiltak i vedlikeholdsplanen.",
                      value="Styret ser hvorfor tiltaket foreslås, når det bør vurderes og hvilket grunnlag det bygger på.",
-                     view=dash("Vedlikeholdsplan", "Fasade · til vurdering",
+                     view=dash("Vedlikeholdsplan", "Forslag fra ERA, til styrets vurdering",
                                kpis=[("Foreslått tiltak", "Male sør- og vestvegg"), ("Anbefalt år", "2027"), ("Kostnadsintervall", "1,0–1,3 mill"), ("Status", "Til vurdering")],
                                groups=[("doc", [("Funn", "Maling flasser, sør- og vestvegg · rapport 2021"), ("Egen oppgave i totalplanen", "Tak · 2031")]),
                                        ("ai", [("Grunnlag", "Rapport 2021 og innmeldt avskalling"), ("Per seksjon", "ca. 42–54 000 kr")])],
@@ -142,7 +142,7 @@ AUDIENCES = {
                 dict(nav="Gjennomføring", heading="Samme prosjekt. Alle vet hva som skjer.",
                      text="Styret, håndverkeren og beboerne møter samme prosjekt, med informasjon tilpasset sin rolle.",
                      value="Hver rolle ser det som gjelder dem. Beboerne ser fellesarbeidet, ikke styrets saksbehandling.",
-                     view=dash("Fasade 2027", "Uke 2 av 6 · i rute",
+                     view=dash("Fasade 2027", "Tre roller, samme prosjekt",
                                cols=[("board", [("Fremdrift", "Uke 2 av 6, i rute"), ("Avklaring", "Farge på beslag, svar innen fredag")]),
                                      ("pro", [("Arbeidsgrunnlag", "Omfang, bilder og avtalt tid"), ("Dokumentasjon", "Bilder legges inn underveis")]),
                                      ("resident", [("Når", "Stillas ved inngang B, uke 20–25"), ("Praktisk", "Balkonger ryddes før 12. mai")])],
@@ -150,9 +150,10 @@ AUDIENCES = {
                 dict(nav="Dokumentasjon", heading="Jobben er ferdig. Historikken lever videre.",
                      text="Utført arbeid, bilder og produkter samles på eiendommen, og vedlikeholdsplanen oppdateres.",
                      value="Neste styre starter med historikken, ikke fra null.",
-                     view=dash("Dokumentasjon", "Fasade 2027 · ferdigstilt",
-                               kpis=[("Utført", "Sør- og vestvegg, 2 strøk"), ("Bilder", "18 før og etter"), ("Produkter", "Maling og grunning"), ("Utført av", "Malermester Berg AS")],
-                               groups=[("ai", [("Foreslått neste fasadekontroll", "2032")]),
+                     view=dash("Dokumentasjon", "Fasade 2027",
+                               kpis=[("Fasade", "Ferdigstilt"), ("Utført arbeid", "Sør- og vestvegg, 2 strøk"), ("Produkter", "Maling og grunning, dokumentert"), ("Vedlikeholdsplan", "Oppdatert")],
+                               groups=[("doc", [("Bilder", "18 før og etter"), ("Utført av", "Malermester Berg AS")]),
+                                       ("ai", [("Foreslått neste fasadekontroll", "2032")]),
                                        ("illustration", [("Påminnelse", "Fasadekontroll 2032")])],
                                footer="Eksempeldata. En ryddig logg, ikke en garanti. Taket står som egen oppgave i totalplanen.")),
             ],
@@ -356,12 +357,18 @@ def page(slug, a):
         tabs = "".join(
             f'<button type="button" role="tab" id="tab-{i+1}" aria-selected="{"true" if i == 0 else "false"}" aria-controls="scene-{i+1}" tabindex="{0 if i == 0 else -1}"><span class="n">0{i+1}</span><span class="t">{esc(it["nav"])}</span></button>'
             for i, it in enumerate(items))
+        def scene_nav(i):
+            prev = f'<button type="button" class="scene-prev" data-dir="-1">← Forrige</button>' if i > 0 else '<span></span>'
+            if i < len(items) - 1:
+                nxt = f'<button type="button" class="scene-next" data-dir="1">Neste: {esc(items[i+1]["nav"])} →</button>'
+            else:
+                nxt = f'<a class="scene-next" href="#skjema">{esc(a["form_cta"])}</a>'
+            return f'<div class="scene-nav">{prev}{nxt}</div>'
         panels = "".join(
             f'<div class="scene" role="tabpanel" id="scene-{i+1}" aria-labelledby="tab-{i+1}"{"" if i == 0 else " hidden"}>'
             f'<div class="scene-text"><div class="label">Steg {i+1} · {esc(it["nav"])}</div><h3>{esc(it["heading"])}</h3><p>{esc(it["text"])}</p>'
-            f'<p class="scene-value">{esc(it["value"])}</p>'
-            f'<div class="scene-nav"><button type="button" class="scene-prev" data-dir="-1"{" disabled" if i == 0 else ""}>← Forrige</button><button type="button" class="scene-next" data-dir="1"{" disabled" if i == len(items) - 1 else ""}>Neste →</button></div></div>'
-            f'<div class="scene-view">{it["view"]}</div></div>'
+            f'<p class="scene-value">{esc(it["value"])}</p></div>'
+            f'<div class="scene-view">{it["view"]}</div>{scene_nav(i)}</div>'
             for i, it in enumerate(items))
         scenes_section = (
             '<section class="section scenes" id="slik"><div class="wrap wide">'

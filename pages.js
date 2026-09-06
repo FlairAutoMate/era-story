@@ -168,3 +168,35 @@
   function nextWord() { typeFrom(list[exIdx % list.length], 0); }
   nextWord();
 })();
+
+// Five-step story: tabs + prev/next. Only the selected scene is in the DOM flow; arrow keys move
+// between steps; earlier steps get a faint "done" state.
+(function () {
+  var nav = document.querySelector(".stepnav");
+  if (!nav) return;
+  var tabs = [].slice.call(nav.querySelectorAll('[role="tab"]'));
+  var panels = [].slice.call(document.querySelectorAll(".scene-panel .scene"));
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function show(i, focusTab) {
+    i = Math.max(0, Math.min(tabs.length - 1, i));
+    tabs.forEach(function (t, j) { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; t.classList.toggle("is-past", j < i); });
+    panels.forEach(function (p, j) { p.hidden = j !== i; });
+    if (!reduce && panels[i].animate) panels[i].animate([{ opacity: 0.4 }, { opacity: 1 }], { duration: 220, easing: "ease-out" });
+    if (focusTab) tabs[i].focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { show(i); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); show(i + 1, true); }
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); show(i - 1, true); }
+      else if (e.key === "Home") { e.preventDefault(); show(0, true); }
+      else if (e.key === "End") { e.preventDefault(); show(tabs.length - 1, true); }
+    });
+  });
+  document.querySelectorAll(".scene-nav button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var cur = panels.findIndex(function (p) { return !p.hidden; });
+      show(cur + Number(b.getAttribute("data-dir")), true);
+    });
+  });
+})();

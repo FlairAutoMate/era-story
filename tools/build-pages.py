@@ -33,6 +33,30 @@ def detail_card(title, meta, groups, note=None):
 
 
 
+def dash(title, meta, kpis=(), groups=(), cols=(), footer=None, tag=None):
+    """A wide, dashboard-like product view for the scene panel: a header, up to four KPI tiles,
+    optional tagged row groups or side-by-side columns, and one short footer. Monospace only
+    on small values. `tag` marks the whole view (e.g. illustration of a workflow)."""
+    head_tag = f'<span class="tag tag-{tag}">{esc(TAG_LABELS[tag])}</span>' if tag else ""
+    out = ['<div class="dash">',
+           f'<div class="dash-head"><div><div class="dash-title">{esc(title)}</div><div class="dash-meta">{esc(meta)}</div></div>{head_tag}</div>']
+    if kpis:
+        out.append('<div class="kpis">' + "".join(
+            f'<div class="kpi"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in kpis) + '</div>')
+    for g_tag, rows in groups:
+        out.append(f'<div class="dash-group"><span class="tag tag-{g_tag}">{esc(TAG_LABELS[g_tag])}</span>' + "".join(
+            f'<div class="drow"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in rows) + '</div>')
+    if cols:
+        out.append('<div class="dash-cols">' + "".join(
+            f'<div class="dcol"><span class="tag tag-{c_tag}">{esc(TAG_LABELS[c_tag])}</span>' + "".join(
+                f'<div class="drow"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in rows) + '</div>'
+            for c_tag, rows in cols) + '</div>')
+    if footer:
+        out.append(f'<div class="dash-foot">{esc(footer)}</div>')
+    out.append('</div>')
+    return "".join(out)
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
@@ -87,49 +111,52 @@ AUDIENCES = {
         hero_support="Styret skifter. Planen består.",
         image="/assets/story/block-bikes-v3.jpg", image_pos="50% 50%",
         hero_secondary=("Se hvordan det henger sammen", "/#styret"),
-        steps_label="Ett behov på fasaden, hele veien", steps_title="Én eiendom. Fem hendelser.",
-        steps_intro="Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere, og relevant informasjon om fellesarbeidet.",
-        steps=[
-            ("Hva trenger bygget deres nå?",
-             "Samle rapporter, tidligere arbeid og innmeldte behov. ERA hjelper styret å forstå hva som trenger oppfølging.",
-             ("Se eiendomsoversikten", detail_card(
-                 "Eiendomsoversikt · Fasade", "Borgveien 14 · 24 seksjoner",
-                 [("doc", [("Tilstandsrapport 2021", "Maling flasser, sør- og vestvegg"), ("Sist utført", "Fasade malt 2012"), ("Innmeldt fra beboer", "Avskalling ved inngang B")]),
-                  ("ai", [("Foreslått oppfølging", "Befaring av fasade innen 12 mnd")])],
-                 note="Dokumenterte funn og innmeldte behov vises for seg. ERA-forslaget er et utgangspunkt styret vurderer."))),
-            ("Fra rapport til neste steg.",
-             "Få forslag til tiltak, prioritering og tidspunkt, med kostnadsestimater som gir styret et bedre grunnlag for å planlegge.",
-             ("Se vedlikeholdsplanen", detail_card(
-                 "Vedlikeholdsplan · Fasade", "24 seksjoner",
-                 [("doc", [("Grunnlag", "Tilstandsrapport 2021 + innmeldt behov")]),
-                  ("ai", [("Tilstand", "Slitt, ikke kritisk"), ("Anbefalt år", "2027"), ("Estimert kostnad", "1,2 mill"), ("Per seksjon", "ca. 50 000 kr")]),
-                  ("doc", [("Egen oppgave i totalplanen", "Tak · 2031")])],
-                 note="Forslaget bygger på rapporten og det som er meldt inn. Styret vurderer og beslutter; ERA foreslår."))),
-            ("Et tydelig behov. Et tydelig oppdrag.",
-             "Bruk underlaget videre til arbeidsbeskrivelse og innhenting av tilbud. Samle omfang og kostnader før styret tar beslutningen.",
-             ("Se veien til oppdrag", detail_card(
-                 "Oppdragsgrunnlag · Fasade 2027", "Fra vedlikeholdsplanen",
-                 [("doc", [("Omfang", "Sør- og vestvegg, vask, sparkling, 2 strøk"), ("Bilder og rapport", "Følger oppdraget"), ("Ønsket tid", "Mai–juni 2027")]),
-                  ("board", [("Tilbud mottatt", "3, sammenlignbare på samme omfang"), ("Beslutning", "Styremøte 14. mars")])],
-                 note="Omfang, bilder og rapport gjenbrukes fra planen. Tilbudene svarer på samme beskrivelse, så de kan sammenlignes."))),
-            ("Samme prosjekt. Alle vet hva som skjer.",
-             "Styret følger opp arbeidet. Håndverkeren får et tydelig arbeidsgrunnlag. Beboerne får relevant informasjon om hva som skal skje.",
-             ("Se samarbeidet", detail_card(
-                 "Fasade 2027 · Tre perspektiver", "Samme prosjekt, tilpasset rolle og tilgang",
-                 [("board", [("Fremdrift", "Uke 2 av 6, i rute"), ("Avklaring", "Farge på beslag, svar innen fredag")]),
-                  ("pro", [("Arbeidsgrunnlag", "Omfang, bilder og avtalt tid"), ("Dokumentasjon", "Bilder legges inn underveis")]),
-                  ("resident", [("Når", "Stillas ved inngang B, uke 20–25"), ("Praktisk", "Balkonger ryddes før 12. mai")]),
-                  ("illustration", [("Varsling til beboere", "Melding når noe endrer seg")])],
-                 note="Hver rolle ser det som gjelder dem. Beboerne ser fellesarbeidet, ikke styrets saksbehandling."))),
-            ("Jobben er ferdig. Historikken lever videre.",
-             "Samle utført arbeid, bilder og produktinformasjon rundt eiendommen. Oppdater vedlikeholdsplanen og gi neste styre et godt utgangspunkt.",
-             ("Se dokumentasjonen", detail_card(
-                 "Dokumentasjon · Fasade 2027", "Ferdigstilt",
-                 [("doc", [("Utført arbeid", "Sør- og vestvegg, 2 strøk"), ("Bilder", "18 før og etter"), ("Produkter", "Maling og grunning, med batch"), ("Utført av", "Malermester Berg AS")]),
-                  ("ai", [("Foreslått neste fasadekontroll", "2032")]),
-                  ("illustration", [("Påminnelse", "Fasadekontroll 2032")])],
-                 note="Fasaden er ferdig og dokumentert; kontrollen er foreslått i planen. Taket står som egen oppgave i totalplanen. En ryddig logg, ikke en garanti."))),
-        ],
+        scenes=dict(
+            eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
+            lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",
+            items=[
+                dict(nav="Oversikt", heading="Hva trenger bygget deres nå?",
+                     text="Rapporter, tidligere arbeid og innmeldte behov gir styret ett samlet utgangspunkt.",
+                     value="ERA skiller dokumenterte funn fra forslag som styret må vurdere.",
+                     view=dash("Eiendomsoversikt", "Borgveien 14 · 24 seksjoner · Fasade",
+                               kpis=[("Eiendom", "Borgveien 14"), ("Seksjoner", "24"), ("Område", "Fasade"), ("Sist utført", "Malt 2012")],
+                               groups=[("doc", [("Tilstandsrapport 2021", "Maling flasser på sør- og vestvegg"), ("Innmeldt behov", "Avskalling ved inngang B")]),
+                                       ("ai", [("Forslag", "Befaring innen 12 måneder")])],
+                               footer="Eksempeldata. ERA-forslag vurderes og besluttes av styret.")),
+                dict(nav="Prioritering", heading="Fra rapport til neste steg.",
+                     text="Det dokumenterte behovet omformes til et konkret tiltak i vedlikeholdsplanen.",
+                     value="Styret ser hvorfor tiltaket foreslås, når det bør vurderes og hvilket grunnlag det bygger på.",
+                     view=dash("Vedlikeholdsplan", "Fasade · til vurdering",
+                               kpis=[("Foreslått tiltak", "Male sør- og vestvegg"), ("Anbefalt år", "2027"), ("Kostnadsintervall", "1,0–1,3 mill"), ("Status", "Til vurdering")],
+                               groups=[("doc", [("Funn", "Maling flasser, sør- og vestvegg · rapport 2021"), ("Egen oppgave i totalplanen", "Tak · 2031")]),
+                                       ("ai", [("Grunnlag", "Rapport 2021 og innmeldt avskalling"), ("Per seksjon", "ca. 42–54 000 kr")])],
+                               footer="Eksempeldata. Styret vurderer og beslutter; ERA foreslår.")),
+                dict(nav="Beslutning", heading="Et tydelig behov. Et tydelig oppdrag.",
+                     text="Tiltaket tas videre som arbeidsbeskrivelse og beslutningsgrunnlag for styret.",
+                     value="Samme informasjon gjenbrukes uten at prosjektet må bygges opp på nytt.",
+                     view=dash("Oppdragsgrunnlag", "Fasade 2027 · fra vedlikeholdsplanen", tag="illustration",
+                               cols=[("doc", [("Omfang", "Sør- og vestvegg, vask, sparkling, 2 strøk"), ("Vedlegg", "Bilder og rapport"), ("Ønsket tid", "Mai–juni 2027")]),
+                                     ("board", [("Forutsetninger", "Stillas, adkomst inngang B"), ("Beslutning", "Styremøte 14. mars")]),
+                                     ("pro", [("Tilbud", "3 mottatt på samme omfang"), ("Spenn", "1,05–1,25 mill")])],
+                               footer="Eksempeldata. Sammenligning av tilbud vises som illustrasjon av arbeidsflyten.")),
+                dict(nav="Gjennomføring", heading="Samme prosjekt. Alle vet hva som skjer.",
+                     text="Styret, håndverkeren og beboerne møter samme prosjekt, med informasjon tilpasset sin rolle.",
+                     value="Hver rolle ser det som gjelder dem. Beboerne ser fellesarbeidet, ikke styrets saksbehandling.",
+                     view=dash("Fasade 2027", "Uke 2 av 6 · i rute",
+                               cols=[("board", [("Fremdrift", "Uke 2 av 6, i rute"), ("Avklaring", "Farge på beslag, svar innen fredag")]),
+                                     ("pro", [("Arbeidsgrunnlag", "Omfang, bilder og avtalt tid"), ("Dokumentasjon", "Bilder legges inn underveis")]),
+                                     ("resident", [("Når", "Stillas ved inngang B, uke 20–25"), ("Praktisk", "Balkonger ryddes før 12. mai")])],
+                               footer="Eksempeldata. Varsling til beboere vises som illustrasjon av arbeidsflyten.")),
+                dict(nav="Dokumentasjon", heading="Jobben er ferdig. Historikken lever videre.",
+                     text="Utført arbeid, bilder og produkter samles på eiendommen, og vedlikeholdsplanen oppdateres.",
+                     value="Neste styre starter med historikken, ikke fra null.",
+                     view=dash("Dokumentasjon", "Fasade 2027 · ferdigstilt",
+                               kpis=[("Utført", "Sør- og vestvegg, 2 strøk"), ("Bilder", "18 før og etter"), ("Produkter", "Maling og grunning"), ("Utført av", "Malermester Berg AS")],
+                               groups=[("ai", [("Foreslått neste fasadekontroll", "2032")]),
+                                       ("illustration", [("Påminnelse", "Fasadekontroll 2032")])],
+                               footer="Eksempeldata. En ryddig logg, ikke en garanti. Taket står som egen oppgave i totalplanen.")),
+            ],
+        ),
         aside=dict(
             label="Beboerverdi", heading="Verdi for styret. Hjelp til hver bolig.",
             text="Styret får oversikt over felles vedlikehold. Boligeieren får relevant informasjon om fellesarbeidet, og hjelp til å følge opp egen bolig med dokumentasjon, vedlikeholdsplan og påminnelser. Fellesareal og privat bolig holdes adskilt: privat boligdokumentasjon deles ikke automatisk med styret.",
@@ -318,10 +345,36 @@ def page(slug, a):
             label, html = step[2]
             detail = f'<details class="step-detail"><summary>{esc(label)} <span class="chev" aria-hidden="true">⌄</span></summary>{html}</details>'
         return f'<li><span class="n">0{i+1}</span><div><h3>{esc(h)}</h3><p>{esc(t)}</p>{detail}</div></li>'
-    steps = "".join(step_li(i, s) for i, s in enumerate(a["steps"]))
+    steps = "".join(step_li(i, s) for i, s in enumerate(a.get("steps", [])))
     steps_label = a.get("steps_label", "Slik fungerer det")
     steps_title = a.get("steps_title", "Fire steg. Ingen gjetting.")
     steps_intro = f'<p class="steps-intro">{esc(a["steps_intro"])}</p>' if a.get("steps_intro") else ""
+    scenes_section = ""
+    if a.get("scenes"):
+        sc = a["scenes"]
+        items = sc["items"]
+        tabs = "".join(
+            f'<button type="button" role="tab" id="tab-{i+1}" aria-selected="{"true" if i == 0 else "false"}" aria-controls="scene-{i+1}" tabindex="{0 if i == 0 else -1}"><span class="n">0{i+1}</span><span class="t">{esc(it["nav"])}</span></button>'
+            for i, it in enumerate(items))
+        panels = "".join(
+            f'<div class="scene" role="tabpanel" id="scene-{i+1}" aria-labelledby="tab-{i+1}"{"" if i == 0 else " hidden"}>'
+            f'<div class="scene-text"><div class="label">Steg {i+1} · {esc(it["nav"])}</div><h3>{esc(it["heading"])}</h3><p>{esc(it["text"])}</p>'
+            f'<p class="scene-value">{esc(it["value"])}</p>'
+            f'<div class="scene-nav"><button type="button" class="scene-prev" data-dir="-1"{" disabled" if i == 0 else ""}>← Forrige</button><button type="button" class="scene-next" data-dir="1"{" disabled" if i == len(items) - 1 else ""}>Neste →</button></div></div>'
+            f'<div class="scene-view">{it["view"]}</div></div>'
+            for i, it in enumerate(items))
+        scenes_section = (
+            '<section class="section scenes" id="slik"><div class="wrap wide">'
+            f'<div class="label">{esc(sc["eyebrow"])}</div><h2>{esc(sc["title"])}</h2><p class="steps-intro">{esc(sc["lede"])}</p>'
+            f'<div class="stepnav" role="tablist" aria-label="Fem steg">{tabs}</div>'
+            f'<div class="scene-panel">{panels}</div>'
+            '</div></section>'
+        )
+    steps_section = scenes_section or (
+        '<section class="section" id="slik">'
+        f'<div class="label">{esc(steps_label)}</div><h2>{esc(steps_title)}</h2>{steps_intro}'
+        f'<ol class="steps">{steps}</ol></section>'
+    )
     if beta:
         hero_secondary = (beta["cta_secondary"], "#slik")
     else:
@@ -424,11 +477,7 @@ def page(slug, a):
 </header>
 
 <main>
-  <section class="section" id="slik">
-    <div class="label">{esc(steps_label)}</div>
-    <h2>{esc(steps_title)}</h2>{steps_intro}
-    <ol class="steps">{steps}</ol>
-  </section>
+  {steps_section}
 
   {aside_section}
 

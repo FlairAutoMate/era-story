@@ -43,6 +43,7 @@
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/vendor/react.production.min.js",
   "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/vendor/react-dom.production.min.js"
 };</script>
+<script>if (window.innerWidth < 900) document.documentElement.setAttribute("data-m", "1");</script>
 <script src="/js/dc-runtime.js"></script>
 </head>
 <body data-page="om-era">
@@ -330,7 +331,7 @@
 
   <!-- STICKY COMMERCIAL NAV -->
   <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
-    <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
+    <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: {{ navBlur }}; -webkit-backdrop-filter: {{ navBlur }}; background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
       <a href="/" aria-label="ERA — til forsiden" style="display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
       <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
         <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
@@ -342,7 +343,7 @@
         <button type="button" data-menu-toggle="1" aria-label="{{ navMenuAria }}" aria-expanded="{{ navMenuExpanded }}" style="display: {{ navMenuBtnDisplay }}; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{ navBorder }}; background: transparent; color: inherit; font: inherit; font-size: 20px; line-height: 1; cursor: pointer">{{ navMenuIcon }}</button>
       </div>
     </div>
-    <div data-menu-panel="1" style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; max-height: calc(100vh - 100px); max-height: calc(100dvh - 100px); overflow-y: auto; -webkit-overflow-scrolling: touch; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
+    <div data-menu-panel="1" style="pointer-events: auto; position: absolute; top: 72px; left: 16px; right: 16px; max-height: calc(100vh - 100px); max-height: calc(100dvh - 100px); overflow-y: auto; -webkit-overflow-scrolling: touch; display: {{ navMenuDisplay }}; flex-direction: column; padding: 10px; border-radius: 22px; background: {{ navMenuBg }}; color: {{ navMenuFg }}; border: 1px solid {{ navBorder }}; box-shadow: 0 20px 60px rgba(15,24,48,0.35)">
       <sc-for list="{{ navMenuItems }}" as="mi" hint-placeholder-count="7">
         <a href="{{ mi.href }}" data-menu-close="1" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; color: inherit; font-size: 17px; font-weight: 600">{{ mi.label }}<span style="color: #D4B17A">→</span></a>
       </sc-for>
@@ -830,7 +831,7 @@
   <section ref="{{ refFinale }}" data-theme="dark" style="position: relative; height: {{ h_finale }}; background: #0F1830" data-screen-label="29 Finale" aria-label="Finn min bolig">
     <div id="start" class="era-start" aria-hidden="true" style="position: absolute; left: 0; width: 1px; height: 1px"></div>
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
-      <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v4.jpg" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
+      <img loading="lazy" decoding="async" data-story-image="finale-neighbourhood" src="/assets/story/neighbourhood-dusk-v4.jpg" srcset="/assets/story/neighbourhood-dusk-v4-m.jpg 1400w, /assets/story/neighbourhood-dusk-v4.jpg 3000w" sizes="100vw" alt="Norsk boligområde i blå time — blokker, rekkehus og eneboliger" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ finPos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.65) 38%, rgba(15,24,48,0.2) 65%, rgba(15,24,48,0.1) 100%)"></div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,24,48,0.4) 0%, transparent 30%, transparent 65%, rgba(15,24,48,0.55) 100%)"></div>
       <!-- Teaser for Om ERA (kun forsiden): zoomer ut fra én bolig til hele livsløpet før logo og skjema -->
@@ -1653,9 +1654,9 @@ class Component extends DCLogic {
       stackAlign: 'center', stackGap: '48px', stackPad: '0 clamp(24px, 7vw, 120px)', memEvPad: '10px 0 18px', memEvSize: '20px', partnerNoteDisplay: 'block', comCatDisplay: 'flex', choicePad: '30px 32px', proChipJustify: 'flex-end', proTailH: '150px', splitStripH: '56px', splitCols: '1fr 1fr', splitRows: '1fr', splitLT: `translateX(${-merge * 100}%)`, splitRT: `translateX(${merge * 100}%)`, finInputLabel: 'Skriv adressen din'
     };
     const themeVals = dark ? {
-      navBg: 'rgba(15,24,48,0.55)', navBorder: 'rgba(247,244,238,0.14)', navFg: '#F7F4EE', navCtaBg: '#D4B17A', navCtaFg: '#131E3A', railFg: '#F7F4EE', railLine: 'rgba(247,244,238,0.2)'
+      navBg: mobile ? 'rgba(15,24,48,0.92)' : 'rgba(15,24,48,0.55)', navBorder: 'rgba(247,244,238,0.14)', navFg: '#F7F4EE', navCtaBg: '#D4B17A', navCtaFg: '#131E3A', railFg: '#F7F4EE', railLine: 'rgba(247,244,238,0.2)'
     } : {
-      navBg: 'rgba(255,253,248,0.8)', navBorder: 'rgba(19,30,58,0.08)', navFg: '#131E3A', navCtaBg: '#131E3A', navCtaFg: '#F7F4EE', railFg: split ? '#F7F4EE' : '#131E3A', railLine: split ? 'rgba(247,244,238,0.25)' : 'rgba(19,30,58,0.15)'
+      navBg: mobile ? 'rgba(255,253,248,0.96)' : 'rgba(255,253,248,0.8)', navBorder: 'rgba(19,30,58,0.08)', navFg: '#131E3A', navCtaBg: '#131E3A', navCtaFg: '#F7F4EE', railFg: split ? '#F7F4EE' : '#131E3A', railLine: split ? 'rgba(247,244,238,0.25)' : 'rgba(19,30,58,0.15)'
     };
 
     return {
@@ -1663,7 +1664,7 @@ class Component extends DCLogic {
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
-      chapters, railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      chapters, navBlur: mobile ? 'none' : 'blur(18px)', railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),

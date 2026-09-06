@@ -228,7 +228,7 @@ def page(slug, a):
 {nav_html(slug, esc(a["form_cta"]), "#skjema")}
 
 <header class="hero">
-  <div class="hero-media">{'<img src="' + a["image"] + '" alt="" style="object-position: ' + a["image_pos"] + '">'}</div>
+  <div class="hero-media">{'<img src="' + a["image"] + '" srcset="' + a["image"][:-4] + '-m.jpg 1400w, ' + a["image"] + ' 3000w" sizes="100vw" alt="" style="object-position: ' + a["image_pos"] + '">'}</div>
   <div class="hero-text">
     <div class="label">{esc(a["label"])}</div>
     <h1>{esc(a["hook"])}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}

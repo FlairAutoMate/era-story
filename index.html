@@ -1035,7 +1035,8 @@
           <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ ft1Ty }}; opacity: {{ ft1Op }}">
             <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Om ERA</div>
             <h2 style="margin: 0; font-size: clamp(30px, 4.4vw, 64px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">ERA bygger et agentisk system for hele boligens livsløp.</h2>
-            <p style="margin: 16px 0 0; max-width: 560px; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.4; color: rgba(247,244,238,0.85)">Teknologien bak, hvor kundereisen starter, visjonen og menneskene som bygger den.</p>
+            <p style="margin: 16px 0 0; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.25; font-weight: 700; letter-spacing: -0.02em; color: #D4B17A">Forutse behovet. Gjøre jobben. Ta vare på historikken.</p>
+            <p style="margin: 12px 0 0; max-width: 560px; font-size: clamp(15px, 1.6vw, 19px); line-height: 1.4; color: rgba(247,244,238,0.85)">Teknologien bak, hvor kundereisen starter, visjonen og menneskene som bygger den.</p>
             <a href="/om-era" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; height: 50px; padding: 0 24px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 15.5px; font-weight: 700; box-shadow: 0 20px 60px rgba(0,0,0,0.3)" style-hover="background: #E2C48F; color: #131E3A">Se hvorfor ERA finnes <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -1750,14 +1751,14 @@ class Component extends DCLogic {
     };
 
     // 25 · Fra assistent til agent: nesten svart, så boligen gjennom årstidene.
-    const ag = g('agent'), agReveal = ease(ramp(ag, 0.28, 0.42));
+    const ag = g('agent'), agReveal = ease(ramp(ag, 0.2, 0.3));
     // Landscape source for the full-bleed scene (the portrait season shots are too small for wide screens); seasons are suggested with a subtle grade until real photos exist.
     const agSeasonDefs = [['agentic-future-0', RS.agentHome || '/assets/story/block-bikes-v3.jpg', 'Agentisk fremtid · høst', 'sepia(0.18) brightness(0.92) saturate(0.95)'], ['agentic-future-1', RS.agentHome || '/assets/story/block-bikes-v3.jpg', 'Agentisk fremtid · vinter', 'saturate(0.55) brightness(1.04) contrast(1.04)'], ['agentic-future-2', RS.agentHome || '/assets/story/block-bikes-v3.jpg', 'Agentisk fremtid · vår', 'saturate(1.1) brightness(1.02)'], ['agentic-future-3', RS.agentHome || '/assets/story/block-bikes-v3.jpg', 'Agentisk fremtid · sommer', 'sepia(0.08) saturate(1.15) brightness(1.0)']];
-    const agSeasonIdx = Math.min(3, Math.floor(ramp(ag, 0.34, 0.9) * 4));
+    const agSeasonIdx = Math.min(3, Math.floor(ramp(ag, 0.24, 0.9) * 4));
     const agSeasons = agSeasonDefs.map(([id, src, placeholder, filter], i) => ({ id, src, placeholder, filter: RS.agentHome ? 'none' : filter, op: i === agSeasonIdx ? 1 : 0 }));
     const agSeasonNames = ['Høst', 'Vinter', 'Vår', 'Sommer'];
     const agStepLabels = ['Oppdage', 'Forstå', 'Vurdere', 'Forberede', 'Handle', 'Dokumentere'];
-    const agStepStart = 0.4, agStepStep = 0.055;
+    const agStepStart = 0.26, agStepStep = 0.03;
     const agIdx = Math.min(5, Math.floor((ag - agStepStart) / agStepStep));
     const agSteps = agStepLabels.map((label, i) => {
       const op = seg(ag, agStepStart + i * agStepStep, 1, 0.03), active = i === agIdx;
@@ -1765,10 +1766,10 @@ class Component extends DCLogic {
     });
     const agVals = {
       agImgOp: agReveal * 0.9, agImgScale: 1.05 - ag * 0.04, agSeasons, agSeasonName: agSeasonNames[agSeasonIdx],
-      ag0Op: seg(ag, 0.04, 0.14), ag0Ty: ty(seg(ag, 0.04, 0.14)), ag1Op: seg(ag, 0.18, 0.3), ag1Ty: ty(seg(ag, 0.18, 0.3)),
+      ag0Op: seg(ag, 0.03, 0.1), ag0Ty: ty(seg(ag, 0.03, 0.1)), ag1Op: seg(ag, 0.13, 0.21), ag1Ty: ty(seg(ag, 0.13, 0.21)),
       agTextTop: mobile ? 'auto' : '50%', agTextBottom: mobile ? '9vh' : 'auto', agTextTy: mobile ? 'none' : 'translateY(-50%)',
-      agSteps, agStepsOp: seg(ag, 0.38, 0.7, 0.04), agStepGap: mobile ? '7px' : '10px', agStepSize: mobile ? '15px' : 'clamp(16px, 1.8vw, 22px)', agLoopOp: seg(ag, agStepStart + agStepStep * 6, 0.72, 0.03),
-      agCopyOp: seg(ag, 0.78, 0.88, 0.04), agCopyTy: ty(seg(ag, 0.78, 0.88, 0.04)), agCopy2Op: seg(ag, 0.81, 0.88, 0.03), agEndOp: seg(ag, 0.93, 1, 0.05), agEndTy: ty(seg(ag, 0.93, 1, 0.05))
+      agSteps, agStepsOp: seg(ag, 0.25, 0.44, 0.04), agStepGap: mobile ? '7px' : '10px', agStepSize: mobile ? '15px' : 'clamp(16px, 1.8vw, 22px)', agLoopOp: seg(ag, agStepStart + agStepStep * 6, 0.44, 0.03),
+      agAOp: seg(ag, 0.49, 0.57, 0.04), agATy: ty(seg(ag, 0.49, 0.57, 0.04)), agBOp: seg(ag, 0.6, 0.68, 0.04), agBTy: ty(seg(ag, 0.6, 0.68, 0.04)), agCOp: seg(ag, 0.71, 0.79, 0.04), agCTy: ty(seg(ag, 0.71, 0.79, 0.04)), agDOp: seg(ag, 0.82, 0.89, 0.04), agDTy: ty(seg(ag, 0.82, 0.89, 0.04)), agEndOp: seg(ag, 0.93, 1, 0.04), agEndTy: ty(seg(ag, 0.93, 1, 0.04))
     };
 
     // 26 · Aktørene: fem markører rundt samme bolig.
@@ -1815,7 +1816,7 @@ class Component extends DCLogic {
     // ── /OM ERA ─────────────────────────────────────────────────────────────
 
     const H = (d) => `${mobile ? Math.round(d * 0.75) : d}vh`;
-    const heights = { h_door: H(180), h_home: H(240), h_chaos: H(280), h_see: H(280), h_prio: H(240), h_magic: H(300), h_whole: H(300), h_choice: H(180), h_commerce: H(260), h_pro: H(300), h_trust: H(300), h_memory: H(300), h_board: H(280), h_split: H(300), h_finale: H(onOm ? 380 : 360), h_about: H(320), h_frag: H(280), h_loop: H(320), h_photo: H(340), h_diy: H(480), h_close: H(260), h_shift: H(280), h_tech: H(380), h_agent: H(320), h_eco: H(260), h_vision: H(320) };
+    const heights = { h_door: H(180), h_home: H(240), h_chaos: H(280), h_see: H(280), h_prio: H(240), h_magic: H(300), h_whole: H(300), h_choice: H(180), h_commerce: H(260), h_pro: H(300), h_trust: H(300), h_memory: H(300), h_board: H(280), h_split: H(300), h_finale: H(onOm ? 380 : 360), h_about: H(320), h_frag: H(280), h_loop: H(320), h_photo: H(340), h_diy: H(480), h_close: H(260), h_shift: H(280), h_tech: H(380), h_agent: H(440), h_eco: H(260), h_vision: H(320) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',

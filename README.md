@@ -6,6 +6,12 @@ Lokalt: `python -m http.server 8787` og åpne http://localhost:8787/. Visuell QA
 
 Deploy: `npx vercel --prod`.
 
+## Historiens dramaturgi (3 · 5 · 7)
+
+- **Tre faser** bærer historien og skinnen: Forstå boligen (02–04) → Gjennomfør tiltak (05–09) → Dokumenter verdien (10, 05b). Fasen står som eyebrow i scenene, og 02 sier tidlig at ERA er en AI-drevet boligplattform.
+- **Fem hendelser** i én kjede rundt paret og stua: behovet (01) → plan og estimat (05) → produkter og valg (06–07) → bestilling og gjennomføring (08) → ferdig og dokumentert (09–10). «Hele boligen» ligger etter «Hukommelse» som overgang til styret.
+- **Detaljer på forespørsel**: «Se planen» (05), «Se produktvalg» (07) og «Se dokumentasjonen» (10) er knapper (`data-detail`) som åpner et panel inline på desktop og som bunnark på mobil. Innholdet ligger i HTML også når det er lukket. Funksjoner som ikke er dokumentert tilgjengelige er merket «Planlagt» (energi og forbedringer, betaling i ERA).
+
 ## Om ERA — egen side
 
 `/om-era` er Om ERA-filmen som egen side (13 scener: bro fra ett bygg til alle boliger, den fragmenterte boligen, den agentiske sløyfen, «fra et bilde», gjør det selv / få hjelp i én scene, lukk sløyfen, hvor kundereisen starter, teknologi, agent, aktørene, visjon, menneskene, finale med kapittelets sluttfraser). Forsiden lenker dit fra split-scenen («Hvorfor ERA finnes →»), finalen, skinnen, mobilmenyen og bunnteksten.

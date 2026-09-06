@@ -912,7 +912,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:41,&quot;min&quot;:0,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:47,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
 class Component extends DCLogic {
-  state = { prog: {}, vis: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
+  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
@@ -929,6 +929,8 @@ class Component extends DCLogic {
     document.addEventListener('visibilitychange', this._onVis);
     // Who is reading? The last story link decides the finale's wording and next step.
     this._onClick = (e) => {
+      const dt = e.target && e.target.closest && e.target.closest('[data-detail]');
+      if (dt) { const k = dt.getAttribute('data-detail'); this.setState({ detail: this.state.detail === k ? '' : k }); return; }
       const t = e.target && e.target.closest && e.target.closest('[data-menu-toggle], [data-menu-close]');
       if (t) { this.setMenu(t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
@@ -1144,7 +1146,7 @@ class Component extends DCLogic {
     });
     const chapMap = document.body.getAttribute('data-page') === 'om-era'
       ? { about: 0, frag: 0, loop: 1, photo: 2, diy: 2, close: 2, shift: 3, tech: 4, agent: 5, eco: 5, vision: 6, team: 7, finale: 7 }
-      : { door: 0, home: 0, chaos: 1, see: 1, prio: 2, magic: 3, whole: 3, choice: 4, commerce: 4, pro: 4, trust: 4, memory: 5, board: 6, split: 6, finale: 6 };
+      : { door: 0, home: 0, chaos: 1, see: 1, prio: 1, magic: 2, choice: 2, commerce: 2, pro: 2, trust: 2, memory: 3, whole: 3, board: 4, split: 4, finale: 4 };
     let chapter = 0;
     Object.keys(chapMap).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1191,7 +1193,7 @@ class Component extends DCLogic {
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
       ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#fra-et-bilde', 'Fra et bilde'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#agent', 'Agent'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
-      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå'], ['#prioriter', 'Prioriter'], ['#boligeier', 'Planlegg'], ['#gjennomfor', 'Gjennomfør'], ['#husk', 'Husk'], ['#styret', 'Hele bygget']];
+      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;
       return { href, label, labelOp: active ? 1 : 0, dot: active ? '#D4B17A' : (dark ? 'rgba(247,244,238,0.35)' : 'rgba(19,30,58,0.25)'), glow: active ? '0 0 0 5px rgba(212,177,122,0.25)' : 'none', lineOp: i === chapData.length - 1 ? 0 : 1 };
@@ -1377,6 +1379,10 @@ class Component extends DCLogic {
       partner: ['Takk. Vi tar kontakt.', 'Vi tar kontakt og viser hvordan beregnede behov blir bestillinger hos dere.']
     };
     const menuOpen = this.state.menuOpen;
+    const detailVals = {};
+    ['plan', 'products', 'docs'].forEach((k) => { const on = this.state.detail === k, K = k.charAt(0).toUpperCase() + k.slice(1); detailVals['detail' + K + 'Display'] = on ? 'block' : 'none'; detailVals['detail' + K + 'Expanded'] = on ? 'true' : 'false'; detailVals['detail' + K + 'Chev'] = on ? 'rotate(180deg)' : 'none'; });
+    detailVals.detailSheet = mobile ? 'position: fixed; left: 12px; right: 12px; bottom: max(16px, env(safe-area-inset-bottom)); z-index: 250; box-shadow: 0 30px 80px rgba(15,24,48,0.4); background: #FFFDF9' : 'position: relative';
+    detailVals.detailCloseDisplay = mobile ? 'inline-flex' : 'none';
     const menuVals = {
       navMenuBtnDisplay: mobile ? 'inline-flex' : 'none', navMenuDisplay: mobile && menuOpen ? 'flex' : 'none',
       navMenuIcon: menuOpen ? '×' : '☰', navMenuAria: menuOpen ? 'Lukk menyen' : 'Åpne menyen', navMenuExpanded: menuOpen ? 'true' : 'false',
@@ -1656,7 +1662,7 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
-      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),

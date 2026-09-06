@@ -435,7 +435,7 @@
         <h2 style="position: absolute; left: 32px; right: 32px; bottom: 0; margin: 0; font-size: clamp(24px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; opacity: {{ chaos1Op }}; transform: {{ chaos1Ty }}; text-wrap: balance">Problemet er å vite hva som betyr noe.</h2>
         <div style="position: absolute; left: 32px; right: 32px; bottom: 0; opacity: {{ chaos2Op }}; transform: {{ chaos2Ty }}">
           <h2 style="margin: 0; font-size: clamp(32px, 4.4vw, 56px); font-weight: 800; letter-spacing: -0.03em">ERA samler boligen.</h2>
-          <p style="margin: 14px 0 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; letter-spacing: 0.06em; color: #8A8579; opacity: {{ chaos3Op }}">Historikk · Tilstand · Dokumentasjon · Behov</p>
+          <p style="margin: 14px 0 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; letter-spacing: 0.06em; color: #8A8579; opacity: {{ chaos3Op }}">En AI-drevet boligplattform for boligeiere, styrer og håndverkere</p>
           <p style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; color: #B0935F; opacity: {{ chaos4Op }}; transform: {{ chaos4Ty }}">Og gjør det forståelig.</p>
         </div>
       </div>
@@ -460,7 +460,7 @@
         </div>
       </sc-for>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ seeTextTop }}; bottom: {{ seeTextBottom }}; transform: {{ seeTextTy }}; max-width: 420px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; opacity: {{ seeLabelOp }}">Hva ERA gjør</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; opacity: {{ seeLabelOp }}">Forstå boligen</div>
         <div style="display: {{ spotListDisplay }}; flex-direction: column; gap: 8px; margin-top: 16px">
           <sc-for list="{{ seeSpots }}" as="s" hint-placeholder-count="3">
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: rgba(255,253,248,0.95); opacity: {{ s.op }}">
@@ -546,7 +546,7 @@
       <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ magicDim }})"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ magicTextTop }}; transform: {{ magicTextTy }}; max-width: 520px; pointer-events: none">
         <div style="opacity: {{ magic0Op }}; transform: {{ magic0Ty }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">For boligeier · Ett eksempel</div>
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Gjennomfør tiltak · Ett eksempel</div>
           <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; font-style: italic; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">«Vi vil male stua.»</h2>
         </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6)">ERA forstår rommet.</div>
@@ -572,51 +572,18 @@
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; opacity: {{ magicDoneOp }}">
           <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <button type="button" data-detail="plan" aria-expanded="{{ detailPlanExpanded }}" aria-controls="detail-plan" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se planen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailPlanChev }}">⌄</span></button>
             <a href="#partnere" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
             <a href="#handverker" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Få hjelp</a>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5b · HELE BOLIGEN — samme intelligens, hele boligen: markører på ett bilde, så ut til fasade og tak -->
-  <section id="hele-boligen" ref="{{ refWhole }}" data-theme="dark" style="position: relative; height: {{ h_whole }}; background: #0F1830" data-screen-label="05b Hele boligen" aria-label="ERA følger behovene rundt hele boligen">
-    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ wholeImgScale }}); backface-visibility: hidden">
-        <div class="era-ph"></div>
-        <image-slot class="era-ph-slot" id="whole-home-overview" shape="rect" src="{{ wholeHomeSrc }}" placeholder="Bilde · Hele boligen"></image-slot>
-        <div class="era-ph-label" style="opacity: {{ wholeHomeDevOp }}">BILDE · HELE BOLIGEN</div>
-      </div>
-      <div style="position: absolute; inset: 0; opacity: {{ wholeOutOp }}; transform: translateZ(0); backface-visibility: hidden">
-        <img loading="lazy" decoding="async" src="/assets/story/roof-detail-v3.jpg" alt="Byggets fasade og tak" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%">
-      </div>
-      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.72) 0%, rgba(15,24,48,0.35) 32%, rgba(15,24,48,0.05) 55%, transparent 100%)"></div>
-      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ wholeDim }})"></div>
-      <sc-for list="{{ wholeSpots }}" as="w" hint-placeholder-count="8">
-        <div style="position: absolute; left: {{ w.x }}; top: {{ w.y }}; opacity: {{ w.op }}; transform: translate(-50%, -50%) scale({{ w.scale }}); display: {{ spotDisplay }}; pointer-events: none">
-          <span style="position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #D4B17A; box-shadow: 0 0 0 5px rgba(212,177,122,0.3), 0 0 0 12px rgba(212,177,122,0.12)"></span>
-          <span style="position: absolute; left: 16px; top: -15px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.35); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap">{{ w.label }}</span>
+        <div id="detail-plan" style="display: {{ detailPlanDisplay }}; {{ detailSheet }}; margin-top: 14px; padding: 12px 14px 4px; border-radius: 14px; background: #F7F4EE">
+          <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Planen i detalj<button type="button" data-detail="plan" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Forarbeid</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vask, lett sparkling, maskering</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Maling</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">2 strøk, 2 × 10 L</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Neste påminnelse</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vinduer · tetningslister, høst 2026</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Energi og forbedringer</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Etterisolering, varmepumpe <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">Planlagt</span></span></div>
         </div>
-      </sc-for>
-      <div style="position: absolute; left: 16px; right: 16px; bottom: 20px; display: {{ spotListDisplay }}; gap: 6px; flex-wrap: wrap; pointer-events: none">
-        <sc-for list="{{ wholeSpots }}" as="wc" hint-placeholder-count="8">
-          <span style="padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.94); font-size: 12px; font-weight: 700; color: #131E3A; opacity: {{ wc.op }}"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #D4B17A; margin-right: 7px; vertical-align: 1px"></span>{{ wc.label }}</span>
-        </sc-for>
-      </div>
-      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ magicTextTop }}; transform: {{ magicTextTy }}; max-width: 560px; pointer-events: none">
-        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole0Ty }}; opacity: {{ whole0Op }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Dette er én jobb</div>
-          <h2 style="margin: 0; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Men boligen er mer enn én vegg.</h2>
-        </div>
-        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole1Ty }}; opacity: {{ whole1Op }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">ERA ser hele boligen</div>
-          <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">ERA følger behovene rundt hele boligen.</h2>
-        </div>
-        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole2Ty }}; opacity: {{ whole2Op }}">
-          <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Én bolig.<br>Mange behov.<br><span style="color: #D4B17A">Samme ERA.</span></h2>
-        </div>
-        <div style="height: 30vh"></div>
       </div>
     </div>
   </section>
@@ -625,7 +592,7 @@
   <section id="gjennomfor" ref="{{ refChoice }}" data-theme="light" style="position: relative; height: {{ h_choice }}; background: #FFFDF9" data-screen-label="06 Valget" aria-label="Gjør det selv eller få hjelp">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; padding: 0 24px">
       <div style="text-align: center; opacity: {{ choiceHeadOp }}; transform: {{ choiceHeadTy }}">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 16px">Ett behov. Riktig vei.</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 16px">Gjennomfør tiltak · Valget</div>
         <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); font-weight: 800; letter-spacing: -0.03em">Hvordan bør dette løses?</h2>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; width: 100%; max-width: 980px">
@@ -689,6 +656,15 @@
             </div>
           </sc-for>
         </div>
+        <div id="detail-products" style="display: {{ detailProductsDisplay }}; {{ detailSheet }}; max-width: 420px; margin-top: 12px; padding: 12px 14px 4px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3DDD0">
+          <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Produktvalg og pris<button type="button" data-detail="products" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Interiørmaling 10 L × 2</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 300 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Sparkel, ruller, pensler, maskering</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 600 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Materialer, gjør det selv</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 900 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Med håndverker (planens estimat)</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 6 800 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Betaling i ERA</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Bestilling og avtalt tid samlet <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">Planlagt</span></span></div>
+        </div>
+        <div style="margin-top: 12px"><button type="button" data-detail="products" aria-expanded="{{ detailProductsExpanded }}" aria-controls="detail-products" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se produktvalg <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailProductsChev }}">⌄</span></button></div>
         <div style="margin-top: 26px; opacity: {{ comDeliveryOp }}; transform: {{ comDeliveryTy }}">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8579; margin-bottom: 10px">Levering</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
@@ -769,7 +745,7 @@
                 <span style="display: inline-flex; align-items: center; gap: 6px; opacity: {{ os.op }}"><span style="padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); font-size: 12.5px; font-weight: 700; color: #131E3A">{{ os.label }}</span><span style="font-size: 12px; color: #D4B17A; opacity: {{ os.arrowOp }}">→</span></span>
               </sc-for>
             </div>
-            <p style="margin: 0; font-size: 14.5px; line-height: 1.5; color: rgba(247,244,238,0.8); display: {{ partnerNoteDisplay }}">Én reise for det du kjøper og det du får gjort. Bestilling, betaling og avtalt tid på samme sted.</p>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.5; color: rgba(247,244,238,0.8); display: {{ partnerNoteDisplay }}">Én reise for det du kjøper og det du får gjort. Bestilling og avtalt tid på samme sted. <span style="white-space: nowrap; padding: 2px 7px; border-radius: 999px; background: rgba(247,244,238,0.14); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #D4B17A">Betaling i ERA · planlagt</span></p>
           </div>
         </div>
       </div>
@@ -856,7 +832,7 @@
         </div>
       </div>
       <div style="position: relative; display: flex; flex-direction: column; justify-content: center">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 22px">Over tid</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 22px">Dokumenter verdien</div>
         <div style="position: relative; padding-left: 36px">
           <div style="position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: #E3DDD0"></div>
           <div style="position: absolute; left: 9px; top: 6px; width: 2px; height: {{ memLineH }}; background: #B0935F"></div>
@@ -873,6 +849,57 @@
           <p style="margin: 6px 0 0; font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; letter-spacing: -0.03em; color: #B0935F; opacity: {{ memHead2Op }}">Og en plan.</p>
           <p style="margin: 16px 0 0; font-size: 16px; color: #5E6472; opacity: {{ memHead2Op }}">Neste gang ERA hjelper deg, finnes historikken allerede der.</p>
         </div>
+        <div id="detail-docs" style="display: {{ detailDocsDisplay }}; {{ detailSheet }}; margin-top: 12px; padding: 12px 14px 4px; border-radius: 14px; background: #F7F4EE">
+          <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Dokumentasjonen · Male stua<button type="button" data-detail="docs" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Utført</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vegger 42 m², 2 strøk · 2026</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Produkter</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Interiørmaling, farge og mengde</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Kvittering og bilder</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Før og etter, lagret på boligen</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Utført av</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Deg selv, eller håndverker med navn</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Vedlikeholdsplan</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Oppdatert: neste kontroll høst 2026</span></div>
+        </div>
+        <div style="margin-top: 14px"><button type="button" data-detail="docs" aria-expanded="{{ detailDocsExpanded }}" aria-controls="detail-docs" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se dokumentasjonen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailDocsChev }}">⌄</span></button></div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b · HELE BOLIGEN — samme intelligens, hele boligen: markører på ett bilde, så ut til fasade og tak -->
+  <section id="hele-boligen" ref="{{ refWhole }}" data-theme="dark" style="position: relative; height: {{ h_whole }}; background: #0F1830" data-screen-label="05b Hele boligen" aria-label="ERA følger behovene rundt hele boligen">
+    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
+      <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ wholeImgScale }}); backface-visibility: hidden">
+        <div class="era-ph"></div>
+        <image-slot class="era-ph-slot" id="whole-home-overview" shape="rect" src="{{ wholeHomeSrc }}" placeholder="Bilde · Hele boligen"></image-slot>
+        <div class="era-ph-label" style="opacity: {{ wholeHomeDevOp }}">BILDE · HELE BOLIGEN</div>
+      </div>
+      <div style="position: absolute; inset: 0; opacity: {{ wholeOutOp }}; transform: translateZ(0); backface-visibility: hidden">
+        <img loading="lazy" decoding="async" src="/assets/story/roof-detail-v3.jpg" alt="Byggets fasade og tak" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%">
+      </div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,24,48,0.72) 0%, rgba(15,24,48,0.35) 32%, rgba(15,24,48,0.05) 55%, transparent 100%)"></div>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ wholeDim }})"></div>
+      <sc-for list="{{ wholeSpots }}" as="w" hint-placeholder-count="8">
+        <div style="position: absolute; left: {{ w.x }}; top: {{ w.y }}; opacity: {{ w.op }}; transform: translate(-50%, -50%) scale({{ w.scale }}); display: {{ spotDisplay }}; pointer-events: none">
+          <span style="position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #D4B17A; box-shadow: 0 0 0 5px rgba(212,177,122,0.3), 0 0 0 12px rgba(212,177,122,0.12)"></span>
+          <span style="position: absolute; left: 16px; top: -15px; padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.96); box-shadow: 0 10px 30px rgba(15,24,48,0.35); font-size: 12.5px; font-weight: 700; color: #131E3A; white-space: nowrap">{{ w.label }}</span>
+        </div>
+      </sc-for>
+      <div style="position: absolute; left: 16px; right: 16px; bottom: 20px; display: {{ spotListDisplay }}; gap: 6px; flex-wrap: wrap; pointer-events: none">
+        <sc-for list="{{ wholeSpots }}" as="wc" hint-placeholder-count="8">
+          <span style="padding: 7px 12px; border-radius: 999px; background: rgba(255,253,248,0.94); font-size: 12px; font-weight: 700; color: #131E3A; opacity: {{ wc.op }}"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #D4B17A; margin-right: 7px; vertical-align: 1px"></span>{{ wc.label }}</span>
+        </sc-for>
+      </div>
+      <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ magicTextTop }}; transform: {{ magicTextTy }}; max-width: 560px; pointer-events: none">
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole0Ty }}; opacity: {{ whole0Op }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Dokumenter verdien · Én jobb til</div>
+          <h2 style="margin: 0; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Men boligen er mer enn én vegg.</h2>
+        </div>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole1Ty }}; opacity: {{ whole1Op }}">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">ERA ser hele boligen</div>
+          <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">ERA følger behovene rundt hele boligen.</h2>
+        </div>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole2Ty }}; opacity: {{ whole2Op }}">
+          <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Én bolig.<br>Mange behov.<br><span style="color: #D4B17A">Samme ERA.</span></h2>
+        </div>
+        <div style="height: 30vh"></div>
       </div>
     </div>
   </section>
@@ -898,7 +925,7 @@
         </div>
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ boardTextTop }}; bottom: {{ boardTextBottom }}; transform: {{ boardTextTy }}; max-width: 460px; opacity: {{ boardHeadOp }}">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret · Samme eiendom</div>
         <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Boligen din stopper ikke ved ytterdøren.</h2>
         <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         <div class="era-short-hide" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
@@ -1065,7 +1092,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:41,&quot;min&quot;:0,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:47,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
 class Component extends DCLogic {
-  state = { prog: {}, vis: {}, theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
+  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
@@ -1082,6 +1109,8 @@ class Component extends DCLogic {
     document.addEventListener('visibilitychange', this._onVis);
     // Who is reading? The last story link decides the finale's wording and next step.
     this._onClick = (e) => {
+      const dt = e.target && e.target.closest && e.target.closest('[data-detail]');
+      if (dt) { const k = dt.getAttribute('data-detail'); this.setState({ detail: this.state.detail === k ? '' : k }); return; }
       const t = e.target && e.target.closest && e.target.closest('[data-menu-toggle], [data-menu-close]');
       if (t) { this.setMenu(t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
@@ -1297,7 +1326,7 @@ class Component extends DCLogic {
     });
     const chapMap = document.body.getAttribute('data-page') === 'om-era'
       ? { about: 0, frag: 0, loop: 1, photo: 2, diy: 2, close: 2, shift: 3, tech: 4, agent: 5, eco: 5, vision: 6, team: 7, finale: 7 }
-      : { door: 0, home: 0, chaos: 1, see: 1, prio: 2, magic: 3, whole: 3, choice: 4, commerce: 4, pro: 4, trust: 4, memory: 5, board: 6, split: 6, finale: 6 };
+      : { door: 0, home: 0, chaos: 1, see: 1, prio: 1, magic: 2, choice: 2, commerce: 2, pro: 2, trust: 2, memory: 3, whole: 3, board: 4, split: 4, finale: 4 };
     let chapter = 0;
     Object.keys(chapMap).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1344,7 +1373,7 @@ class Component extends DCLogic {
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
       ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#fra-et-bilde', 'Fra et bilde'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#agent', 'Agent'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
-      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå'], ['#prioriter', 'Prioriter'], ['#boligeier', 'Planlegg'], ['#gjennomfor', 'Gjennomfør'], ['#husk', 'Husk'], ['#styret', 'Hele bygget']];
+      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;
       return { href, label, labelOp: active ? 1 : 0, dot: active ? '#D4B17A' : (dark ? 'rgba(247,244,238,0.35)' : 'rgba(19,30,58,0.25)'), glow: active ? '0 0 0 5px rgba(212,177,122,0.25)' : 'none', lineOp: i === chapData.length - 1 ? 0 : 1 };
@@ -1530,6 +1559,10 @@ class Component extends DCLogic {
       partner: ['Takk. Vi tar kontakt.', 'Vi tar kontakt og viser hvordan beregnede behov blir bestillinger hos dere.']
     };
     const menuOpen = this.state.menuOpen;
+    const detailVals = {};
+    ['plan', 'products', 'docs'].forEach((k) => { const on = this.state.detail === k, K = k.charAt(0).toUpperCase() + k.slice(1); detailVals['detail' + K + 'Display'] = on ? 'block' : 'none'; detailVals['detail' + K + 'Expanded'] = on ? 'true' : 'false'; detailVals['detail' + K + 'Chev'] = on ? 'rotate(180deg)' : 'none'; });
+    detailVals.detailSheet = mobile ? 'position: fixed; left: 12px; right: 12px; bottom: max(16px, env(safe-area-inset-bottom)); z-index: 250; box-shadow: 0 30px 80px rgba(15,24,48,0.4); background: #FFFDF9' : 'position: relative';
+    detailVals.detailCloseDisplay = mobile ? 'inline-flex' : 'none';
     const menuVals = {
       navMenuBtnDisplay: mobile ? 'inline-flex' : 'none', navMenuDisplay: mobile && menuOpen ? 'flex' : 'none',
       navMenuIcon: menuOpen ? '×' : '☰', navMenuAria: menuOpen ? 'Lukk menyen' : 'Åpne menyen', navMenuExpanded: menuOpen ? 'true' : 'false',
@@ -1809,7 +1842,7 @@ class Component extends DCLogic {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
-      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),

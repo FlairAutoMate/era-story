@@ -81,28 +81,43 @@ AUDIENCES = {
     ),
     "handverker": dict(
         key="pro", nav="Håndverker", title="ERA for håndverkere",
-        label="For håndverkere", hook="Jobben kommer ferdig forstått.",
-        lede="Omfang, bilder, mål og ønsket tid ligger klart. Materialene også. Du gir tilbud, ikke befaring.",
+        label="For håndverkere", hook="Du kan faget. ERA hjelper deg med resten.",
+        lede="ERA er en AI-drevet plattform som samler oppdrag, befaring, tilbud og dokumentasjon, så du får mer tid til kundene og jobben som skal gjøres.",
         image="/assets/story/painter-v3.jpg", image_pos="30% 50%",
+        hero_secondary=("Følg et oppdrag", "#slik"),
+        steps_label="Et oppdrag i ERA", steps_title="Fem hendelser. Ett prosjekt.",
         steps=[
-            ("Boligeieren melder et behov", "«Vi vil male stua.» Eller styret vedtar en fasade. Behovet oppstår i en plan, ikke i en telefon på kvelden."),
-            ("ERA beskriver jobben", "Flate, tilstand, forarbeid, ønsket tid og bilder. Materialene er beregnet, og kunden har allerede et estimat."),
-            ("Du gir tilbud", "På et oppdrag som er forstått. Ingen bomtur, ingen gjetting på omfang."),
-            ("Jobben blir historikk", "Det du gjorde står i boligens dokumentasjon, med ditt navn på. Neste behov i samme bolig finner deg."),
+            ("Start med oversikt.", "Kunden ønsker stuen malt. Behov, bilder og tilgjengelig informasjon følger henvendelsen, så du kan vurdere oppdraget og planlegge befaringen.", ("Se oppdragsgrunnlaget", "#funksjoner")),
+            ("Fra befaring til et tydelig tilbud.", "Samle mål, bilder og notater. ERA hjelper deg å strukturere arbeidsbeskrivelsen og kalkylen. Du vurderer og godkjenner tilbudet.", ("Se veien til tilbud", "#funksjoner")),
+            ("Riktig grunnlag. Klar for oppstart.", "Hold arbeidsbeskrivelse, materialbehov og avtale samlet, så du og kunden vet hva som skal gjøres.", ("Se prosjektoversikten", "#funksjoner")),
+            ("Ekstraarbeid? Avklar det underveis.", "Kunden vil også male taket. Dokumenter endringen og send den til godkjenning før arbeidet utføres.", ("Se en endringsordre", "#funksjoner")),
+            ("Ferdig jobb. Dokumentasjonen på plass.", "Samle bilder, produktinformasjon og utført arbeid i en ryddig overlevering som følger boligen videre.", ("Se overleveringen", "#funksjoner")),
+        ],
+        features=[
+            ("Oppdrag", "Kundens behov og boligens informasjon, samlet."),
+            ("Befaring", "Bilder, mål og notater knyttet til riktig jobb."),
+            ("Kalkyle og tilbud", "Et strukturert grunnlag du vurderer og godkjenner."),
+            ("Avtale", "Tydelig omfang og avklarte forventninger."),
+            ("Endringer", "Dokumenter og avklar ekstraarbeid underveis."),
+            ("Dokumentasjon", "Bygg overleveringen mens arbeidet pågår."),
+            ("Betaling", "Oversikt over avtalt betaling og status."),
         ],
         gains=[
-            ("Kvalifiserte kunder", "De har plan og estimat før de spør. Tilbudet ditt treffer."),
-            ("Færre bomturer", "Befaringen er gjort digitalt. Du reiser når jobben er din."),
-            ("Mindre papir", "Omfang, materialer og dokumentasjon er ferdig når du kommer."),
-            ("Gjenkjøp", "Boligen husker hvem som gjorde jobben. Det gjør styret også."),
+            ("Bedre grunnlag før du starter", "Se kundens behov, bilder og tilgjengelig boligdokumentasjon samlet før befaringen."),
+            ("Mer kontroll underveis", "Hold oversikt over kalkyle, tilbud og endringer gjennom hele oppdraget."),
+            ("Enklere å avslutte riktig", "Samle dokumentasjonen mens du jobber, og overlever den til kunden når arbeidet er ferdig."),
         ],
-        example=dict(title="Male stue · 42 m²", meta="Borgveien 14 · 4 bilder vedlagt", rows=[("Omfang", "Vegger, 2 strøk"), ("Forbehandling", "Lett sparkling"), ("Ønsket tid", "Uke 38–40"), ("Materialer", "Ligger klart"), ("Kundens estimat", "ca. 6 800 kr")], note="Slik ser et oppdrag ut når det kommer til deg. Du svarer med tilbud, ikke med spørsmål."),
+        example=dict(title="Male stue · 42 m²", meta="Borgveien 14 · 4 bilder vedlagt", rows=[("Omfang", "Vegger, 2 strøk"), ("Forbehandling", "Lett sparkling"), ("Ønsket tid", "Uke 38–40"), ("Materialer", "Ligger klart"), ("Kundens estimat", "ca. 6 800 kr")], note="Slik ser et oppdrag ut når det kommer til deg. Du vurderer og gir tilbud, ikke gjetter på omfang."),
         faq=[
-            ("Koster det noe å motta oppdrag?", "ERA rulles ut trinnvis. Registrer firmaet, så tar vi kontakt med vilkårene som gjelder i ditt område."),
+            ("Koster det noe å melde interesse?", "Nei. Meld interesse, så tar vi kontakt med vilkårene som gjelder i ditt område når ERA rulles ut der."),
             ("Konkurrerer jeg med mange?", "Kunden ber om tilbud på et beskrevet oppdrag. Du ser omfanget før du bruker tid."),
-            ("Hva med dokumentasjon etter jobben?", "Bilder og beskrivelse legges i boligens historikk. Det er din referanse neste gang."),
+            ("Hva med dokumentasjon etter jobben?", "Bilder og beskrivelse legges i boligens historikk, og du bygger overleveringen mens du jobber."),
         ],
-        form_field="Firmanavn eller organisasjonsnummer", form_label="Firma", form_cta="Motta oppdrag",
+        closing=dict(
+            heading="Mer tid til faget. Bedre kontroll på jobben.",
+            lede="Se hvordan ERA kan samle arbeidsflyten i din bedrift, fra første henvendelse til ferdig dokumentert oppdrag.",
+        ),
+        form_field="Firmanavn eller organisasjonsnummer", form_label="Firma", form_cta="Meld interesse",
         done=("Takk. Du er registrert.", "Vi tar kontakt når det er ferdig beskrevne oppdrag i ditt område."),
         story="#handverker",
     ),
@@ -187,9 +202,29 @@ def page(slug, a):
     nav_links = "".join(
         f'<a href="/{s}"{cur if s == slug else ""}>{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER
     )
-    steps = "".join(
-        f'<li><span class="n">0{i+1}</span><div><h3>{esc(h)}</h3><p>{esc(t)}</p></div></li>' for i, (h, t) in enumerate(a["steps"])
-    )
+    def step_li(i, step):
+        h, t = step[0], step[1]
+        cta = f'<a class="step-link" href="{step[2][1]}">{esc(step[2][0])} →</a>' if len(step) > 2 else ""
+        return f'<li><span class="n">0{i+1}</span><div><h3>{esc(h)}</h3><p>{esc(t)}</p>{cta}</div></li>'
+    steps = "".join(step_li(i, s) for i, s in enumerate(a["steps"]))
+    steps_label = a.get("steps_label", "Slik fungerer det")
+    steps_title = a.get("steps_title", "Fire steg. Ingen gjetting.")
+    if beta:
+        hero_secondary = (beta["cta_secondary"], "#slik")
+    else:
+        hero_secondary = a.get("hero_secondary", ("Se det i historien →", "/" + a["story"]))
+    features_section = ""
+    if a.get("features"):
+        features_html = "".join(f'<details><summary>{esc(t)}</summary><p>{esc(txt)}</p></details>' for t, txt in a["features"])
+        features_section = (
+            '<section class="section" id="funksjoner"><div class="wrap narrow">'
+            '<div class="label">Underveis</div><h2>Funksjonene du bruker.</h2>'
+            f'<div class="faq features">{features_html}</div>'
+            '</div></section>'
+        )
+    closing = a.get("closing", {})
+    closing_head = closing.get("heading", a["hook"])
+    closing_lede = closing.get("lede", a["lede"])
     gains = "".join(f'<div class="gain"><h3>{esc(h)}</h3><p>{esc(t)}</p></div>' for h, t in a["gains"])
     ex = a["example"]
     rows = "".join(f'<div class="row"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in ex["rows"])
@@ -233,16 +268,18 @@ def page(slug, a):
     <div class="label">{esc(a["label"])}</div>
     <h1>{esc(a["hook"])}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}
     <p class="lede">{esc(a["lede"])}</p>
-    <div class="hero-actions">{f'<a class="btn" href="#skjema">{esc(beta["cta_primary"])}</a><a class="link" href="#slik">{esc(beta["cta_secondary"])}</a>' if beta else f'<a class="btn" href="#skjema">{esc(a["form_cta"])}</a><a class="link" href="/{a["story"]}">Se det i historien →</a>'}</div>
+    <div class="hero-actions"><a class="btn" href="#skjema">{esc(beta["cta_primary"] if beta else a["form_cta"])}</a><a class="link" href="{hero_secondary[1]}">{esc(hero_secondary[0])}</a></div>
   </div>
 </header>
 
 <main>
   <section class="section" id="slik">
-    <div class="label">Slik fungerer det</div>
-    <h2>Fire steg. Ingen gjetting.</h2>
+    <div class="label">{esc(steps_label)}</div>
+    <h2>{esc(steps_title)}</h2>
     <ol class="steps">{steps}</ol>
   </section>
+
+  {features_section}
 
   {beta_section}
 
@@ -275,8 +312,8 @@ def page(slug, a):
   <section class="section dark" id="skjema">
     <div class="wrap narrow">
       <div class="brand big">era<span>.</span></div>
-      <h2>{esc(a["hook"])}</h2>
-      <p class="lede light">{esc(a["lede"])}</p>
+      <h2>{esc(closing_head)}</h2>
+      <p class="lede light">{esc(closing_lede)}</p>
       <form id="era-lead" class="lead" data-audience="{a["key"]}">
         <div class="lead-pill">
           <label class="sr" for="lead-value">{esc(a["form_field"])}</label>

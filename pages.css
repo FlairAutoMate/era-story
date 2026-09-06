@@ -87,6 +87,8 @@ body.menu-open { overflow: hidden; }
 .steps .n { flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--navy-2); color: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; }
 .steps h3 { font-size: 19px; letter-spacing: -0.01em; }
 .steps p { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.step-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 2px; font-size: 14px; font-weight: 700; color: var(--gold-2); }
+.step-link:hover { color: var(--ink); }
 
 .gains { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin-top: 32px; }
 .gain { padding: 26px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line); }
@@ -106,13 +108,13 @@ body.menu-open { overflow: hidden; }
 .card .row b { font-size: 17px; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
 .example-text p { margin-top: 16px; font-size: 17px; line-height: 1.5; color: var(--muted); max-width: 440px; }
 
-.faq { margin-top: 28px; border-top: 1px solid var(--line); }
-.faq details { border-bottom: 1px solid var(--line); }
-.faq summary { cursor: pointer; padding: 18px 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; color: var(--gold-2); font-weight: 500; }
-.faq details[open] summary::after { content: "–"; }
-.faq p { padding: 0 0 18px; font-size: 15.5px; line-height: 1.5; color: var(--muted); max-width: 640px; }
+.faq, .features { margin-top: 28px; border-top: 1px solid var(--line); }
+.faq details, .features details { border-bottom: 1px solid var(--line); }
+.faq summary, .features summary { cursor: pointer; padding: 18px 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker, .features summary::-webkit-details-marker { display: none; }
+.faq summary::after, .features summary::after { content: "+"; color: var(--gold-2); font-weight: 500; }
+.faq details[open] summary::after, .features details[open] summary::after { content: "–"; }
+.faq p, .features p { padding: 0 0 18px; font-size: 15.5px; line-height: 1.5; color: var(--muted); max-width: 640px; }
 
 /* form */
 .lead { display: flex; flex-direction: column; gap: 10px; margin: 32px auto 0; width: 520px; max-width: 100%; text-align: left; }

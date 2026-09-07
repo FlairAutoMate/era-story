@@ -138,6 +138,13 @@
    (kpi tiles, grouped rows, card, example) are always opaque white/sand and need ink regardless
    of the scene's theme. dash-title/dash-meta are different: they float directly on the scene's
    own background (no box of their own), so they should follow the scene's theme like p-h1 does. */
-.p-scene .kpi, .p-scene .dash-group, .p-scene .dcol, .p-scene .card, .p-scene .example { color: var(--ink); }
+.p-scene .kpi, .p-scene .dash-group, .p-scene .dcol, .p-scene .card, .p-scene .example,
+.p-split .kpi, .p-split .dash-group, .p-split .dcol, .p-split .card, .p-split .example { color: var(--ink); }
 .p-scene:not(.light) .dash-title { color: #fff; }
 .p-scene:not(.light) .dash-meta { color: rgba(247,244,238,0.65); }
+
+/* .dash-group-ai (pages.css) uses a translucent gold tint meant to sit on the audience pages'
+   always-white background. On a dark scene/split here, that tint lets the dark background show
+   through and breaks the ink text color pinned above. Make it a proper opaque card everywhere
+   a partner story uses it. */
+.p-scene .dash-group-ai, .p-split .dash-group-ai { background: #F8F1E1; border-color: rgba(212,177,122,0.5); }

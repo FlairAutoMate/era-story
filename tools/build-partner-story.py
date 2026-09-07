@@ -251,16 +251,16 @@ def build_jotun(p):
 
     s.append(split(None, "Konkret eksempel", "Bør fasaden males i år?",
         "ERA veileder boligeieren: «Ta bilder av disse områdene.» Bildene brukes som beslutningsstøtte, ikke som en automatisk teknisk diagnose.",
-        None, "roof-detail-v3.jpg", reverse=False))
-    s.append(scene(None, dash(
-        "ERA vurderer", "Fasade · basert på bilder og historikk",
-        groups=[
-            ("customer", [("Bilder delt", "6 av fasaden")]),
-            ("doc", [("Tidligere vedlikehold", "Malt 2012")]),
-            ("ai", [("Vurdering", "Overflate og tilstand tyder på behov"), ("Anbefaling", "Vedlikehold denne sesongen")]),
-        ],
-        footer="Eksempeldata og konseptvisning. En vurdering er beslutningsstøtte, ikke en garantert diagnose.",
-    ), dark=False, short=True))
+        None, "roof-detail-v3.jpg", reverse=False,
+        extra=dash(
+            "ERA vurderer", "Fasade · basert på bilder og historikk",
+            groups=[
+                ("customer", [("Bilder delt", "6 av fasaden")]),
+                ("doc", [("Tidligere vedlikehold", "Malt 2012")]),
+                ("ai", [("Vurdering", "Overflate og tilstand tyder på behov"), ("Anbefaling", "Vedlikehold denne sesongen")]),
+            ],
+            footer="Eksempeldata og konseptvisning. En vurdering er beslutningsstøtte, ikke en garantert diagnose.",
+        )))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Fra behov til prosjekt</div>'
@@ -298,21 +298,13 @@ def build_jotun(p):
     s.append(scene(None,
         '<div class="p-eyebrow">Lokal handel</div>'
         '<h2 class="p-h1">Fra digitalt behov til lokal handel.</h2>'
+        '<p class="p-lede">Et strukturert prosjekt kan følge kunden helt frem til forhandleren, i stedet for «jeg trenger litt maling».</p>'
         + dash("Nærmeste forhandler", "Basert på boligens adresse",
-               kpis=[("Forhandler", "Lokal Jotun-forhandler"), ("Avstand", "3,2 km"), ("Produkter", "Tilgjengelig"), ("Handleliste", "Klar")])
+               kpis=[("Forhandler", "Lokal Jotun-forhandler"), ("Avstand", "3,2 km"), ("Produkter", "Tilgjengelig"), ("Handleliste", "Klar")],
+               footer="Ingen dokumentert konverteringsgevinst ennå — dette er konseptet, ikke målte resultater.")
+        + '<p class="p-payoff">Mer relevant kunde. Mer komplett prosjekt.</p>'
         + '<div class="p-actions" style="margin-top:24px"><span class="btn" style="pointer-events:none">Hent i butikk</span><span class="link" style="pointer-events:none">Send til butikk</span></div>',
         image="materials-floor-v3.jpg", short=True,
-    ))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Forhandlerens perspektiv</div>'
-        '<h2 class="p-h1">Mer enn trafikk.</h2>'
-        '<p class="p-lede">Et strukturert prosjekt kan følge kunden helt frem til forhandleren, i stedet for «jeg trenger litt maling».</p>'
-        + dash("Prosjekt mottatt", "Fra ERA, klar for forhandler",
-               kpis=[("Overflate", "Kjent"), ("Areal", "Kjent"), ("Produktsystem", "Valgt"), ("Handleliste", "Klar")],
-               footer="Ingen dokumentert konverteringsgevinst ennå — dette er konseptet, ikke målte resultater.")
-        + '<p class="p-payoff">Mer relevant kunde. Mer komplett prosjekt.</p>',
-        dark=True,
     ))
 
     s.append(scene(None,
@@ -387,7 +379,7 @@ def build_jotun(p):
         image="ecosystem-v3.jpg",
     ))
 
-    # PILOT
+    # PILOT — the closing scene: the concrete plan, the ask, and the exit.
     s.append(scene("pilot",
         '<div class="p-eyebrow">Foreslått pilot</div>'
         '<h2 class="p-h1">Start med én komplett kundereise.</h2>'
@@ -398,28 +390,10 @@ def build_jotun(p):
             ("04", "Koble forhandler", "Én til få pilotforhandlere."),
             ("05", "Test med reelle boligeiere", "Begrenset utvalg, tett oppfølging."),
             ("06", "Mål hele reisen", "Prosjekter, handlelister, ruting, henvendelser, dokumentert gjennomføring."),
-        ]),
-        image="whole-home-v3.jpg",
-    ))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Spørsmålet til Jotun</div>'
-        '<h2 class="p-h1">Det vi trenger for å koble på Jotun.</h2>'
-        + flow([("Produktkatalog", None), ("Produktdata", None), ("Bruksområder", None), ("Produktsystemer", None), ("Farger", None), ("Forhandlerdata", None), ("Eventuelle API-er / feeds", None)], vertical=True)
-        + '<p class="p-payoff">ERA har den tekniske produktflyten. Neste steg er å koble på Jotuns produkt- og distribusjonsdata.</p>'
-        + '<p class="p-body-text">Hvilke produktkataloger, feeds, API-er og forhandlerdata kan Jotun gjøre tilgjengelig for en pilot? Der produktdata ikke er tilgjengelig fra start, kan malermesterkompetanse brukes som faglig mellomledd i pilotfasen.</p>',
-        dark=False, short=True,
-    ))
-
-    # FINALE
-    s.append(scene(None,
-        '<h2 class="p-h1">Det starter med boligen.</h2>'
-        '<p class="p-lede">Og kan ende i et smartere distribusjonssystem.</p>'
-        + flow([("Bolig", None), ("Behov", None), ("ERA", None), ("Jotun", "solid"), ("Forhandler / fagperson", None), ("Handling", None), ("Dokumentasjon", None), ("Bolig", None)], vertical=True)
-        + '<div class="p-eyebrow" style="margin-top:30px">ERA × JOTUN</div>'
-        '<p class="p-payoff">Fra boligbehov til handling.</p>'
-        '<p class="p-body-text">Riktig produkt. Riktig bolig. Riktig tidspunkt. Riktig kanal.</p>'
-        '<div class="p-actions"><a class="btn" href="#pilot">Utforsk piloten</a><a class="link" href="/">Tilbake til ERA</a></div>',
+        ])
+        + '<p class="p-payoff" style="margin-top:30px">Det vi trenger for å koble på Jotun: hvilke produktkataloger, feeds, API-er og forhandlerdata kan gjøres tilgjengelig for en pilot?</p>'
+        + '<p class="p-body-text">ERA har den tekniske produktflyten. Der produktdata ikke er tilgjengelig fra start, kan malermesterkompetanse brukes som faglig mellomledd i pilotfasen.</p>'
+        + '<div class="p-actions"><a class="link" href="/">Tilbake til ERA</a></div>',
         image="whole-home-v3.jpg",
     ))
 

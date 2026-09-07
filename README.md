@@ -23,6 +23,16 @@ Deploy: `npx vercel --prod`.
 Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
 Visuell QA: `node qa-om.mjs http://localhost:8787/om-era` (skjermbilder til `qa/om-era/`).
+## ERA Partner Story — /partner/<slug>
+
+En egen, gjenbrukbar historieform for kommersielle partnersamtaler (`ERA × Jotun` er den første), helt separat fra den offentlige ERA-storyen og undersidene. Delt design (`pages.css`), egen komponentvokabular (`partner.css`: cinematisk scene, split, flow-diagram, crossfade-overgang, nummerert reveal, konvergens) og en lett reveal-motor (`js/partner-story.js`, IntersectionObserver) i stedet for den offentlige storyens skreddersydde scroll-motor — en partnerside skal ikke kreve endringer i `index.html`s script for å eksistere.
+
+- Bygges av `tools/build-partner-story.py` (`python tools/build-partner-story.py`) fra en `PARTNERS`-dict med gjenbrukbare scene-typer (`hero`, `scene`, `split`, `transition`, `flow`, `dash`, `reveal_list`, `converge`, `steps_grid`). Ny partner = ny dict-oppføring i `PARTNERS`, ikke ny malkode.
+- Alle bilder gjenbrukes fra `assets/story/`. Ingen nye plassholdere.
+- Egen, diskret meny (`ERA × <partner>` + Oversikt/B2C/Distribusjon/Innsikt/Pilot + «Tilbake til ERA»), ikke lenket inn i den offentlige toppmenyen.
+- `noindex,nofollow` og utelatt fra `sitemap.xml` — møtespesifikt innhold, ikke en offentlig lansert side.
+- Påstandsdisiplin følges gjennomgående: `TAG_LABELS` skiller Dokumentert/ERA-forslag/Fremtidsbilde/I pilot, og produktkort er tydelig merket `DEMO_PRODUCT_DATA`.
+
 ## Responsivitet og nettleser-QA
 
 Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index.html` (`<style>` i `<helmet>`) og `pages.css`:

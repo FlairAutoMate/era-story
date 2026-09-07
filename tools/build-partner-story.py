@@ -307,15 +307,6 @@ def build_jotun(p):
         image="materials-floor-v3.jpg", short=True,
     ))
 
-    s.append(scene(None,
-        '<div class="p-eyebrow">Jobben er gjort</div>'
-        '<h2 class="p-h1">Og boligen husker hva som ble gjort.</h2>'
-        + dash("Dokumentasjon", "Fasadeprosjekt · ferdigstilt",
-               kpis=[("Produkt", "Registrert"), ("Farge", "Registrert"), ("Dato", "Registrert"), ("Utført av", "Registrert")])
-        + '<p class="p-payoff">Fra boligdata til handling. Fra handling tilbake til boligen.</p>',
-        image="loop-home-v3.jpg",
-    ))
-
     # ACT 3 — ÉN BOLIG BLIR TUSEN
     s.append(transition("distribusjon", "block-bikes-v3.jpg", "neighbourhood-dusk-v4.jpg", "Akt 3 · Én bolig blir tusen", "Så skalerer vi perspektivet.", "Én bolig blir tusen."))
 
@@ -345,7 +336,8 @@ def build_jotun(p):
         '<h2 class="p-h1">Fra aktivitet til dokumentert handling.</h2>'
         + flow([("Behov identifisert", None), ("Prosjekt opprettet", None), ("Produkt anbefalt", None), ("Handleliste", None), ("Forhandler valgt", None)], vertical=True)
         + flow([("Kjøp", "muted"), ("Utført", None), ("Dokumentert", None)], vertical=True)
-        + '<p class="p-body-text">En sammenhengende digital reise kan gjøre det mulig å forstå hvilke aktiviteter som faktisk fører kunden videre. Der kjøpsdata ikke er tilgjengelig, skiller vi klikk og intensjon fra dokumentert gjennomføring — ikke bekreftet salg.</p>',
+        + '<p class="p-body-text">En sammenhengende digital reise kan gjøre det mulig å forstå hvilke aktiviteter som faktisk fører kunden videre. Der kjøpsdata ikke er tilgjengelig, skiller vi klikk og intensjon fra dokumentert gjennomføring — ikke bekreftet salg.</p>'
+        + '<p class="p-fine">På aggregert og riktig samtykke- og personvernsgrunnlag kan slike signaler også gi ny innsikt i hvordan etterspørselen utvikler seg. Boligeierens data eksponeres ikke i partnerinnsikt.</p>',
         image="ecosystem-v3.jpg",
     ))
 
@@ -355,16 +347,6 @@ def build_jotun(p):
         "block-season-2-v3.jpg",
         extra=dash("Boligens tidslinje", "Eksempel, Borgveien 14",
                    kpis=[("2027", "Fasade"), ("2028", "Terrasse"), ("2029", "Innvendig"), ("2031", "Ny vurdering")])))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Datalaget og fremtidsbildet</div>'
-        '<h2 class="p-h1">Fra boligbehov til forecast.</h2>'
-        + flow([("Individuell boligkontekst", None), ("Aggregert, samtykkebasert innsikt", "solid"), ("Geografi og sesong", None), ("Forventet etterspørsel", None)], vertical=True)
-        + dash("Mulige innsiktskategorier", "Aggregert nivå, ikke individdata",
-               kpis=[("Behov", ""), ("Geografi", ""), ("Kategori", ""), ("Tidspunkt", "")], tag_kind="vision")
-        + '<p class="p-body-text">På aggregert og riktig samtykke- og personvernsgrunnlag kan slike signaler gi ny innsikt i hvordan etterspørselen utvikler seg, og på sikt et nytt beslutningsgrunnlag for marked, distribusjon og planlegging hos Jotun. Boligeierens data eksponeres ikke i partnerinnsikt, og dette er en ambisjon, ikke et ferdig prognoseprodukt i dag.</p>',
-        image="property-intelligence-v3.jpg",
-    ))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Fem forslag</div>'

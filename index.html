@@ -1327,7 +1327,7 @@ class Component extends DCLogic {
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) activeNav = id;
     });
     const chapMap = document.body.getAttribute('data-page') === 'om-era'
-      ? { about: 0, frag: 0, loop: 1, photo: 2, diy: 2, close: 2, shift: 3, tech: 4, agent: 5, eco: 5, vision: 6, team: 7, finale: 7 }
+      ? { about: 0, frag: 0, loop: 1, close: 1, shift: 2, tech: 3, vision: 4, team: 5, finale: 5 }
       : { door: 0, home: 0, chaos: 1, see: 1, prio: 1, magic: 2, choice: 2, commerce: 2, pro: 2, trust: 2, memory: 3, whole: 3, board: 4, split: 4, finale: 4 };
     let chapter = 0;
     Object.keys(chapMap).forEach((k) => {
@@ -1374,7 +1374,7 @@ class Component extends DCLogic {
     const navItems = [['hva', 'Hva ERA gjør', '#hva'], ['boligeier', 'Boligeier', '/boligeier'], ['styret', 'Styret', '/styret'], ['handverker', 'Håndverker', '/handverker'], ['partnere', 'Faghandel', '/faghandel'], ['om-era', 'Om ERA', '/om-era'], ['jotun', 'Partnere', '/partner/jotun']]
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
-      ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#fra-et-bilde', 'Fra et bilde'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#agent', 'Agent'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
+      ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
       : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;
@@ -1796,14 +1796,14 @@ class Component extends DCLogic {
 
     // 28 · Menneskene bak ERA. Portrettene er utskiftbare: sett `src` når endelige bilder foreligger.
     const teamDefs = [
-      { slot: 'team-lars', name: 'Lars-Henrik Sand', role: 'Gründer og operativ leder', founder: true, src: '/assets/story/team-lars.jpg', bio: 'Driver ERA fra visjon til gjennomføring. Leder strategi, produktutvikling og daglig drift, bygger teamet og utvikler distribusjon og partnerskap.', detail: '', tags: 'Eiendom · Teknologi · Produktutvikling · Digitalisering · Markedsføring' },
+      { slot: 'team-lars', name: 'Lars-Henrik Sand', role: 'Founder / Product & Operations', founder: true, src: '/assets/story/team-lars.jpg', bio: '17+ år innen teknologi, eiendom og markedsføring, med erfaring fra 400+ boligprosjekter og ledende aktører i eiendomsmarkedet.', detail: 'Leder produkt, UX, AI, strategi, forretningsmodell og partnerskap.', tags: 'Teknologi · Eiendom · Markedsføring · Produkt · Strategi' },
       { slot: 'team-markus', name: 'Markus Frost', role: 'Styreleder', founder: false, src: '/assets/story/team-markus.jpg', bio: 'Leder ERAs styrearbeid.', detail: '', tags: '' },
-      { slot: 'team-ragnvald', name: 'Ragnvald Løhren', role: 'Co-Founder · Finans og selskapsutvikling', founder: true, src: '/assets/story/team-ragnvald.jpg', bio: 'Ansvarlig for ERAs finansielle og selskapsmessige utvikling. Arbeider med kapitalstrategi, finansiering, økonomiske modeller og strategisk utvikling.', detail: '', tags: 'Finans · Selskapsutvikling · Kapital · Strategi' },
-      { slot: 'team-thomas', name: 'Thomas Floden', role: 'Co-Founder · Teknologiansvarlig', founder: true, src: '/assets/story/team-thomas.jpg', bio: 'Leder den teknologiske utviklingen av ERA og arkitekturen bak plattformen. Ansvarlig for teknologi, systemarkitektur og realiseringen av produktvisjonen.', detail: '', tags: 'Teknologi · Programvareutvikling · Systemarkitektur · Produktutvikling' },
-      { slot: 'team-magnus', name: 'Magnus Stensrud', role: 'Daglig leder · Administrasjon og salg', founder: false, src: '/assets/story/team-magnus.jpg', bio: 'Ansvarlig for den daglige driften av ERA og selskapets operative fremdrift. Leder administrasjon, salgsarbeid og oppfølging av kunder og kommersielle aktiviteter.', detail: '', tags: 'Ledelse · Salg · Administrasjon · Kundeutvikling' },
-      { slot: 'team-eskild', name: 'Eskild Løken Ugland', role: 'Styremedlem og partner', founder: false, src: '/assets/story/team-eskild.jpg', bio: 'Bidrar til ERAs strategiske og kommersielle utvikling gjennom styrearbeidet, med særlig forståelse for markedet, distribusjon og aktørene rundt boligen.', detail: 'Tidligere salgs- og markedsdirektør Block Watne, tidligere kjedesjef Malprofil og Mestergruppen.', tags: 'Salg · Faghandel · Distribusjon · Partnerskap' },
-      { slot: 'team-andreas', name: 'Andreas Løhren', role: 'Styremedlem', founder: false, src: '/assets/story/team-andreas.jpg', bio: 'Bidrar til ERAs styrearbeid og strategiske utvikling.', detail: '', tags: '' },
-      { slot: 'team-william', name: 'William Lente', role: 'Markedsføring · Sosiale medier og kundesuksess', founder: false, src: '/assets/story/team-william.jpg', bio: 'Ansvarlig for ERAs markedsføring, sosiale medier og kundesuksess. Arbeider med kommunikasjon, innhold, kundeopplevelse og oppfølging gjennom hele kundereisen.', detail: '', tags: 'Markedsføring · Sosiale medier · Innhold · Kundesuksess' }
+      { slot: 'team-ragnvald', name: 'Ragnvald Løhren', role: 'Finance & Strategy', founder: true, src: '/assets/story/team-ragnvald.jpg', bio: 'Bakgrunn fra finans, investering og forretningsutvikling, blant annet fra Storebrand og VentureLab.', detail: 'Leder finansiering, kapitalstrategi, selskapsstruktur og M&A.', tags: 'Finans · Investering · Forretningsutvikling · Kapitalstrategi · M&A' },
+      { slot: 'team-thomas', name: 'Thomas Floden', role: 'CTO', founder: true, src: '/assets/story/team-thomas.jpg', bio: 'Teknologigründer med erfaring fra SaaS, AI, systemarkitektur og digitale plattformer.', detail: 'Leder teknologi, arkitektur, data, AI-integrasjoner og utvikling.', tags: 'SaaS · AI · Systemarkitektur · Digitale plattformer' },
+      { slot: 'team-magnus', name: 'Magnus Stensrud', role: 'Daglig leder / Sales', founder: false, src: '/assets/story/team-magnus.jpg', bio: 'Lang erfaring fra salg, salgsledelse og kundereiser, blant annet fra Elkjøp.', detail: 'Driver salg, kundeutvikling, onboarding og kommersiell vekst.', tags: 'Salg · Salgsledelse · Kundereiser · Kommersiell vekst' },
+      { slot: 'team-eskild', name: 'Eskild Løken Ugland', role: 'CSO · Styremedlem', founder: false, src: '/assets/story/team-eskild.jpg', bio: '25+ års erfaring fra bolig, bygg, maling og faghandel, med bakgrunn fra Block Watne og som kjedesjef for Mesterfarge og Mal Proff.', detail: 'Leder salg, distribusjon, faghandel og strategiske industripartnerskap.', tags: 'Bolig · Bygg · Maling · Faghandel · Salg' },
+      { slot: 'team-andreas', name: 'Andreas Løhren', role: 'Legal & Regulatory · Styremedlem', founder: false, src: '/assets/story/team-andreas.jpg', bio: 'Bakgrunn fra offentlig forvaltning, EU/EØS, digitalisering og regulatoriske problemstillinger.', detail: 'Ansvar for juridisk strategi, avtaler, compliance, regulatoriske spørsmål og offentlig sektor.', tags: 'Offentlig forvaltning · EU/EØS · Digitalisering · Regulatorisk' },
+      { slot: 'team-william', name: 'William Lente', role: 'Digital Growth & Design', founder: false, src: '/assets/story/team-william.jpg', bio: 'Bakgrunn fra digital markedsføring, leadgenerering, web og design.', detail: 'Driver growth, leads, digitale kundereiser, web, design og konvertering.', tags: 'Digital markedsføring · Leadgenerering · Web · Design' }
     ];
     const tm = gv('team');
     const tmPeople = teamDefs.map((p2, i) => {

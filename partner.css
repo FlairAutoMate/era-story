@@ -134,6 +134,10 @@
 }
 
 /* the dash/kpi/card vocabulary (pages.css) assumes a light-themed ancestor; a dark .p-scene sets
-   color:var(--warm) on itself, which otherwise cascades into these white/sand cards and makes
-   their text nearly invisible. Pin it back to ink regardless of the surrounding scene's theme. */
-.p-scene .dash, .p-scene .card, .p-scene .example { color: var(--ink); }
+   color:var(--warm) on itself, which otherwise cascades into these components. The boxed pieces
+   (kpi tiles, grouped rows, card, example) are always opaque white/sand and need ink regardless
+   of the scene's theme. dash-title/dash-meta are different: they float directly on the scene's
+   own background (no box of their own), so they should follow the scene's theme like p-h1 does. */
+.p-scene .kpi, .p-scene .dash-group, .p-scene .dcol, .p-scene .card, .p-scene .example { color: var(--ink); }
+.p-scene:not(.light) .dash-title { color: #fff; }
+.p-scene:not(.light) .dash-meta { color: rgba(247,244,238,0.65); }

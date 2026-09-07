@@ -312,7 +312,7 @@ def build_jotun(p):
         + dash("Nærmeste forhandler", "Basert på boligens adresse",
                kpis=[("Forhandler", "Lokal Jotun-forhandler"), ("Avstand", "3,2 km"), ("Produkter", "Tilgjengelig"), ("Handleliste", "Klar")])
         + '<div class="p-actions" style="margin-top:24px"><span class="btn" style="pointer-events:none">Hent i butikk</span><span class="link" style="pointer-events:none">Send til butikk</span></div>',
-        image="materials-floor-v3.jpg", dark=False, short=True,
+        image="materials-floor-v3.jpg", short=True,
     ))
 
     s.append(scene(None,

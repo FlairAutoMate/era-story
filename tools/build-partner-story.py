@@ -280,18 +280,6 @@ def build_jotun(p):
         image="diy-commerce-v3.jpg",
     ))
 
-    s.append(scene(None,
-        '<div class="p-eyebrow">Til Jotun</div>'
-        '<h2 class="p-h1">Produktdata inn. Relevant anbefaling ut.</h2>'
-        + converge(
-            "Jotun", ["Produktkatalog", "Bruksområder", "Overflater", "Produktsystemer", "Farger", "Dekning / mengde"],
-            "ERA", ["Boligkontekst", "Prosjekt", "Behov", "Anbefaling", "Handleliste"],
-            "→",
-        )
-        + '<p class="p-payoff">Neste steg: avklare hvilke produktkataloger, feeds eller API-er Jotun kan gjøre tilgjengelig.</p>',
-        dark=False, short=True, wide=True,
-    ))
-
     s.append(split(None, "I mellomtiden", "Fagkompetansen kan kobles på fra første pilot.",
         "Der produktdata ennå ikke er integrert, kan prosjektet struktureres av ERA og endelig produktvalg kvalitetssikres gjennom relevant malermesterkompetanse.",
         None, "painter-v3.jpg", reverse=True,
@@ -328,15 +316,6 @@ def build_jotun(p):
     ))
 
     s.append(scene(None,
-        '<h2 class="p-h1">To veier. Samme bolig.</h2>'
-        + dash("Fasadeprosjekt", "Samme underlag, ulik vei",
-               cols=[("order", [("Gjør det selv", "ERA → Jotun-system → handleliste → forhandler → kjøp")]),
-                     ("pro", [("Få hjelp", "ERA → arbeidsgrunnlag → malermester → Jotun-system → utførelse")])],
-               footer="Begge veier ender samme sted: dokumentasjon på boligen."),
-        dark=False, short=True,
-    ))
-
-    s.append(scene(None,
         '<div class="p-eyebrow">Jobben er gjort</div>'
         '<h2 class="p-h1">Og boligen husker hva som ble gjort.</h2>'
         + dash("Dokumentasjon", "Fasadeprosjekt · ferdigstilt",
@@ -351,19 +330,10 @@ def build_jotun(p):
     s.append(scene(None,
         '<div class="p-eyebrow">Bygge etterspørsel</div>'
         '<h2 class="p-h1">Bygge etterspørsel, ikke bare vente på den.</h2>'
-        '<p class="p-lede">ERA har som ambisjon å identifisere relevante vedlikeholdsbehov før boligeieren selv begynner å lete etter produkt eller fagperson.</p>'
-        + flow([("Potensielt behov", None), ("Aktivert prosjekt", None), ("Anbefaling", None), ("Forhandler", None), ("Handling", None)]),
-        image="neighbourhood-dusk-v4.jpg",
-    ))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Fra historikk til fremtid</div>'
-        '<h2 class="p-h1">Fra det som ble solgt til det som kan komme.</h2>'
-        '<p class="p-lede">Historiske salgstall viser hva markedet allerede har kjøpt. Boligdata kan gi et nytt signal om hva markedet kan komme til å trenge.</p>'
-        + flow([("Historisk salg 2025", "old"), ("Historisk salg 2026", "old")])
-        + flow([("Kommende behov · fasade", None), ("Terrasse", None), ("Innvendig", None), ("Vedlikehold", None)], vertical=True)
+        '<p class="p-lede">ERA har som ambisjon å identifisere relevante vedlikeholdsbehov før boligeieren selv begynner å lete etter produkt eller fagperson. Historiske salgstall viser hva markedet allerede har kjøpt; boligdata kan gi et nytt signal om hva markedet kan komme til å trenge.</p>'
+        + flow([("Historisk salg", "old"), ("Potensielt behov", None), ("Aktivert prosjekt", None), ("Anbefaling", None), ("Forhandler", None), ("Handling", None)])
         + '<p class="p-fine">Fremtidsbilde — ikke et validert prognoseprodukt i dag.</p>',
-        dark=False, short=True,
+        image="neighbourhood-dusk-v4.jpg",
     ))
 
     s.append(scene(None,
@@ -377,14 +347,6 @@ def build_jotun(p):
         image="property-intelligence-v3.jpg",
     ))
 
-    s.append(scene(None,
-        '<div class="p-eyebrow">Sentralt til lokalt</div>'
-        '<h2 class="p-h1">Fra sentral aktivitet til lokal handling.</h2>'
-        + flow([("Jotun · kampanje / faginnhold / produkt", None), ("ERA · relevant bolig, behov, tidspunkt", "solid"), ("Lokal forhandler", None), ("Kunde", None)], vertical=True)
-        + '<p class="p-payoff">Én digital motor kan koble sentrale initiativer til lokal etterspørsel.</p>',
-        dark=False, short=True,
-    ))
-
     # ACT 4 — DISTRIBUSJONSMULIGHETEN
     s.append(scene("innsikt",
         '<div class="p-eyebrow">Akt 4 · Distribusjonsmuligheten</div>'
@@ -396,24 +358,11 @@ def build_jotun(p):
     ))
 
     s.append(split(None, "Over tid", "Relasjonen slutter ikke ved kassen.",
-        "ERA er bygget rundt boligens livsløp, ikke én enkelt transaksjon. Det gir muligheten til å møte kunden igjen når et nytt relevant behov oppstår.",
-        None, "block-season-2-v3.jpg"))
-    s.append(scene(None,
-        dash("Boligens tidslinje", "Eksempel, Borgveien 14",
-             kpis=[("2027", "Fasade"), ("2028", "Terrasse"), ("2029", "Innvendig"), ("2031", "Ny vurdering")])
-        + '<p class="p-payoff">Én bolig. Mange prosjekter. Mange år.</p>'
-        + '<p class="p-body-text">Gjennom ERA kan Jotun potensielt være relevant gjennom flere faser av boligens livsløp, ikke bare når kunden allerede har bestemt seg for å kjøpe maling. Dette handler om en digital kunderelasjon og løpende kontaktpunkter, ikke om eierskap til kunden.</p>',
-        dark=False, short=True,
-    ))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Forhandlernettverket</div>'
-        '<h2 class="p-h1">Mer verdi i forhandlernettet.</h2>'
-        '<p class="p-lede">ERA kan utvikles til et digitalt verktøy som skaper og strukturerer etterspørsel, og leder relevante prosjekter videre til Jotuns forhandlere.</p>'
-        + flow([("Jotun sentralt", None), ("ERA", "solid"), ("Forhandler A / B / C", None), ("Lokale kundeprosjekter", None)])
-        + '<p class="p-payoff">Et sterkere digitalt lag rundt eksisterende distribusjon.</p>',
-        image="ecosystem-v3.jpg",
-    ))
+        "ERA er bygget rundt boligens livsløp, ikke én enkelt transaksjon. Det gir muligheten til å møte kunden igjen når et nytt relevant behov oppstår. Dette handler om en digital kunderelasjon og løpende kontaktpunkter, ikke om eierskap til kunden.",
+        "Én bolig. Mange prosjekter. Mange år.",
+        "block-season-2-v3.jpg",
+        extra=dash("Boligens tidslinje", "Eksempel, Borgveien 14",
+                   kpis=[("2027", "Fasade"), ("2028", "Terrasse"), ("2029", "Innvendig"), ("2031", "Ny vurdering")])))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Datalaget og fremtidsbildet</div>'
@@ -436,16 +385,6 @@ def build_jotun(p):
             ("05", "Sterkere forhandlernettverk", "Gi lokale partnere et nytt digitalt lag for etterspørsel, prosjekter og kundeaktivitet."),
         ]),
         image="ecosystem-v3.jpg",
-    ))
-
-    s.append(scene(None,
-        '<h2 class="p-h1">To selskaper. Én boligeier.</h2>'
-        + converge(
-            "ERA", ["Boligkontekst", "Kunstig intelligens", "Behov", "Prosjekt", "Kundereise", "Dokumentasjon"],
-            "Jotun", ["Produkter", "Fagkunnskap", "Produktsystemer", "Merkevare", "Forhandlernettverk"],
-            "Boligeieren",
-        ),
-        dark=False, short=True, wide=True,
     ))
 
     # PILOT

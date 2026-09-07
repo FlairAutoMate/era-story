@@ -1004,7 +1004,10 @@ class Component extends DCLogic {
     const paintNames = { '#B9C4B1': 'Sjøgrønn 0398', '#D9CBB8': 'Sandstein 1024', '#8FA3B5': 'Nordsjø 4620', '#C9B8A8': 'Varm grå 1877' };
 
     // The menu goes straight to the audience pages; only "Hva ERA gjør" stays inside the story.
+    // The Jotun partner story is meeting-specific — hide its nav tab on the public era-app.no domain.
+    const onEraApp = typeof location !== 'undefined' && /(^|\.)era-app\.no$/.test(location.hostname);
     const navItems = [['hva', 'Hva ERA gjør', '/#hva'], ['boligeier', 'Boligeier', '/boligeier'], ['styret', 'Styret', '/styret'], ['handverker', 'Håndverker', '/handverker'], ['partnere', 'Faghandel', '/faghandel'], ['om-era', 'Om ERA', '/om-era'], ['jotun', 'Partnere', '/partner/jotun']]
+      .filter(([id]) => !(id === 'jotun' && onEraApp))
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
       ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]

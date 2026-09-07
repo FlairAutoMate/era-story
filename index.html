@@ -753,60 +753,6 @@
     </div>
   </section>
 
-  <!-- 9 · TILLIT — HUMAN close, rolig -->
-  <section ref="{{ refTrust }}" data-theme="dark" style="position: relative; height: {{ h_trust }}; background: #0F1830" data-screen-label="09 Tillit" aria-label="Tillit">
-    <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
-      <div style="position: absolute; inset: 0; transform: translateZ(0); backface-visibility: hidden; opacity: {{ trustImgOp }}">
-        <image-slot id="shot-couple-relief" shape="rect" src="/assets/story/couple-sofa-v3.jpg" placeholder="Shot 3 · Paret — rolig lettelse"></image-slot>
-      </div>
-      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0%, rgba(15,24,48,0.1) 45%, rgba(15,24,48,0.6) 68%, rgba(15,24,48,0.88) 100%)"></div>
-      <div style="position: absolute; inset: 0; pointer-events: none; background: rgba(15,24,48,{{ trustDim }})"></div>
-      <div style="position: absolute; right: clamp(24px, 7vw, 120px); left: 24px; top: {{ trustTop }}; bottom: {{ trustBottom }}; transform: {{ trustTy }}; pointer-events: none; display: flex; justify-content: flex-end"><div style="position: relative; width: min(560px, 100%); text-align: {{ trustAlign }}">
-        <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ trustDoneTy }}; opacity: {{ trustDoneOp }}">
-          <h2 style="margin: 0; font-size: clamp(48px, 9vw, 120px); font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; line-height: 1">Ferdig.</h2>
-          <p style="margin: 18px 0 0; font-size: clamp(18px, 2.2vw, 26px); font-weight: 600; color: rgba(247,244,238,0.85); opacity: {{ trustDone2Op }}; transform: {{ trustDone2Ty }}">Men ERA stopper ikke der.</p>
-        </div>
-        <p style="position: absolute; left: 0; right: 0; top: 50%; margin: 0; transform: translateY(-50%) {{ trust0Ty }}; font-size: clamp(24px, 3.2vw, 40px); font-weight: 500; font-style: italic; color: #F7F4EE; opacity: {{ trust0Op }}; line-height: 1.25; text-shadow: 0 2px 24px rgba(15,24,48,0.6)">«Må vi egentlig pusse opp badet?»</p>
-        <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); opacity: {{ trust1Op }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 20px">ERA svarer</div>
-          <h2 style="margin: 0; font-size: clamp(48px, 9vw, 120px); font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; line-height: 1">Ikke nå.</h2>
-          <p style="margin: 22px 0 0; font-size: clamp(16px, 1.8vw, 20px); color: rgba(247,244,238,0.75); opacity: {{ trust2Op }}; transform: {{ trust2Ty }}">Inspeksjon anbefales innen 12 måneder.</p>
-        </div>
-        <div style="position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%) {{ trust3Ty }}; opacity: {{ trust3Op }}">
-          <h2 style="margin: 0; font-size: clamp(28px, 3.8vw, 50px); font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; line-height: 1.1">Riktig beslutning er ikke alltid å gjøre mer.</h2>
-        </div>
-        <div style="height: 40vh"></div>
-      </div></div>
-      <div class="era-short-hide" style="position: absolute; left: clamp(24px, 7vw, 120px); top: 100px; width: min(280px, 84vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(0,0,0,0.4); opacity: {{ bathCardOp }}; transform: {{ bathCardTy }}">
-        <div style="height: 84px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/bathroom-old-v4.jpg" srcset="/assets/story/bathroom-old-v4-m.jpg 1400w, /assets/story/bathroom-old-v4.jpg 3000w" sizes="100vw" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%"></div>
-        <div style="display: flex; justify-content: space-between; align-items: center">
-          <div>
-            <div style="font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">Bad</div>
-            <div style="font-size: 12px; color: #9A968C">Ca. 5 m²</div>
-          </div>
-          <div style="position: relative; width: 56px; height: 56px; flex: none">
-            <svg width="56" height="56" viewBox="0 0 56 56">
-              <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
-              <circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ bathRingDash }}" transform="rotate(-90 28 28)"></circle>
-            </svg>
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #131E3A; font-family: 'JetBrains Mono', monospace">{{ bathScoreShown }}</div>
-          </div>
-        </div>
-        <div style="opacity: {{ bathTextOp }}; transform: {{ bathTextTy }}">
-          <div style="margin-top: 14px; font-size: 13px; font-weight: 700; color: #B0935F">Middels risiko</div>
-          <div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #8A8579">Funnet: alder, slitasje og utette fuger</div>
-        </div>
-        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 14px; border-radius: 14px; background: #E9F3E6; opacity: {{ bathRecOp }}; transform: {{ bathRecTy }}">
-          <span style="flex: none; width: 18px; height: 18px; border-radius: 50%; background: #3E7B4F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">✓</span>
-          <div>
-            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #3E7B4F">Anbefaling fra ERA</div>
-            <div style="margin-top: 2px; font-size: 13.5px; line-height: 1.4; color: #2E5C3C">Inspeksjon innen 12 måneder. Oppgradering kan vente 5–10 år.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- 10 · HUKOMMELSE — samme hus, fire årstider -->
   <section id="husk" ref="{{ refMemory }}" data-theme="light" style="position: relative; height: {{ h_memory }}; background: #FFFDF9" data-screen-label="10 Hukommelse" aria-label="Boligen får en hukommelse">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: {{ stackAlign }}; align-content: {{ stackAlign }}; gap: {{ stackGap }}; padding: {{ stackPad }}">
@@ -889,13 +835,9 @@
         </sc-for>
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ magicTextTop }}; transform: {{ magicTextTy }}; max-width: 560px; pointer-events: none">
-        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole0Ty }}; opacity: {{ whole0Op }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Dokumenter verdien · Én jobb til</div>
-          <h2 style="margin: 0; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Men boligen er mer enn én vegg.</h2>
-        </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole1Ty }}; opacity: {{ whole1Op }}">
-          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">ERA ser hele boligen</div>
-          <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">ERA følger behovene rundt hele boligen.</h2>
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Én jobb til · ERA ser hele boligen</div>
+          <h2 style="margin: 0; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Men boligen er mer enn én vegg.</h2>
         </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ whole2Ty }}; opacity: {{ whole2Op }}">
           <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">Én bolig.<br>Mange behov.<br><span style="color: #D4B17A">Samme ERA.</span></h2>
@@ -928,7 +870,6 @@
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ boardTextTop }}; bottom: {{ boardTextBottom }}; transform: {{ boardTextTy }}; max-width: 460px; opacity: {{ boardHeadOp }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret · Samme eiendom</div>
         <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Boligen din stopper ikke ved ytterdøren.</h2>
-        <p style="margin: 10px 0 0; font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; color: rgba(247,244,238,0.75)">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>
         <div class="era-short-hide" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
           <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
             <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
@@ -968,11 +909,6 @@
           <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; opacity: {{ splitCatOp }}">
             <sc-for list="{{ splitCats }}" as="sc" hint-placeholder-count="8">
               <span style="padding: 6px 12px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: {{ sc.op }}">{{ sc.label }}</span>
-            </sc-for>
-          </div>
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: wrap; opacity: {{ splitLoopOp }}">
-            <sc-for list="{{ splitLoop }}" as="sl" hint-placeholder-count="9">
-              <span style="display: inline-flex; align-items: center; gap: 4px; opacity: {{ sl.op }}"><span style="padding: 6px 11px; border-radius: 999px; background: {{ sl.bg }}; border: 1px solid {{ sl.border }}; color: {{ sl.fg }}; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap">{{ sl.label }}</span><span style="font-size: 12px; color: #B0935F; opacity: {{ sl.arrowOp }}">{{ sl.arrow }}</span></span>
             </sc-for>
           </div>
         </div>
@@ -1539,7 +1475,7 @@ class Component extends DCLogic {
       const last = i === arr.length - 1;
       return { label, op: seg(sp, 0.9 + i * 0.008, 1, 0.02), arrow: last ? '↺' : '→', arrowOp: 1, bg: last ? '#131E3A' : '#FFFFFF', border: last ? '#131E3A' : '#E3DDD0', fg: last ? '#F7F4EE' : '#131E3A' };
     });
-    const splitLoopOp = seg(sp, 0.9, 1, 0.03), splitAgentOp = seg(sp, 0.95, 1, 0.03);
+    const splitLoopOp = seg(sp, 0.9, 1, 0.03), splitAgentOp = seg(sp, 0.88, 1, 0.03);
 
     const f = g('finale');
     const finaleByAudience = {

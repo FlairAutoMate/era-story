@@ -1172,7 +1172,7 @@ class Component extends DCLogic {
       const last = i === arr.length - 1;
       return { label, op: seg(sp, 0.9 + i * 0.008, 1, 0.02), arrow: last ? '↺' : '→', arrowOp: 1, bg: last ? '#131E3A' : '#FFFFFF', border: last ? '#131E3A' : '#E3DDD0', fg: last ? '#F7F4EE' : '#131E3A' };
     });
-    const splitLoopOp = seg(sp, 0.9, 1, 0.03), splitAgentOp = seg(sp, 0.95, 1, 0.03);
+    const splitLoopOp = seg(sp, 0.9, 1, 0.03), splitAgentOp = seg(sp, 0.88, 1, 0.03);
 
     const f = g('finale');
     const finaleByAudience = {

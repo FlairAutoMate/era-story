@@ -127,12 +127,13 @@ def hero(eyebrow, title, sub, image, primary, secondary):
     return f'<section class="p-scene p-hero"><div class="p-scene-media reveal-img in-view">{img(image)}</div><div class="p-scene-body reveal in-view">{body}</div></section>'
 
 
-def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False, dark=True):
+def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False, dark=True, extra=""):
     body = (
         f'<div class="p-eyebrow{"" if dark else " dark2"}">{esc(eyebrow)}</div>'
         f'<h2 class="p-h2" style="margin-top:14px">{esc(heading)}</h2>'
         f'<p class="{"p-lede" if dark else "p-lede"}">{esc(text)}</p>'
         + (f'<p class="p-payoff">{esc(value)}</p>' if value else "")
+        + extra
     )
     cls = "p-split reverse" if reverse else "p-split"
     bg = "background:var(--navy);color:var(--warm)" if dark else "background:var(--paper);color:var(--ink)"
@@ -293,8 +294,8 @@ def build_jotun(p):
 
     s.append(split(None, "I mellomtiden", "Fagkompetansen kan kobles på fra første pilot.",
         "Der produktdata ennå ikke er integrert, kan prosjektet struktureres av ERA og endelig produktvalg kvalitetssikres gjennom relevant malermesterkompetanse.",
-        None, "painter-v3.jpg", reverse=True))
-    s.append(scene(None, flow([("ERA", None), ("Behov", None), ("Arbeidsgrunnlag", None), ("Malermester", "solid"), ("Produktvalg", None), ("Prosjekt", None)]), dark=False, short=True))
+        None, "painter-v3.jpg", reverse=True,
+        extra=flow([("ERA", None), ("Behov", None), ("Arbeidsgrunnlag", None), ("Malermester", "solid"), ("Produktvalg", None), ("Prosjekt", None)])))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Målbildet</div>'
@@ -340,7 +341,6 @@ def build_jotun(p):
         '<h2 class="p-h1">Og boligen husker hva som ble gjort.</h2>'
         + dash("Dokumentasjon", "Fasadeprosjekt · ferdigstilt",
                kpis=[("Produkt", "Registrert"), ("Farge", "Registrert"), ("Dato", "Registrert"), ("Utført av", "Registrert")])
-        + flow([("Bolig", None), ("Behov", None), ("ERA", None), ("Jotun", "solid"), ("Forhandler / fagperson", None), ("Utført", None), ("Dokumentert", None), ("Bolig", None)])
         + '<p class="p-payoff">Fra boligdata til handling. Fra handling tilbake til boligen.</p>',
         image="loop-home-v3.jpg",
     ))
@@ -416,28 +416,13 @@ def build_jotun(p):
     ))
 
     s.append(scene(None,
-        '<div class="p-eyebrow">Datalaget</div>'
-        '<h2 class="p-h1">Boligbehov skaper et nytt datalag.</h2>'
-        + flow([("Individuell boligkontekst", None), ("Aggregert, samtykkebasert innsikt", "solid")])
+        '<div class="p-eyebrow">Datalaget og fremtidsbildet</div>'
+        '<h2 class="p-h1">Fra boligbehov til forecast.</h2>'
+        + flow([("Individuell boligkontekst", None), ("Aggregert, samtykkebasert innsikt", "solid"), ("Geografi og sesong", None), ("Forventet etterspørsel", None)], vertical=True)
         + dash("Mulige innsiktskategorier", "Aggregert nivå, ikke individdata",
                kpis=[("Behov", ""), ("Geografi", ""), ("Kategori", ""), ("Tidspunkt", "")], tag_kind="vision")
-        + '<p class="p-body-text">På aggregert og riktig samtykke- og personvernsgrunnlag kan slike signaler gi ny innsikt i hvordan etterspørselen utvikler seg. Boligeierens data eksponeres ikke i partnerinnsikt.</p>',
-        dark=False, short=True,
-    ))
-
-    s.append(scene(None,
-        '<div class="p-eyebrow">Fremtidsbilde</div>'
-        '<h2 class="p-h1">Fra signaler til forecast.</h2>'
-        + flow([("Boliger", None), ("Behovssignaler", None), ("Geografi", None), ("Sesong", None), ("Kategori", None), ("Forventet etterspørsel", "solid")], vertical=True)
-        + '<p class="p-body-text">På sikt kan dette gi et nytt beslutningsgrunnlag for marked, distribusjon og planlegging hos Jotun. Dette er en ambisjon for hvor samarbeidet kan gå, ikke et ferdig prognoseprodukt i dag.</p>',
+        + '<p class="p-body-text">På aggregert og riktig samtykke- og personvernsgrunnlag kan slike signaler gi ny innsikt i hvordan etterspørselen utvikler seg, og på sikt et nytt beslutningsgrunnlag for marked, distribusjon og planlegging hos Jotun. Boligeierens data eksponeres ikke i partnerinnsikt, og dette er en ambisjon, ikke et ferdig prognoseprodukt i dag.</p>',
         image="property-intelligence-v3.jpg",
-    ))
-
-    s.append(scene(None,
-        '<h2 class="p-h1">Fra én bolig til et smartere marked.</h2>'
-        + flow([("Bolig", None), ("Behov", None), ("ERA", None), ("Anbefaling", None), ("Jotun", "solid"), ("Produkt", None), ("Forhandler / malermester", None), ("Kjøp / utførelse", None), ("Dokumentasjon", None), ("Bolig", None)], vertical=True)
-        + flow([("Mange boliger", None), ("Etterspørsel", None), ("Innsikt", None), ("Distribusjon", None), ("Forecast", None)]),
-        dark=False, short=True, wide=True,
     ))
 
     s.append(scene(None,
@@ -454,7 +439,7 @@ def build_jotun(p):
     ))
 
     s.append(scene(None,
-        '<h2 class="p-h1">Riktig løsning for riktig bolig, til riktig tid.</h2>'
+        '<h2 class="p-h1">To selskaper. Én boligeier.</h2>'
         + converge(
             "ERA", ["Boligkontekst", "Kunstig intelligens", "Behov", "Prosjekt", "Kundereise", "Dokumentasjon"],
             "Jotun", ["Produkter", "Fagkunnskap", "Produktsystemer", "Merkevare", "Forhandlernettverk"],

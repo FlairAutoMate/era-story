@@ -28,6 +28,9 @@
 <meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<!-- LCP-critical: the door/hero photo, the very first thing painted. Only one of these two actually downloads. -->
+<link rel="preload" href="/assets/story/door-evening-v4-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">
+<link rel="preload" href="/assets/story/door-evening-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.__resources = {
   "chaosBath": "/assets/story/bathroom-v3.jpg",
@@ -1791,8 +1794,14 @@ class Component extends DCLogic {
       refAbout: this.ref('about'), refFrag: this.ref('frag'), refLoop: this.ref('loop'), refPhoto: this.ref('photo'), refPath: this.ref('path'), refDiy: this.ref('diy'), refTrade: this.ref('trade'), refClose: this.ref('close'), refShift: this.ref('shift'), refTech: this.ref('tech'), refAgent: this.ref('agent'), refEco: this.ref('eco'), refVision: this.ref('vision'), refTeam: this.ref('team') };
     // ── /OM ERA ─────────────────────────────────────────────────────────────
 
-    const H = (d) => `${mobile ? Math.round(d * 0.75) : d}vh`;
-    const heights = { h_door: H(180), h_home: H(240), h_chaos: H(280), h_see: H(280), h_prio: H(240), h_magic: H(300), h_whole: H(300), h_choice: H(180), h_commerce: H(260), h_pro: H(300), h_trust: H(300), h_memory: H(300), h_board: H(280), h_split: H(300), h_finale: H(onOm ? 380 : 360), h_about: H(320), h_frag: H(280), h_loop: H(320), h_photo: H(340), h_diy: H(480), h_close: H(260), h_shift: H(280), h_tech: H(380), h_agent: H(440), h_eco: H(260), h_vision: H(320) };
+    // Mobile pin-duration factor is per-chapter, not one global number: scroll-linked progress (seg/ramp)
+    // is already normalized 0–1 within each pinned section, so shortening a chapter's height only cuts
+    // dead scroll distance — it never changes the sequencing/timing of its beats. Light chapters (few
+    // beats) shrink hard; the heavy, multi-beat chapters (the worked example and its commerce/pro/memory
+    // payoffs) keep more room so they don't feel rushed; the finale keeps its old ratio since the lead
+    // form's own layout is tied to it.
+    const H = (d, f = 0.75) => `${mobile ? Math.round(d * f) : d}vh`;
+    const heights = { h_door: H(180, 0.55), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',

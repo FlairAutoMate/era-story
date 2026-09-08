@@ -46,6 +46,11 @@ rep('<meta property="og:url" content="https://era-story.vercel.app/">', '<meta p
 rep('<meta property="og:title" content="ERA — Boligeierskap uten gjetting">', '<meta property="og:title" content="Om ERA — Et agentisk system for hele boligens livsløp">')
 rep('<meta name="twitter:title" content="ERA — Boligeierskap uten gjetting">', '<meta name="twitter:title" content="Om ERA — Et agentisk system for hele boligens livsløp">')
 rep('<body>', '<body data-page="om-era">')
+# Om ERA's first paint is the about-hero photo, not the homepage's door — swap the LCP preload to match.
+rep('<link rel="preload" href="/assets/story/door-evening-v4-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">',
+    '<link rel="preload" href="/assets/story/about-hero-v4-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">')
+rep('<link rel="preload" href="/assets/story/door-evening-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">',
+    '<link rel="preload" href="/assets/story/about-hero-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">')
 rep('<a href="#hjem" aria-label="ERA — til toppen"', '<a href="/" aria-label="ERA — til forsiden"')
 page = page.replace("['hva', 'Hva ERA gjør', '#hva']", "['hva', 'Hva ERA gjør', '/#hva']")
 page = page.replace("[['#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']", "[['/#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']")

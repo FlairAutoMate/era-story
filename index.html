@@ -298,6 +298,8 @@
 <style>
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @keyframes era-cue-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  @media (prefers-reduced-motion: reduce) { [style*="era-cue-pulse"] { animation: none !important; } }
   body { margin: 0; background: #0F1830; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   * { box-sizing: border-box; }
   a { color: #B0935F; text-decoration: none; }
@@ -362,6 +364,10 @@
       </div>
     </sc-for>
   </div>
+  <!-- Mobile story progress: a hairline, only once the door has opened -->
+  <div aria-hidden="true" style="position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 295; background: rgba(19,30,58,0.08); opacity: {{ mobProgOp }}; transition: opacity 0.5s; pointer-events: none">
+    <div style="height: 100%; width: {{ mobProgW }}; background: #D4B17A; transition: width 0.2s linear"></div>
+  </div>
   <!-- Fast CTA nederst til høyre, utenfor skinnen så den ikke kolliderer med siste kapitteletikett -->
   <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
 
@@ -376,9 +382,12 @@
       <div style="position: absolute; left: 62%; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, #D4B17A 40%, #D4B17A 60%, transparent); transform: translateX(-50%); opacity: {{ doorSeamOp }}; box-shadow: 0 0 40px 6px rgba(255,214,150,{{ doorSeamGlow }})"></div>
       <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 32px; user-select: none; -webkit-user-select: none">
         <div style="opacity: {{ door0Op }}; transform: {{ door0Ty }}">
-          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 20px">era.</div>
-          <h1 style="margin: 0; font-size: clamp(30px, 4vw, 52px); font-weight: 700; letter-spacing: -0.02em; color: #F7F4EE">Velkommen til en ny ERA.</h1>
-          <div style="margin-top: 26px; font-size: 13px; color: rgba(247,244,238,0.55)">Scroll for å åpne</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 32px">era.</div>
+          <h1 style="margin: 0; font-size: clamp(26px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #F7F4EE">Velkommen til<br>en ny ERA.</h1>
+        </div>
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: max(6vh, env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: {{ door0Op }}; animation: era-cue-pulse 2.6s ease-in-out infinite">
+          <span style="font-size: 15px; color: rgba(212,177,122,0.85); line-height: 1">{{ doorCueIcon }}</span>
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(247,244,238,0.55)">{{ doorCueText }}</span>
         </div>
         <div style="position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12vh; opacity: {{ door1Op }}; transform: {{ door1Ty }}">
           <div style="font-size: clamp(26px, 3.2vw, 42px); font-weight: 700; letter-spacing: -0.02em; color: #F7F4EE; text-shadow: 0 2px 24px rgba(0,0,0,0.45)">Et hjem er fullt av valg.</div>
@@ -1029,12 +1038,22 @@
 
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;wallColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B9C4B1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B9C4B1&quot;,&quot;#D9CBB8&quot;,&quot;#8FA3B5&quot;,&quot;#C9B8A8&quot;],&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:41,&quot;min&quot;:0,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallW&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:47,&quot;min&quot;:20,&quot;max&quot;:70,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;},&quot;wallH&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:62,&quot;min&quot;:30,&quot;max&quot;:100,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Male stua — vegg&quot;}}">
+// Conversion/engagement events via Vercel Web Analytics custom events (script tag in <head>).
+// Queues silently if analytics isn't enabled on the deployment — never throws.
+function eraTrack(name, data) {
+  try {
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    window.va('event', data ? Object.assign({ name }, data) : { name });
+  } catch (e) {}
+}
 class Component extends DCLogic {
-  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
+  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, docPct: 0, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
   componentDidMount() {
+    eraTrack('era_story_landed');
+    this._storyMilestones = new Set();
     this._mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     this._raf = null;
     this._onScroll = () => {
@@ -1053,6 +1072,7 @@ class Component extends DCLogic {
       if (t) { this.setMenu(t.hasAttribute('data-menu-toggle') ? !this.state.menuOpen : false); if (t.hasAttribute('data-menu-toggle')) return; }
       const a = e.target && e.target.closest && e.target.closest('a[href^="#"], a[data-board], a[data-pro], a[data-partner]');
       if (!a) return;
+      if (a.getAttribute('href') === '#start') eraTrack('find_home_cta_clicked');
       const aud = this.audienceFor(a.getAttribute('href'), a);
       if (aud) this.setState({ audience: aud });
     };
@@ -1077,6 +1097,7 @@ class Component extends DCLogic {
       if (!form || form.id !== 'era-lead') return;
       e.preventDefault();
       if (this.state.lead === 'sending') return;
+      eraTrack('find_home_started');
       const value = (form.elements.value && form.elements.value.value || '').trim();
       const website = (form.elements.website && form.elements.website.value || '').trim();
       if (value.length < 3) { this.setState({ lead: 'error', leadError: 'Skriv inn litt mer, så finner vi riktig sted.' }); return; }
@@ -1086,6 +1107,7 @@ class Component extends DCLogic {
         const j = await r.json().catch(() => ({}));
         if (r.ok && j.ok) {
           this.setState({ lead: 'done', leadError: '', leadCheckDrawn: false });
+          eraTrack('find_home_completed');
           if (!this._mq.matches) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ leadCheckDrawn: true })));
         }
         else this.setState({ lead: 'error', leadError: 'Noe gikk galt hos oss. Prøv igjen om et øyeblikk.' });
@@ -1272,7 +1294,20 @@ class Component extends DCLogic {
       const r = el.getBoundingClientRect();
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) chapter = chapMap[k];
     });
-    this.setState({ prog, vis, theme, activeNav, chapter, navShown: this.pinRefs.door ? (prog.door || 0) > 0.55 : true, mobile: window.innerWidth < 900, reduced });
+    const navShown = this.pinRefs.door ? (prog.door || 0) > 0.55 : true;
+    const docPct = Math.max(0, Math.min(1, scrollNow / Math.max(1, document.documentElement.scrollHeight - vh)));
+    this.trackStoryProgress(navShown, docPct);
+    this.setState({ prog, vis, theme, activeNav, chapter, navShown, docPct, mobile: window.innerWidth < 900, reduced });
+  }
+  // Fires each engagement milestone once per session — cheap, since it's just Set lookups riding the existing scroll tick.
+  trackStoryProgress(navShown, docPct) {
+    const m = this._storyMilestones;
+    if (!m) return;
+    if (navShown && !m.has('started')) { m.add('started'); eraTrack('era_story_started'); }
+    if (navShown && !m.has('cta_viewed')) { m.add('cta_viewed'); eraTrack('find_home_cta_viewed'); }
+    [[0.25, '25'], [0.5, '50'], [0.75, '75'], [0.97, 'completed']].forEach(([t, key]) => {
+      if (docPct >= t && !m.has(key)) { m.add(key); eraTrack(key === 'completed' ? 'era_story_completed' : `era_story_${key}`); }
+    });
   }
 
   ref(k) {
@@ -1787,8 +1822,10 @@ class Component extends DCLogic {
       refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
       chapters, navBlur: mobile ? 'none' : 'blur(18px)', railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
+      mobProgOp: navShown && mobile ? 1 : 0, mobProgW: `${Math.round((this.state.docPct || 0) * 100)}%`,
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
+      doorCueIcon: mobile ? '↑' : '↓', doorCueText: mobile ? 'Sveip opp' : 'Scroll for å utforske ERA',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
       home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '30%', home2Align: mobile ? 'left' : 'right',

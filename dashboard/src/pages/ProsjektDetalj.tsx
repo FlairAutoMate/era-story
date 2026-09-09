@@ -14,7 +14,7 @@ import { useUrlParam } from "@/lib/urlState";
 import { PageHead } from "@/shell/AppShell";
 import { useAssistant, useAssistantSelection } from "@/shell/assistant";
 import { ActivityTimeline, CostResponsibilityBreakdown, DecisionPanel, StageBadge, StageBar, useLookup } from "@/components/domain";
-import { Badge, Button, Callout, Card, ConfirmModal, DeniedState, EmptyState, ErrorState, KV, LinkButton, Missing, Progress, SectionHead, Skeleton, Tabs } from "@/components/ui";
+import { Badge, Button, Callout, Card, ConfirmModal, DeniedState, EmptyState, ErrorState, KV, LinkButton, Missing, NextBox, Progress, SectionHead, Skeleton, Tabs } from "@/components/ui";
 import { useToast } from "@/components/toast";
 import { CommunicationComposer } from "./Beboere";
 import { QuoteComparison } from "./Tilbud";
@@ -50,9 +50,7 @@ export function ProsjektDetalj() {
       <div style={{ marginBottom: 14 }}>
         <StageBar stage={p.stage} />
       </div>
-      <Callout tone="warn" title="Styret må">
-        {p.boardNextAction}
-      </Callout>
+      <NextBox label="Styret må">{p.boardNextAction}</NextBox>
       <div style={{ marginTop: 14 }}>
         <Tabs<Tab>
           label="Prosjektseksjoner"

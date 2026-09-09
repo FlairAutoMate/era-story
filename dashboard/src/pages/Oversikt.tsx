@@ -4,7 +4,7 @@
  * i bunn. Lister klippes med «+ N til» som åpner fullvisning i et lag. På mobil er sakene en
  * kortstokk man sveiper gjennom, og segmentkontrollen bytter panel.
  */
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { Link } from "react-router";
 import { useQuery, useSession, type QueryState } from "@/data/provider";
 import { can } from "@/access/roles";
@@ -48,6 +48,8 @@ export function Oversikt() {
   const [mobileSeg, setMobileSeg] = useUrlParam("vis", "na");
   const [create, setCreate] = useState(false);
   const [layer, setLayer] = useState<null | "kommende" | "aktivitet">(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const rowsFit = useRowsThatFit(panelRef, 35, 56, 8);
 
   const tenant = useQuery((a, s) => a.getTenant(s));
   const priorities = useQuery((a, s) => a.listPriorityItems(s));
@@ -89,7 +91,7 @@ export function Oversikt() {
                   <h3>{p.title}</h3>
                   <p className="why">{p.why}</p>
                   <div className="rec">
-                    <b>ERA anbefaler</b>
+                    <b>Neste anbefalte handling</b>
                     {p.recommendedAction}
                   </div>
                   <div className="facts">
@@ -112,7 +114,7 @@ export function Oversikt() {
   );
 
   const rightPanel = (
-    <div className="cpanel" data-testid="cockpit-panel">
+    <div className="cpanel" data-testid="cockpit-panel" ref={panelRef}>
       {panel === "status" && <StatusPanel summary={summary} projects={activeProjects} />}
       {panel === "kommende" && (
         <>
@@ -127,7 +129,7 @@ export function Oversikt() {
           {calendar.status === "error" ? <ErrorState error={calendar.error} retry={calendar.reload} /> : !calendar.data ? <Skeleton lines={6} /> : upcoming.length === 0 ? <EmptyState title="Ingen hendelser i perioden" what="Frister, kontroller, styrebeslutninger, milepæler og garantier vises her." /> : (
             <ClippedList
               rows={upcoming}
-              limit={8}
+              limit={rowsFit}
               onMore={() => setLayer("kommende")}
               render={(e) => {
                 const [label, tone] = EVENT_KIND[e.kind];
@@ -173,7 +175,7 @@ export function Oversikt() {
             <button className="linkish right" onClick={() => setLayer("aktivitet")}>Full historikk</button>
           </div>
           {activity.status === "error" ? <ErrorState error={activity.error} retry={activity.reload} /> : !activity.data ? <Skeleton lines={6} /> : (
-            <ClippedList rows={activity.data} limit={7} onMore={() => setLayer("aktivitet")} render={(a) => <ActivityRow key={a.id} a={a} />} />
+            <ClippedList rows={activity.data} limit={rowsFit} onMore={() => setLayer("aktivitet")} render={(a) => <ActivityRow key={a.id} a={a} />} />
           )}
         </>
       )}
@@ -264,6 +266,21 @@ function ActivityRow({ a }: { a: Activity }) {
   );
 }
 
+/** Antall rader som får plass i panelet: (høyde − reservert) / radhøyde, minus én til «+ N til». */
+function useRowsThatFit(ref: RefObject<HTMLDivElement | null>, rowHeight: number, reserved: number, fallback: number): number {
+  const [n, setN] = useState(fallback);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const calc = () => setN(Math.max(3, Math.floor((el.clientHeight - reserved) / rowHeight) - 1));
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref, rowHeight, reserved]);
+  return n;
+}
+
 /** Liste som klippes ved N rader og viser «+ N til» i stedet for å scrolle. */
 function ClippedList<T>({ rows, limit, render, onMore }: { rows: T[]; limit: number; render: (row: T) => ReactNode; onMore: () => void }) {
   const rest = rows.length - limit;
@@ -340,7 +357,7 @@ function MobileStack({ items, person, onAsk }: { items: PriorityItem[]; person: 
             <h3>{p.title}</h3>
             <p className="why">{p.why}</p>
             <p className="small muted">Frist {relativeDeadline(p.dueDate)}{p.ownerId ? ` · ${person(p.ownerId)}` : ""}</p>
-            <div className="rec"><b>ERAs anbefalte neste handling</b>{p.recommendedAction}</div>
+            <div className="rec"><b>Neste anbefalte handling</b>{p.recommendedAction}</div>
             <LinkButton to={p.primary.to} block>{p.primary.label}</LinkButton>
             <Button variant="ghost" era block onClick={() => onAsk(p.askEra)}>Spør ERA</Button>
           </article>
@@ -375,7 +392,7 @@ export function ProjectCard({ p, supplier, onOpen }: { p: Project; supplier: (id
         <dt>Neste milepæl</dt><dd>{next ? `${next.title} · ${relativeDeadline(next.date)}` : <span className="muted">Ingen</span>}</dd>
         <dt>Berørte boliger</dt><dd>{p.affectedUnitIds.length || <span className="muted">Ingen</span>}</dd>
       </dl>
-      <div className="next"><strong>Styret må: </strong>{p.boardNextAction}</div>
+      <div className="next"><strong>Styret må</strong>{p.boardNextAction}</div>
       <div><Button variant="secondary" size="sm" onClick={onOpen}>Åpne prosjekt</Button></div>
     </Card>
   );

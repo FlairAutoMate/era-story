@@ -8,7 +8,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import { ALL_ROLES, ROLE_LABEL, can, homeFor, type Permission } from "@/access/roles";
 import { useData, useQuery } from "@/data/provider";
 import type { Role } from "@/domain/types";
-import { IconAlert, IconBuilding, IconDoc, IconEra, IconHome, IconMoney, IconMore, IconPeople, IconProject, IconQuote, IconTruck, IconWrench } from "@/components/icons";
+import { IconAlert, IconBuilding, IconDoc, IconEra, IconHome, IconMoney, IconMore, IconPeople, IconProject, IconQuote, IconSearch, IconTruck, IconWrench } from "@/components/icons";
 import { Drawer } from "@/components/ui";
 import { EraAssistantPanel, EraBar, useAssistant } from "./assistant";
 import { GlobalSearch } from "./GlobalSearch";
@@ -38,6 +38,7 @@ export function AppShell() {
   const location = useLocation();
   const navigate = useNavigate();
   const [more, setMore] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const nav = visibleNav(session.role);
 
   const tenant = useQuery((a, s) => a.getTenant(s));
@@ -48,7 +49,10 @@ export function AppShell() {
     return { decisions: sum.actionsRequiringDecision, issues: sum.openIssues, quotes: sum.quotesWaiting };
   });
 
-  useEffect(() => setMore(false), [location.pathname]);
+  useEffect(() => {
+    setMore(false);
+    setSearchOpen(false);
+  }, [location.pathname, location.search]);
 
   const changeRole = (role: Role) => {
     setRole(role);
@@ -117,10 +121,19 @@ export function AppShell() {
           <div className="crumb desktop-only ellipsis" data-testid="active-context">
             {tenant.data?.name ?? "…"} <span className="muted">· {ROLE_LABEL[session.role]}</span>
           </div>
+          <div className="crumb-m">
+            {tenant.data?.name ?? "…"} <span className="muted">· {ROLE_LABEL[session.role]}</span>
+          </div>
           <GlobalSearch />
+          {can(session.role, "board:read") && (
+            <button className="icon-btn search-m" onClick={() => setSearchOpen(true)} aria-label="Søk">
+              <IconSearch />
+            </button>
+          )}
           {tenant.data?.isDemo && <span className="demo-pill" title="Alle data er oppdiktede demo-data">Demo-data</span>}
           {demoMode !== "normal" && <span className="demo-pill">Tilstand: {demoMode}</span>}
         </header>
+        {tenant.data?.isDemo && <div className="demo-strip" aria-hidden="true">Demo-data</div>}
         <main className="content" id="main">
           <Outlet />
         </main>
@@ -156,6 +169,11 @@ export function AppShell() {
         </button>
       </nav>
 
+      {searchOpen && (
+        <Drawer title="Søk" onClose={() => setSearchOpen(false)}>
+          <GlobalSearch autoFocus alwaysShow />
+        </Drawer>
+      )}
       {more && (
         <Drawer title="Meny" onClose={() => setMore(false)} sub={`${tenant.data?.name ?? ""} · ${ROLE_LABEL[session.role]}`}>
           <div className="sheet-nav">

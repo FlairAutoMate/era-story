@@ -13,7 +13,7 @@ function siteFonts() {
   const use = (server: Srv): void => {
     server.middlewares.use((req, res, next) => {
       const url = (req.url ?? "").split("?")[0] ?? "";
-      if (url === "/fonts.css" || url.startsWith("/fonts/") || url === "/favicon.svg") {
+      if (url === "/fonts.css" || url === "/fonts-inter.css" || url.startsWith("/fonts/") || url === "/favicon.svg") {
         const file = path.join(siteRoot, url);
         if (fs.existsSync(file)) {
           res.setHeader("Content-Type", url.endsWith(".css") ? "text/css" : url.endsWith(".svg") ? "image/svg+xml" : "font/woff2");

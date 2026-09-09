@@ -7,7 +7,7 @@ import { IconSearch } from "@/components/icons";
 type Hit = { kind: string; label: string; to: string };
 
 /** Global søk/kommando: søker på tvers av saker, tiltak, prosjekter, dokumenter og boliger. */
-export function GlobalSearch() {
+export function GlobalSearch({ autoFocus, alwaysShow }: { autoFocus?: boolean; alwaysShow?: boolean } = {}) {
   const session = useSession();
   const board = can(session.role, "board:read");
   const [q, setQ] = useState("");
@@ -49,9 +49,13 @@ export function GlobalSearch() {
     };
   }, []);
 
+  useEffect(() => {
+    if (autoFocus) inputRef.current?.focus();
+  }, [autoFocus]);
+
   if (!board) return null;
   return (
-    <div className="search" ref={ref}>
+    <div className={`search${alwaysShow ? " search-always" : ""}`} ref={ref}>
       <IconSearch />
       <input
         ref={inputRef}

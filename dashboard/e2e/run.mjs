@@ -65,6 +65,16 @@ await check("styreleder: oversikt", async () => {
   await ctx.close();
 });
 
+/* ---------- 1b. Cockpit fyller arbeidsflaten på brede skjermer ---------- */
+await check("oversikt: fyller arbeidsflaten ved 1920 px", async () => {
+  const { p, ctx } = await page({ width: 1920, height: 1080 }, "/?rolle=styreleder");
+  const w = await p.evaluate(() => document.querySelector(".content").getBoundingClientRect().width);
+  if (w < 1500) throw new Error(`content bare ${Math.round(w)}px bred ved 1920 px viewport (kappet for smalt)`);
+  if (await overflow(p)) throw new Error("horisontal overflyt ved 1920 px");
+  pass("oversikt: fyller arbeidsflaten ved 1920 px", `content ${Math.round(w)}px`);
+  await ctx.close();
+});
+
 /* ---------- 2. Styremedlem mangler admin ---------- */
 await check("styremedlem: ingen admin-handlinger", async () => {
   const { p, ctx } = await page({ width: 1440, height: 900 }, "/beboere?rolle=styremedlem");

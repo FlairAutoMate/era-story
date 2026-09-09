@@ -305,6 +305,25 @@ await check("vedtak og tilbudsforespørsel", async () => {
   await ctx.close();
 });
 
+/* ---------- 11b. Prosjekter: kort/liste-veksling ---------- */
+await check("prosjekter: vis liste veksler til kompakt tabell", async () => {
+  const { p, ctx } = await page({ width: 1440, height: 900 }, "/prosjekter?rolle=styreleder");
+  await p.waitForSelector('[data-testid="toggle-list"]', { timeout: 8000 });
+  const label = await p.locator('[data-testid="toggle-list"]').innerText();
+  if (!/^Vis liste \(\d+\)$/.test(label)) throw new Error(`uventet knappetekst: ${label}`);
+  await p.locator('[data-testid="toggle-list"]').click();
+  await p.waitForSelector('[data-testid="projects-table"]', { timeout: 4000 });
+  if (!p.url().includes("liste=1")) throw new Error("listevisning ikke i URL");
+  await p.reload({ waitUntil: "networkidle" });
+  await p.waitForSelector('[data-testid="projects-table"]', { timeout: 8000 });
+  if (!/^Vis kort$/.test(await p.locator('[data-testid="toggle-list"]').innerText())) throw new Error("knapp viser ikke 'Vis kort' i listevisning");
+  await p.locator('[data-testid="toggle-list"]').click();
+  await p.waitForTimeout(200);
+  if (await p.locator('[data-testid="projects-table"]').count()) throw new Error("tabellen forsvinner ikke ved tilbake til kort");
+  pass("prosjekter: vis liste veksler til kompakt tabell");
+  await ctx.close();
+});
+
 /* ---------- 12. Ingen døde knapper ---------- */
 await check("alle knapper har handling eller er deaktivert", async () => {
   const { p, ctx } = await page({ width: 1440, height: 900 }, "/okonomi?rolle=styreleder");

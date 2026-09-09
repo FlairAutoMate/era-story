@@ -377,6 +377,20 @@ await check("beboere: meldinger vis liste veksler til kompakt tabell", async () 
   await ctx.close();
 });
 
+/* ---------- 11f. Leverandør: boligtabell klippes med «vis alle» ---------- */
+await check("leverandør: boligtabell klippes med vis alle", async () => {
+  const { p, ctx } = await page({ width: 1440, height: 900 }, "/leverandor?rolle=leverandor");
+  await p.waitForSelector('[data-testid="more-row"]', { timeout: 8000 });
+  const before = await p.locator('[data-testid="supplier-units"] tbody tr').count();
+  if (before !== 8) throw new Error(`forventet 8 klippede boliger, fikk ${before}`);
+  await p.locator('[data-testid="more-row"] button').click();
+  await p.waitForTimeout(200);
+  const after = await p.locator('[data-testid="supplier-units"] tbody tr').count();
+  if (after !== 48) throw new Error(`forventet 48 etter «vis alle», fikk ${after}`);
+  pass("leverandør: boligtabell klippes med vis alle", `${before} → ${after}`);
+  await ctx.close();
+});
+
 /* ---------- 12. Ingen døde knapper ---------- */
 await check("alle knapper har handling eller er deaktivert", async () => {
   const { p, ctx } = await page({ width: 1440, height: 900 }, "/okonomi?rolle=styreleder");

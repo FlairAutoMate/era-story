@@ -1,4 +1,5 @@
 /** Leverandørens flyt: bare tildelte prosjekter og boliger. Styrets saksbehandling er ikke synlig. */
+import { useState } from "react";
 import { useQuery, useSession } from "@/data/provider";
 import type { Project } from "@/domain/types";
 import { formatDate, formatNOK } from "@/lib/format";
@@ -7,6 +8,8 @@ import { PageHead } from "@/shell/AppShell";
 import { useLookup } from "@/components/domain";
 import { RoleAwareGuard } from "@/components/RoleAwareGuard";
 import { Badge, Callout, Card, EmptyState, ErrorState, KV, SectionHead, Skeleton } from "@/components/ui";
+
+const UNIT_CLIP = 8;
 
 export function Leverandor() {
   return (
@@ -31,9 +34,11 @@ function Inner() {
 
 function SupplierProject({ p }: { p: Project }) {
   const lookup = useLookup();
+  const [all, setAll] = useState(false);
   const units = useQuery((a, s) => a.listUnits(s));
   const part = useQuery((a, s) => a.listParticipation(s, p.id), [p.id]);
   const rows = part.data ?? [];
+  const shown = all ? rows : rows.slice(0, UNIT_CLIP);
   const ready = rows.filter((r) => r.readiness === "klar").length;
   const missingDecision = rows.filter((r) => ["vurderer", "valgt", "kartlegging_pagar", "ikke_svart", "ikke_kontaktet"].includes(r.responseStatus)).length;
   const noAccess = rows.filter((r) => r.readiness === "mangler_tilgang").length;
@@ -57,11 +62,12 @@ function SupplierProject({ p }: { p: Project }) {
             <Card className="statcard"><span className="figure">{rows.filter((r) => r.privateQuote?.accepted).length}</span><span className="label">private avtaler</span></Card>
           </div>
           {part.status === "error" ? <ErrorState error={part.error} retry={part.reload} /> : !part.data || !units.data ? <Skeleton lines={8} /> : (
+            <div className="fill">
             <div className="table-wrap">
               <table className="tbl" data-testid="supplier-units">
                 <thead><tr><th>Bolig</th><th>Kartlegging</th><th>Pakke</th><th>Tilvalg</th><th>Tilgang</th><th>Uke</th><th>Produksjon</th><th className="num">Privat sum</th></tr></thead>
                 <tbody>
-                  {rows.map((r) => {
+                  {shown.map((r) => {
                     const u = units.data!.find((x) => x.id === r.unitId);
                     const q = r.privateQuote;
                     return (
@@ -79,6 +85,13 @@ function SupplierProject({ p }: { p: Project }) {
                   })}
                 </tbody>
               </table>
+            </div>
+            {rows.length > UNIT_CLIP && (
+              <div className="more-row" data-testid="more-row">
+                <span>{all ? `Viser alle ${rows.length}` : `+ ${rows.length - UNIT_CLIP} til`}</span>
+                <button className="linkish" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</button>
+              </div>
+            )}
             </div>
           )}
         </>

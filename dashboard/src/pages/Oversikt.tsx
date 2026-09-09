@@ -359,7 +359,7 @@ function MobileStack({ items, person, onAsk }: { items: PriorityItem[]; person: 
             <p className="small muted">Frist {relativeDeadline(p.dueDate)}{p.ownerId ? ` · ${person(p.ownerId)}` : ""}</p>
             <div className="rec"><b>Neste anbefalte handling</b>{p.recommendedAction}</div>
             <LinkButton to={p.primary.to} block>{p.primary.label}</LinkButton>
-            <Button variant="ghost" era block onClick={() => onAsk(p.askEra)}>Spør ERA</Button>
+            <Button variant="secondary" era block onClick={() => onAsk(p.askEra)}>Spør ERA</Button>
           </article>
         ))}
       </div>

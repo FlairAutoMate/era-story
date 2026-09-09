@@ -431,7 +431,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .drawer-foot { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 20px; border-top: 1px solid var(--line); background: var(--card); padding-bottom: max(12px, env(safe-area-inset-bottom)); }
 @keyframes slide-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-@media (max-width: 767px) { .drawer, .drawer.wide { width: 100%; top: 6vh; border-radius: 16px 16px 0 0; animation: slide-up 220ms var(--ease); } @keyframes slide-up { from { transform: translateY(32px); opacity: 0; } to { transform: none; opacity: 1; } } }
+@media (max-width: 767px) { .drawer, .drawer.wide { width: 100%; top: 6vh; border-radius: 24px 24px 0 0; animation: slide-up 220ms var(--ease); } @keyframes slide-up { from { transform: translateY(32px); opacity: 0; } to { transform: none; opacity: 1; } } }
 @media (prefers-reduced-motion: reduce) { .drawer, .drawer-backdrop { animation: none; } * { transition: none !important; } }
 
 .dsection { margin-top: 18px; }
@@ -648,3 +648,23 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .filters-layer select { width: 100%; min-height: 42px; }
 .search.search-always { display: block !important; max-width: none; }
 .search.search-always .search-results { position: static; box-shadow: none; margin-top: 8px; max-height: none; }
+
+/* ---------- Mobil formspråk: matcher ERA bolig-appen (piller, mykt avrundede kort) ---------- */
+@media (max-width: 767px) {
+  .btn { border-radius: 999px; min-height: 52px; padding: 0 20px; font-size: 15px; }
+  .btn.sm { border-radius: 999px; min-height: 40px; padding: 0 16px; font-size: 13.5px; }
+  .btn.lg { min-height: 56px; }
+  .btn.secondary { background: var(--card-2); border-color: transparent; }
+  .icon-btn { border-radius: 999px; }
+  .card, .cpanel, .deck, .mcard, .pkg, .modal, .comment, .finding, .state, .cardlist .item {
+    border-radius: 20px;
+  }
+  .card.pad, .cpanel { padding: 18px; }
+  .field input, .field select, .field textarea, .filters input, .filters select, .search input,
+  .assist-form input, .erabar input {
+    border-radius: 16px;
+  }
+  .badge, .chip, .confidence, .toast {
+    border-radius: 999px;
+  }
+}

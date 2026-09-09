@@ -23,6 +23,7 @@ const CLIP = 8;
 export function Saker() {
   const session = useSession();
   const [all, setAll] = useState(false);
+  const [moreFilters, setMoreFilters] = useState(false);
   const [params, patch] = useUrlParams();
   const lookup = useLookup();
   const issues = useQuery((a, s) => a.listIssues(s));
@@ -80,15 +81,9 @@ export function Saker() {
         <input type="search" value={f.q} onChange={(e) => patch({ q: e.target.value })} placeholder="Søk i saker" aria-label="Søk i saker" />
         <Sel label="Alvorlighet" value={f.sev} onChange={(v) => patch({ alvor: v })} options={Object.entries(SEVERITY_LABEL)} />
         <Sel label="Status" value={f.status} onChange={(v) => patch({ status: v })} options={Object.entries(ISSUE_STATUS_LABEL)} allLabel="Åpne" />
-        <Sel label="Bygg" value={f.bygg} onChange={(v) => patch({ bygg: v })} options={lookup.buildings.map((b) => [b.id, b.name])} />
-        <Sel label="Oppgang" value={f.oppgang} onChange={(v) => patch({ oppgang: v })} options={entrances.map((e) => [e.id, e.name])} />
-        <Sel label="Bygningsdel" value={f.del} onChange={(v) => patch({ del: v })} options={lookup.parts.map((p) => [p.id, p.name])} />
-        <Sel label="Ansvar" value={f.ansvar} onChange={(v) => patch({ ansvar: v })} options={Object.entries(RESPONSIBILITY_LABEL)} />
-        <Sel label="Ansvarlig" value={f.eier} onChange={(v) => patch({ eier: v })} options={lookup.people.filter((p) => p.tenantId).map((p) => [p.id, p.name])} />
-        <Sel label="Frist" value={f.frist} onChange={(v) => patch({ frist: v })} options={[["passert", "Passert"], ["uke", "Neste 7 dager"]]} />
-        <Sel label="Kilde" value={f.kilde} onChange={(v) => patch({ kilde: v })} options={Object.entries(SOURCE_LABEL)} />
-        <Sel label="Leverandør" value={f.lev} onChange={(v) => patch({ lev: v })} options={lookup.suppliers.map((s) => [s.id, s.name])} />
-        <Sel label="Sorter" value={f.sort} onChange={(v) => patch({ sort: v || "alvor" })} options={[["alvor", "Alvorlighet"], ["frist", "Frist"], ["dato", "Nyeste"]]} allLabel="Alvorlighet" />
+        <Button variant="secondary" size="sm" onClick={() => setMoreFilters(true)} data-testid="more-filters">
+          Flere filtre{[f.bygg, f.oppgang, f.del, f.ansvar, f.eier, f.frist, f.kilde, f.lev].filter(Boolean).length > 0 ? ` (${[f.bygg, f.oppgang, f.del, f.ansvar, f.eier, f.frist, f.kilde, f.lev].filter(Boolean).length})` : ""}
+        </Button>
         {activeFilters > 0 && (
           <Button variant="ghost" size="sm" onClick={() => patch({ q: null, alvor: null, status: null, bygg: null, oppgang: null, del: null, ansvar: null, eier: null, kilde: null, lev: null, frist: null })}>
             Nullstill ({activeFilters})
@@ -163,6 +158,21 @@ export function Saker() {
         </>
       )}
 
+      {moreFilters && (
+        <Drawer title="Flere filtre" sub={`${rows.length} saker matcher`} onClose={() => setMoreFilters(false)} footer={<><Button onClick={() => setMoreFilters(false)}>Vis {rows.length} saker</Button><Button variant="ghost" onClick={() => patch({ bygg: null, oppgang: null, del: null, ansvar: null, eier: null, kilde: null, lev: null, frist: null })}>Nullstill disse</Button></>}>
+          <div className="stack filters-layer">
+        <Sel label="Bygg" value={f.bygg} onChange={(v) => patch({ bygg: v })} options={lookup.buildings.map((b) => [b.id, b.name])} />
+        <Sel label="Oppgang" value={f.oppgang} onChange={(v) => patch({ oppgang: v })} options={entrances.map((e) => [e.id, e.name])} />
+        <Sel label="Bygningsdel" value={f.del} onChange={(v) => patch({ del: v })} options={lookup.parts.map((p) => [p.id, p.name])} />
+        <Sel label="Ansvar" value={f.ansvar} onChange={(v) => patch({ ansvar: v })} options={Object.entries(RESPONSIBILITY_LABEL)} />
+        <Sel label="Ansvarlig" value={f.eier} onChange={(v) => patch({ eier: v })} options={lookup.people.filter((p) => p.tenantId).map((p) => [p.id, p.name])} />
+        <Sel label="Frist" value={f.frist} onChange={(v) => patch({ frist: v })} options={[["passert", "Passert"], ["uke", "Neste 7 dager"]]} />
+        <Sel label="Kilde" value={f.kilde} onChange={(v) => patch({ kilde: v })} options={Object.entries(SOURCE_LABEL)} />
+        <Sel label="Leverandør" value={f.lev} onChange={(v) => patch({ lev: v })} options={lookup.suppliers.map((s) => [s.id, s.name])} />
+        <Sel label="Sorter" value={f.sort} onChange={(v) => patch({ sort: v || "alvor" })} options={[["alvor", "Alvorlighet"], ["frist", "Frist"], ["dato", "Nyeste"]]} allLabel="Alvorlighet" />
+          </div>
+        </Drawer>
+      )}
       {open && <IssueDetailDrawer issue={open} onClose={() => patch({ sak: null })} />}
       {create && <CreateDrawer onClose={() => setCreate(false)} />}
     </>

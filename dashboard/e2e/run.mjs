@@ -147,6 +147,12 @@ await check("filtre og URL-state", async () => {
   await p.goto(base + "/saker?alvor=kritisk", { waitUntil: "networkidle" });
   await p.waitForTimeout(300);
   if ((await p.locator('[data-testid="issue-table"] tbody tr').count()) !== 1) throw new Error("saksfilter fra URL feiler");
+  await p.goto(base + "/saker?bygg=b-c", { waitUntil: "networkidle" });
+  await p.waitForTimeout(300);
+  if (!/Flere filtre \(1\)/.test(await p.locator('[data-testid="more-filters"]').innerText())) throw new Error("skjult filter telles ikke");
+  await p.locator('[data-testid="more-filters"]').click();
+  await p.waitForSelector('[role="dialog"]');
+  await p.keyboard.press("Escape");
   await p.screenshot({ path: path.join(outDir, "desktop-1440-saker.png"), fullPage: true });
   pass("filtre og URL-state");
   await ctx.close();
@@ -243,6 +249,8 @@ await check("soilrør/bad-flyt ende til ende", async () => {
   await p.waitForSelector('[data-testid="unit-summary"]', { timeout: 8000 });
   const summary = await p.locator('[data-testid="unit-summary"]').innerText();
   if (!/har svart/i.test(summary)) throw new Error("styret mangler svaroversikt");
+  await p.locator('[data-testid="toggle-list"]').click();
+  await p.waitForTimeout(200);
   const table = await p.locator('[data-testid="units-table"]').innerText();
   if (/Servantskap|Downlights|terrazzo/.test(table)) throw new Error("privat tilbud lekker til styret");
   if (!/Komplett baderom/.test(table)) throw new Error("styret ser ikke valgt pakke");

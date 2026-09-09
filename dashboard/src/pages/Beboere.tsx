@@ -10,8 +10,11 @@ import { useLookup } from "@/components/domain";
 import { Badge, Button, Callout, Card, Drawer, EmptyState, ErrorState, KV, Skeleton, Tabs } from "@/components/ui";
 import { useToast } from "@/components/toast";
 
+const CLIP = 12;
+
 export function Beboere() {
   const session = useSession();
+  const [all, setAll] = useState(false);
   const lookup = useLookup();
   const [params, patch] = useUrlParams();
   const [tab, setTab] = useUrlParam("fane", "beboere");
@@ -51,7 +54,8 @@ export function Beboere() {
           {!canContact && <Callout>Kontaktinformasjon vises bare for styreleder. Du ser navn, bolig og rolle.</Callout>}
           {residents.status === "error" ? <ErrorState error={residents.error} retry={residents.reload} /> : !residents.data ? <Skeleton lines={8} /> : rows.length === 0 ? <EmptyState title="Ingen beboere funnet" what="Beboerlisten hentes fra andelseierregisteret og ERA-appen." /> : (
             <>
-              <div className="table-wrap desktop-only" style={{ marginTop: 12 }}>
+              <div className="fill desktop-only" style={{ marginTop: 12 }}>
+              <div className="table-wrap">
                 <table className="tbl" data-testid="residents-table">
                   <thead>
                     <tr>
@@ -65,7 +69,7 @@ export function Beboere() {
                     </tr>
                   </thead>
                   <tbody>
-                    {rows.map(({ r, u }) => (
+                    {(all ? rows : rows.slice(0, CLIP)).map(({ r, u }) => (
                       <tr key={r.id}>
                         <td className="primary">{r.name}</td>
                         <td className="mono">{u?.label}</td>
@@ -78,6 +82,13 @@ export function Beboere() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+              {rows.length > CLIP && (
+                <div className="more-row" data-testid="more-row">
+                  <span>{all ? `Viser alle ${rows.length}` : `+ ${rows.length - CLIP} til`}</span>
+                  <button className="linkish" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</button>
+                </div>
+              )}
               </div>
               <div className="cardlist mobile-only" style={{ marginTop: 12 }}>
                 {rows.map(({ r, u }) => (

@@ -202,6 +202,7 @@ function AffectedUnits({ p }: { p: Project }) {
   const units = useQuery((a, s) => a.listUnits(s));
   const part = useQuery((a, s) => a.listParticipation(s, p.id), [p.id]);
   const [filter, setFilter] = useUrlParam("svar");
+  const [showList, setShowList] = useUrlParam("liste");
   const rows = useMemo(() => {
     const byUnit = new Map((part.data ?? []).map((r) => [r.unitId, r]));
     return (units.data ?? []).filter((u) => p.affectedUnitIds.includes(u.id)).map((u) => ({ u, r: byUnit.get(u.id) })).filter((x) => !filter || x.r?.responseStatus === filter || (filter === "ikke_klar" && x.r && x.r.readiness !== "klar"));
@@ -247,6 +248,7 @@ function AffectedUnits({ p }: { p: Project }) {
         </div>
       </Card>
       <div className="filters">
+        <Button variant={showList ? "secondary" : "primary"} size="sm" onClick={() => setShowList(showList ? null : "1")} data-testid="toggle-list">{showList ? "Skjul liste" : `Vis liste (${rows.length})`}</Button>
         <select value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filtrer på svar">
           <option value="">Alle svar</option>
           {Object.entries(RESPONSE_LABEL).map(([k, v]) => (
@@ -256,6 +258,7 @@ function AffectedUnits({ p }: { p: Project }) {
         </select>
         {can(session.role, "messages:send") && <LinkButton to={`/beboere?ny=1&prosjekt=${p.id}&segment=berorte`} variant="secondary" size="sm">Send melding til berørte</LinkButton>}
       </div>
+      {showList && <>
       <div className="table-wrap desktop-only">
         <table className="tbl" data-testid="units-table">
           <thead>
@@ -299,6 +302,7 @@ function AffectedUnits({ p }: { p: Project }) {
           </div>
         ))}
       </div>
+      </>}
       <p className="small muted">Styret ser status per bolig, ikke innholdet i private tilbud. Enkelttilbud er kun synlige for beboeren selv og leverandøren.</p>
     </div>
   );

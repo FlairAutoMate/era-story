@@ -555,3 +555,4 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .sticky-decision { position: sticky; bottom: -1px; z-index: 20; }
 .decision-bar { gap: 12px; box-shadow: var(--shadow); }
 .decision-bar strong { display: block; font-size: 13.5px; color: var(--navy); }
+.filters-layer select { width: 100%; min-height: 42px; }

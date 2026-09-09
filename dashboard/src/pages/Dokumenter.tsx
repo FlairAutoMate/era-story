@@ -22,8 +22,11 @@ const STATUS: Record<Document["status"], [string, "done" | "active" | "neutral" 
 
 const ACCESS: Record<Document["access"], string> = { styret: "Styret", alle_beboere: "Alle beboere", privat: "Privat (én bolig)", leverandor: "Leverandør" };
 
+const CLIP = 8;
+
 export function Dokumenter() {
   const lookup = useLookup();
+  const [all, setAll] = useState(false);
   const [params, patch] = useUrlParams();
   const docs = useQuery((a, s) => a.listDocuments(s));
   const q = params.get("q") ?? "";
@@ -87,13 +90,14 @@ export function Dokumenter() {
         <EmptyState title="Ingen dokumenter" what="Dokumentarkivet kobler tilstandsrapporter, FDV, tilbud, kontrakter, garantier og protokoller til bygg, bygningsdel, sak og prosjekt." why="ERA leser dokumentene og foreslår tiltak, frister og garantier. Du bekrefter eller korrigerer." />
       ) : (
         <>
-          <div className="table-wrap desktop-only">
+          <div className="fill desktop-only">
+          <div className="table-wrap">
             <table className="tbl" data-testid="doc-table">
               <thead>
                 <tr><th>Dokument</th><th>Type</th><th>Tilknytning</th><th>Dato</th><th>Status</th><th>Analyse</th><th>Mangler</th><th>Tilgang</th></tr>
               </thead>
               <tbody>
-                {rows.map((d) => {
+                {(all ? rows : rows.slice(0, CLIP)).map((d) => {
                   const [sl, st] = STATUS[d.status];
                   const links = linkLabel(d);
                   return (
@@ -111,6 +115,13 @@ export function Dokumenter() {
                 })}
               </tbody>
             </table>
+          </div>
+          {rows.length > CLIP && (
+            <div className="more-row" data-testid="more-row">
+              <span>{all ? `Viser alle ${rows.length}` : `+ ${rows.length - CLIP} til`}</span>
+              <button className="linkish" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</button>
+            </div>
+          )}
           </div>
           <div className="cardlist mobile-only">
             {rows.map((d) => (

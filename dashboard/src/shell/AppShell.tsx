@@ -1,7 +1,7 @@
 /**
  * Rollebasert AppShell: fast venstremeny på desktop, bunnfaner på mobil (som ERA bolig-appen),
- * topplinje med aktivt borettslag, rolle, global søk og «Spør ERA». Assistenten får egen kolonne
- * på desktop slik at den aldri dekker arbeidsflaten.
+ * topplinje med aktivt borettslag, rolle og global søk. Skallet er låst til viewport-høyde;
+ * ERA-assistenten er et felt i bunnlinjen på desktop og svarer i et lag over arbeidsflaten.
  */
 import { useEffect, useState, type ComponentType, type ReactNode, type SVGProps } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
@@ -10,7 +10,7 @@ import { useData, useQuery } from "@/data/provider";
 import type { Role } from "@/domain/types";
 import { IconAlert, IconBuilding, IconDoc, IconEra, IconHome, IconMoney, IconMore, IconPeople, IconProject, IconQuote, IconTruck, IconWrench } from "@/components/icons";
 import { Drawer } from "@/components/ui";
-import { EraAssistantPanel, useAssistant } from "./assistant";
+import { EraAssistantPanel, EraBar, useAssistant } from "./assistant";
 import { GlobalSearch } from "./GlobalSearch";
 
 type NavItem = { to: string; label: string; icon: ComponentType<SVGProps<SVGSVGElement>>; perm?: Permission; any?: Permission[]; end?: boolean; badge?: "decisions" | "issues" | "quotes" };
@@ -67,7 +67,7 @@ export function AppShell() {
   const mobileRest = nav.slice(2);
 
   return (
-    <div className={`shell${open ? " assist-open" : ""}`}>
+    <div className="shell">
       <nav className="sidenav" aria-label="Hovedmeny">
         <div className="brand">
           era<span>.</span>
@@ -120,13 +120,13 @@ export function AppShell() {
           <GlobalSearch />
           {tenant.data?.isDemo && <span className="demo-pill" title="Alle data er oppdiktede demo-data">Demo-data</span>}
           {demoMode !== "normal" && <span className="demo-pill">Tilstand: {demoMode}</span>}
-          <button className="btn secondary sm era desktop-only" onClick={() => setOpen(!open)} data-testid="ask-era">
-            Spør ERA
-          </button>
         </header>
         <main className="content" id="main">
           <Outlet />
         </main>
+        <div className="desktop-only erabar-wrap">
+          <EraBar />
+        </div>
       </div>
 
       <EraAssistantPanel />

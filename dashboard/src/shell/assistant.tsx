@@ -8,8 +8,7 @@ import type { AssistantAnswer } from "@/domain/types";
 import { useData } from "@/data/provider";
 import { suggestionsFor } from "@/data/fixtures/assistant";
 import { ROLE_LABEL } from "@/access/roles";
-import { IconClose } from "@/components/icons";
-import { Button } from "@/components/ui";
+import { Button, Drawer } from "@/components/ui";
 import { useToast } from "@/components/toast";
 
 type Selected = { type: string; id: string; label: string } | undefined;
@@ -107,13 +106,21 @@ export function EraAssistantPanel() {
   const suggestions = suggestionsFor(location.pathname, session.role);
 
   return (
-    <aside className="assist" aria-label="ERA-assistent" data-testid="era-assistant">
-      <div className="assist-head">
-        <h2>Spør ERA</h2>
-        <button className="icon-btn right" onClick={() => setOpen(false)} aria-label="Lukk assistenten">
-          <IconClose />
-        </button>
-      </div>
+    <Drawer title="Spør ERA" onClose={() => setOpen(false)} eyebrow="ERA-assistent" footer={
+      <form
+        className="assist-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void submit(text);
+        }}
+      >
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Still et spørsmål om eiendommen" aria-label="Spørsmål til ERA" />
+        <Button type="submit" disabled={busy || !text.trim()}>
+          Spør
+        </Button>
+      </form>
+    }>
+    <div className="assist" aria-label="ERA-assistent" data-testid="era-assistant">
       <div className="assist-ctx">
         <span>
           Rolle: <b>{ROLE_LABEL[session.role]}</b>
@@ -156,20 +163,42 @@ export function EraAssistantPanel() {
           </div>
         )}
       </div>
-      <div className="assist-foot">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void submit(text);
-          }}
-        >
-          <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Still et spørsmål om eiendommen" aria-label="Spørsmål til ERA" />
-          <Button type="submit" disabled={busy || !text.trim()}>
-            Spør
-          </Button>
-        </form>
-      </div>
-    </aside>
+    </div>
+    </Drawer>
+  );
+}
+
+/** Bunnfelt på desktop: ERA som felt, ikke kolonne. Svaret åpner som lag. */
+export function EraBar() {
+  const { ask, setOpen } = useAssistant();
+  const { session } = useData();
+  const location = useLocation();
+  const [text, setText] = useState("");
+  const hint = suggestionsFor(location.pathname, session.role)[0];
+  return (
+    <form
+      className="erabar"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (text.trim()) {
+          ask(text.trim());
+          setText("");
+        }
+      }}
+    >
+      <button type="button" className="erabar-label" onClick={() => setOpen(true)} data-testid="ask-era">
+        Spør ERA
+      </button>
+      {hint && (
+        <button type="button" className="erabar-hint" onClick={() => ask(hint)}>
+          Forslag: «{hint}»
+        </button>
+      )}
+      <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Still et spørsmål om eiendommen" aria-label="Spørsmål til ERA" />
+      <Button type="submit" size="sm" disabled={!text.trim()}>
+        Spør
+      </Button>
+    </form>
   );
 }
 

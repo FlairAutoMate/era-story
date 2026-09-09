@@ -210,7 +210,7 @@ export function StageDots({ stage }: { stage: ProjectStage }) {
 }
 
 /* ---------- DecisionPanel ---------- */
-export function DecisionPanel({ decision, quotes, onDone }: { decision: Decision; quotes?: Quote[]; onDone?: () => void }) {
+export function DecisionPanel({ decision, quotes, onDone, compact }: { decision: Decision; quotes?: Quote[]; onDone?: () => void; compact?: boolean }) {
   const session = useSession();
   const lookup = useLookup();
   const toast = useToast();
@@ -219,6 +219,51 @@ export function DecisionPanel({ decision, quotes, onDone }: { decision: Decision
   const mut = useMutation((a, s, id: string, outcome: "vedtatt" | "avvist" | "utsatt", q?: string) => a.recordDecision(s, id, outcome, q));
   const canDecide = can(session.role, "board:decide");
   const decided = decision.status !== "krever_beslutning";
+
+  const modal = confirm && (
+    <ConfirmModal
+      title={`Registrere «${confirm.outcome}»?`}
+      body={<p>Vedtaket loggføres med dato og navn. Det kan ikke slettes, bare omgjøres med nytt vedtak.</p>}
+      confirmLabel="Registrer vedtak"
+      pending={mut.pending}
+      onCancel={() => setConfirm(null)}
+      onConfirm={async () => {
+        const r = await mut.run(decision.id, confirm.outcome, confirm.quoteId);
+        setConfirm(null);
+        if (r) {
+          toast(`Vedtak registrert: ${decision.title}`);
+          onDone?.();
+        } else toast("Kunne ikke registrere vedtak", "error");
+      }}
+    />
+  );
+
+  if (compact) {
+    return (
+      <div className="card pad row decision-bar" data-testid="decision-panel">
+        <Badge tone={decided ? (decision.status === "vedtatt" ? "done" : "neutral") : "decision"}>{decided ? (decision.status === "vedtatt" ? "Vedtatt" : decision.status === "avvist" ? "Avvist" : "Utsatt") : "Krever beslutning"}</Badge>
+        <div className="grow">
+          <strong>{decision.title}</strong>
+          <div className="small muted">{decision.meetingDate ? `Styremøte ${formatDate(decision.meetingDate)} · ` : ""}{decided ? `${decision.status === "vedtatt" ? "Vedtatt" : decision.status} ${decision.decidedAt ? formatDate(decision.decidedAt) : ""}${decision.quoteId && quotes ? ` · ${lookup.supplier(quotes.find((q) => q.id === decision.quoteId)?.supplierId)}` : ""}` : "ERA velger ikke leverandør. Styret beslutter."}</div>
+        </div>
+        {!decided && canDecide && quotes && quotes.length > 0 && (
+          <select value={quoteId} onChange={(e) => setQuoteId(e.target.value)} aria-label="Velg tilbud som legges til grunn" style={{ minHeight: 36, borderRadius: 6, border: "1px solid var(--line-strong)", background: "var(--card)", padding: "0 8px", maxWidth: 280 }}>
+            {quotes.map((q) => (
+              <option key={q.id} value={q.id}>{lookup.supplier(q.supplierId) ?? q.supplierId} · {formatNOK(q.totalIncVat, { compact: true })}</option>
+            ))}
+          </select>
+        )}
+        {!decided && canDecide ? (
+          <div className="row" style={{ flexWrap: "nowrap" }}>
+            <Button size="sm" onClick={() => setConfirm({ outcome: "vedtatt", quoteId: quotes?.length ? quoteId : undefined })} data-testid="decide-approve">Vedta</Button>
+            <Button size="sm" variant="secondary" onClick={() => setConfirm({ outcome: "utsatt" })}>Utsett</Button>
+            <Button size="sm" variant="ghost" onClick={() => setConfirm({ outcome: "avvist" })}>Avvis</Button>
+          </div>
+        ) : !decided ? <span className="small muted">Bare styreleder registrerer vedtak</span> : null}
+        {modal}
+      </div>
+    );
+  }
 
   return (
     <div className="card pad stack" data-testid="decision-panel">
@@ -264,23 +309,7 @@ export function DecisionPanel({ decision, quotes, onDone }: { decision: Decision
       ) : (
         <Callout>Bare styreleder kan registrere vedtak. Du kan lese grunnlaget og kommentere i saken.</Callout>
       )}
-      {confirm && (
-        <ConfirmModal
-          title={`Registrere «${confirm.outcome}»?`}
-          body={<p>Vedtaket loggføres med dato og navn. Det kan ikke slettes, bare omgjøres med nytt vedtak.</p>}
-          confirmLabel="Registrer vedtak"
-          pending={mut.pending}
-          onCancel={() => setConfirm(null)}
-          onConfirm={async () => {
-            const r = await mut.run(decision.id, confirm.outcome, confirm.quoteId);
-            setConfirm(null);
-            if (r) {
-              toast(`Vedtak registrert: ${decision.title}`);
-              onDone?.();
-            } else toast("Kunne ikke registrere vedtak", "error");
-          }}
-        />
-      )}
+      {modal}
     </div>
   );
 }

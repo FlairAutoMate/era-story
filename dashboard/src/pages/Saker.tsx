@@ -18,8 +18,11 @@ import { CreateDrawer } from "./CreateDrawer";
 const SEV_ORDER = { kritisk: 0, hoy: 1, middels: 2, lav: 3 } as const;
 type SortKey = "alvor" | "frist" | "dato";
 
+const CLIP = 8;
+
 export function Saker() {
   const session = useSession();
+  const [all, setAll] = useState(false);
   const [params, patch] = useUrlParams();
   const lookup = useLookup();
   const issues = useQuery((a, s) => a.listIssues(s));
@@ -101,7 +104,8 @@ export function Saker() {
         <EmptyState title={activeFilters ? "Ingen saker matcher filtrene" : "Ingen åpne saker"} what="Her samles avvik fra beboere, vaktmester, leverandører og kontroller, med ansvar, frist og neste handling." why={activeFilters ? "Nullstill filtrene eller søk på noe annet." : "Beboere melder inn via ERA-appen. Styret kan også opprette saker her."} action={activeFilters ? undefined : can(session.role, "issues:write") ? <Button onClick={() => setCreate(true)}>Ny sak</Button> : undefined} />
       ) : (
         <>
-          <div className="table-wrap desktop-only">
+          <div className="fill desktop-only">
+          <div className="table-wrap">
             <table className="tbl" data-testid="issue-table">
               <thead>
                 <tr>
@@ -116,7 +120,7 @@ export function Saker() {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((i) => (
+                {(all ? rows : rows.slice(0, CLIP)).map((i) => (
                   <tr key={i.id} className="rowlink" tabIndex={0} aria-selected={selectedId === i.id} onClick={() => patch({ sak: i.id })} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), patch({ sak: i.id }))}>
                     <td>
                       <span className="primary">{i.ref} · {i.title}</span>
@@ -133,6 +137,13 @@ export function Saker() {
                 ))}
               </tbody>
             </table>
+          </div>
+          {rows.length > CLIP && (
+            <div className="more-row" data-testid="more-row">
+              <span>{all ? `Viser alle ${rows.length}` : `+ ${rows.length - CLIP} til`}</span>
+              <button className="linkish" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</button>
+            </div>
+          )}
           </div>
           <div className="cardlist mobile-only">
             {rows.map((i) => (

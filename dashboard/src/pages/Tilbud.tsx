@@ -2,7 +2,7 @@
  * Tilbud og innkjøp: oversikt, QuoteRequestFlow (ny forespørsel) og QuoteComparison.
  * ERA gir beslutningsstøtte; styret velger leverandør i DecisionPanel.
  */
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { useMutation, useQuery, useSession } from "@/data/provider";
 import { can } from "@/access/roles";
@@ -83,9 +83,9 @@ export function TilbudSammenligning() {
     <>
       <PageHead eyebrow={<Link to="/tilbud">Tilbud</Link>} title={qr.title} meta={[`Frist ${formatDate(qr.deadline)}`, `${qs.length} av ${qr.invitedSupplierIds.length} inviterte har levert`, qr.projectId ? <Link to={`/prosjekter/${qr.projectId}`}>Prosjekt</Link> : "Ikke koblet til prosjekt"]} actions={<Button variant="secondary" era onClick={() => ask("Sammenlign disse tilbudene")}>Be ERA analysere tilbudene</Button>} />
       <div className="stack">
-        <Card pad>
-          <h2 style={{ marginBottom: 8 }}>Omfang i forespørselen</h2>
-          <ul className="factlist">
+        <details className="compare-group">
+          <summary>Omfang i forespørselen<span className="small muted">{qr.scopeItems.filter((s) => s.included).length} poster inngår · {qr.scopeItems.filter((s) => !s.included).length} utenfor</span></summary>
+          <ul className="factlist" style={{ padding: "10px 14px" }}>
             {qr.scopeItems.map((s) => (
               <li key={s.id}>
                 <Badge tone={s.included ? "planned" : "neutral"} plain>{s.included ? "Inngår" : "Utenfor"}</Badge>
@@ -93,13 +93,13 @@ export function TilbudSammenligning() {
               </li>
             ))}
           </ul>
-        </Card>
+        </details>
         {qs.length === 0 ? (
           <EmptyState title="Ingen tilbud mottatt ennå" what={`Inviterte: ${qr.invitedSupplierIds.map(lookup.supplier).join(", ") || "ingen"}. Tilbud vises her i standardisert form når de kommer inn.`} />
         ) : (
           <>
-            <QuoteComparison quotes={qs} request={qr} />
-            {dec && <DecisionPanel decision={dec} quotes={qs} />}
+            <QuoteComparison quotes={qs} request={qr} grouped />
+            {dec && <div className="sticky-decision"><DecisionPanel decision={dec} quotes={qs} compact /></div>}
             {!dec && <Callout>Ingen beslutning er registrert for denne forespørselen. Styreleder kan koble tilbudet til vedtak i prosjektet.</Callout>}
           </>
         )}
@@ -109,8 +109,21 @@ export function TilbudSammenligning() {
 }
 
 /** QuoteComparison: sammenligning på likt grunnlag med ERAs forklarbare vurdering. */
-export function QuoteComparison({ quotes, request, compact }: { quotes: Quote[]; request: QuoteRequest; compact?: boolean }) {
+export function QuoteComparison({ quotes, request, compact, grouped }: { quotes: Quote[]; request: QuoteRequest; compact?: boolean; grouped?: boolean }) {
   const lookup = useLookup();
+  const head = (
+    <thead>
+      <tr>
+        <th className="rowh">Sammenligning</th>
+        {quotes.map((q) => (
+          <th key={q.id}>
+            <span className="sup">{lookup.supplier(q.supplierId)}</span>
+            <span className="line-note">{lookup.suppliers.find((s) => s.id === q.supplierId)?.trade} · mottatt {formatDate(q.receivedAt)}</span>
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
   const lineKeys = useMemo(() => Array.from(new Set(quotes.flatMap((q) => q.lines.map((l) => l.key)))), [quotes]);
   const minTotal = Math.min(...quotes.map((q) => q.totalIncVat));
   const maxTotal = Math.max(...quotes.map((q) => q.totalIncVat));
@@ -124,20 +137,103 @@ export function QuoteComparison({ quotes, request, compact }: { quotes: Quote[];
       </>
     );
   };
+  if (grouped) {
+    const groups: [string, string, string, boolean][] = [
+      ["pris", "Pris", `${formatNOK(minTotal)} – ${formatNOK(maxTotal)} inkl. mva`, true],
+      ["omfang", "Hva som inngår, ikke inngår og forbehold", `${lineKeys.length} poster`, true],
+      ["risiko", "Leveringstid, garanti, dokumentasjon, risiko og ERAs vurdering", "", false],
+    ];
+    const bodies: Record<string, ReactNode> = {
+      pris: <>          <tr>
+            <th className="rowh">Totalpris inkl. mva</th>
+            {quotes.map((q) => (
+              <td key={q.id} className={`num ${q.totalIncVat === minTotal ? "best" : q.totalIncVat === maxTotal ? "worst" : ""}`} style={{ fontWeight: 700 }}>{formatNOK(q.totalIncVat)}</td>
+            ))}
+          </tr>
+          <tr>
+            <th className="rowh">Ekskl. mva</th>
+            {quotes.map((q) => <td key={q.id} className="num">{formatNOK(q.totalExVat)}</td>)}
+          </tr></>,
+      omfang: <>          {lineKeys.map((k) => (
+            <tr key={k}>
+              <th className="rowh">{quotes.flatMap((q) => q.lines).find((l) => l.key === k)?.label ?? k}</th>
+              {quotes.map((q) => <td key={q.id}>{cell(q, k)}</td>)}
+            </tr>
+          ))}
+          <tr>
+            <th className="rowh">Forbehold</th>
+            {quotes.map((q) => (
+              <td key={q.id}>{q.reservations.length === 0 ? <span className="yes">Ingen</span> : <ul style={{ margin: 0, paddingLeft: 16 }}>{q.reservations.map((r) => <li key={r}>{r}</li>)}</ul>}</td>
+            ))}
+          </tr></>,
+      risiko: <>          <tr>
+            <th className="rowh">Leveringstid</th>
+            {quotes.map((q) => <td key={q.id}>{q.deliveryWeeks} uker · tidligst {formatDate(q.startEarliest)}</td>)}
+          </tr>
+          <tr>
+            <th className="rowh">Garanti</th>
+            {quotes.map((q) => <td key={q.id} className={q.warrantyYears === Math.max(...quotes.map((x) => x.warrantyYears)) ? "best" : ""}>{q.warrantyYears} år</td>)}
+          </tr>
+          <tr>
+            <th className="rowh">Dokumentasjonskrav</th>
+            {quotes.map((q) => <td key={q.id}><span className={q.documentationCommitment === "full_fdv" ? "yes" : q.documentationCommitment === "delvis" ? "res" : "no"}>{{ full_fdv: "Full FDV", delvis: "Delvis", ikke_spesifisert: "Ikke spesifisert" }[q.documentationCommitment]}</span></td>)}
+          </tr>
+          <tr>
+            <th className="rowh">Endringsrisiko</th>
+            {quotes.map((q) => (
+              <td key={q.id} className={q.changeRisk === "lav" ? "best" : q.changeRisk === "hoy" ? "worst" : ""}>
+                <span className={q.changeRisk === "lav" ? "yes" : q.changeRisk === "hoy" ? "no" : "res"}>{{ lav: "Lav", middels: "Middels", hoy: "Høy" }[q.changeRisk]}</span>
+                <span className="line-note">{q.changeRiskNote}</span>
+              </td>
+            ))}
+          </tr>
+          <tr>
+            <th className="rowh">Leverandørstatus</th>
+            {quotes.map((q) => {
+              const s = lookup.suppliers.find((x) => x.id === q.supplierId);
+              return <td key={q.id}><span className={s?.status === "godkjent" ? "yes" : "res"}>{s ? { godkjent: "Godkjent", ny: "Ny", avventer_dokumentasjon: "Avventer dokumentasjon" }[s.status] : "Ukjent"}</span></td>;
+            })}
+          </tr>
+          {!compact && (
+            <tr>
+              <th className="rowh">Mangler mot forespørselen</th>
+              {quotes.map((q) => {
+                const m = q.eraAssessment.missing;
+                return <td key={q.id}>{m.length === 0 ? <span className="yes">Ingen av de {request.scopeItems.filter((s) => s.included).length} postene mangler</span> : <ul style={{ margin: 0, paddingLeft: 16 }}>{m.map((x) => <li key={x} className="no" style={{ fontWeight: 400 }}>{x}</li>)}</ul>}</td>;
+              })}
+            </tr>
+          )}
+          <tr>
+            <th className="rowh">ERAs vurdering</th>
+            {quotes.map((q) => (
+              <td key={q.id} data-testid="era-assessment">
+                <p style={{ fontWeight: 500 }}>{q.eraAssessment.summary}</p>
+                {!compact && (
+                  <>
+                    {q.eraAssessment.strengths.length > 0 && <p className="line-note"><span className="yes">Styrker:</span> {q.eraAssessment.strengths.join(", ")}</p>}
+                    {q.eraAssessment.concerns.length > 0 && <p className="line-note"><span className="res">Å merke seg:</span> {q.eraAssessment.concerns.join(", ")}</p>}
+                  </>
+                )}
+              </td>
+            ))}
+          </tr></>,
+    };
+    return (
+      <div className="stack" data-testid="quote-comparison">
+        {groups.map(([id, title, sub, open]) => (
+          <details key={id} className="compare-group" open={open}>
+            <summary>{title}{sub && <span className="small muted">{sub}</span>}</summary>
+            <div className="compare-wrap"><table className="compare">{head}<tbody>{bodies[id]}</tbody></table></div>
+          </details>
+        ))}
+        <p className="small muted">ERA vurderer, styret beslutter. Vurderingen bygger på tilbudsdokumentene og forespørselen; den erstatter ikke fagkontroll.</p>
+      </div>
+    );
+  }
   return (
     <div className="compare-wrap" data-testid="quote-comparison">
       <table className="compare">
-        <thead>
-          <tr>
-            <th className="rowh">Sammenligning</th>
-            {quotes.map((q) => (
-              <th key={q.id}>
-                <span className="sup">{lookup.supplier(q.supplierId)}</span>
-                <span className="line-note">{lookup.suppliers.find((s) => s.id === q.supplierId)?.trade} · mottatt {formatDate(q.receivedAt)}</span>
-              </th>
-            ))}
-          </tr>
-        </thead>
+        {head}
         <tbody>
           <tr>
             <th className="rowh">Totalpris inkl. mva</th>

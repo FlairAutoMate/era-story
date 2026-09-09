@@ -1,5 +1,5 @@
 /** Levende vedlikeholdsrom: prioritert liste, tidslinje, bygningsdeler, årsplan, 10-årsplan. */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { useQuery } from "@/data/provider";
 import type { BuildingPart, MaintenanceAction, MaintenanceStatus } from "@/domain/types";
@@ -95,10 +95,16 @@ export function Vedlikehold() {
 
 type Lookup = ReturnType<typeof useLookup>;
 
+const CLIP = 8;
+
 function MaintenanceActionTable({ rows, lookup, onOpen, selectedId }: { rows: MaintenanceAction[]; lookup: Lookup; onOpen: (id: string) => void; selectedId: string }) {
+  const [all, setAll] = useState(false);
+  const shown = all ? rows : rows.slice(0, CLIP);
+  const rest = rows.length - shown.length;
   return (
     <>
-      <div className="table-wrap desktop-only">
+      <div className="fill desktop-only">
+      <div className="table-wrap">
         <table className="tbl" data-testid="maintenance-table">
           <thead>
             <tr>
@@ -113,7 +119,7 @@ function MaintenanceActionTable({ rows, lookup, onOpen, selectedId }: { rows: Ma
             </tr>
           </thead>
           <tbody>
-            {rows.map((m) => (
+            {shown.map((m) => (
               <tr key={m.id} className="rowlink" tabIndex={0} aria-selected={selectedId === m.id} onClick={() => onOpen(m.id)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen(m.id))}>
                 <td>
                   <span className="primary">{m.title}</span>
@@ -130,6 +136,15 @@ function MaintenanceActionTable({ rows, lookup, onOpen, selectedId }: { rows: Ma
             ))}
           </tbody>
         </table>
+      </div>
+      {rest > 0 ? (
+        <div className="more-row" data-testid="more-row">
+          <span>+ {rest} til</span>
+          <button className="linkish" onClick={() => setAll(true)}>Vis alle {rows.length}</button>
+        </div>
+      ) : all && rows.length > CLIP ? (
+        <div className="more-row"><span>Viser alle {rows.length}</span><button className="linkish" onClick={() => setAll(false)}>Vis færre</button></div>
+      ) : null}
       </div>
       <div className="cardlist mobile-only">
         {rows.map((m) => (

@@ -101,7 +101,8 @@ Demo-styring via URL ved første last: `?rolle=styreleder|styremedlem|forretning
 - `src/domain/types.ts` – domenemodell (eiendom, bygningsdeler, tiltak, avvik, prosjekter, tilbud, beboere, meldinger, dokumenter, økonomi, deltakelse per bolig med private tilvalg).
 - `src/access/roles.ts` – rettigheter per rolle. Frontend skjuler, adapteret håndhever.
 - `src/data/adapters.ts` – kontrakten mot backend. `fixtureAdapter.ts` implementerer den mot `fixtures/perrongen.ts` (demo-tenant) og `fixtures/solvang.ts` (kun for isolasjonstest). Alle kall tar `Session`, så tenant- og rolleskoping skjer i adapteret.
-- `src/shell/` – AppShell (venstremeny, topplinje med aktivt borettslag og rolle, global søk, bunnfaner) og ERA-assistenten (egen kolonne på desktop, fullskjerm på mobil; svar med konklusjon, begrunnelse, kilder, antakelser, mangler og neste handling).
+- `src/shell/` – AppShell låst til viewport-høyde (venstremeny, topplinje med aktivt borettslag og rolle, global søk, bunnfaner på mobil) og ERA-assistenten som felt i bunnlinjen; svaret åpner som lag med konklusjon, begrunnelse, kilder, antakelser, mangler og neste handling.
+- Uten scroll: oversikten er et cockpit (tre saker fast til venstre, firefanet panel til høyre, «+ N til» åpner fullvisning i lag; kortstokk med sveip på mobil). Tabeller i Vedlikehold og Saker klippes ved 8 rader med «+ N til». Tilbudssammenligningen er gruppert i pris, omfang og risiko med festet beslutningslinje. Min bolig er en veiviser med ett steg om gangen.
 - `src/pages/` – Oversikt (Mission Control), Vedlikehold, Saker, Prosjekter og prosjektdetalj, Tilbud (forespørsel og sammenligning), Beboere og meldinger, Dokumenter med ERA-funn, Økonomi, Min bolig (beboer), Mine oppdrag (leverandør).
 
 ### Backend-gap

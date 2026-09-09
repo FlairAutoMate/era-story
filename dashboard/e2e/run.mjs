@@ -48,12 +48,17 @@ async function check(name, fn) {
 /* ---------- 1. Styreleder ser alt ---------- */
 await check("styreleder: oversikt", async () => {
   const { p, ctx, errors } = await page({ width: 1440, height: 900 }, "/?rolle=styreleder&tenant=perrongen");
-  const cards = await p.locator('[data-testid="priority-cards"] .pcard').count();
+  const cards = await p.locator('[data-testid="priority-cards"] .deck').count();
   if (cards < 1 || cards > 3) throw new Error(`priority cards: ${cards}`);
   const ctxText = await p.locator('[data-testid="active-context"]').innerText();
   if (!/Perrongen/.test(ctxText) || !/Styreleder/.test(ctxText)) throw new Error("aktiv kontekst mangler: " + ctxText);
   if (!(await p.locator('[data-testid="create-primary"]').isVisible())) throw new Error("primærhandling skjult");
   if (await overflow(p)) throw new Error("horisontal overflyt");
+  const vscroll = await p.evaluate(() => { const m = document.querySelector("main"); return m ? m.scrollHeight - m.clientHeight : 0; });
+  if (vscroll > 2) throw new Error(`oversikten scroller vertikalt: ${vscroll} px`);
+  await p.locator('[role="tab"]', { hasText: "Kommende" }).click();
+  await p.waitForTimeout(200);
+  if (!p.url().includes("panel=kommende")) throw new Error("panelfane ikke i URL");
   await p.screenshot({ path: path.join(outDir, "desktop-1440-oversikt.png"), fullPage: true });
   if (errors.length) throw new Error("konsoll: " + errors[0]);
   pass("styreleder: oversikt", `${cards} prioriterte saker`);
@@ -188,6 +193,7 @@ for (const [w, h, label, mobile] of [[390, 844, "mobil-390", true], [1280, 800, 
     if (mobile) {
       await p.goto(base + "/?rolle=styreleder", { waitUntil: "networkidle" });
       if (!(await p.locator(".bottomnav").isVisible())) throw new Error("bunnfaner mangler på mobil");
+      if (!(await p.locator('[data-testid="priority-stack"]').isVisible())) throw new Error("kortstokk mangler på mobil");
       await p.locator(".bottomnav .fab").click();
       await p.waitForTimeout(300);
       if (!(await p.locator('[data-testid="era-assistant"]').isVisible())) throw new Error("assistent åpner ikke på mobil");
@@ -210,7 +216,6 @@ await check("assistent viser kilder og antakelser", async () => {
   if (!/Styreleder/.test(ctxText) || !/Takomlegging/.test(ctxText)) throw new Error("assistent mangler kontekst: " + ctxText);
   if (!(await p.locator('[data-testid="era-sources"] li').count())) throw new Error("ingen kilder");
   if (!(await p.locator('[data-testid="era-assumptions"] li').count())) throw new Error("ingen antakelser");
-  if (!(await p.locator('[data-testid="quote-comparison"]').isVisible())) throw new Error("assistenten dekker arbeidsflaten");
   await p.screenshot({ path: path.join(outDir, "desktop-1440-assistent.png"), fullPage: true });
   pass("assistent viser kilder og antakelser");
   await ctx.close();
@@ -221,11 +226,13 @@ await check("soilrør/bad-flyt ende til ende", async () => {
   const { p, ctx } = await page({ width: 1280, height: 900 }, "/min-bolig?rolle=beboer");
   await p.waitForSelector('[data-testid="resident-total"]', { timeout: 8000 });
   const before = await p.locator('[data-testid="resident-total"]').innerText();
+  await p.locator(".steps li").nth(1).click();
   await p.locator('[data-testid="pkg-komplett"]').click();
   await p.locator('[data-testid="choose-tier"]').click();
   await p.waitForTimeout(700);
   const after = await p.locator('[data-testid="resident-total"]').innerText();
   if (before === after) throw new Error("kostnad endret seg ikke ved pakkevalg");
+  await p.locator(".steps li").nth(2).click();
   await p.locator('[data-testid="accept-quote"]').click();
   await p.locator('[role="alertdialog"] button', { hasText: "Aksepter" }).click();
   await p.waitForTimeout(700);

@@ -165,10 +165,16 @@ function MaintenanceActionTable({ rows, lookup, onOpen, selectedId }: { rows: Ma
   );
 }
 
+const PARTS_CLIP = 6;
+
 function BuildingParts({ parts, actions, onOpen, lookup }: { parts: BuildingPart[]; actions: MaintenanceAction[]; onOpen: (id: string) => void; lookup: Lookup }) {
+  const [all, setAll] = useState(false);
+  const shown = all ? parts : parts.slice(0, PARTS_CLIP);
+  const rest = parts.length - shown.length;
   return (
-    <div className="grid cols-3 section">
-      {parts.map((p) => {
+    <div className="section">
+    <div className="grid cols-3">
+      {shown.map((p) => {
         const acts = actions.filter((a) => a.buildingPartId === p.id && a.status !== "ferdig");
         const tg = p.conditionGrade;
         return (
@@ -200,6 +206,15 @@ function BuildingParts({ parts, actions, onOpen, lookup }: { parts: BuildingPart
           </Card>
         );
       })}
+    </div>
+    {parts.length > PARTS_CLIP && (
+      <div className="row" style={{ marginTop: 14, justifyContent: "center" }} data-testid="parts-more-row">
+        {!all && <span className="muted small">+ {rest} til</span>}
+        <Button variant="secondary" size="sm" onClick={() => setAll((v) => !v)}>
+          {all ? "Vis færre" : `Vis alle ${parts.length}`}
+        </Button>
+      </div>
+    )}
     </div>
   );
 }

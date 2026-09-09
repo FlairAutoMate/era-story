@@ -234,7 +234,7 @@ def build_jotun(p):
     s.append(scene("oversikt",
         '<div class="p-eyebrow">Akt 1 · Én bolig</div>'
         '<h2 class="p-h1">Alt starter med boligen.</h2>'
-        '<p class="p-lede">Vedlikeholdsbehov oppstår lenge før boligeieren begynner å lete etter produkter eller håndverkere.</p>'
+        '<p class="p-lede">Vedlikeholdsbehov oppstår lenge før boligeieren begynner å lete etter produkter eller malermestere.</p>'
         '<p class="p-payoff">ERA bygger en løpende forståelse av boligen.</p>'
         + flow([("Byggeår", None), ("Overflater", None), ("Tidligere tiltak", None), ("Vedlikehold", None), ("Bilder", None), ("Dokumentasjon", None)]),
         image="whole-home-v3.jpg",
@@ -364,7 +364,7 @@ def build_jotun(p):
         '<div class="p-eyebrow">Utover boligeieren</div>'
         '<h2 class="p-h1">Fire innganger. Samme motor.</h2>'
         '<p class="p-lede">Historien over er B2C-drevet, men prosjekt- og produktmotoren bak er ikke avgrenset til boligeieren.</p>'
-        + flow([("Boligeier", None), ("Håndverker", None), ("Borettslag / sameie", None), ("Forhandler", None)])
+        + flow([("Boligeier", None), ("Malermester", None), ("Borettslag / sameie", None), ("Forhandler", None)])
         + '<p class="p-payoff">Samme prosjekt- og produktmotor. Fire innganger til Jotuns produkter.</p>',
         image="ecosystem-v3.jpg",
     ))

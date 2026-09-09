@@ -18,6 +18,7 @@ export function Beboere() {
   const lookup = useLookup();
   const [params, patch] = useUrlParams();
   const [tab, setTab] = useUrlParam("fane", "beboere");
+  const [msgList, setMsgList] = useUrlParam("mvisning");
   const residents = useQuery((a, s) => a.listResidents(s));
   const units = useQuery((a, s) => a.listUnits(s));
   const messages = useQuery((a, s) => a.listMessages(s));
@@ -37,7 +38,20 @@ export function Beboere() {
 
   return (
     <>
-      <PageHead title="Beboere" meta={residents.data ? [`${residents.data.length} beboere`, `${residents.data.filter((r) => r.hasApp).length} bruker ERA-appen`, `${residents.data.filter((r) => !r.hasApp).length} nås bare via oppslag eller brev`] : []} actions={can(session.role, "messages:send") && <Button onClick={() => patch({ ny: "1" })} data-testid="new-message">Ny melding</Button>} />
+      <PageHead
+        title="Beboere"
+        meta={residents.data ? [`${residents.data.length} beboere`, `${residents.data.filter((r) => r.hasApp).length} bruker ERA-appen`, `${residents.data.filter((r) => !r.hasApp).length} nås bare via oppslag eller brev`] : []}
+        actions={
+          <>
+            {tab === "meldinger" && messages.data && messages.data.length > 0 && (
+              <Button variant={msgList ? "secondary" : "primary"} onClick={() => setMsgList(msgList ? null : "1")} data-testid="toggle-msg-list">
+                {msgList ? "Vis kort" : `Vis liste (${messages.data.length})`}
+              </Button>
+            )}
+            {can(session.role, "messages:send") && <Button onClick={() => patch({ ny: "1" })} data-testid="new-message">Ny melding</Button>}
+          </>
+        }
+      />
       <Tabs label="Visning" value={tab} onChange={(v) => setTab(v)} items={[{ id: "beboere", label: "Beboere", count: residents.data?.length }, { id: "meldinger", label: "Meldinger", count: messages.data?.length }]} />
       {tab === "beboere" ? (
         <>
@@ -101,9 +115,60 @@ export function Beboere() {
             </>
           )}
         </>
+      ) : messages.status === "error" ? (
+        <div style={{ marginTop: 14 }}><ErrorState error={messages.error} retry={messages.reload} /></div>
+      ) : !messages.data ? (
+        <div style={{ marginTop: 14 }}><Skeleton lines={6} /></div>
+      ) : messages.data.length === 0 ? (
+        <div style={{ marginTop: 14 }}><EmptyState title="Ingen meldinger" what="Meldinger til hele borettslaget, ett bygg, en oppgang, berørte boliger eller én beboer, alltid knyttet til en sak eller et prosjekt." /></div>
+      ) : msgList ? (
+        <>
+          <div className="fill desktop-only" style={{ marginTop: 14 }}>
+            <div className="table-wrap">
+              <table className="tbl" data-testid="messages-table">
+                <thead>
+                  <tr>
+                    <th>Melding</th>
+                    <th>Status</th>
+                    <th>Sendt</th>
+                    <th>Mottakere</th>
+                    <th>Svarfrist</th>
+                    <th>Oppfølging</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {messages.data.map((m) => (
+                    <tr key={m.id}>
+                      <td>
+                        <span className="primary">{m.subject}</span>
+                        <span className="sub">{m.body}</span>
+                      </td>
+                      <td><Badge tone={m.status === "sendt" ? "done" : m.status === "planlagt" ? "planned" : "neutral"}>{{ sendt: "Sendt", planlagt: "Planlagt", utkast: "Utkast" }[m.status]}</Badge></td>
+                      <td className="nowrap">{m.sentAt ? formatDateTime(m.sentAt) : <span className="muted">Ikke sendt</span>}</td>
+                      <td className="nowrap">{segmentLabel(m.segment, lookup)} · {plural(m.recipients, "mottaker", "mottakere")}</td>
+                      <td className="nowrap">{m.replyDeadline ? formatDate(m.replyDeadline) : <span className="muted">Ingen</span>}</td>
+                      <td className="wrap">{m.stats ? `Levert ${m.stats.delivered} · lest ${m.stats.read} · bekreftet ${m.stats.confirmed}` : <span className="muted">Ikke sendt</span>}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="cardlist mobile-only" style={{ marginTop: 14 }}>
+            {messages.data.map((m) => (
+              <div key={m.id} className="item">
+                <span className="t">{m.subject}</span>
+                <span className="m">
+                  <Badge tone={m.status === "sendt" ? "done" : m.status === "planlagt" ? "planned" : "neutral"}>{{ sendt: "Sendt", planlagt: "Planlagt", utkast: "Utkast" }[m.status]}</Badge>
+                  <span>{plural(m.recipients, "mottaker", "mottakere")}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <div className="stack" style={{ marginTop: 14 }}>
-          {messages.status === "error" ? <ErrorState error={messages.error} retry={messages.reload} /> : !messages.data ? <Skeleton lines={6} /> : messages.data.length === 0 ? <EmptyState title="Ingen meldinger" what="Meldinger til hele borettslaget, ett bygg, en oppgang, berørte boliger eller én beboer, alltid knyttet til en sak eller et prosjekt." /> : messages.data.map((m) => (
+          {messages.data.map((m) => (
             <Card key={m.id} pad className="stack">
               <div className="row">
                 <Badge tone={m.status === "sendt" ? "done" : m.status === "planlagt" ? "planned" : "neutral"}>{{ sendt: "Sendt", planlagt: "Planlagt", utkast: "Utkast" }[m.status]}</Badge>

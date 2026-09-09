@@ -357,6 +357,26 @@ await check("tilbud: vis liste veksler til kompakt tabell", async () => {
   await ctx.close();
 });
 
+/* ---------- 11e. Beboere: Meldinger kort/liste-veksling ---------- */
+await check("beboere: meldinger vis liste veksler til kompakt tabell", async () => {
+  const { p, ctx } = await page({ width: 1440, height: 900 }, "/beboere?fane=meldinger&rolle=styreleder");
+  await p.waitForSelector('[data-testid="toggle-msg-list"]', { timeout: 8000 });
+  const label = await p.locator('[data-testid="toggle-msg-list"]').innerText();
+  if (!/^Vis liste \(\d+\)$/.test(label)) throw new Error(`uventet knappetekst: ${label}`);
+  await p.locator('[data-testid="toggle-msg-list"]').click();
+  await p.waitForSelector('[data-testid="messages-table"]', { timeout: 4000 });
+  if (!p.url().includes("mvisning=1")) throw new Error("listevisning ikke i URL");
+  await p.reload({ waitUntil: "networkidle" });
+  await p.waitForSelector('[data-testid="messages-table"]', { timeout: 8000 });
+  if (!/^Vis kort$/.test(await p.locator('[data-testid="toggle-msg-list"]').innerText())) throw new Error("knapp viser ikke 'Vis kort' i listevisning");
+  // Bytt til beboere-fanen: liste-knappen skal forsvinne (gjelder bare meldinger).
+  await p.locator('[role="tab"]', { hasText: "Beboere" }).click();
+  await p.waitForTimeout(200);
+  if (await p.locator('[data-testid="toggle-msg-list"]').count()) throw new Error("liste-knapp vises feilaktig på beboere-fanen");
+  pass("beboere: meldinger vis liste veksler til kompakt tabell");
+  await ctx.close();
+});
+
 /* ---------- 12. Ingen døde knapper ---------- */
 await check("alle knapper har handling eller er deaktivert", async () => {
   const { p, ctx } = await page({ width: 1440, height: 900 }, "/okonomi?rolle=styreleder");

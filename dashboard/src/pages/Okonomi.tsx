@@ -1,5 +1,5 @@
 /** Økonomi v1: budsjett, vedtatt, prognose, faktisk, avvik, per prosjekt, per bygningsdel, felles vs privat. */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { useQuery } from "@/data/provider";
 import type { BudgetLine, BuildingPartCategory } from "@/domain/types";
@@ -9,8 +9,11 @@ import { useUrlParam } from "@/lib/urlState";
 import { PageHead } from "@/shell/AppShell";
 import { Callout, Card, ComingLater, EmptyState, ErrorState, SectionHead, Skeleton } from "@/components/ui";
 
+const BUDGET_CLIP = 8;
+
 export function Okonomi() {
   const [year, setYear] = useUrlParam("aar", "2026");
+  const [all, setAll] = useState(false);
   const budget = useQuery((a, s) => a.listBudget(s));
   const projects = useQuery((a, s) => a.listProjects(s));
   const y = Number(year);
@@ -65,11 +68,12 @@ export function Okonomi() {
 
           <div className="section">
             <SectionHead title="Kostnad per prosjekt og linje" />
+            <div className="fill">
             <div className="table-wrap">
               <table className="tbl" data-testid="budget-table">
                 <thead><tr><th>Linje</th><th>Bygningsdel</th><th className="num">Budsjett</th><th className="num">Vedtatt</th><th className="num">Prognose</th><th className="num">Faktisk</th><th className="num">Avvik</th></tr></thead>
                 <tbody>
-                  {rows.map((r) => {
+                  {(all ? rows : rows.slice(0, BUDGET_CLIP)).map((r) => {
                     const d = r.forecast !== undefined ? r.forecast - r.budget : undefined;
                     return (
                       <tr key={r.id}>
@@ -85,6 +89,13 @@ export function Okonomi() {
                   })}
                 </tbody>
               </table>
+            </div>
+            {rows.length > BUDGET_CLIP && (
+              <div className="more-row" data-testid="more-row">
+                <span>{all ? `Viser alle ${rows.length}` : `+ ${rows.length - BUDGET_CLIP} til`}</span>
+                <button className="linkish" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</button>
+              </div>
+            )}
             </div>
           </div>
 

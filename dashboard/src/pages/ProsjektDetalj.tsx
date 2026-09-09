@@ -393,50 +393,74 @@ function QuotesEconomy({ p, over }: { p: Project; over: boolean }) {
   );
 }
 
+const TAB_CLIP = 6;
+
 function Communication({ p }: { p: Project }) {
   const session = useSession();
+  const [all, setAll] = useState(false);
   const messages = useQuery((a, s) => (can(s.role, "residents:read") || can(s.role, "messages:send") ? a.listMessages(s) : Promise.resolve([])));
   const [compose, setCompose] = useState(false);
   const rows = (messages.data ?? []).filter((m) => m.linkedTo?.id === p.id);
+  const shown = all ? rows : rows.slice(0, TAB_CLIP);
   return (
     <div className="stack">
       <div className="row">
         <h2>Beboerkommunikasjon</h2>
         {can(session.role, "messages:send") && <Button className="right" onClick={() => setCompose(true)}>Ny melding til berørte</Button>}
       </div>
-      {rows.length === 0 ? <EmptyState title="Ingen meldinger sendt i dette prosjektet" what="Meldinger til berørte boliger knyttes til prosjektet, med svarfrist, bekreftelse og påmelding." /> : rows.map((m) => (
-        <Card key={m.id} pad className="stack">
-          <div className="row">
-            <Badge tone={m.status === "sendt" ? "done" : m.status === "planlagt" ? "planned" : "neutral"}>{{ sendt: "Sendt", planlagt: "Planlagt", utkast: "Utkast" }[m.status]}</Badge>
-            <span className="small muted">{m.sentAt ? formatDate(m.sentAt) : ""} · {plural(m.recipients, "mottaker", "mottakere")}</span>
-          </div>
-          <h3>{m.subject}</h3>
-          <p className="small">{m.body}</p>
-          {m.stats && <p className="small muted">Levert {m.stats.delivered} · lest {m.stats.read} · bekreftet {m.stats.confirmed} · svart {m.stats.replied}{m.replyDeadline ? ` · frist ${formatDate(m.replyDeadline)}` : ""}</p>}
-        </Card>
-      ))}
+      {rows.length === 0 ? <EmptyState title="Ingen meldinger sendt i dette prosjektet" what="Meldinger til berørte boliger knyttes til prosjektet, med svarfrist, bekreftelse og påmelding." /> : (
+        <>
+          {shown.map((m) => (
+            <Card key={m.id} pad className="stack">
+              <div className="row">
+                <Badge tone={m.status === "sendt" ? "done" : m.status === "planlagt" ? "planned" : "neutral"}>{{ sendt: "Sendt", planlagt: "Planlagt", utkast: "Utkast" }[m.status]}</Badge>
+                <span className="small muted">{m.sentAt ? formatDate(m.sentAt) : ""} · {plural(m.recipients, "mottaker", "mottakere")}</span>
+              </div>
+              <h3>{m.subject}</h3>
+              <p className="small">{m.body}</p>
+              {m.stats && <p className="small muted">Levert {m.stats.delivered} · lest {m.stats.read} · bekreftet {m.stats.confirmed} · svart {m.stats.replied}{m.replyDeadline ? ` · frist ${formatDate(m.replyDeadline)}` : ""}</p>}
+            </Card>
+          ))}
+          {rows.length > TAB_CLIP && (
+            <div className="row" style={{ justifyContent: "center" }} data-testid="messages-more">
+              {!all && <span className="muted small">+ {rows.length - TAB_CLIP} til</span>}
+              <Button variant="secondary" size="sm" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</Button>
+            </div>
+          )}
+        </>
+      )}
       {compose && <CommunicationComposer onClose={() => setCompose(false)} presetProjectId={p.id} presetSegment="berorte" />}
     </div>
   );
 }
 
 function Documents({ p }: { p: Project }) {
+  const [all, setAll] = useState(false);
   const docs = useQuery((a, s) => a.listDocuments(s));
   const rows = (docs.data ?? []).filter((d) => p.documentIds.includes(d.id) || d.links.projectId === p.id);
+  const shown = all ? rows : rows.slice(0, TAB_CLIP);
   return (
     <div className="stack">
       <Callout tone={p.fdvStatus === "mangler" ? "danger" : p.fdvStatus === "delvis" ? "warn" : p.fdvStatus === "komplett" ? "good" : undefined} title="Sluttdokumentasjon og FDV">
         {{ mangler: "FDV mangler. Kontrakten krever FDV ved ferdigstillelse.", delvis: "FDV er delvis mottatt.", komplett: "FDV er komplett.", ikke_relevant: "FDV blir relevant når arbeidet starter." }[p.fdvStatus]}
       </Callout>
       {rows.length === 0 ? <EmptyState title="Ingen dokumenter" what="Tilbud, kontrakt, bilder, protokoller og FDV kobles til prosjektet." /> : (
-        <div className="cardlist">
-          {rows.map((d) => (
-            <Link key={d.id} to={`/dokumenter?dok=${d.id}`} className="item">
-              <span className="t">{d.title}</span>
-              <span className="m"><span>{d.type}</span><span>{formatDate(d.date)}</span><span>{d.source}</span></span>
-            </Link>
-          ))}
-        </div>
+        <>
+          <div className="cardlist">
+            {shown.map((d) => (
+              <Link key={d.id} to={`/dokumenter?dok=${d.id}`} className="item">
+                <span className="t">{d.title}</span>
+                <span className="m"><span>{d.type}</span><span>{formatDate(d.date)}</span><span>{d.source}</span></span>
+              </Link>
+            ))}
+          </div>
+          {rows.length > TAB_CLIP && (
+            <div className="row" style={{ justifyContent: "center" }} data-testid="documents-more">
+              {!all && <span className="muted small">+ {rows.length - TAB_CLIP} til</span>}
+              <Button variant="secondary" size="sm" onClick={() => setAll((v) => !v)}>{all ? "Vis færre" : `Vis alle ${rows.length}`}</Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

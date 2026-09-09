@@ -7,6 +7,7 @@ import { Button, Skeleton } from "@/components/ui";
 import { RoleAwareGuard } from "@/components/RoleAwareGuard";
 import { AppShell } from "@/shell/AppShell";
 import { AssistantProvider } from "@/shell/assistant";
+import { ThemeProvider } from "@/shell/theme";
 import { Oversikt } from "@/pages/Oversikt";
 import { Saker } from "@/pages/Saker";
 
@@ -70,6 +71,7 @@ function Home() {
 
 export function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter basename="/app">
       <DataProvider>
         <ToastProvider>
@@ -97,5 +99,6 @@ export function App() {
         </ToastProvider>
       </DataProvider>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }

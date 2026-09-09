@@ -11,6 +11,7 @@ import type { Role } from "@/domain/types";
 import { IconAlert, IconBuilding, IconDoc, IconEra, IconHome, IconMoney, IconMore, IconPeople, IconProject, IconQuote, IconSearch, IconTruck, IconWrench } from "@/components/icons";
 import { Drawer } from "@/components/ui";
 import { EraAssistantPanel, EraBar, useAssistant } from "./assistant";
+import { ThemeToggle, ThemeToggleNav } from "./theme";
 import { GlobalSearch } from "./GlobalSearch";
 
 type NavItem = { to: string; label: string; icon: ComponentType<SVGProps<SVGSVGElement>>; perm?: Permission; any?: Permission[]; end?: boolean; badge?: "decisions" | "issues" | "quotes" };
@@ -97,6 +98,7 @@ export function AppShell() {
           <span>ERA-assistent</span>
         </button>
         <div className="spacer" />
+        <ThemeToggleNav />
         <div className="role-box">
           <strong>{session.name}</strong>
           {ROLE_LABEL[session.role]}
@@ -183,6 +185,9 @@ export function AppShell() {
                 {n.label}
               </NavLink>
             ))}
+          </div>
+          <div className="dsection">
+            <ThemeToggle />
           </div>
           <div className="dsection">
             <h3>Demo: vis som rolle</h3>

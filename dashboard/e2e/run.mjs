@@ -308,6 +308,31 @@ await check("alle knapper har handling eller er deaktivert", async () => {
   await ctx.close();
 });
 
+/* ---------- 13. Mørkt tema: system, eksplisitt valg, overlever reload ---------- */
+await check("tema: system, eksplisitt valg og persistens", async () => {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, locale: "nb-NO", colorScheme: "dark" });
+  const p = await ctx.newPage();
+  await p.goto(base + "/?rolle=styreleder", { waitUntil: "networkidle" });
+  await p.waitForTimeout(400);
+  const sysBg = await p.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  if (sysBg === "rgb(243, 240, 233)") throw new Error("følger ikke system (dark) som standard");
+  const topbarBg = await p.evaluate(() => getComputedStyle(document.querySelector(".topbar")).backgroundColor);
+  if (/243, 240, 233/.test(topbarBg)) throw new Error("topplinjen henger igjen i lys bakgrunn i mørkt tema");
+  await p.locator('[data-testid="theme-light"]').click();
+  await p.waitForTimeout(200);
+  const lightBg = await p.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  if (lightBg !== "rgb(243, 240, 233)") throw new Error("eksplisitt lys overstyrer ikke mørk systeminnstilling");
+  await p.reload({ waitUntil: "networkidle" });
+  await p.waitForTimeout(300);
+  const afterReload = await p.evaluate(() => ({ attr: document.documentElement.getAttribute("data-theme"), stored: localStorage.getItem("era-theme") }));
+  if (afterReload.attr !== "light" || afterReload.stored !== "light") throw new Error("temavalg overlever ikke reload");
+  await p.locator('[data-testid="theme-system"]').click();
+  await p.waitForTimeout(200);
+  if (await p.evaluate(() => document.documentElement.hasAttribute("data-theme"))) throw new Error("system fjerner ikke data-theme");
+  pass("tema: system, eksplisitt valg og persistens");
+  await ctx.close();
+});
+
 await browser.close();
 const okAll = results.every((r) => r.ok);
 for (const r of results) console.log(`${r.ok ? "PASS" : "FAIL"}  ${r.name}${r.msg ? " · " + r.msg : ""}`);

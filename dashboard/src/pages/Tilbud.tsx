@@ -25,17 +25,90 @@ const QR_STATUS: Record<QuoteRequest["status"], [string, "neutral" | "planned" |
 
 export function Tilbud() {
   const session = useSession();
+  const navigate = useNavigate();
   const lookup = useLookup();
+  const [showList, setShowList] = useUrlParam("liste");
   const qrs = useQuery((a, s) => a.listQuoteRequests(s));
   const quotes = useQuery((a, s) => a.listQuotes(s));
+  const rows = qrs.data ?? [];
+
   return (
     <>
-      <PageHead title="Tilbud" meta={qrs.data ? [`${qrs.data.length} forespørsler`, `${qrs.data.filter((q) => q.status === "tilbud_mottatt").length} krever beslutning`] : []} actions={can(session.role, "quotes:request") && <LinkButton to="/tilbud/ny">Ny tilbudsforespørsel</LinkButton>} />
-      {qrs.status === "error" ? <ErrorState error={qrs.error} retry={qrs.reload} /> : !qrs.data ? <Skeleton lines={6} /> : qrs.data.length === 0 ? (
+      <PageHead
+        title="Tilbud"
+        meta={qrs.data ? [`${qrs.data.length} forespørsler`, `${qrs.data.filter((q) => q.status === "tilbud_mottatt").length} krever beslutning`] : []}
+        actions={
+          <>
+            {rows.length > 0 && (
+              <Button variant={showList ? "secondary" : "primary"} onClick={() => setShowList(showList ? null : "1")} data-testid="toggle-list">
+                {showList ? "Vis kort" : `Vis liste (${rows.length})`}
+              </Button>
+            )}
+            {can(session.role, "quotes:request") && <LinkButton to="/tilbud/ny">Ny tilbudsforespørsel</LinkButton>}
+          </>
+        }
+      />
+      {qrs.status === "error" ? <ErrorState error={qrs.error} retry={qrs.reload} /> : !qrs.data ? <Skeleton lines={6} /> : rows.length === 0 ? (
         <EmptyState title="Ingen tilbudsforespørsler" what="Lag en forespørsel fra et tiltak eller prosjekt. ERA fyller inn omfang fra eiendomsdataene, og tilbudene kommer inn i standardisert form slik at de kan sammenlignes på likt grunnlag." action={can(session.role, "quotes:request") ? <LinkButton to="/tilbud/ny">Ny tilbudsforespørsel</LinkButton> : undefined} />
+      ) : showList ? (
+        <>
+          <div className="fill desktop-only">
+            <div className="table-wrap">
+              <table className="tbl" data-testid="quotereq-table">
+                <thead>
+                  <tr>
+                    <th>Forespørsel</th>
+                    <th>Status</th>
+                    <th>Frist</th>
+                    <th>Leverandører</th>
+                    <th>Tilbud mottatt</th>
+                    <th>Prosjekt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((qr) => {
+                    const qs = (quotes.data ?? []).filter((q) => q.quoteRequestId === qr.id);
+                    const [label, tone] = QR_STATUS[qr.status];
+                    return (
+                      <tr key={qr.id} className="rowlink" tabIndex={0} onClick={() => navigate(`/tilbud/${qr.id}`)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), navigate(`/tilbud/${qr.id}`))}>
+                        <td>
+                          <span className="primary">{qr.title}</span>
+                          <span className="sub">{qr.scopeItems.filter((s) => s.included).length} poster i omfang</span>
+                        </td>
+                        <td><Badge tone={tone}>{label}</Badge></td>
+                        <td className="nowrap">{formatDate(qr.deadline)}</td>
+                        <td className="nowrap">{plural(qr.invitedSupplierIds.length, "invitert", "inviterte")}</td>
+                        <td className="wrap">{qs.length === 0 ? <span className="muted">Ingen ennå</span> : qs.map((q) => `${lookup.supplier(q.supplierId)} ${formatNOK(q.totalIncVat, { compact: true })}`).join(", ")}</td>
+                        <td className="nowrap">{qr.projectId ? <Link to={`/prosjekter/${qr.projectId}`} onClick={(e) => e.stopPropagation()}>Åpne</Link> : <span className="muted">Ikke koblet</span>}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="cardlist mobile-only">
+            {rows.map((qr) => {
+              const qs = (quotes.data ?? []).filter((q) => q.quoteRequestId === qr.id);
+              const [label, tone] = QR_STATUS[qr.status];
+              return (
+                <button key={qr.id} className="item" onClick={() => navigate(`/tilbud/${qr.id}`)}>
+                  <span className="t">{qr.title}</span>
+                  <span className="m" style={{ marginBottom: 6 }}>
+                    <Badge tone={tone}>{label}</Badge>
+                  </span>
+                  <span className="m">
+                    <span>Frist {formatDate(qr.deadline)}</span>
+                    <span>{qs.length === 0 ? "Ingen tilbud" : plural(qs.length, "tilbud", "tilbud")}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
       ) : (
         <div className="stack">
-          {qrs.data.map((qr) => {
+          {rows.map((qr) => {
             const qs = (quotes.data ?? []).filter((q) => q.quoteRequestId === qr.id);
             const [label, tone] = QR_STATUS[qr.status];
             return (

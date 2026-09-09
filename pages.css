@@ -130,7 +130,7 @@ body.menu-open { overflow: hidden; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 .kpi { padding: 14px 16px; border-radius: 14px; background: #fff; border: 1px solid var(--line); min-width: 0; }
 .kpi span { display: block; font-size: 12px; color: var(--muted-2); }
-.kpi b { display: block; margin-top: 4px; font-size: 16px; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.kpi b { display: block; margin-top: 4px; font-size: 16px; letter-spacing: -0.01em; overflow-wrap: break-word; }
 .dash-group { padding: 12px 16px 6px; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
 .dash-group-ai { background: rgba(212,177,122,0.08); border-color: rgba(212,177,122,0.35); }
 .dash-group-illustration, .dash-group-pilot, .dash-group-planned { background: var(--sand); border-color: var(--sand); }
@@ -165,6 +165,7 @@ body.menu-open { overflow: hidden; }
   .stepnav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .stepnav button .t { display: none; }
   .stepnav button { padding: 6px 2px; }
+  .kpis { grid-template-columns: minmax(0, 1fr); }
 }
 
 .step-detail { margin-top: 12px; }

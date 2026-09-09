@@ -85,3 +85,28 @@ Siste base ligger i `tools/base-export-2026-09-04.html`.
 - **Analyse:** `/_vercel/insights/script.js` er lagt inn på alle sider. Slå på Web Analytics én gang i Vercel-dashbordet (prosjekt → Analytics), ellers gjør skriptet ingenting.
 - **Personvern:** `/personvern` genereres av `tools/build-pages.py` og beskriver nøyaktig det siden gjør. Oppdater den hvis skjemaet eller lagringen endres.
 - **Delingsbilde:** `og.jpg` rendres fra `tools/og-source.html` (1200 × 630) med Playwright.
+
+## ERA Property – styredashboard (/app)
+
+Rollebasert dashboard for borettslag og sameier, bygget som en egen Vite/React/TypeScript-app i `dashboard/` og servert på `/app`. Designtokens speiler ERA bolig-appen (papir, kort, navy, kobber, radius 6 px, 44 px knapper, bunnfaner på mobil). Markedssiden `/styret` er uendret.
+
+- Utvikling: `npm run dashboard:dev` (http://localhost:5178/app/). Fontene serveres fra repo-roten via en liten Vite-plugin.
+- Bygg: `npm run dashboard:build` skriver til `app/` (gitignorert). Vercel kjører samme kommando (`buildCommand` i `vercel.json`) og har SPA-rewrite for `/app/*`.
+- Test: `npm run dashboard:test` (vitest: tilgang, tenant-isolasjon, private tilbud, soilrørflyt) og `npm run dashboard:e2e` mot `npm --prefix dashboard run preview` (Playwright: roller, filtre/URL-state, tomme og feiltilstander, 390/1280/1440/1920 px, overflyt, assistentens kilder, soilrør/bad ende til ende). Skjermbilder i `qa/dashboard/`.
+
+Demo-styring via URL ved første last: `?rolle=styreleder|styremedlem|forretningsforer|vaktmester|beboer|leverandor|era_admin`, `?tenant=perrongen|solvang`, `?tilstand=tom|feil|treg`. Rollen kan også byttes i menyen («Vis som»).
+
+### Arkitektur
+
+- `src/domain/types.ts` – domenemodell (eiendom, bygningsdeler, tiltak, avvik, prosjekter, tilbud, beboere, meldinger, dokumenter, økonomi, deltakelse per bolig med private tilvalg).
+- `src/access/roles.ts` – rettigheter per rolle. Frontend skjuler, adapteret håndhever.
+- `src/data/adapters.ts` – kontrakten mot backend. `fixtureAdapter.ts` implementerer den mot `fixtures/perrongen.ts` (demo-tenant) og `fixtures/solvang.ts` (kun for isolasjonstest). Alle kall tar `Session`, så tenant- og rolleskoping skjer i adapteret.
+- `src/shell/` – AppShell låst til viewport-høyde (venstremeny, topplinje med aktivt borettslag og rolle, global søk, bunnfaner på mobil) og ERA-assistenten som felt i bunnlinjen; svaret åpner som lag med konklusjon, begrunnelse, kilder, antakelser, mangler og neste handling.
+- Uten scroll: oversikten er et cockpit (tre saker fast til venstre, firefanet panel til høyre, «+ N til» åpner fullvisning i lag; kortstokk med sveip på mobil). Tabeller i Vedlikehold, Saker, Dokumenter og Beboere klippes med «+ N til». Tilbudssammenligningen er gruppert i pris, omfang og risiko med festet beslutningslinje. Prosjektets boligliste skjules bak «Vis liste». Min bolig er en veiviser med ett steg om gangen.
+- Mørkt tema: System/Lys/Mørk-bryter i sidemenyen (`src/shell/theme.tsx`), lagres i `localStorage` og settes som `data-theme` på `<html>`. Følger enhetens `prefers-color-scheme` som standard. Alle farger er tokens i `src/styles/app.css`; navy er delt i `--navy` (tekst, lysere i mørkt tema) og `--navy-solid` (knapper/paneler, mørk i begge temaer) slik at hvit tekst på navy-flater alltid er lesbar.
+- Selvhostede fonter: Inter og Inter Tight ligger i `fonts/` og lastes via `fonts-inter.css`, samme mønster som Schibsted Grotesk i `fonts.css`.
+- `src/pages/` – Oversikt (Mission Control), Vedlikehold, Saker, Prosjekter og prosjektdetalj, Tilbud (forespørsel og sammenligning), Beboere og meldinger, Dokumenter med ERA-funn, Økonomi, Min bolig (beboer), Mine oppdrag (leverandør).
+
+### Backend-gap
+
+Repoet har ingen backend for dette produktet (kun `api/lead.js`). Alt i `DataAdapter` mangler server-side: tenant og sesjon, bygg/oppganger/boliger, bygningsdeler, vedlikeholdstiltak, avvik med historikk og oppgaver, prosjekter med milepæler og endringsordrer, deltakelse per bolig og private tilbud, tilbudsforespørsler og standardiserte tilbud, vedtak, beboere og kontaktinfo, meldinger med status, dokumenter med AI-funn og korrigering, budsjettlinjer, aktivitet og assistentsvar. Fixtures er isolert i `src/data/fixtures/` og importeres bare av `fixtureAdapter.ts`; `tenant.isDemo` gir «Demo-data»-merket i topplinjen.

@@ -1,6 +1,8 @@
 # ERA Property – styredashboard: teknisk dokumentasjon
 
-Status per 9. september 2026. Gren `claude/era-property-board-dashboard-653515`, PR #57 mot `master`.
+Status per 9. september 2026. Gren `claude/era-property-board-dashboard-653515`, [PR #57](https://github.com/FlairAutoMate/era-story/pull/57) mot `master`.
+
+**Lenker:** [PR #57](https://github.com/FlairAutoMate/era-story/pull/57) · [dashboard/](https://github.com/FlairAutoMate/era-story/tree/claude/era-property-board-dashboard-653515/dashboard) · [adapters.ts](https://github.com/FlairAutoMate/era-story/blob/claude/era-property-board-dashboard-653515/dashboard/src/data/adapters.ts) · [types.ts](https://github.com/FlairAutoMate/era-story/blob/claude/era-property-board-dashboard-653515/dashboard/src/domain/types.ts) · [roles.ts](https://github.com/FlairAutoMate/era-story/blob/claude/era-property-board-dashboard-653515/dashboard/src/access/roles.ts) · [e2e/run.mjs](https://github.com/FlairAutoMate/era-story/blob/claude/era-property-board-dashboard-653515/dashboard/e2e/run.mjs) · [qa/dashboard/](https://github.com/FlairAutoMate/era-story/tree/claude/era-property-board-dashboard-653515/qa/dashboard) (skjermbilder)
 
 ## 1. Sammendrag
 
@@ -116,7 +118,7 @@ Ingenting i `DataAdapter` finnes server-side. Forslag til første API, gruppert 
 | Typer | `tsc --strict`, `noUncheckedIndexedAccess` | hele appen | grønt |
 | Lint | eslint + typescript-eslint + react-hooks | `src/` | grønt |
 | Enhet | vitest, 20 tester | rettigheter, tenant-isolasjon, private tilbud, soilrørflyt, beregnede data, tom/feil-modus | 20/20 |
-| E2E | Playwright, 16 sjekker | roller, tenant, filtre og URL-state, tomme og feiltilstander, 390/1280/1440/1920 px, horisontal overflyt, null scroll på oversikten, assistentens kilder og antakelser, soilrør/bad ende til ende, vedtak og forespørsel, ingen døde knapper | 16/16 |
+| E2E | Playwright, 18 sjekker | roller, tenant, filtre og URL-state, tomme og feiltilstander, 390/1280/1440/1920 px, horisontal overflyt, null scroll på oversikten, full arbeidsflate ved 1920 px, mørkt tema (system/eksplisitt/persistens), assistentens kilder og antakelser, soilrør/bad ende til ende, vedtak og forespørsel, ingen døde knapper | 18/18 |
 
 Kjør: `npm run dashboard:test`, deretter `npm --prefix dashboard run preview` og `npm run dashboard:e2e`. Skjermbilder havner i `qa/dashboard/`.
 
@@ -127,7 +129,8 @@ Demo-tilstander for QA via URL: `?rolle=`, `?tenant=perrongen|solvang`, `?tilsta
 - `vercel.json`: `buildCommand: cd dashboard && npm ci && npm run build`, `outputDirectory: .`, rewrite `/app/(.*) → /app/index.html`, immutable cache på `/app/assets/*`.
 - `.vercelignore` utelater `dashboard/node_modules`, `dashboard/e2e` og tester.
 - Fonter: Schibsted Grotesk og JetBrains Mono fra `/fonts`, Inter og Inter Tight fra Google Fonts. Ønskes alt selvhostet, legg woff2 i `fonts/` og oppdater `dashboard/index.html`.
-- Bygget er verifisert lokalt. Ikke verifisert på Vercel ennå; PR #57 gir forhåndsvisning hvis prosjektet er koblet.
+- Bygget er verifisert lokalt. Ikke verifisert på Vercel ennå; [PR #57](https://github.com/FlairAutoMate/era-story/pull/57) gir forhåndsvisning hvis prosjektet er koblet.
+- **Nylig fullført, samme PR:** mørkt tema med System/Lys/Mørk-bryter, selvhostede fonter, mobilt formspråk justert til piller og avrundede kort som matcher bolig-appen, skrivebordets kortradius økt fra 12 til 16 px, og en layoutfeil rettet der oversikten kastet bort 328 px i hver side ved 1920 px bredde.
 
 ## 9. Risiko og avgrensninger
 

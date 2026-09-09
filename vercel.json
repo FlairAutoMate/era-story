@@ -49,8 +49,8 @@
   "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/app/(.*)",
-      "destination": "/app/index.html"
+      "source": "/app/:match*",
+      "destination": "/app"
     }
   ]
 }

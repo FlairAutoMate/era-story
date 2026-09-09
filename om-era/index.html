@@ -29,8 +29,8 @@
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <!-- LCP-critical: the door/hero photo, the very first thing painted. Only one of these two actually downloads. -->
-<link rel="preload" href="/assets/story/about-hero-v4-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">
-<link rel="preload" href="/assets/story/about-hero-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">
+<link rel="preload" href="/assets/story/about-hero-v5-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">
+<link rel="preload" href="/assets/story/about-hero-v5.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.__resources = {
   "chaosBath": "/assets/story/bathroom-v3.jpg",
@@ -388,7 +388,7 @@
   <section id="om-era" ref="{{ refAbout }}" data-theme="{{ abTheme }}" style="position: relative; height: {{ h_about }}; background: #0F1830" data-screen-label="15 Om ERA" aria-label="Om ERA">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate; background: {{ abBg }}">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ abHeroScale }}); backface-visibility: hidden; opacity: {{ abHeroOp }}">
-        <image-slot id="about-hero" shape="rect" src="/assets/story/about-hero-v4.jpg" placeholder="Om ERA · Hero — nordisk boligområde med blokker, rekkehus og eneboliger, blå time"></image-slot>
+        <image-slot id="about-hero" shape="rect" src="/assets/story/about-hero-v5.jpg" placeholder="Om ERA · Hero — nordisk boligområde med blokker, rekkehus og eneboliger, blå time"></image-slot>
       </div>
       <div style="position: absolute; left: 50%; top: 50%; width: {{ abFrameW }}; height: {{ abFrameH }}; transform: translate(-50%, -50%) translateZ(0); border-radius: {{ abFrameR }}; overflow: hidden; opacity: {{ abFrameOp }}; box-shadow: 0 40px 100px rgba(19,30,58,0.28)">
         <image-slot id="about-bridge" shape="rect" src="/assets/story/block-facade-v3.jpg" placeholder="Om ERA · Bro — ett bygg, fasade"></image-slot>

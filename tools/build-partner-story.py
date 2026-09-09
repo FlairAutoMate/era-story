@@ -270,6 +270,16 @@ def build_jotun(p):
         image="photo-observation-v3.jpg",
     ))
 
+    s.append(scene(None,
+        '<div class="p-eyebrow">Hvorfor nå</div>'
+        '<h2 class="p-h1">Et AI-lag mellom boligen og handelen.</h2>'
+        + flow([("Boligdata", None), ("Bilder", None), ("Historikk", None), ("Sesong", None), ("Produktdata", None)])
+        + flow([("ERA Intelligence", "solid")])
+        + flow([("Behov", None), ("Prosjekt", None), ("Produkt", None), ("Mengde", None), ("Tidspunkt", None), ("Forhandler", None)])
+        + '<p class="p-payoff">Ikke bare en smart kundereise — en AI-drevet infrastruktur mellom boligen og handelen.</p>',
+        image="property-intelligence-v3.jpg",
+    ))
+
     # ACT 2 — FRA BEHOV TIL KJØP
     s.append(scene("b2c",
         '<div class="p-eyebrow">Akt 2 · Fra behov til kjøp</div>'
@@ -337,6 +347,8 @@ def build_jotun(p):
         + flow([("Behov identifisert", None), ("Prosjekt opprettet", None), ("Produkt anbefalt", None), ("Handleliste", None), ("Forhandler valgt", None)], vertical=True)
         + flow([("Kjøp", "muted"), ("Utført", None), ("Dokumentert", None)], vertical=True)
         + '<p class="p-body-text">En sammenhengende digital reise kan gjøre det mulig å forstå hvilke aktiviteter som faktisk fører kunden videre. Der kjøpsdata ikke er tilgjengelig, skiller vi klikk og intensjon fra dokumentert gjennomføring — ikke bekreftet salg.</p>'
+        + flow([("Bolig", None), ("Behov", None), ("Jotun-anbefaling", "solid"), ("Butikk", None), ("Kjøp", None), ("Utført", None), ("Dokumentert", None), ("Bolighistorikk", None), ("Neste behov", None)], vertical=True)
+        + '<p class="p-payoff">Ikke bare leads til Jotun — et feedback- og demand intelligence-lag tilbake til ERA.</p>'
         + '<p class="p-fine">På aggregert og riktig samtykke- og personvernsgrunnlag kan slike signaler også gi ny innsikt i hvordan etterspørselen utvikler seg. Boligeierens data eksponeres ikke i partnerinnsikt.</p>',
         image="ecosystem-v3.jpg",
     ))
@@ -347,6 +359,15 @@ def build_jotun(p):
         "block-season-2-v3.jpg",
         extra=dash("Boligens tidslinje", "Eksempel, Borgveien 14",
                    kpis=[("2027", "Fasade"), ("2028", "Terrasse"), ("2029", "Innvendig"), ("2031", "Ny vurdering")])))
+
+    s.append(scene(None,
+        '<div class="p-eyebrow">Utover boligeieren</div>'
+        '<h2 class="p-h1">Fire innganger. Samme motor.</h2>'
+        '<p class="p-lede">Historien over er B2C-drevet, men prosjekt- og produktmotoren bak er ikke avgrenset til boligeieren.</p>'
+        + flow([("Boligeier", None), ("Håndverker", None), ("Borettslag / sameie", None), ("Forhandler", None)])
+        + '<p class="p-payoff">Samme prosjekt- og produktmotor. Fire innganger til Jotuns produkter.</p>',
+        image="ecosystem-v3.jpg",
+    ))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Fem forslag</div>'
@@ -363,8 +384,11 @@ def build_jotun(p):
 
     # PILOT — the closing scene: the concrete plan, the ask, and the exit.
     s.append(scene("pilot",
-        '<div class="p-eyebrow">Foreslått pilot</div>'
-        '<h2 class="p-h1">Start med én komplett kundereise.</h2>'
+        '<div class="p-eyebrow">Forslag til neste steg</div>'
+        '<h2 class="p-h1">ERA × Jotun Pilot Norge.</h2>'
+        + dash("Pilotens omfang", "Foreslått ramme",
+               kpis=[("Kategori", "Én · maling / overflate"), ("Forhandlere", "1–3 pilotforhandlere"), ("Boliger", "Reelt, begrenset utvalg"), ("Varighet", "8–12 uker")],
+               footer="Mål: dokumentere om boligdata og AI kan skape tidligere etterspørsel, høyere prosjektverdi og målbar trafikk til Jotuns distribusjon.")
         + steps_grid([
             ("01", "Koble produktdata", "Én kategori, avgrenset omfang."),
             ("02", "Velg én kategori", "Foreslått: maling / overflate."),
@@ -373,7 +397,8 @@ def build_jotun(p):
             ("05", "Test med reelle boligeiere", "Begrenset utvalg, tett oppfølging."),
             ("06", "Mål hele reisen", "Prosjekter, handlelister, ruting, henvendelser, dokumentert gjennomføring."),
         ])
-        + '<p class="p-payoff" style="margin-top:30px">Det vi trenger for å koble på Jotun: hvilke produktkataloger, feeds, API-er og forhandlerdata kan gjøres tilgjengelig for en pilot?</p>'
+        + '<p class="p-payoff" style="margin-top:30px">I møtet ønsker vi å avklare:</p>'
+        + flow([("Produktdata / API", None), ("Pilotforhandlere", None), ("Teknisk kontakt", None), ("KPI-er", None), ("Tidspunkt for oppstart", None)])
         + '<p class="p-body-text">ERA har den tekniske produktflyten. Der produktdata ikke er tilgjengelig fra start, kan malermesterkompetanse brukes som faglig mellomledd i pilotfasen.</p>'
         + '<div class="p-actions"><a class="link" href="/">Tilbake til ERA</a></div>',
         image="whole-home-v3.jpg",

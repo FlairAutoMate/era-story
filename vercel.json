@@ -4,13 +4,23 @@
   "redirects": [
     {
       "source": "/partner/jotun",
-      "has": [{ "type": "host", "value": "www.era-app.no" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.era-app.no"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/partner/jotun",
-      "has": [{ "type": "host", "value": "era-app.no" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "era-app.no"
+        }
+      ],
       "destination": "/",
       "permanent": false
     }
@@ -24,6 +34,23 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/app/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "cd dashboard && npm ci && npm run build",
+  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/app/(.*)",
+      "destination": "/app/index.html"
     }
   ]
 }

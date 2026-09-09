@@ -7,3 +7,6 @@ qa-*.mjs
 leads.mjs
 README.md
 CREDITS.md
+dashboard/node_modules/
+dashboard/e2e/
+dashboard/src/**/*.test.ts

@@ -67,6 +67,13 @@ def phone(src, w, h, alt, size="md", eager=False, cap=None):
             f'{cap_html}</div>')
 
 
+def ui(src, w, h, alt, cap=None):
+    """A cropped piece of the app UI, shown as the card it is rather than inside a device frame."""
+    cap_html = f'<p class="pw-phone-cap">{esc(cap)}</p>' if cap else ''
+    return (f'<div class="pw-ui"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}"'
+            f' loading="lazy" decoding="async">{cap_html}</div>')
+
+
 def app_section(eyebrow, title, lede, visual_html, points=(), alt_bg=False, flip=False, sid=None,
                 dark=False, foot=None):
     """One product beat: a single message beside a single screen."""
@@ -80,14 +87,18 @@ def app_section(eyebrow, title, lede, visual_html, points=(), alt_bg=False, flip
             '</div></section>')
 
 
-def app_loop(eyebrow, title, src, w, h, alt, steps, foot):
-    """The whole loop in one strip: five screens, four short labels."""
-    st = "".join(f'<div class="apploop-step"><span class="n">0{i+1}</span><b>{esc(t)}</b><span>{esc(d)}</span></div>'
-                 for i, (t, d) in enumerate(steps))
+def app_loop(eyebrow, title, steps, foot):
+    """The whole loop in one row: five screens, five short labels, one grid so they stay aligned."""
+    shots = "".join(
+        f'<div class="apploop-shot"><img src="{src}" width="853" height="1844" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
+        for _, _, src, alt in steps)
+    labels = "".join(
+        f'<div class="apploop-step"><span class="n">0{i+1}</span><b>{esc(t)}</b><span>{esc(d)}</span></div>'
+        for i, (t, d, _, _) in enumerate(steps))
     return ('<section class="section alt" id="loopen"><div class="wrap wide">'
             f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
-            f'<div class="apploop"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
-            f'<div class="apploop-steps">{st}</div>'
+            f'<div class="apploop">{shots}</div>'
+            f'<div class="apploop-steps">{labels}</div>'
             f'<p class="fine dark2">{esc(foot)}</p>'
             '</div></section>')
 
@@ -104,8 +115,8 @@ AUDIENCES = {
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
                 "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
-                phone("/assets/story/app-minbolig.jpg", 450, 811,
-                      "ERA Bolig: boligprofilen for Myrerveien 46A med rom, boligminne, vedlikehold og eiendomsdata",
+                phone("/assets/story/app-minbolig.png", 853, 1844,
+                      "ERA Bolig: Min bolig for Myrerveien 46A med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne",
                       "lg"),
                 alt_bg=True, flip=True, sid="min-bolig"),
             app_section(
@@ -138,19 +149,24 @@ AUDIENCES = {
             app_section(
                 "Boligminne", "Alt som gjøres blir en del av boligen.",
                 "Arbeid, dokumentasjon og historikk følger boligen videre – slik at du slipper å starte på nytt hver gang noe skal vedlikeholdes, vurderes eller forbedres.",
-                phone("/assets/story/app-historikk.jpg", 236, 618,
-                      "ERA Bolig: boligens reise som tidslinje fra 2020 til 2026, med verdiutvikling og eiendomsdata",
-                      "sm"),
+                ui("/assets/story/app-boligminne.png", 783, 645,
+                   "ERA Bolig, boligminnet: tidslinjen 2020 nytt bad, 2022 varmepumpe, 2024 nytt tak og 2026 fasadevask og maling",
+                   cap="Eksempeldata · Myrerveien 46A"),
+                points=[("Det som er gjort", "Bad, varmepumpe og tak ligger med år og dokumentasjon."),
+                        ("Det som kommer", "Fasadeprosjektet fra bildet står som planlagt.")],
                 alt_bg=False, flip=True, sid="boligminne"),
             app_loop(
                 "Hele loopen", "Fra spørsmål til ferdig dokumentert.",
-                "/assets/story/app-loop.jpg", 1203, 618,
-                "ERA Bolig i fem skjermer: boligens forside, kameraet, assistentens svar, prosjektet og boligens historikk",
-                [("Boligen", "ERA kjenner den."),
-                 ("Kamera", "Vis ERA problemet."),
-                 ("ERA", "Forstå hva det betyr."),
-                 ("Prosjekt", "Planlegg og gjennomfør."),
-                 ("Min bolig", "Dokumenter og husk.")],
+                [("Boligen", "ERA kjenner den.", "/assets/story/app-hjem.png",
+                  "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak"),
+                 ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
+                  "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu"),
+                 ("ERA", "Forstå hva det betyr.", "/assets/story/app-agent.png",
+                  "ERA Bolig: assistentens analyse av bildet med funn, betydning og forslag"),
+                 ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
+                  "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver"),
+                 ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
+                  "ERA Bolig: Min bolig med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne")],
                 "Eksempeldata. Samme bolig, Myrerveien 46A, gjennom hele loopen."),
         ],
         scenes=dict(

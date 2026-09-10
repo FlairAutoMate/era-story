@@ -128,10 +128,13 @@ AUDIENCES = {
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
-                phone("/assets/story/app-prosjekt.png", 941, 1671,
-                      "ERA Bolig: prosjektlisten med pågående, planlagte og ferdige prosjekter, blant dem «Fasadevask og maling»",
-                      "xl", cap="Eksempeldata"),
-                foot="Fasadefunnet fra bildet ligger her som et planlagt prosjekt med estimert kostnad."),
+                phone("/assets/story/app-prosjekt.png", 853, 1844,
+                      "ERA Bolig: prosjektet «Fasadevask og maling» på Myrerveien 46A med estimert kostnad 80 000–120 000 kr, planlagt oppstart april 2026, fremdrift, håndverker og fem oppgaver",
+                      "lg", cap="Eksempeldata"),
+                points=[("Planlegging", "Omfang, oppstart og varighet."),
+                        ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),
+                        ("Gjennomføring", "Fem oppgaver fra stillas til sluttkontroll.")],
+                foot="Fasadefunnet fra bildet er nå et prosjekt med kostnad, håndverker og oppgaver."),
             app_section(
                 "Boligminne", "Alt som gjøres blir en del av boligen.",
                 "Arbeid, dokumentasjon og historikk følger boligen videre – slik at du slipper å starte på nytt hver gang noe skal vedlikeholdes, vurderes eller forbedres.",

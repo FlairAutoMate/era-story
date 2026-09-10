@@ -105,6 +105,8 @@ body.menu-open { overflow: hidden; }
 .appsec-text .lede { color: var(--muted); max-width: 520px; }
 .section.dark .appsec-text .lede { color: rgba(247,244,238,0.78); }
 .appsec-visual { min-width: 0; }
+.appsec-dash { padding: 22px 24px; border-radius: 22px; background: #fff; box-shadow: 0 24px 60px rgba(19,30,58,0.14), 0 4px 14px rgba(19,30,58,0.06); }
+.section.dark .appsec-dash { color: var(--ink); }
 .appsec-points { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 12px; }
 .appsec-points li { position: relative; padding-left: 26px; font-size: 15.5px; line-height: 1.45; color: var(--muted); }
 .appsec-points li b { display: block; color: var(--ink); font-size: 16px; }

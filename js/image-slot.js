@@ -524,8 +524,10 @@
         // clicks through for chrome marked with it (EDIT_TRANSPARENT_SEL)
         // — without it, Replace/Edit clicks in Edit mode are swallowed by
         // element selection and the controls look dead.
-        '<div class="ctl" popover="manual" data-dc-edit-transparent><button data-act="replace" title="Replace image">Replace</button>' +
-        '  <button data-act="edit" title="Reframe image">Edit</button></div>' +
+        // Editor-only chrome: invisible on the published site, so it must stay out of the tab
+        // order and out of the accessibility tree — otherwise every slot adds two empty tab stops.
+        '<div class="ctl" popover="manual" data-dc-edit-transparent aria-hidden="true"><button data-act="replace" title="Replace image" tabindex="-1">Replace</button>' +
+        '  <button data-act="edit" title="Reframe image" tabindex="-1">Edit</button></div>' +
         '<input type="file" accept="' + ACCEPT.join(',') + '" hidden>';
       this._frame = root.querySelector('.frame');
       this._ring = root.querySelector('.ring');

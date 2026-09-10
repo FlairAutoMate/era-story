@@ -28,6 +28,7 @@
 <meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/product.css">
 <!-- LCP-critical: the door/hero photo, the very first thing painted. Only one of these two actually downloads. -->
 <link rel="preload" href="/assets/story/about-hero-v5-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">
 <link rel="preload" href="/assets/story/about-hero-v5.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">
@@ -324,18 +325,30 @@
   .field-label { position: absolute; left: 0; top: -20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,244,238,0.65); opacity: 0; transform: translateY(4px); transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none; white-space: nowrap; }
   #era-lead-value:focus ~ .field-label, #era-lead-value:not(:placeholder-shown) ~ .field-label,
   #era-lead-email:focus ~ .field-label, #era-lead-email:not(:placeholder-shown) ~ .field-label { opacity: 1; transform: translateY(0); }
+  /* The field suppresses its own outline so the focus ring can follow the whole pill instead of the bare input. */
+  #era-lead > div:focus-within { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 999px; }
   /* Placeholder for photography not yet delivered: intentional ERA treatment, never a grey box. Remove .era-ph-label when the photo lands. */
   .era-ph { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 55% 45%, rgba(212,177,122,0.18), transparent 70%), linear-gradient(160deg, #1B2848 0%, #131E3A 45%, #0F1830 100%); }
   .era-ph::after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(247,244,238,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(247,244,238,0.06) 1px, transparent 1px); background-size: 72px 72px; -webkit-mask-image: radial-gradient(ellipse 60% 55% at 55% 45%, #000 20%, transparent 80%); mask-image: radial-gradient(ellipse 60% 55% at 55% 45%, #000 20%, transparent 80%); }
   .era-ph-label { position: absolute; left: 20px; top: 84px; z-index: 2; padding: 6px 10px; border-radius: 999px; border: 1px dashed rgba(212,177,122,0.6); background: rgba(15,24,48,0.5); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #D4B17A; pointer-events: none; }
   image-slot[placeholder^="Bilde"]::part(empty) { visibility: hidden !important; }
+  /* produktseksjon */
+  /* Story labels (.pw-where) are secondary: on small phones that are also short, the styret text block already fills the viewport, so its label steps aside. */
+  @media (max-width: 899px) and (max-height: 599px) { .era-tiny-hide { display: none !important; } }
+  /* Tag-fargene i rader/KPI-er, kortgriden på nettbrett, beta-taggen på navy og stablingen av
+     arkitekturflatene ligger nå i product.css, som delt .pw-vokabular. */
+  /* Om ERA · produktarkitektur (#arkitektur, navy). Sidens H1 er broens overskrift; på liggende mobil skal den strammes som de andre scenetitlene. */
+  .era-short #om-era .era-vh h1 { font-size: min(26px, 5vh + 6px) !important; line-height: 1.06 !important; }
+  /* Forklaringsflisene stables under 900 px. */
+  #arkitektur .era-arch-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 899px) { #arkitektur .era-arch-tiles { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </helmet>
 
 <div style="font-family: 'Schibsted Grotesk', sans-serif; color: #131E3A; background: #F7F4EE">
 
   <!-- STICKY COMMERCIAL NAV -->
-  <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
+  <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; visibility: {{ navVis }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
     <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: {{ navBlur }}; -webkit-backdrop-filter: {{ navBlur }}; background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
       <a href="/" aria-label="ERA — til forsiden" style="display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
       <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
@@ -356,7 +369,7 @@
   </nav>
 
   <!-- STORY PROGRESS RAIL -->
-  <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; transition: opacity 0.5s; pointer-events: none">
+  <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; visibility: {{ railVis }}; transition: opacity 0.5s; pointer-events: none">
     <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="8">
       <div style="display: flex; flex-direction: column; align-items: flex-end">
         <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; min-height: 28px; padding: 0 0 0 12px; color: inherit">
@@ -372,7 +385,7 @@
     <div style="height: 100%; width: {{ mobProgW }}; background: #D4B17A; transition: width 0.2s linear"></div>
   </div>
   <!-- Fast CTA nederst til høyre, utenfor skinnen så den ikke kolliderer med siste kapitteletikett -->
-  <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
+  <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; visibility: {{ railVis }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
 
 <!-- Om ERA — scenene på /om-era. Bygges inn i om-era/index.html av tools/build-om-era.py sammen med
      forsidens hode, meny, skinne, finale, bunntekst og skript. Rediger scenene her, ikke i om-era/index.html. -->
@@ -402,7 +415,7 @@
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ abTextTop }}; bottom: {{ abTextBottom }}; transform: {{ abTextTy }}; max-width: 760px; pointer-events: none">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px; opacity: {{ abEyeOp }}; transform: {{ abEyeTy }}">Om ERA</div>
-        <h2 style="margin: 0; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6); opacity: {{ abHeadOp }}; transform: {{ abHeadTy }}">Et agentisk system for hele boligens livsløp.</h2>
+        <h1 style="margin: 0; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6); opacity: {{ abHeadOp }}; transform: {{ abHeadTy }}">Et agentisk system for hele boligens livsløp.</h1>
         <p style="margin: 22px 0 0; max-width: 620px; font-size: clamp(17px, 1.9vw, 23px); line-height: 1.4; font-weight: 500; color: rgba(247,244,238,0.85); text-wrap: balance; opacity: {{ abBodyOp }}; transform: {{ abBodyTy }}">ERA kobler boligdata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt boligen.</p>
         <p style="margin: 26px 0 0; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.3; font-weight: 700; letter-spacing: -0.02em; color: #D4B17A; opacity: {{ abLineOp }}; transform: {{ abLineTy }}">Fra boligdata til handling.<br>Fra handling tilbake til boligen.</p>
       </div>
@@ -441,15 +454,60 @@
     </div>
   </section>
 
-  <!-- 17 · DEN AGENTISKE SLØYFEN -->
-  <section id="sloyfen" ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Den agentiske sløyfen">
+  <!-- 16b · PRODUKTARKITEKTUR — statisk seksjon (padding, ikke sticky): tre arbeidsflater over én bolig- og eiendomsmodell.
+       Bygget av /product.css (.pw-arch) og avdekket med vis.arch (arHeadOp … arFlowOp i skriptet), som teamkapittelet. -->
+  <section id="arkitektur" ref="{{ refArch }}" data-theme="dark" style="position: relative; padding: clamp(80px, 12vh, 140px) clamp(24px, 7vw, 120px); background: #0F1830" data-screen-label="16b Arkitektur" aria-label="Produktarkitektur">
+    <div style="max-width: 1080px; margin: 0 auto">
+      <div style="max-width: 760px; opacity: {{ arHeadOp }}; transform: {{ arHeadTy }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A">Produktarkitektur</div>
+        <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4.4vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance">Tre arbeidsflater over samme bolig- og eiendomsmodell.</h2>
+        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: rgba(247,244,238,0.78)">Boligeieren, styret og håndverkeren jobber i hver sin arbeidsflate. Alle leser og skriver mot den samme boligen.</p>
+      </div>
+      <div class="pw-arch" style="margin-top: clamp(36px, 5vh, 56px); opacity: {{ arDiagOp }}; transform: {{ arDiagTy }}">
+        <div class="pw-arch-surfaces">
+          <div class="pw-arch-surface"><div class="name">ERA Bolig</div><div class="role">Forstå boligen, se hva som bør gjøres, få hjelp til å gjennomføre</div><span class="pw-tag pw-tag--beta">Kontrollert beta</span></div>
+          <div class="pw-arch-surface"><div class="name">ERA Styret</div><div class="role">Prioritere, budsjettere og beslutte felles tiltak</div><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+          <div class="pw-arch-surface"><div class="name">ERA Håndverker</div><div class="role">Fra kvalifisert forespørsel til tilbud, gjennomføring og dokumentasjon</div><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+        </div>
+        <div class="pw-arch-model" style="text-align: center"><div class="t">Én bolig- og eiendomsmodell</div><div class="d">Boligprofil · bygningsdeler · tilstand · historikk · dokumentasjon · vedlikeholdsplan</div></div>
+        <div class="pw-arch-services"><span>Faghandel og produkter</span><span>Betaling</span><span>Dokumentasjon og FDV</span><span>Bildeanalyse</span></div>
+        <p style="margin: 12px 0 0; text-align: center; font-size: 12.5px; line-height: 1.4; color: rgba(247,244,238,0.62)">Integrerte tjenester rundt arbeidsflatene</p>
+        <div class="pw-legend" style="justify-content: center; margin-top: 12px">
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--dev">Under utvikling</span><span class="note" style="color: rgba(247,244,238,0.72)">Faghandel og produkter</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--pilot">I pilot</span><span class="note" style="color: rgba(247,244,238,0.72)">Betaling</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--beta">Kontrollert beta</span><span class="note" style="color: rgba(247,244,238,0.72)">Dokumentasjon og FDV, bildeanalyse</span></span>
+        </div>
+      </div>
+      <div class="era-arch-tiles" style="margin-top: clamp(36px, 5vh, 56px); opacity: {{ arTilesOp }}; transform: {{ arTilesTy }}">
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Én kilde, ikke kopier</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">Boligdata og historikk lagres én gang i eiendomsmodellen. Arbeidsflatene leser og skriver til samme kilde i stedet for å kopiere informasjon mellom separate siloer.</p>
+        </div>
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Rollebasert tilgang</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">Privat boliginformasjon deles ikke automatisk med styret eller håndverkeren. Boligeieren velger hva som deles. Styret ser fellesarealet, ikke den enkelte bolig.</p>
+        </div>
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Derfor kaller vi det agentisk</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">ERA er agentisk fordi systemet ikke bare lagrer informasjon. Det bruker boligens kontekst til å oppdage behov, foreslå neste steg, forberede handling og føre resultatet tilbake til eiendommens historikk.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: clamp(28px, 4vh, 40px); opacity: {{ arFlowOp }}; transform: {{ arFlowTy }}">
+        <div class="pw-flow pw-flow--dark"><span class="pw-flow-step">Forstå</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">prioritere</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">planlegge</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">bestille</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">gjennomføre</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">dokumentere</span></div>
+        <a href="/#hva" class="era-link" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">Se arbeidsflatene på forsiden →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 · SLØYFEN RUNDT BOLIGEN -->
+  <section id="sloyfen" ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Sløyfen rundt boligen">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ lpImgScale }}); backface-visibility: hidden; opacity: 0.55">
         <image-slot id="loop-home" shape="rect" src="/assets/story/loop-home-v3.jpg" placeholder="Sløyfen — samme bolig, sett utenfra"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 40%, rgba(19,30,58,0.45) 70%, rgba(19,30,58,0.6) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ lpTextTop }}; bottom: {{ lpTextBottom }}; transform: {{ lpTextTy }}; max-width: 480px; pointer-events: none">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Den agentiske sløyfen</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Sløyfen rundt boligen</div>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: rgba(247,244,238,0.55)">{{ lpCounter }}</div>
         <h2 style="margin: 8px 0 0; font-size: clamp(40px, 6vw, 88px); line-height: 1; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; opacity: {{ lpStepOp }}; transform: {{ lpStepTy }}">{{ lpStepName }}</h2>
         <p style="margin: 16px 0 0; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.4; color: rgba(247,244,238,0.8); opacity: {{ lpStepOp }}">{{ lpStepText }}</p>
@@ -521,7 +579,7 @@
             <sc-for list="{{ shToday }}" as="td" hint-placeholder-count="3">
               <div style="padding: {{ shRowPad }} 0; border-bottom: 1px solid #E3DDD0; opacity: {{ td.op }}; transform: {{ td.ty }}">
                 <div style="font-size: clamp(17px, 1.7vw, 22px); font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #131E3A">{{ td.label }}</div>
-                <div style="margin-top: 4px; font-size: 14px; color: #8A8579">← {{ td.note }}</div>
+                <div style="margin-top: 4px; font-size: 14px; color: #6E6A5E">← {{ td.note }}</div>
               </div>
             </sc-for>
             <p style="margin: 18px 0 0; max-width: 380px; font-size: 15px; line-height: 1.5; color: #5E6472; opacity: {{ shCopy0Op }}">I dag starter store deler av boligmarkedet etter at boligeieren allerede har identifisert behovet.</p>
@@ -623,7 +681,7 @@
       <div style="max-width: 760px; opacity: {{ tmHeadOp }}; transform: {{ tmHeadTy }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B0935F">Menneskene bak ERA</div>
         <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4.4vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; text-wrap: balance">Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>
-        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: #5E6472">ERA samler erfaring fra eiendom, teknologi, finans, produktutvikling, salg, markedsføring og kommersialisering rundt én ambisjon: å bygge et agentisk system for hele boligens livsløp.</p>
+        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: #5E6472">ERA samler erfaring fra eiendom, teknologi, finans, produktutvikling, salg, markedsføring og kommersialisering rundt én ambisjon: å bygge ett system som følger boligen gjennom hele livsløpet.</p>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(20px, 3vw, 40px) clamp(16px, 2.5vw, 32px); margin-top: clamp(40px, 6vh, 72px)">
         <sc-for list="{{ tmPeople }}" as="tp" hint-placeholder-count="6">
@@ -641,7 +699,7 @@
             <div style="margin-top: 18px; font-size: {{ tp.nameSize }}; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">{{ tp.name }}</div>
             <div style="margin-top: 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #B0935F">{{ tp.role }}</div>
             <p style="margin: 10px 0 0; font-size: 14.5px; line-height: 1.5; color: #5E6472">{{ tp.bio }}</p>
-            <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: #8A8579; display: {{ tp.detailDisplay }}">{{ tp.detail }}</p>
+            <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: #6E6A5E; display: {{ tp.detailDisplay }}">{{ tp.detail }}</p>
             <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid #E3DDD0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.7; color: #9A968C">{{ tp.tags }}</div>
           </div>
         </sc-for>
@@ -711,6 +769,7 @@
             </div>
           </div>
           <div style="font-size: 13.5px; color: rgba(247,244,238,0.7); display: {{ leadErrorDisplay }}">{{ leadError }}</div>
+          <a href="{{ finPilotHref }}" rel="noopener" class="era-link" style="font-size: 15px; font-weight: 700; color: #D4B17A" style-hover="color: #FFFFFF">{{ finPilotLabel }}</a>
           <a href="/om-era" class="era-link" style="display: {{ finOmDisplay }}; gap: 8px; font-size: 15px; font-weight: 600; color: #F7F4EE" style-hover="color: #D4B17A"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #D4B17A">OM ERA</span>Et agentisk system for hele boligens livsløp →</a>
           <a href="{{ finLinkHref }}" class="era-link" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>
         </div>
@@ -855,7 +914,7 @@ class Component extends DCLogic {
     const render = () => {
       if (!items.length) { close(); return; }
       place();
-      box.innerHTML = items.map((it, i) => `<div role="option" id="era-addr-${i}" data-i="${i}" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:${i === active ? '#F7F4EE' : '#FFFFFF'};border-top:${i ? '1px solid #EFEAE0' : '0'}"><div>${it.text}</div><div style="margin-top:2px;font-size:12.5px;color:#8A8579">${it.sub}</div></div>`).join('');
+      box.innerHTML = items.map((it, i) => `<div role="option" id="era-addr-${i}" data-i="${i}" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:${i === active ? '#F7F4EE' : '#FFFFFF'};border-top:${i ? '1px solid #EFEAE0' : '0'}"><div>${it.text}</div><div style="margin-top:2px;font-size:12.5px;color:#6E6A5E">${it.sub}</div></div>`).join('');
       box.style.display = 'block';
       input.setAttribute('aria-expanded', 'true');
       if (active >= 0) input.setAttribute('aria-activedescendant', 'era-addr-' + active); else input.removeAttribute('aria-activedescendant');
@@ -982,8 +1041,8 @@ class Component extends DCLogic {
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) activeNav = id;
     });
     const chapMap = document.body.getAttribute('data-page') === 'om-era'
-      ? { about: 0, frag: 0, loop: 1, close: 1, shift: 2, tech: 3, vision: 4, team: 5, finale: 5 }
-      : { door: 0, home: 0, chaos: 1, see: 1, prio: 1, magic: 2, choice: 2, commerce: 2, pro: 2, trust: 2, memory: 3, whole: 3, board: 4, split: 4, finale: 4 };
+      ? { about: 0, frag: 0, arch: 1, loop: 2, close: 2, shift: 3, tech: 4, vision: 5, team: 6, finale: 6 }
+      : { door: 0, home: 0, chaos: 0, product: 1, see: 2, prio: 2, magic: 3, choice: 3, commerce: 3, pro: 3, trust: 3, memory: 4, whole: 4, board: 5, split: 5, finale: 5 };
     let chapter = 0;
     Object.keys(chapMap).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1045,8 +1104,8 @@ class Component extends DCLogic {
       .filter(([id]) => !(id === 'jotun' && onEraApp))
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
-      ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
-      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
+      ? [['#om-era', 'Om ERA'], ['#arkitektur', 'Produktet'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
+      : [['#hjem', 'Hjemmet'], ['#hva', 'Selve produktet'], ['#ser', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;
       return { href, label, labelOp: active ? 1 : 0, dot: active ? '#D4B17A' : (dark ? 'rgba(247,244,238,0.35)' : 'rgba(19,30,58,0.25)'), glow: active ? '0 0 0 5px rgba(212,177,122,0.25)' : 'none', lineOp: i === chapData.length - 1 ? 0 : 1 };
@@ -1064,9 +1123,9 @@ class Component extends DCLogic {
       { kind: 'FDV', title: 'Vinduer · Nordan', meta: 'Garanti til 2029', x: -400, y: 60, rot: 3, w: '180px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1 },
       { img: RS.chaosBath || 'assets/story/bathroom.jpg', imgH: '120px', imgPos: '50% 45%', kind: 'BILDE', title: 'Bad etter rehab', meta: 'IMG_4471.jpg', x: 350, y: 40, rot: -6, w: '190px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
       { kind: 'SMS', title: '«Kan komme torsdag»', meta: 'Elektriker · i går', x: -230, y: 220, rot: 6, w: '200px', scale: 0.9, keep: 0, shadow: shadowSm, z: 1, bg: '#E9F3E6' },
-      { kind: 'KVITTERING', title: 'Byggmakker', meta: 'kr 8 420 · 14.05.2024', x: 240, y: 230, rot: -7, w: '150px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1, font: "'JetBrains Mono', monospace", titleSize: '13px', titleWeight: 500 },
+      { kind: 'KVITTERING', title: 'Byggmakker', meta: 'kr 8 420 · 14.05.2024', x: 240, y: 230, rot: -7, w: '150px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1, font: "'JetBrains Mono', monospace", titleSize: '13px', titleWeight: 500 },
       { kind: 'NOTAT', title: 'Bør sjekke takrenner før vinteren', meta: '— Håndverker', x: 30, y: -250, rot: 2, w: '220px', scale: 1, keep: 1, shadow: shadowMd, z: 2, bg: '#F6EFD9', font: "'Caveat', cursive", titleSize: '20px', titleWeight: 500 },
-      { img: RS.chaosPhone || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
+      { img: RS.chaosPhone || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
       { kind: 'PDF · DUPLIKAT', title: 'Tilstandsrapport 2021', meta: 'kopi (2)', x: -80, y: 20, rot: 9, w: '190px', scale: 0.85, keep: 0, shadow: shadowSm, z: 0 }
     ];
     const chaosVw = window.innerWidth, chaosScale = chaosVw < 600 ? 0.72 : chaosVw < 900 ? 0.86 : 1, chaosK = Math.min(1, chaosVw / 1100), chaosKy = Math.min(1, window.innerHeight / 820);
@@ -1080,7 +1139,7 @@ class Component extends DCLogic {
         tx: `${Math.max(-chaosMaxX(it), Math.min(chaosMaxX(it), it.x * chaosK * k))}px`, ty: `${it.y * chaosKy * k}px`, rot: `${it.rot * k}deg`, scale: it.scale * chaosScale, w: it.w, op: appear * (1 - gather) * noise,
         bg: it.bg || white, shadow: it.shadow, z: it.z, pad: '0', textPad: '14px 16px', radius: it.img ? '14px' : '12px',
         font: it.font || 'inherit', titleSize: it.titleSize || '14px', titleWeight: it.titleWeight || 600,
-        fg: '#131E3A', kindColor: '#B0935F', metaColor: '#8A8579'
+        fg: '#131E3A', kindColor: '#B0935F', metaColor: '#6E6A5E'
       };
     });
 
@@ -1102,7 +1161,7 @@ class Component extends DCLogic {
     const prioCloudOp = seg(p, 0.05, 0.38, 0.06), prioListOp = seg(p, 0.48, 0.72, 0.06), prioHeadOp = seg(p, 0.82, 1, 0.06);
 
     const m = g('magic');
-    const planData = [['Vegg', '42 m²'], ['Forbehandling', 'Lett sparkling'], ['Strøk', '2'], ['Tid', '1–2 dager'], ['Estimert kostnad', 'ca. 6 800 kr']];
+    const planData = [['Vegg', '42 m²'], ['Forbehandling', 'Lett sparkling'], ['Strøk', '2'], ['Tid', '1–2 dager'], ['Estimert kostnad', 'ca. 6 800 kr']];
     const planRows = planData.map(([k, v], i) => { const op = seg(m, 0.42 + i * 0.08, 1, 0.05); return { k, v, op, ty: ty(op, 12) }; });
     const wallHighlight = seg(m, 0.24, 0.42, 0.05);
     const wallPaintOp = ease(ramp(m, 0.36, 0.56)) * 0.92;
@@ -1143,9 +1202,9 @@ class Component extends DCLogic {
     const proState = pr >= 0.62 ? 2 : pr >= 0.42 ? 1 : 0;
     const proShot1Op = seg(pr, 0.42, 0.62, 0.05), proShot2Op = seg(pr, 0.64, 1, 0.05);
     const jobCards = [
-      { title: 'Male stue · 42 m²', meta: 'Borgveien 14 · 4 bilder vedlagt', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
-      { title: 'Lekkasje under kjøkkenvask', meta: 'Borgveien 14 · 2 bilder og video', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
-      { title: 'Ny kurs til kjøkken', meta: 'Borgveien 14 · sikringsskap dokumentert', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
+      { title: 'Male stue · 42 m²', meta: 'Borgveien 14 · 4 bilder · Eksempeldata', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
+      { title: 'Lekkasje under kjøkkenvask', meta: 'Borgveien 14 · 2 bilder · Eksempeldata', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
+      { title: 'Ny kurs til kjøkken', meta: 'Borgveien 14 · sikringsskap · Eksempeldata', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
     ];
     const job = jobCards[proState];
     const jobRows = job.rows.map(([k, v], i) => ({ k, v, op: seg(pr, job.at + 0.06 + i * 0.04, 1, 0.03) }));
@@ -1175,7 +1234,7 @@ class Component extends DCLogic {
     const me = g('memory');
     const memBackOp = 1 - ramp(me, 0.12, 0.2);
     const memBackChips = ['Utført arbeid', 'Fagperson', 'Produkter', 'Dato', 'Kostnad', 'Bilder', 'Kvittering', 'Garanti'].map((label, i) => { const op = seg(me, 0.005 + i * 0.012, 0.12, 0.02); return { label, op, ty: ty(op, 10) }; });
-    const memData = [['2026', 'Stua malt — dokumentert', 0.22], ['2028', 'Fasade og balkonger utbedres', 0.4], ['2031', 'Tak og vinduer fornyes', 0.56], ['2036', 'Godt vedlikeholdt — verdien består', 0.7]];
+    const memData = [['2026', 'Stua malt – dokumentert', 0.22], ['2028', 'Fasade og balkonger utbedres', 0.4], ['2031', 'Tak og vinduer fornyes', 0.56], ['2036', 'Godt vedlikeholdt — verdien består', 0.7]];
     const memEvents = memData.map(([year, title, at], i) => {
       const reached = me >= at, op = seg(me, at - 0.02, 1, 0.05);
       return { year, title, op: 0.35 + op * 0.65, dot: reached ? (i < 2 ? '#131E3A' : '#B0935F') : '#E3DDD0', glow: reached && me < at + 0.18 ? '0 0 0 6px rgba(176,147,95,0.2)' : 'none', check: i < 1 && reached ? '✓' : '', fg: reached ? '#131E3A' : '#9A968C' };
@@ -1215,13 +1274,17 @@ class Component extends DCLogic {
     const f = g('finale');
     const finaleByAudience = {
       owner: { finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
-        finField: 'Skriv adressen din', finLabel: 'Adresse', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
+        finField: 'Skriv adressen din', finLabel: 'Adresse', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=homeowner', finPilotLabel: 'Start som boligeier →' },
       board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Tilstand, plan og kostnader for hele eiendommen, klar til neste generalforsamling. Planen følger bygget, ikke styret.',
-        finField: 'Adressen til bygget', finLabel: 'Adresse', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Adressen til bygget', finLabel: 'Adresse', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=sameie', finPilotLabel: 'Registrer borettslag eller sameie →' },
       pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Kvalifiserte kunder med plan og estimat, ferdig beskrevet omfang og materialer som ligger klart. Mindre befaring, mer jobb.',
-        finField: 'Firmanavn eller organisasjonsnummer', finLabel: 'Firma', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Firmanavn eller organisasjonsnummer', finLabel: 'Firma', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=contractor', finPilotLabel: 'Start som håndverker →' },
       partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Ferdig beregnede bestillinger fra boliger og borettslag, levert slik kunden vil ha det. Færre feilkjøp, større prosjekter, uavhengig av kjede.',
-        finField: 'Kjede eller butikk', finLabel: 'Butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
+        finField: 'Kjede eller butikk', finLabel: 'Butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: '/faghandel#skjema', finPilotLabel: 'Utforsk partnerskap med ERA →' }
     };
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
     if (mobile && this.state.audience === 'owner') finaleVals.finField = 'Adresse';
@@ -1267,7 +1330,7 @@ class Component extends DCLogic {
     const ab = g('about'), abOpen = ease(ramp(ab, 0.04, 0.3)), abFade = ease(ramp(ab, 0.3, 0.48));
     const abLight = 1 - ramp(ab, 0.06, 0.26);
     const abCapDefs = [['Én bolig.', 0.0, 0.1], ['Ett bygg.', 0.13, 0.26], ['Alle boliger.', 0.3, 0.44]];
-    const abCaps = abCapDefs.map(([label, a, b2]) => { const op = seg(ab, a, b2, 0.04); return { label, op, ty: ty(op, 8), fg: abLight > 0.5 && a < 0.1 ? '#8A8579' : 'rgba(247,244,238,0.7)' }; });
+    const abCaps = abCapDefs.map(([label, a, b2]) => { const op = seg(ab, a, b2, 0.04); return { label, op, ty: ty(op, 8), fg: abLight > 0.5 && a < 0.1 ? '#6E6A5E' : 'rgba(247,244,238,0.7)' }; });
     const abVals = {
       abTheme: abLight > 0.5 ? 'light' : 'dark',
       abBg: `rgb(${Math.round(this.mix(15, 255, abLight))}, ${Math.round(this.mix(24, 253, abLight))}, ${Math.round(this.mix(48, 249, abLight))})`,
@@ -1280,7 +1343,7 @@ class Component extends DCLogic {
 
     // 16 · Fragmentert: bitene ligger spredt rundt boligen, og samles.
     const fr = g('frag'), frGatherRaw = ramp(fr, 0.56, 0.78), frGather = frGatherRaw < 1 ? 1 - Math.pow(1 - frGatherRaw, 3) : 1;
-    const frDefs = [['DOKUMENTER', 'Tilstandsrapport', -330, -150, -5, 1], ['VEDLIKEHOLD', 'Plan 2026–2031', 300, -190, 4, 1], ['KVITTERING', 'Byggmakker · 8 420 kr', -380, 40, 3, 1], ['EIENDOM', 'Gnr/bnr · 1962', 330, 40, -5, 1], ['PRODUKT', 'Fugemasse · FDV', -230, 210, 6, 0], ['HÅNDVERKER', '«Kan komme torsdag»', 240, 220, -6, 1], ['BILDER', 'IMG_4471.jpg', 20, -250, 2, 1], ['GARANTI', 'Vinduer · til 2029', -70, 130, -3, 0], ['MELDING', 'Re: Tilbud rørlegger', 60, 260, 5, 0]];
+    const frDefs = [['DOKUMENTER', 'Tilstandsrapport', -330, -150, -5, 1], ['VEDLIKEHOLD', 'Plan 2026–2031', 300, -190, 4, 1], ['KVITTERING', 'Byggmakker · 8 420 kr', -380, 40, 3, 1], ['EIENDOM', 'Gnr/bnr · 1962', 330, 40, -5, 1], ['PRODUKT', 'Fugemasse · FDV', -230, 210, 6, 0], ['HÅNDVERKER', '«Kan komme torsdag»', 240, 220, -6, 1], ['BILDER', 'IMG_4471.jpg', 20, -250, 2, 1], ['GARANTI', 'Vinduer · til 2029', -70, 130, -3, 0], ['MELDING', 'Re: Tilbud rørlegger', 60, 260, 5, 0]];
     const frK = mobile ? 0.32 : 1;
     const frItems = frDefs.map(([kind, label, x, y, rot, keepMobile], i) => {
       const appear = seg(fr, 0.04 + i * 0.03, 0.62, 0.05), k = 1 - frGather;
@@ -1483,10 +1546,24 @@ class Component extends DCLogic {
     });
     const tmVals = { tmPeople, tmHeadOp: mobile ? 1 : seg(tm, 0.05, 1, 0.2), tmHeadTy: ty(mobile ? 1 : seg(tm, 0.05, 1, 0.2), 18), tmBioMinH: mobile ? '0' : '110px' };
 
+    // 16b · Produktarkitektur (/om-era): statisk seksjon avdekket med vis, som teamkapittelet. Mobil viser alt med en
+    // gang; redusert bevegelse håndteres av update() (vis hopper til 1 når seksjonen er i bildet).
+    const ar = gv('arch');
+    const arIn = (a) => mobile ? 1 : seg(ar, a, 1, 0.2);
+    const arHeadOp = arIn(0.05), arDiagOp = arIn(0.15), arTilesOp = arIn(0.25), arFlowOp = arIn(0.33);
+    const arVals = { arHeadOp, arHeadTy: ty(arHeadOp, 18), arDiagOp, arDiagTy: ty(arDiagOp, 18), arTilesOp, arTilesTy: ty(arTilesOp, 18), arFlowOp, arFlowTy: ty(arFlowOp, 14) };
+
     // Finale forlenges med Om ERA-sluttfrasene før logo og skjema (se finVals under).
-    const omVals = { ...abVals, ...frVals, ...lpVals, ...phVals, ...paVals, ...dyVals, ...trVals, ...clVals, ...shVals, ...teVals, ...agVals, ...ecVals, ...viVals, ...tmVals,
-      refAbout: this.ref('about'), refFrag: this.ref('frag'), refLoop: this.ref('loop'), refPhoto: this.ref('photo'), refPath: this.ref('path'), refDiy: this.ref('diy'), refTrade: this.ref('trade'), refClose: this.ref('close'), refShift: this.ref('shift'), refTech: this.ref('tech'), refAgent: this.ref('agent'), refEco: this.ref('eco'), refVision: this.ref('vision'), refTeam: this.ref('team') };
+    const omVals = { ...abVals, ...frVals, ...arVals, ...lpVals, ...phVals, ...paVals, ...dyVals, ...trVals, ...clVals, ...shVals, ...teVals, ...agVals, ...ecVals, ...viVals, ...tmVals,
+      refAbout: this.ref('about'), refFrag: this.ref('frag'), refArch: this.ref('arch'), refLoop: this.ref('loop'), refPhoto: this.ref('photo'), refPath: this.ref('path'), refDiy: this.ref('diy'), refTrade: this.ref('trade'), refClose: this.ref('close'), refShift: this.ref('shift'), refTech: this.ref('tech'), refAgent: this.ref('agent'), refEco: this.ref('eco'), refVision: this.ref('vision'), refTeam: this.ref('team') };
     // ── /OM ERA ─────────────────────────────────────────────────────────────
+
+    // 02b · Selve produktet: static section, revealed with vis (same pattern as the team chapter). Mobile shows
+    // everything at once; reduced motion is handled by update() (vis snaps to 1 when the section is in view).
+    const pd = gv('product');
+    const pwIn = (a) => mobile ? 1 : seg(pd, a, 1, 0.15);
+    const pwHeadOp = pwIn(0.02), pwC0Op = pwIn(0.1), pwC1Op = pwIn(0.18), pwC2Op = pwIn(0.26), pwChainOp = pwIn(0.34);
+    const pwVals = { pwHeadOp, pwHeadTy: ty(pwHeadOp, 18), pwC0Op, pwC0Ty: ty(pwC0Op, 18), pwC1Op, pwC1Ty: ty(pwC1Op, 18), pwC2Op, pwC2Ty: ty(pwC2Op, 18), pwChainOp, pwChainTy: ty(pwChainOp, 14) };
 
     // Mobile pin-duration factor is per-chapter, not one global number: scroll-linked progress (seg/ramp)
     // is already normalized 0–1 within each pinned section, so shortening a chapter's height only cuts
@@ -1522,8 +1599,11 @@ class Component extends DCLogic {
     return {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
-      refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
+      refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), refProduct: this.ref('product'), ...pwVals, ...omVals,
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      // Faded-out chrome must leave the tab order too: opacity alone keeps the links focusable,
+      // so a keyboard user lands on invisible stops before the story has even started.
+      navVis: navShown ? 'visible' : 'hidden', railVis: navShown && !mobile ? 'visible' : 'hidden',
       chapters, navBlur: mobile ? 'none' : 'blur(18px)', railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       mobProgOp: navShown && mobile ? 1 : 0, mobProgW: `${Math.round((this.state.docPct || 0) * 100)}%`,
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,

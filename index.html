@@ -28,6 +28,7 @@
 <meta name="twitter:description" content="Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.">
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/product.css">
 <!-- LCP-critical: the door/hero photo, the very first thing painted. Only one of these two actually downloads. -->
 <link rel="preload" href="/assets/story/door-evening-v4-m.jpg" as="image" media="(max-width: 899px)" fetchpriority="high">
 <link rel="preload" href="/assets/story/door-evening-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">
@@ -324,18 +325,30 @@
   .field-label { position: absolute; left: 0; top: -20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,244,238,0.65); opacity: 0; transform: translateY(4px); transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none; white-space: nowrap; }
   #era-lead-value:focus ~ .field-label, #era-lead-value:not(:placeholder-shown) ~ .field-label,
   #era-lead-email:focus ~ .field-label, #era-lead-email:not(:placeholder-shown) ~ .field-label { opacity: 1; transform: translateY(0); }
+  /* The field suppresses its own outline so the focus ring can follow the whole pill instead of the bare input. */
+  #era-lead > div:focus-within { outline: 2px solid #D4B17A; outline-offset: 3px; border-radius: 999px; }
   /* Placeholder for photography not yet delivered: intentional ERA treatment, never a grey box. Remove .era-ph-label when the photo lands. */
   .era-ph { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 55% 45%, rgba(212,177,122,0.18), transparent 70%), linear-gradient(160deg, #1B2848 0%, #131E3A 45%, #0F1830 100%); }
   .era-ph::after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(247,244,238,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(247,244,238,0.06) 1px, transparent 1px); background-size: 72px 72px; -webkit-mask-image: radial-gradient(ellipse 60% 55% at 55% 45%, #000 20%, transparent 80%); mask-image: radial-gradient(ellipse 60% 55% at 55% 45%, #000 20%, transparent 80%); }
   .era-ph-label { position: absolute; left: 20px; top: 84px; z-index: 2; padding: 6px 10px; border-radius: 999px; border: 1px dashed rgba(212,177,122,0.6); background: rgba(15,24,48,0.5); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #D4B17A; pointer-events: none; }
   image-slot[placeholder^="Bilde"]::part(empty) { visibility: hidden !important; }
+  /* produktseksjon */
+  /* Story labels (.pw-where) are secondary: on small phones that are also short, the styret text block already fills the viewport, so its label steps aside. */
+  @media (max-width: 899px) and (max-height: 599px) { .era-tiny-hide { display: none !important; } }
+  /* Tag-fargene i rader/KPI-er, kortgriden på nettbrett, beta-taggen på navy og stablingen av
+     arkitekturflatene ligger nå i product.css, som delt .pw-vokabular. */
+  /* Om ERA · produktarkitektur (#arkitektur, navy). Sidens H1 er broens overskrift; på liggende mobil skal den strammes som de andre scenetitlene. */
+  .era-short #om-era .era-vh h1 { font-size: min(26px, 5vh + 6px) !important; line-height: 1.06 !important; }
+  /* Forklaringsflisene stables under 900 px. */
+  #arkitektur .era-arch-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 899px) { #arkitektur .era-arch-tiles { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </helmet>
 
 <div style="font-family: 'Schibsted Grotesk', sans-serif; color: #131E3A; background: #F7F4EE">
 
   <!-- STICKY COMMERCIAL NAV -->
-  <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
+  <nav aria-label="Hovedmeny" style="position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; opacity: {{ navOp }}; visibility: {{ navVis }}; transform: {{ navTy }}; transition: opacity 0.5s, transform 0.5s">
     <div style="pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: {{ navBlur }}; -webkit-backdrop-filter: {{ navBlur }}; background: {{ navBg }}; border: 1px solid {{ navBorder }}; color: {{ navFg }}; box-shadow: 0 10px 34px rgba(15,24,48,0.16); transition: background 0.5s, color 0.5s, border-color 0.5s">
       <a href="#hjem" aria-label="ERA — til toppen" style="display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
       <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
@@ -356,7 +369,7 @@
   </nav>
 
   <!-- STORY PROGRESS RAIL -->
-  <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; transition: opacity 0.5s; pointer-events: none">
+  <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; visibility: {{ railVis }}; transition: opacity 0.5s; pointer-events: none">
     <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="8">
       <div style="display: flex; flex-direction: column; align-items: flex-end">
         <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; min-height: 28px; padding: 0 0 0 12px; color: inherit">
@@ -372,7 +385,7 @@
     <div style="height: 100%; width: {{ mobProgW }}; background: #D4B17A; transition: width 0.2s linear"></div>
   </div>
   <!-- Fast CTA nederst til høyre, utenfor skinnen så den ikke kolliderer med siste kapitteletikett -->
-  <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
+  <a href="#start" style="position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 290; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: {{ navCtaBg }}; color: {{ navCtaFg }}; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 10px 24px rgba(15,24,48,0.25); opacity: {{ railOp }}; visibility: {{ railVis }}; pointer-events: {{ railPe }}; transition: background 0.5s, color 0.5s, opacity 0.5s">{{ finCta }}</a>
 
   <!-- 0 · DØREN — WIDE, kveld -->
   <section id="hjem" ref="{{ refDoor }}" data-theme="dark" style="position: relative; height: {{ h_door }}; background: #0F1830" data-screen-label="00 Døren" aria-label="Velkommen">
@@ -448,15 +461,260 @@
         <h2 style="position: absolute; left: 32px; right: 32px; bottom: 0; margin: 0; font-size: clamp(24px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; opacity: {{ chaos1Op }}; transform: {{ chaos1Ty }}; text-wrap: balance">Problemet er å vite hva som betyr noe.</h2>
         <div style="position: absolute; left: 32px; right: 32px; bottom: 0; opacity: {{ chaos2Op }}; transform: {{ chaos2Ty }}">
           <h2 style="margin: 0; font-size: clamp(32px, 4.4vw, 56px); font-weight: 800; letter-spacing: -0.03em">ERA samler boligen.</h2>
-          <p style="margin: 14px 0 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; letter-spacing: 0.06em; color: #8A8579; opacity: {{ chaos3Op }}">En AI-drevet boligplattform for boligeiere, styrer og håndverkere</p>
+          <p style="margin: 14px 0 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; letter-spacing: 0.06em; color: #6E6A5E; opacity: {{ chaos3Op }}">En AI-drevet boligplattform for boligeiere, styrer og håndverkere</p>
           <p style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 30px); font-weight: 700; color: #B0935F; opacity: {{ chaos4Op }}; transform: {{ chaos4Ty }}">Og gjør det forståelig.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- 02b · SELVE PRODUKTET — statisk seksjon (ingen sticky): tre arbeidsflater rundt samme eiendom, avdekkes med vis.product -->
+  <section id="hva" ref="{{ refProduct }}" data-theme="light" style="position: relative; padding: clamp(80px, 12vh, 140px) clamp(20px, 7vw, 120px); background: #FFFDF9" data-screen-label="02b Produktet" aria-label="Selve produktet">
+    <div style="max-width: 1120px; margin: 0 auto">
+      <div style="max-width: 760px; opacity: {{ pwHeadOp }}; transform: {{ pwHeadTy }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B0935F">Selve produktet</div>
+        <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4.2vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance">Tre arbeidsflater. Én sammenhengende eiendom.</h2>
+        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: #5E6472">Hver rolle får sin egen arbeidsflate, men alle arbeider rundt den samme boligen, det samme bygget og den samme oppdaterte historikken.</p>
+        <p style="margin: 12px 0 0; max-width: 680px; font-size: 15px; line-height: 1.5; color: #6E6A5E">ERA Bolig hjelper boligeieren forstå og handle. ERA Styret gjør behov om til planer og beslutninger. ERA Håndverker gjør forespørselen om til tilbud, gjennomføring og dokumentert resultat.</p>
+      </div>
+      <div class="pw-cards" style="margin-top: clamp(36px, 5vh, 56px)">
+
+        <div class="pw-card" style="opacity: {{ pwC0Op }}; transform: {{ pwC0Ty }}">
+          <div class="pw-card-head"><h3>ERA Bolig</h3><span class="pw-tag pw-tag--beta">Kontrollert beta</span></div>
+          <p class="pw-promise">Forstå boligen. Se hva som bør gjøres. Få hjelp til å gjennomføre det.</p>
+          <div class="pw pw--compact">
+            <div class="pw-bar">
+              <span class="pw-brand">era<span>.</span></span>
+              <span class="pw-app pw-app--bolig">ERA Bolig</span>
+              <span class="pw-ctx">Borgveien 14</span>
+              <span class="pw-bar-right"><span class="pw-chip">Eksempeldata</span></span>
+            </div>
+            <div class="pw-body">
+              <div class="pw-grid">
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Boligprofil</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Dokumenter</span><b>Tilstandsrapport 2021 · FDV 3 dokumenter</b></div>
+                    <div class="pw-row"><span>Kvitteringer og bilder</span><b>12 kvitteringer · 24 bilder</b></div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Vedlikeholdsindeks</div>
+                  <div class="pw-ring-row">
+                    <div class="pw-ring"><svg sc-camel-view-box="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle><circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="101 151" transform="rotate(-90 28 28)"></circle></svg><b>67</b></div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; line-height: 1.4; color: #131E3A">
+                      <span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C0483A; flex: none"></span>2 høy risiko</span>
+                      <span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #B0935F; flex: none"></span>4 middels</span>
+                      <span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63; flex: none"></span>8 ok</span>
+                      <span style="display: inline-flex; align-items: center; gap: 7px; color: #6E6A5E"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6; flex: none"></span>1 ikke vurdert</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Risiko og tilstand</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Stue</span><b>Vegg slitt, ingen skader <span class="pw-tag pw-tag--doc">Dokumentert</span></b></div>
+                    <div class="pw-row"><span>Fasade</span><b>Maling flasser <span class="pw-tag pw-tag--check">Felles</span></b></div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Nå · neste · senere</div>
+                  <div class="pw-status-list">
+                    <div class="pw-status pw-status--now"><span class="k">Nå</span><span class="v">Stua males</span></div>
+                    <div class="pw-status"><span class="k">Neste</span><span class="v">Vinduer · tetningslister</span></div>
+                    <div class="pw-status pw-status--later"><span class="k">Senere</span><span class="v">Bad</span></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Kostnadsestimat · Male stue, 42 m²</div>
+                  <div class="pw-kpis">
+                    <div class="pw-kpi"><span>Med håndverker</span><b>ca. 6 800 kr</b><small>2 strøk, lett sparkling</small></div>
+                    <div class="pw-kpi"><span>Materialer</span><b>ca. 1 900 kr</b><small>2 × 10 L maling, sparkel, utstyr</small></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Påminnelser</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Vinduer · tetningslister</span><b>Høst 2026</b></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Dokumentasjon og historikk</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>2026</span><b>Stua malt – dokumentert</b></div>
+                    <div class="pw-row"><span>Vinduer Nordan</span><b>Garanti til 2029</b></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="pw-value">Mindre leting. Færre feilvalg. Bedre kontroll på tid, kostnader og boligens verdi.</p>
+          <a class="pw-cta" href="/boligeier">Utforsk ERA Bolig</a>
+        </div>
+
+        <div class="pw-card" style="opacity: {{ pwC1Op }}; transform: {{ pwC1Ty }}">
+          <div class="pw-card-head"><h3>ERA Styret</h3><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+          <p class="pw-promise">Fra vedlikeholdsbehov til beslutning, tilbud og ferdig dokumentert arbeid.</p>
+          <div class="pw pw--compact">
+            <div class="pw-bar">
+              <span class="pw-brand">era<span>.</span></span>
+              <span class="pw-app pw-app--styret">ERA Styret</span>
+              <span class="pw-ctx">Borgveien 14 · 24 seksjoner</span>
+              <span class="pw-bar-right"><span class="pw-chip">Eksempeldata</span></span>
+            </div>
+            <div class="pw-body">
+              <div class="pw-grid">
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Eiendommens tilstand</div>
+                  <div class="pw-ring-row">
+                    <div class="pw-ring"><svg sc-camel-view-box="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle><circle cx="28" cy="28" r="24" fill="none" stroke="#B0935F" stroke-width="6" stroke-linecap="round" stroke-dasharray="101 151" transform="rotate(-90 28 28)"></circle></svg><b>67</b></div>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 700; letter-spacing: -0.01em">Helsetilstand 67</div>
+                      <div style="margin-top: 3px; font-size: 12.5px; line-height: 1.4; color: #5E6472">Fasade · befaring innen 12 mnd</div>
+                      <div style="margin-top: 6px"><span class="pw-tag pw-tag--ai">ERA-forslag</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Prioriterte tiltak</div>
+                  <div class="pw-status-list">
+                    <div class="pw-status pw-status--now"><span class="k">2027</span><span class="v">Male sør- og vestvegg</span></div>
+                    <div class="pw-status"><span class="k">2031</span><span class="v">Tak · egen oppgave</span></div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Vedlikeholdsplan</div>
+                  <ol class="pw-timeline">
+                    <li class="pw-tl is-next"><span class="y">2027</span><span class="t">Fasade · male sør- og vestvegg</span></li>
+                    <li class="pw-tl is-later"><span class="y">2031</span><span class="t">Tak · egen oppgave</span></li>
+                    <li class="pw-tl is-later"><span class="y">2032</span><span class="t">Neste fasadekontroll</span></li>
+                  </ol>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Budsjett og prognoser</div>
+                  <div class="pw-kpis">
+                    <div class="pw-kpi"><span>Fasade 2027</span><b>1,0–1,3 mill</b><small>kostnadsintervall</small></div>
+                    <div class="pw-kpi"><span>Per seksjon</span><b>42–54 000 kr</b><small>24 seksjoner</small></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Tilbud og leverandører</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Tilbud mottatt</span><b>3 · samme omfang</b></div>
+                    <div class="pw-row"><span>Spenn</span><b>1,05–1,25 mill</b></div>
+                  </div>
+                  <div><span class="pw-tag pw-tag--illustration">Illustrasjon av arbeidsflyt</span></div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Fremdrift og avvik</div>
+                  <div class="pw-progress"><i style="width: 33%"></i></div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Status</span><b>Uke 2 av 6, i rute</b></div>
+                    <div class="pw-row"><span>Avklaring</span><b>Farge på beslag, svar innen fredag</b></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Beboerkommunikasjon</div>
+                  <div class="pw-msgs"><div class="pw-msg"><div class="pw-msg-meta">Styret · til alle beboere</div>Stillas ved inngang B, uke 20–25. Balkonger ryddes før 12. mai.</div></div>
+                  <div><span class="pw-tag pw-tag--illustration">Illustrasjon av arbeidsflyt</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="pw-value">Færre møter, bedre beslutningsgrunnlag og mindre manuelt styrearbeid.</p>
+          <a class="pw-cta" href="/styret">Utforsk ERA Styret</a>
+        </div>
+
+        <div class="pw-card" style="opacity: {{ pwC2Op }}; transform: {{ pwC2Ty }}">
+          <div class="pw-card-head"><h3>ERA Håndverker</h3><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+          <p class="pw-promise">Jobben er forstått før forespørselen kommer.</p>
+          <div class="pw pw--compact">
+            <div class="pw-bar">
+              <span class="pw-brand">era<span>.</span></span>
+              <span class="pw-app pw-app--handverker">ERA Håndverker</span>
+              <span class="pw-ctx">Borgveien 14</span>
+              <span class="pw-bar-right"><span class="pw-chip">Eksempeldata</span></span>
+            </div>
+            <div class="pw-body">
+              <div class="pw-grid">
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Kvalifisert innboks</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px 10px; flex-wrap: wrap">
+                    <div style="font-size: 15px; font-weight: 800; letter-spacing: -0.01em">Male stue · 42 m²</div>
+                    <span class="pw-tag pw-tag--pro">Maler</span>
+                  </div>
+                  <div style="font-size: 12.5px; line-height: 1.4; color: #5E6472">Borgveien 14 · uke 38–40 · 4 bilder vedlagt</div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Bilder, mål og omfang</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Vegger</span><b>2 strøk · ca. 42 m² <span class="pw-tag pw-tag--ai">ERA-forslag</span></b></div>
+                    <div class="pw-row"><span>Forbehandling</span><b>Lett sparkling <span class="pw-tag pw-tag--check">Avklares på befaring</span></b></div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Befaring og kalkyle</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Materialer</span><b>2 × 10 L maling · 1 × 5 kg sparkel</b></div>
+                    <div class="pw-row"><span>Kundens estimat</span><b>ca. 6 800 kr</b></div>
+                  </div>
+                </div>
+                <div class="pw-widget">
+                  <div class="pw-widget-title">Tilbud</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Tilbudsutkast</span><b>Sendes når du har godkjent <span class="pw-tag pw-tag--wait">Utkast</span></b></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Kontrakt og endringer</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Kontrakt</span><b><span class="pw-tag pw-tag--ok">Godkjent</span></b></div>
+                    <div class="pw-row"><span>Endringsordre</span><b>Også male taket · +ca. 1 800 kr, +1 dag <span class="pw-tag pw-tag--wait">Venter godkjenning</span></b></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Dokumentasjon</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Overlevering</span><b>Vegger og tak, 2 strøk · 6 bilder</b></div>
+                    <div class="pw-row"><span>Produkter</span><b>Maling, sparkel, ruller</b></div>
+                    <div class="pw-row"><span>Status</span><b><span class="pw-tag pw-tag--ok">Overlevert</span></b></div>
+                  </div>
+                </div>
+                <div class="pw-widget pw-desk">
+                  <div class="pw-widget-title">Fakturagrunnlag og utbetaling</div>
+                  <div class="pw-rows">
+                    <div class="pw-row"><span>Grunnlag</span><b>Godkjent tilbud, endringsordre og overlevering</b></div>
+                  </div>
+                  <div><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="pw-value">Mindre administrasjon, færre unødvendige befaringer og raskere vei fra forespørsel til betalt jobb.</p>
+          <a class="pw-cta" href="/handverker">Utforsk ERA Håndverker</a>
+        </div>
+
+      </div>
+      <div style="margin-top: clamp(36px, 5vh, 56px); opacity: {{ pwChainOp }}; transform: {{ pwChainTy }}">
+        <div class="pw-chain">
+          <div class="pw-chain-step"><div class="who">ERA Bolig</div><div class="what">Behovet oppdages og beskrives</div></div>
+          <div class="pw-chain-step"><div class="who">ERA Styret</div><div class="what">Tiltaket prioriteres og besluttes når det gjelder felleseiendommen</div></div>
+          <div class="pw-chain-step"><div class="who">ERA Håndverker</div><div class="what">Jobben kalkuleres, tilbys og gjennomføres</div></div>
+          <div class="pw-chain-step pw-chain-step--end"><div class="who">Boligens historikk</div><div class="what">Arbeidet, produktene, kostnaden og garantiene dokumenteres</div></div>
+        </div>
+        <p style="margin: 28px 0 0; max-width: 760px; font-size: clamp(20px, 2vw, 24px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; text-wrap: balance">Neste gang ERA hjelper, starter vi ikke på nytt. Boligen husker det som allerede er gjort.</p>
+        <div class="pw-legend" style="margin-top: 18px">
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--beta">Kontrollert beta</span><span class="note">åpent for 300 boligeiere, gratis i betaperioden</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--pilot">I pilot</span><span class="note">under utprøving, registrering er åpen</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--illustration">Illustrasjon av arbeidsflyt</span><span class="note">viser en tenkt flyt, ikke ferdig funksjon</span></span>
+          <span class="note">Statusene viser hva som er åpent i dag. De øvrige merkene i vinduene viser hvor hvert felt kommer fra: dokumentert, ERA-forslag eller noe som avklares.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 3 · ERA SER — WIDE arkitektonisk, dagslys, hus til høyre -->
-  <section id="hva" ref="{{ refSee }}" data-theme="dark" style="position: relative; height: {{ h_see }}; background: #0F1830" data-screen-label="03 ERA ser" aria-label="ERA forstår hva som betyr noe">
+  <section id="ser" ref="{{ refSee }}" data-theme="dark" style="position: relative; height: {{ h_see }}; background: #0F1830" data-screen-label="03 ERA ser" aria-label="ERA forstår hva som betyr noe">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <img loading="lazy" decoding="async" src="/assets/story/roof-detail-v3.jpg" srcset="/assets/story/roof-detail-v3-m.jpg 1400w, /assets/story/roof-detail-v3.jpg 3000w" sizes="100vw" alt="Byggets fasade, tak og vinduer — sett fra balkongen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ seePos }}; transform: translateZ(0); backface-visibility: hidden">
       <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.5) 34%, rgba(15,24,48,0.08) 60%, transparent 100%)"></div>
@@ -467,8 +725,8 @@
           <span style="position: absolute; left: 0; top: 0; width: {{ s.lineW }}; height: 1px; background: rgba(212,177,122,0.8); transform-origin: 0 0; transform: rotate({{ s.lineRot }})"></span>
           <div style="position: absolute; left: {{ s.lx }}; top: {{ s.ly }}; width: 224px; padding: 14px 16px; border-radius: 12px; background: rgba(255,253,248,0.97); box-shadow: 0 24px 60px rgba(15,24,48,0.35)">
             <div style="font-size: 15px; font-weight: 700; color: #131E3A">{{ s.name }}</div>
-            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12.5px"><span style="color: #8A8579">{{ s.k1 }}</span><span style="font-weight: 600; color: #131E3A">{{ s.v1 }}</span></div>
-            <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 12.5px"><span style="color: #8A8579">{{ s.k2 }}</span><span style="font-weight: 600; color: {{ s.c2 }}">{{ s.v2 }}</span></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12.5px"><span style="color: #6E6A5E">{{ s.k1 }}</span><span style="font-weight: 600; color: #131E3A">{{ s.v1 }}</span></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 12.5px"><span style="color: #6E6A5E">{{ s.k2 }}</span><span style="font-weight: 600; color: {{ s.c2 }}">{{ s.v2 }}</span></div>
           </div>
         </div>
       </sc-for>
@@ -490,7 +748,10 @@
       </div>
       <div style="position: absolute; right: clamp(24px, 6vw, 90px); bottom: 6vh; width: min(260px, 82vw); padding: 22px 24px; border-radius: 24px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ healthCardOp }}; transform: {{ healthCardTy }}; display: {{ healthCardDisplay }}">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
-          <div style="font-size: 14.5px; font-weight: 700; letter-spacing: -0.01em; color: #131E3A; max-width: 150px">Eiendommens helsetilstand</div>
+          <div style="max-width: 150px">
+            <div style="font-size: 14.5px; font-weight: 700; letter-spacing: -0.01em; color: #131E3A">Eiendommens helsetilstand</div>
+            <span class="pw-where" style="margin-top: 8px; white-space: normal; line-height: 1.3">Synlig for ERA Styret</span>
+          </div>
           <div style="position: relative; width: 56px; height: 56px; flex: none">
             <svg width="56" height="56" viewBox="0 0 56 56">
               <circle cx="28" cy="28" r="24" fill="none" stroke="#EFEAE0" stroke-width="6"></circle>
@@ -503,9 +764,10 @@
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C0483A"></span><span style="color: #131E3A">2 høy risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #B0935F"></span><span style="color: #131E3A">4 middels risiko</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63"></span><span style="color: #131E3A">8 ok</span></div>
-          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #8A8579">1 ikke vurdert</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #6E6A5E">1 ikke vurdert</span></div>
         </div>
-        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
+        <div style="margin-top: 12px; font-size: 11px; color: #6E6A5E; opacity: {{ healthCtaOp }}">Eksempeldata</div>
+        <a href="#prioriter" style="display: block; margin-top: 6px; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
       </div>
     </div>
   </section>
@@ -566,9 +828,10 @@
       </div>
       <div class="era-short-hide" style="position: absolute; left: {{ planLeft }}; right: {{ planRight }}; top: {{ planTop }}; bottom: {{ planBottom }}; transform: {{ planBaseTy }} {{ magicPlanTy }}; width: {{ planWidth }}; padding: {{ planPad }}; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
         <div style="height: 88px; margin-bottom: 14px; border-radius: 12px; overflow: hidden"><img loading="lazy" decoding="async" src="/assets/story/livingroom-wall-v3.jpg" srcset="/assets/story/livingroom-wall-v3-m.jpg 1400w, /assets/story/livingroom-wall-v3.jpg 3000w" sizes="100vw" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%"></div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
+        <div style="display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; margin-bottom: 12px">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F">Plan · Male stua</div>
-          <div style="font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14</div>
+          <span class="pw-where">I ERA Bolig</span>
+          <div style="margin-left: auto; font-size: 12px; color: #9A968C; font-family: 'JetBrains Mono', monospace">Borgveien 14 · Eksempeldata</div>
         </div>
         <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0 12px; border-bottom: 1px solid #EFEAE0">
           <span style="width: 22px; height: 22px; border-radius: 6px; background: {{ wallPaint }}; border: 1px solid rgba(19,30,58,0.1)"></span>
@@ -577,7 +840,7 @@
         <div style="display: flex; flex-direction: column">
           <sc-for list="{{ planRows }}" as="r" hint-placeholder-count="5">
             <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid #EFEAE0; opacity: {{ r.op }}; transform: {{ r.ty }}">
-              <span style="font-size: 14.5px; color: #8A8579">{{ r.k }}</span>
+              <span style="font-size: 14.5px; color: #6E6A5E">{{ r.k }}</span>
               <span style="font-size: 17px; font-weight: 700; font-family: 'JetBrains Mono', monospace">{{ r.v }}</span>
             </div>
           </sc-for>
@@ -585,17 +848,17 @@
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; opacity: {{ magicDoneOp }}">
           <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
-            <button type="button" data-detail="plan" aria-expanded="{{ detailPlanExpanded }}" aria-controls="detail-plan" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se planen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailPlanChev }}">⌄</span></button>
-            <a href="#partnere" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
+            <button type="button" data-detail="plan" aria-expanded="{{ detailPlanExpanded }}" aria-controls="detail-plan" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se planen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailPlanChev }}">⌄</span></button>
+            <a href="#partnere" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
             <a href="#handverker" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Få hjelp</a>
           </div>
         </div>
         <div id="detail-plan" style="display: {{ detailPlanDisplay }}; {{ detailSheet }}; margin-top: 14px; padding: 12px 14px 4px; border-radius: 14px; background: #F7F4EE">
           <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Planen i detalj<button type="button" data-detail="plan" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Forarbeid</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vask, lett sparkling, maskering</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Maling</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">2 strøk, 2 × 10 L</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Neste påminnelse</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vinduer · tetningslister, høst 2026</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Energi og forbedringer</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Etterisolering, varmepumpe <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">Planlagt</span></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Forarbeid</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vask, lett sparkling, maskering</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Maling</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">2 strøk, 2 × 10 L</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Neste påminnelse</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vinduer · tetningslister, høst 2026</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Energi og forbedringer</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Etterisolering, varmepumpe <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">Planlagt</span></span></div>
         </div>
       </div>
     </div>
@@ -649,6 +912,7 @@
       <div style="position: relative">
         <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">A · Gjør det selv</div>
+          <span class="pw-where">I ERA Bolig</span>
           <div style="display: {{ comCatDisplay }}; gap: 5px; flex-wrap: wrap">
             <sc-for list="{{ comCatChips }}" as="cc" hint-placeholder-count="6">
               <span style="padding: 4px 9px; border-radius: 999px; border: 1px solid rgba(19,30,58,0.14); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5E6472; opacity: {{ cc.op }}">{{ cc.label }}</span>
@@ -671,15 +935,16 @@
         </div>
         <div id="detail-products" style="display: {{ detailProductsDisplay }}; {{ detailSheet }}; max-width: 420px; margin-top: 12px; padding: 12px 14px 4px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3DDD0">
           <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Produktvalg og pris<button type="button" data-detail="products" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Interiørmaling 10 L × 2</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 300 kr</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Sparkel, ruller, pensler, maskering</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 600 kr</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Materialer, gjør det selv</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 900 kr</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Med håndverker (planens estimat)</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 6 800 kr</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Betaling i ERA</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Bestilling og avtalt tid samlet <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">I pilot</span></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Interiørmaling 10 L × 2</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 300 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Sparkel, ruller, pensler, maskering</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 600 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Materialer, gjør det selv</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 1 900 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Med håndverker (planens estimat)</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 6 800 kr</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Betaling i ERA</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Bestilling og avtalt tid samlet <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">I pilot</span></span></div>
         </div>
-        <div style="margin-top: 12px"><button type="button" data-detail="products" aria-expanded="{{ detailProductsExpanded }}" aria-controls="detail-products" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se produktvalg <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailProductsChev }}">⌄</span></button></div>
+        <div style="margin-top: 10px; font-size: 11px; color: #6E6A5E">Eksempeldata · mengder beregnet for 42 m², to strøk</div>
+        <div style="margin-top: 12px"><button type="button" data-detail="products" aria-expanded="{{ detailProductsExpanded }}" aria-controls="detail-products" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se produktvalg <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailProductsChev }}">⌄</span></button></div>
         <div style="margin-top: 26px; opacity: {{ comDeliveryOp }}; transform: {{ comDeliveryTy }}">
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8579; margin-bottom: 10px">Levering</div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6E6A5E; margin-bottom: 10px">Levering</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
             <span style="padding: 10px 16px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 13.5px; font-weight: 600">Lever hjem</span>
             <span style="padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E3DDD0; font-size: 13.5px; font-weight: 600">Hent i butikk</span>
@@ -729,10 +994,11 @@
             <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em">{{ jobTitle }}</div>
             <span style="padding: 5px 10px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 11px; font-weight: 700; white-space: nowrap">{{ jobTrade }}</span>
           </div>
-          <div style="margin-top: 3px; font-size: 13px; color: #8A8579">{{ jobMeta }}</div>
+          <div style="margin-top: 3px; font-size: 13px; color: #6E6A5E">{{ jobMeta }}</div>
+          <div style="margin-top: 8px"><span class="pw-where">Sendt til ERA Håndverker</span></div>
           <div style="display: flex; flex-direction: column; margin-top: 12px">
             <sc-for list="{{ jobRows }}" as="j" hint-placeholder-count="3">
-              <div style="display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #EFEAE0; font-size: 13.5px; opacity: {{ j.op }}"><span style="color: #8A8579">{{ j.k }}</span><span style="font-weight: 600">{{ j.v }}</span></div>
+              <div style="display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #EFEAE0; font-size: 13.5px; opacity: {{ j.op }}"><span style="color: #6E6A5E">{{ j.k }}</span><span style="font-weight: 600">{{ j.v }}</span></div>
             </sc-for>
           </div>
           <div style="display: flex; gap: 10px; margin-top: 14px; opacity: {{ proBtnOp }}">
@@ -783,7 +1049,7 @@
           </div>
           <div style="font-size: clamp(18px, 2vw, 24px); font-weight: 800; letter-spacing: -0.02em; color: #FFFFFF; text-shadow: 0 2px 24px rgba(15,24,48,0.6)">Jobben er ferdig.<br>Boligen er oppdatert.</div>
         </div>
-        <div style="position: absolute; left: 20px; top: 20px; pointer-events: none; padding: 9px 14px; border-radius: 999px; background: rgba(255,253,248,0.92); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center; opacity: {{ memYearOp }}">{{ memYear }}<span style="font-family: 'Schibsted Grotesk', sans-serif; font-size: 12px; color: #8A8579">{{ memSeason }}</span></div>
+        <div style="position: absolute; left: 20px; top: 20px; pointer-events: none; padding: 9px 14px; border-radius: 999px; background: rgba(255,253,248,0.92); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center; opacity: {{ memYearOp }}">{{ memYear }}<span style="font-family: 'Schibsted Grotesk', sans-serif; font-size: 12px; color: #6E6A5E">{{ memSeason }}</span></div>
         <div style="position: absolute; left: 20px; right: 20px; bottom: 20px; pointer-events: none; display: flex; gap: 8px; flex-wrap: wrap">
           <sc-for list="{{ memDocs }}" as="d" hint-placeholder-count="4">
             <span style="padding: 8px 14px; border-radius: 999px; background: rgba(19,30,58,0.85); color: #F7F4EE; font-size: 12.5px; font-weight: 600; opacity: {{ d.op }}; transform: {{ d.ty }}">{{ d.label }}</span>
@@ -791,7 +1057,10 @@
         </div>
       </div>
       <div style="position: relative; display: flex; flex-direction: column; justify-content: center">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F; margin-bottom: 22px">Dokumenter verdien</div>
+        <div style="display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; margin-bottom: 22px">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #B0935F">Dokumenter verdien</div>
+          <span class="pw-where">Oppdatert i boligens historikk</span>
+        </div>
         <div style="position: relative; padding-left: 36px">
           <div style="position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: #E3DDD0"></div>
           <div style="position: absolute; left: 9px; top: 6px; width: 2px; height: {{ memLineH }}; background: #B0935F"></div>
@@ -810,13 +1079,13 @@
         </div>
         <div id="detail-docs" style="display: {{ detailDocsDisplay }}; {{ detailSheet }}; margin-top: 12px; padding: 12px 14px 4px; border-radius: 14px; background: #F7F4EE">
           <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B0935F; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center">Dokumentasjonen · Male stua<button type="button" data-detail="docs" aria-label="Lukk" style="display: {{ detailCloseDisplay }}; pointer-events: auto; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #131E3A; font: inherit; font-size: 16px; line-height: 1; cursor: pointer">×</button></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Utført</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vegger 42 m², 2 strøk · 2026</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Produkter</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Interiørmaling, farge og mengde</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Kvittering og bilder</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Før og etter, lagret på boligen</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Utført av</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Deg selv, eller håndverker med navn</span></div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Vedlikeholdsplan</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Oppdatert: neste kontroll høst 2026</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Utført</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Vegger 42 m², 2 strøk · 2026</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Produkter</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Interiørmaling, farge og mengde</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Kvittering og bilder</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Før og etter, lagret på boligen</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Utført av</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Deg selv, eller håndverker med navn</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #6E6A5E">Vedlikeholdsplan</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Oppdatert: neste kontroll høst 2026</span></div>
         </div>
-        <div style="margin-top: 14px"><button type="button" data-detail="docs" aria-expanded="{{ detailDocsExpanded }}" aria-controls="detail-docs" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se dokumentasjonen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailDocsChev }}">⌄</span></button></div>
+        <div style="margin-top: 14px"><button type="button" data-detail="docs" aria-expanded="{{ detailDocsExpanded }}" aria-controls="detail-docs" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se dokumentasjonen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailDocsChev }}">⌄</span></button></div>
 
       </div>
     </div>
@@ -868,7 +1137,7 @@
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.9) 0%, rgba(19,30,58,0.7) 36%, rgba(19,30,58,0.2) 62%, rgba(19,30,58,0.1) 100%)"></div>
       <div style="position: absolute; right: {{ boardGridRight }}; left: {{ boardGridLeft }}; top: {{ boardGridTop }}; transform: {{ boardGridTy }}; width: {{ boardGridW }}; height: {{ boardGridH }}; display: flex; align-items: center; justify-content: center; pointer-events: none">
         <div style="position: absolute; width: 200px; height: 200px; border-radius: 22px; overflow: hidden; transform: scale({{ boardOneScale }}); opacity: {{ boardOneOp }}; box-shadow: 0 30px 80px rgba(0,0,0,0.5)">
-          <img loading="lazy" decoding="async" src="/assets/story/bathroom-v3.jpg" srcset="/assets/story/bathroom-v3-m.jpg 1400w, /assets/story/bathroom-v3.jpg 3000w" sizes="100vw" alt="Én bolig" style="width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%">
+          <img loading="lazy" decoding="async" src="/assets/story/bathroom-v3.jpg" srcset="/assets/story/bathroom-v3-m.jpg 1400w, /assets/story/bathroom-v3.jpg 3000w" sizes="100vw" alt="Et pusset opp bad — én av mange boliger i bygget" style="width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%">
         </div>
         <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px; opacity: {{ boardGridOp }}">
           <sc-for list="{{ boardUnits }}" as="u" hint-placeholder-count="18">
@@ -882,12 +1151,13 @@
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ boardTextTop }}; bottom: {{ boardTextBottom }}; transform: {{ boardTextTy }}; max-width: 460px; opacity: {{ boardHeadOp }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 16px">For styret · Samme eiendom</div>
         <h2 style="margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: #FFFFFF; text-wrap: balance; transform: {{ boardHeadTy }}">Boligen din stopper ikke ved ytterdøren.</h2>
-        <div class="era-short-hide" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px">
+        <div class="era-short-hide era-tiny-hide" style="margin-top: 16px"><span class="pw-where pw-where--dark">Synlig for ERA Styret</span></div>
+        <div class="era-short-hide" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px">
           <sc-for list="{{ boardChips }}" as="bc" hint-placeholder-count="6">
             <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.18); color: rgba(247,244,238,0.85); font-size: 13px; font-weight: 600; opacity: {{ bc.op }}">{{ bc.label }}</span>
           </sc-for>
         </div>
-        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}; display: {{ partnerNoteDisplay }}"><b style="color: #FFFFFF">Styret skifter. Planen består.</b> Fasaden males i 2027, 1,2 millioner fordelt på 24 seksjoner, med tilbud fra håndverker som allerede har fått jobben beskrevet. Vedtaket tar ti minutter, ikke to møter.</p>
+        <p style="margin: 22px 0 0; max-width: 420px; font-size: 16px; line-height: 1.45; color: rgba(247,244,238,0.85); opacity: {{ boardCtaOp }}; display: {{ partnerNoteDisplay }}"><b style="color: #FFFFFF">Styret skifter. Planen består.</b> Fasaden males i 2027, 1,0–1,3 mill fordelt på 24 seksjoner, med tilbud fra håndverkere som alle har fått samme jobb beskrevet. Styret vedtar på ett samlet grunnlag, ikke på tre ulike beskrivelser.</p>
         <a href="#start" data-board="1" style="display: inline-flex; align-items: center; margin-top: 22px; height: 44px; padding: 0 20px; border-radius: 999px; background: #D4B17A; color: #131E3A; font-size: 14.5px; font-weight: 700; opacity: {{ boardCtaOp }}" style-hover="background: #E2C48F; color: #131E3A">Se planen for eiendommen →</a>
         <a href="/styret" class="era-link" style="margin: 22px 0 0 18px; font-size: 14.5px; font-weight: 600; color: rgba(247,244,238,0.8); opacity: {{ boardCtaOp }}" style-hover="color: #FFFFFF">Mer for styret →</a>
       </div>
@@ -1017,6 +1287,7 @@
             </div>
           </div>
           <div style="font-size: 13.5px; color: rgba(247,244,238,0.7); display: {{ leadErrorDisplay }}">{{ leadError }}</div>
+          <a href="{{ finPilotHref }}" rel="noopener" class="era-link" style="font-size: 15px; font-weight: 700; color: #D4B17A" style-hover="color: #FFFFFF">{{ finPilotLabel }}</a>
           <a href="/om-era" class="era-link" style="display: {{ finOmDisplay }}; gap: 8px; font-size: 15px; font-weight: 600; color: #F7F4EE" style-hover="color: #D4B17A"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #D4B17A">OM ERA</span>Et agentisk system for hele boligens livsløp →</a>
           <a href="{{ finLinkHref }}" class="era-link" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">{{ finLinkLabel }}</a>
         </div>
@@ -1161,7 +1432,7 @@ class Component extends DCLogic {
     const render = () => {
       if (!items.length) { close(); return; }
       place();
-      box.innerHTML = items.map((it, i) => `<div role="option" id="era-addr-${i}" data-i="${i}" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:${i === active ? '#F7F4EE' : '#FFFFFF'};border-top:${i ? '1px solid #EFEAE0' : '0'}"><div>${it.text}</div><div style="margin-top:2px;font-size:12.5px;color:#8A8579">${it.sub}</div></div>`).join('');
+      box.innerHTML = items.map((it, i) => `<div role="option" id="era-addr-${i}" data-i="${i}" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:${i === active ? '#F7F4EE' : '#FFFFFF'};border-top:${i ? '1px solid #EFEAE0' : '0'}"><div>${it.text}</div><div style="margin-top:2px;font-size:12.5px;color:#6E6A5E">${it.sub}</div></div>`).join('');
       box.style.display = 'block';
       input.setAttribute('aria-expanded', 'true');
       if (active >= 0) input.setAttribute('aria-activedescendant', 'era-addr-' + active); else input.removeAttribute('aria-activedescendant');
@@ -1288,8 +1559,8 @@ class Component extends DCLogic {
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) activeNav = id;
     });
     const chapMap = document.body.getAttribute('data-page') === 'om-era'
-      ? { about: 0, frag: 0, loop: 1, close: 1, shift: 2, tech: 3, vision: 4, team: 5, finale: 5 }
-      : { door: 0, home: 0, chaos: 1, see: 1, prio: 1, magic: 2, choice: 2, commerce: 2, pro: 2, trust: 2, memory: 3, whole: 3, board: 4, split: 4, finale: 4 };
+      ? { about: 0, frag: 0, arch: 1, loop: 2, close: 2, shift: 3, tech: 4, vision: 5, team: 6, finale: 6 }
+      : { door: 0, home: 0, chaos: 0, product: 1, see: 2, prio: 2, magic: 3, choice: 3, commerce: 3, pro: 3, trust: 3, memory: 4, whole: 4, board: 5, split: 5, finale: 5 };
     let chapter = 0;
     Object.keys(chapMap).forEach((k) => {
       const el = this.pinRefs[k];
@@ -1351,8 +1622,8 @@ class Component extends DCLogic {
       .filter(([id]) => !(id === 'jotun' && onEraApp))
       .map(([id, label, href]) => ({ href, label, op: this.state.activeNav && this.state.activeNav !== id ? 0.7 : 1, markOp: this.state.activeNav === id ? 1 : 0 }));
     const chapData = onOm
-      ? [['#om-era', 'Om ERA'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
-      : [['#hjem', 'Hjemmet'], ['#forsta', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
+      ? [['#om-era', 'Om ERA'], ['#arkitektur', 'Produktet'], ['#sloyfen', 'Sløyfen'], ['#reisen', 'Reisen'], ['#teknologi', 'Teknologi'], ['#visjon', 'Visjon'], ['#menneskene', 'Menneskene']]
+      : [['#hjem', 'Hjemmet'], ['#hva', 'Selve produktet'], ['#ser', 'Forstå boligen'], ['#boligeier', 'Gjennomfør tiltak'], ['#husk', 'Dokumenter verdien'], ['#styret', 'Hele eiendommen']];
     const chapters = chapData.map(([href, label], i) => {
       const active = i === this.state.chapter;
       return { href, label, labelOp: active ? 1 : 0, dot: active ? '#D4B17A' : (dark ? 'rgba(247,244,238,0.35)' : 'rgba(19,30,58,0.25)'), glow: active ? '0 0 0 5px rgba(212,177,122,0.25)' : 'none', lineOp: i === chapData.length - 1 ? 0 : 1 };
@@ -1370,9 +1641,9 @@ class Component extends DCLogic {
       { kind: 'FDV', title: 'Vinduer · Nordan', meta: 'Garanti til 2029', x: -400, y: 60, rot: 3, w: '180px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1 },
       { img: RS.chaosBath || 'assets/story/bathroom.jpg', imgH: '120px', imgPos: '50% 45%', kind: 'BILDE', title: 'Bad etter rehab', meta: 'IMG_4471.jpg', x: 350, y: 40, rot: -6, w: '190px', scale: 1, keep: 1, shadow: shadowLg, z: 3 },
       { kind: 'SMS', title: '«Kan komme torsdag»', meta: 'Elektriker · i går', x: -230, y: 220, rot: 6, w: '200px', scale: 0.9, keep: 0, shadow: shadowSm, z: 1, bg: '#E9F3E6' },
-      { kind: 'KVITTERING', title: 'Byggmakker', meta: 'kr 8 420 · 14.05.2024', x: 240, y: 230, rot: -7, w: '150px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1, font: "'JetBrains Mono', monospace", titleSize: '13px', titleWeight: 500 },
+      { kind: 'KVITTERING', title: 'Byggmakker', meta: 'kr 8 420 · 14.05.2024', x: 240, y: 230, rot: -7, w: '150px', scale: 0.9, keep: 1, shadow: shadowSm, z: 1, font: "'JetBrains Mono', monospace", titleSize: '13px', titleWeight: 500 },
       { kind: 'NOTAT', title: 'Bør sjekke takrenner før vinteren', meta: '— Håndverker', x: 30, y: -250, rot: 2, w: '220px', scale: 1, keep: 1, shadow: shadowMd, z: 2, bg: '#F6EFD9', font: "'Caveat', cursive", titleSize: '20px', titleWeight: 500 },
-      { img: RS.chaosPhone || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
+      { img: RS.chaosPhone || 'uploads/ref05-phone-sharp.png', imgH: '150px', imgPos: '50% 25%', kind: 'SKJERMBILDE', title: 'Tilbud · 37 400 kr', meta: 'Fasademaling', x: 0, y: 250, rot: -2, w: '150px', scale: 0.95, keep: 1, shadow: shadowMd, z: 2 },
       { kind: 'PDF · DUPLIKAT', title: 'Tilstandsrapport 2021', meta: 'kopi (2)', x: -80, y: 20, rot: 9, w: '190px', scale: 0.85, keep: 0, shadow: shadowSm, z: 0 }
     ];
     const chaosVw = window.innerWidth, chaosScale = chaosVw < 600 ? 0.72 : chaosVw < 900 ? 0.86 : 1, chaosK = Math.min(1, chaosVw / 1100), chaosKy = Math.min(1, window.innerHeight / 820);
@@ -1386,7 +1657,7 @@ class Component extends DCLogic {
         tx: `${Math.max(-chaosMaxX(it), Math.min(chaosMaxX(it), it.x * chaosK * k))}px`, ty: `${it.y * chaosKy * k}px`, rot: `${it.rot * k}deg`, scale: it.scale * chaosScale, w: it.w, op: appear * (1 - gather) * noise,
         bg: it.bg || white, shadow: it.shadow, z: it.z, pad: '0', textPad: '14px 16px', radius: it.img ? '14px' : '12px',
         font: it.font || 'inherit', titleSize: it.titleSize || '14px', titleWeight: it.titleWeight || 600,
-        fg: '#131E3A', kindColor: '#B0935F', metaColor: '#8A8579'
+        fg: '#131E3A', kindColor: '#B0935F', metaColor: '#6E6A5E'
       };
     });
 
@@ -1408,7 +1679,7 @@ class Component extends DCLogic {
     const prioCloudOp = seg(p, 0.05, 0.38, 0.06), prioListOp = seg(p, 0.48, 0.72, 0.06), prioHeadOp = seg(p, 0.82, 1, 0.06);
 
     const m = g('magic');
-    const planData = [['Vegg', '42 m²'], ['Forbehandling', 'Lett sparkling'], ['Strøk', '2'], ['Tid', '1–2 dager'], ['Estimert kostnad', 'ca. 6 800 kr']];
+    const planData = [['Vegg', '42 m²'], ['Forbehandling', 'Lett sparkling'], ['Strøk', '2'], ['Tid', '1–2 dager'], ['Estimert kostnad', 'ca. 6 800 kr']];
     const planRows = planData.map(([k, v], i) => { const op = seg(m, 0.42 + i * 0.08, 1, 0.05); return { k, v, op, ty: ty(op, 12) }; });
     const wallHighlight = seg(m, 0.24, 0.42, 0.05);
     const wallPaintOp = ease(ramp(m, 0.36, 0.56)) * 0.92;
@@ -1449,9 +1720,9 @@ class Component extends DCLogic {
     const proState = pr >= 0.62 ? 2 : pr >= 0.42 ? 1 : 0;
     const proShot1Op = seg(pr, 0.42, 0.62, 0.05), proShot2Op = seg(pr, 0.64, 1, 0.05);
     const jobCards = [
-      { title: 'Male stue · 42 m²', meta: 'Borgveien 14 · 4 bilder vedlagt', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
-      { title: 'Lekkasje under kjøkkenvask', meta: 'Borgveien 14 · 2 bilder og video', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
-      { title: 'Ny kurs til kjøkken', meta: 'Borgveien 14 · sikringsskap dokumentert', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
+      { title: 'Male stue · 42 m²', meta: 'Borgveien 14 · 4 bilder · Eksempeldata', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
+      { title: 'Lekkasje under kjøkkenvask', meta: 'Borgveien 14 · 2 bilder · Eksempeldata', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
+      { title: 'Ny kurs til kjøkken', meta: 'Borgveien 14 · sikringsskap · Eksempeldata', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
     ];
     const job = jobCards[proState];
     const jobRows = job.rows.map(([k, v], i) => ({ k, v, op: seg(pr, job.at + 0.06 + i * 0.04, 1, 0.03) }));
@@ -1481,7 +1752,7 @@ class Component extends DCLogic {
     const me = g('memory');
     const memBackOp = 1 - ramp(me, 0.12, 0.2);
     const memBackChips = ['Utført arbeid', 'Fagperson', 'Produkter', 'Dato', 'Kostnad', 'Bilder', 'Kvittering', 'Garanti'].map((label, i) => { const op = seg(me, 0.005 + i * 0.012, 0.12, 0.02); return { label, op, ty: ty(op, 10) }; });
-    const memData = [['2026', 'Stua malt — dokumentert', 0.22], ['2028', 'Fasade og balkonger utbedres', 0.4], ['2031', 'Tak og vinduer fornyes', 0.56], ['2036', 'Godt vedlikeholdt — verdien består', 0.7]];
+    const memData = [['2026', 'Stua malt – dokumentert', 0.22], ['2028', 'Fasade og balkonger utbedres', 0.4], ['2031', 'Tak og vinduer fornyes', 0.56], ['2036', 'Godt vedlikeholdt — verdien består', 0.7]];
     const memEvents = memData.map(([year, title, at], i) => {
       const reached = me >= at, op = seg(me, at - 0.02, 1, 0.05);
       return { year, title, op: 0.35 + op * 0.65, dot: reached ? (i < 2 ? '#131E3A' : '#B0935F') : '#E3DDD0', glow: reached && me < at + 0.18 ? '0 0 0 6px rgba(176,147,95,0.2)' : 'none', check: i < 1 && reached ? '✓' : '', fg: reached ? '#131E3A' : '#9A968C' };
@@ -1521,13 +1792,17 @@ class Component extends DCLogic {
     const f = g('finale');
     const finaleByAudience = {
       owner: { finHead: 'Boligeierskap uten gjetting.', finSub: 'Forstå boligen. Prioriter riktig. Gjør det som faktisk trengs.',
-        finField: 'Skriv adressen din', finLabel: 'Adresse', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →' },
+        finField: 'Skriv adressen din', finLabel: 'Adresse', finCta: 'Finn min bolig', finLinkHref: '#styret', finLinkLabel: 'Se ERA for borettslag og sameier →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=homeowner', finPilotLabel: 'Start som boligeier →' },
       board: { finHead: 'Eiendomsforvaltning uten gjetting.', finSub: 'Tilstand, plan og kostnader for hele eiendommen, klar til neste generalforsamling. Planen følger bygget, ikke styret.',
-        finField: 'Adressen til bygget', finLabel: 'Adresse', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Adressen til bygget', finLabel: 'Adresse', finCta: 'Få planen for eiendommen', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=sameie', finPilotLabel: 'Registrer borettslag eller sameie →' },
       pro: { finHead: 'Få oppdrag som er ferdig forstått.', finSub: 'Kvalifiserte kunder med plan og estimat, ferdig beskrevet omfang og materialer som ligger klart. Mindre befaring, mer jobb.',
-        finField: 'Firmanavn eller organisasjonsnummer', finLabel: 'Firma', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' },
+        finField: 'Firmanavn eller organisasjonsnummer', finLabel: 'Firma', finCta: 'Motta oppdrag', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: 'https://pilot.era-app.no/register?entry=contractor', finPilotLabel: 'Start som håndverker →' },
       partner: { finHead: 'Riktige produkter til et faktisk behov.', finSub: 'Ferdig beregnede bestillinger fra boliger og borettslag, levert slik kunden vil ha det. Færre feilkjøp, større prosjekter, uavhengig av kjede.',
-        finField: 'Kjede eller butikk', finLabel: 'Butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →' }
+        finField: 'Kjede eller butikk', finLabel: 'Butikk', finCta: 'Bli partner', finLinkHref: '#boligeier', finLinkLabel: 'Se ERA for boligeiere →',
+        finPilotHref: '/faghandel#skjema', finPilotLabel: 'Utforsk partnerskap med ERA →' }
     };
     const finaleVals = finaleByAudience[this.state.audience] || finaleByAudience.owner;
     if (mobile && this.state.audience === 'owner') finaleVals.finField = 'Adresse';
@@ -1573,7 +1848,7 @@ class Component extends DCLogic {
     const ab = g('about'), abOpen = ease(ramp(ab, 0.04, 0.3)), abFade = ease(ramp(ab, 0.3, 0.48));
     const abLight = 1 - ramp(ab, 0.06, 0.26);
     const abCapDefs = [['Én bolig.', 0.0, 0.1], ['Ett bygg.', 0.13, 0.26], ['Alle boliger.', 0.3, 0.44]];
-    const abCaps = abCapDefs.map(([label, a, b2]) => { const op = seg(ab, a, b2, 0.04); return { label, op, ty: ty(op, 8), fg: abLight > 0.5 && a < 0.1 ? '#8A8579' : 'rgba(247,244,238,0.7)' }; });
+    const abCaps = abCapDefs.map(([label, a, b2]) => { const op = seg(ab, a, b2, 0.04); return { label, op, ty: ty(op, 8), fg: abLight > 0.5 && a < 0.1 ? '#6E6A5E' : 'rgba(247,244,238,0.7)' }; });
     const abVals = {
       abTheme: abLight > 0.5 ? 'light' : 'dark',
       abBg: `rgb(${Math.round(this.mix(15, 255, abLight))}, ${Math.round(this.mix(24, 253, abLight))}, ${Math.round(this.mix(48, 249, abLight))})`,
@@ -1586,7 +1861,7 @@ class Component extends DCLogic {
 
     // 16 · Fragmentert: bitene ligger spredt rundt boligen, og samles.
     const fr = g('frag'), frGatherRaw = ramp(fr, 0.56, 0.78), frGather = frGatherRaw < 1 ? 1 - Math.pow(1 - frGatherRaw, 3) : 1;
-    const frDefs = [['DOKUMENTER', 'Tilstandsrapport', -330, -150, -5, 1], ['VEDLIKEHOLD', 'Plan 2026–2031', 300, -190, 4, 1], ['KVITTERING', 'Byggmakker · 8 420 kr', -380, 40, 3, 1], ['EIENDOM', 'Gnr/bnr · 1962', 330, 40, -5, 1], ['PRODUKT', 'Fugemasse · FDV', -230, 210, 6, 0], ['HÅNDVERKER', '«Kan komme torsdag»', 240, 220, -6, 1], ['BILDER', 'IMG_4471.jpg', 20, -250, 2, 1], ['GARANTI', 'Vinduer · til 2029', -70, 130, -3, 0], ['MELDING', 'Re: Tilbud rørlegger', 60, 260, 5, 0]];
+    const frDefs = [['DOKUMENTER', 'Tilstandsrapport', -330, -150, -5, 1], ['VEDLIKEHOLD', 'Plan 2026–2031', 300, -190, 4, 1], ['KVITTERING', 'Byggmakker · 8 420 kr', -380, 40, 3, 1], ['EIENDOM', 'Gnr/bnr · 1962', 330, 40, -5, 1], ['PRODUKT', 'Fugemasse · FDV', -230, 210, 6, 0], ['HÅNDVERKER', '«Kan komme torsdag»', 240, 220, -6, 1], ['BILDER', 'IMG_4471.jpg', 20, -250, 2, 1], ['GARANTI', 'Vinduer · til 2029', -70, 130, -3, 0], ['MELDING', 'Re: Tilbud rørlegger', 60, 260, 5, 0]];
     const frK = mobile ? 0.32 : 1;
     const frItems = frDefs.map(([kind, label, x, y, rot, keepMobile], i) => {
       const appear = seg(fr, 0.04 + i * 0.03, 0.62, 0.05), k = 1 - frGather;
@@ -1789,10 +2064,24 @@ class Component extends DCLogic {
     });
     const tmVals = { tmPeople, tmHeadOp: mobile ? 1 : seg(tm, 0.05, 1, 0.2), tmHeadTy: ty(mobile ? 1 : seg(tm, 0.05, 1, 0.2), 18), tmBioMinH: mobile ? '0' : '110px' };
 
+    // 16b · Produktarkitektur (/om-era): statisk seksjon avdekket med vis, som teamkapittelet. Mobil viser alt med en
+    // gang; redusert bevegelse håndteres av update() (vis hopper til 1 når seksjonen er i bildet).
+    const ar = gv('arch');
+    const arIn = (a) => mobile ? 1 : seg(ar, a, 1, 0.2);
+    const arHeadOp = arIn(0.05), arDiagOp = arIn(0.15), arTilesOp = arIn(0.25), arFlowOp = arIn(0.33);
+    const arVals = { arHeadOp, arHeadTy: ty(arHeadOp, 18), arDiagOp, arDiagTy: ty(arDiagOp, 18), arTilesOp, arTilesTy: ty(arTilesOp, 18), arFlowOp, arFlowTy: ty(arFlowOp, 14) };
+
     // Finale forlenges med Om ERA-sluttfrasene før logo og skjema (se finVals under).
-    const omVals = { ...abVals, ...frVals, ...lpVals, ...phVals, ...paVals, ...dyVals, ...trVals, ...clVals, ...shVals, ...teVals, ...agVals, ...ecVals, ...viVals, ...tmVals,
-      refAbout: this.ref('about'), refFrag: this.ref('frag'), refLoop: this.ref('loop'), refPhoto: this.ref('photo'), refPath: this.ref('path'), refDiy: this.ref('diy'), refTrade: this.ref('trade'), refClose: this.ref('close'), refShift: this.ref('shift'), refTech: this.ref('tech'), refAgent: this.ref('agent'), refEco: this.ref('eco'), refVision: this.ref('vision'), refTeam: this.ref('team') };
+    const omVals = { ...abVals, ...frVals, ...arVals, ...lpVals, ...phVals, ...paVals, ...dyVals, ...trVals, ...clVals, ...shVals, ...teVals, ...agVals, ...ecVals, ...viVals, ...tmVals,
+      refAbout: this.ref('about'), refFrag: this.ref('frag'), refArch: this.ref('arch'), refLoop: this.ref('loop'), refPhoto: this.ref('photo'), refPath: this.ref('path'), refDiy: this.ref('diy'), refTrade: this.ref('trade'), refClose: this.ref('close'), refShift: this.ref('shift'), refTech: this.ref('tech'), refAgent: this.ref('agent'), refEco: this.ref('eco'), refVision: this.ref('vision'), refTeam: this.ref('team') };
     // ── /OM ERA ─────────────────────────────────────────────────────────────
+
+    // 02b · Selve produktet: static section, revealed with vis (same pattern as the team chapter). Mobile shows
+    // everything at once; reduced motion is handled by update() (vis snaps to 1 when the section is in view).
+    const pd = gv('product');
+    const pwIn = (a) => mobile ? 1 : seg(pd, a, 1, 0.15);
+    const pwHeadOp = pwIn(0.02), pwC0Op = pwIn(0.1), pwC1Op = pwIn(0.18), pwC2Op = pwIn(0.26), pwChainOp = pwIn(0.34);
+    const pwVals = { pwHeadOp, pwHeadTy: ty(pwHeadOp, 18), pwC0Op, pwC0Ty: ty(pwC0Op, 18), pwC1Op, pwC1Ty: ty(pwC1Op, 18), pwC2Op, pwC2Ty: ty(pwC2Op, 18), pwChainOp, pwChainTy: ty(pwChainOp, 14) };
 
     // Mobile pin-duration factor is per-chapter, not one global number: scroll-linked progress (seg/ramp)
     // is already normalized 0–1 within each pinned section, so shortening a chapter's height only cuts
@@ -1828,8 +2117,11 @@ class Component extends DCLogic {
     return {
       refDoor: this.ref('door'), refHome: this.ref('home'), refChaos: this.ref('chaos'), refSee: this.ref('see'), refPrio: this.ref('prio'),
       refMagic: this.ref('magic'), refWhole: this.ref('whole'), refNeeds: this.ref('needs'), refChoice: this.ref('choice'), refCommerce: this.ref('commerce'), refPro: this.ref('pro'), refTrust: this.ref('trust'),
-      refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), ...omVals,
+      refMemory: this.ref('memory'), refBoard: this.ref('board'), refSplit: this.ref('split'), refFinale: this.ref('finale'), refProduct: this.ref('product'), ...pwVals, ...omVals,
       healthScore, healthScoreShown, healthRingDash, healthCardOp, healthCardTy, healthCardDisplay, healthLegendOp, healthLegendTy, healthCtaOp, bathScore, bathScoreShown, bathRingDash, bathCardOp, bathCardTy, bathTextOp, bathTextTy, bathRecOp, bathRecTy, ...finaleVals, ...leadVals, ...menuVals, ...detailVals, ...heights, ...resp, ...themeVals, navOp: navShown ? 1 : 0, navTy: navShown ? 'translateY(0)' : 'translateY(-12px)', navItems, navLinksDisplay: mobile ? 'none' : 'flex',
+      // Faded-out chrome must leave the tab order too: opacity alone keeps the links focusable,
+      // so a keyboard user lands on invisible stops before the story has even started.
+      navVis: navShown ? 'visible' : 'hidden', railVis: navShown && !mobile ? 'visible' : 'hidden',
       chapters, navBlur: mobile ? 'none' : 'blur(18px)', railOp: navShown && !mobile ? 1 : 0, railPe: navShown && !mobile ? 'auto' : 'none', sideImgH: mobile ? '20vh' : (window.innerHeight < 700 ? '54vh' : '62vh'),
       mobProgOp: navShown && mobile ? 1 : 0, mobProgW: `${Math.round((this.state.docPct || 0) * 100)}%`,
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,

@@ -41,18 +41,22 @@
     var intent = intentInput ? intentInput.value : undefined;
     var website = (form.elements.website && form.elements.website.value || "").trim();
     err.hidden = true;
-    if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; return; }
+    var field = form.elements.value;
+    field.removeAttribute("aria-invalid");
+    if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; field.setAttribute("aria-invalid", "true"); err.focus(); return; }
     btn.disabled = true; btn.textContent = "Sender…";
     try {
       var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.href }) });
       var j = await r.json().catch(function () { return {}; });
       if (r.ok && j.ok) {
         form.hidden = true; done.hidden = false;
+        // The form (and the focused button) is gone; move focus to the confirmation instead of body.
+        done.focus();
         requestAnimationFrame(function () { requestAnimationFrame(function () { done.classList.add("drawn"); }); });
       }
-      else { err.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; err.hidden = false; }
+      else { err.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; err.hidden = false; err.focus(); }
     } catch (x) {
-      err.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; err.hidden = false;
+      err.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; err.hidden = false; err.focus();
     }
     btn.disabled = false; btn.textContent = label;
   });
@@ -169,25 +173,46 @@
   nextWord();
 })();
 
-// Five-step story: tabs + prev/next. Only the selected scene is in the DOM flow; arrow keys move
-// between steps; earlier steps get a faint state. The panel is sized to the tallest scene once, so
-// switching tabs never shifts the page.
-(function () {
-  var nav = document.querySelector(".stepnav");
-  if (!nav) return;
+// Tabs: every [role="tablist"] on the page (the five-step .stepnav scenes and the .pw-tabs of
+// product windows) gets the same behaviour. Tabs are its [role="tab"] buttons; panels are resolved
+// from aria-controls. Only the selected panel is in the DOM flow; ArrowLeft/Up/Right/Down/Home/End
+// move between tabs (roving tabindex); earlier tabs get .is-past; the shown panel gets .is-entering.
+// Prev/next buttons with data-dir="-1|1" inside a panel move relative to the current tab. The panels
+// container is data-panels="#id" on the tablist or the closest common ancestor of the panels; when
+// it is .scene-panel or has data-equalize, it is sized to the tallest panel (≥900px only: on phones
+// the tab strip sits above the panel, so equal heights would only add blank space under short
+// panels) so switching never shifts the page. Nested tablists (a window inside a scene) work because
+// each panel only owns the data-dir buttons whose nearest tabpanel is one of its own.
+function initTabs(nav) {
+  if (!nav || nav.dataset.tabsReady) return;
   var tabs = [].slice.call(nav.querySelectorAll('[role="tab"]'));
-  var panelBox = document.querySelector(".scene-panel");
-  var panels = [].slice.call(panelBox.querySelectorAll(".scene"));
+  var panels = tabs.map(function (t) { var id = t.getAttribute("aria-controls"); return id ? document.getElementById(id) : null; });
+  if (!tabs.length || panels.some(function (p) { return !p; })) return;
+  nav.dataset.tabsReady = "1";
+  var box = null;
+  var sel = nav.getAttribute("data-panels");
+  if (sel) { try { box = document.querySelector(sel); } catch (x) { box = null; } }
+  if (!box) {
+    box = panels[0].parentNode;
+    while (box && box !== document.body && !panels.every(function (p) { return box.contains(p); })) box = box.parentNode;
+  }
+  var equal = !!box && (box.classList.contains("scene-panel") || box.hasAttribute("data-equalize"));
   function equalize() {
+    if (!equal) return;
+    if (window.innerWidth < 900) { box.style.minHeight = ""; return; }
     var max = 0;
     panels.forEach(function (p) { var was = p.hidden; p.hidden = false; p.style.visibility = "hidden"; max = Math.max(max, p.offsetHeight); p.style.visibility = ""; p.hidden = was; });
-    panelBox.style.minHeight = max ? max + "px" : "";
+    box.style.minHeight = max ? max + "px" : "";
   }
-  function show(i, focusTab) {
+  function current() {
+    var i = tabs.findIndex(function (t) { return t.getAttribute("aria-selected") === "true"; });
+    return i < 0 ? 0 : i;
+  }
+  function show(i, focusTab, animate) {
     i = Math.max(0, Math.min(tabs.length - 1, i));
     tabs.forEach(function (t, j) { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; t.classList.toggle("is-past", j < i); });
     panels.forEach(function (p, j) { p.hidden = j !== i; p.classList.remove("is-entering"); });
-    void panels[i].offsetWidth; panels[i].classList.add("is-entering");
+    if (animate !== false) { void panels[i].offsetWidth; panels[i].classList.add("is-entering"); }
     if (focusTab) tabs[i].focus();
   }
   tabs.forEach(function (t, i) {
@@ -199,13 +224,18 @@
       else if (e.key === "End") { e.preventDefault(); show(tabs.length - 1, true); }
     });
   });
-  panelBox.querySelectorAll(".scene-nav button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var cur = panels.findIndex(function (p) { return !p.hidden; });
-      show(cur + Number(b.getAttribute("data-dir")), true);
+  if (box) {
+    [].slice.call(box.querySelectorAll("[data-dir]")).forEach(function (b) {
+      if (panels.indexOf(b.closest('[role="tabpanel"]')) < 0) return;
+      b.addEventListener("click", function () { show(current() + Number(b.getAttribute("data-dir")), true); });
     });
-  });
-  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(equalize, 120); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize); else equalize();
-  equalize();
-})();
+  }
+  show(current(), false, false);
+  if (equal) {
+    var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(equalize, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize); else equalize();
+    equalize();
+  }
+}
+window.eraInitTabs = initTabs;
+[].slice.call(document.querySelectorAll('[role="tablist"]')).forEach(initTabs);

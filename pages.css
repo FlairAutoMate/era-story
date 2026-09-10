@@ -2,7 +2,7 @@
 :root {
   --navy: #0F1830; --navy-2: #131E3A; --navy-3: #26344F;
   --warm: #F7F4EE; --paper: #FFFDF9; --sand: #F1EDE4; --line: #E3DDD0;
-  --gold: #D4B17A; --gold-2: #B0935F; --ink: #131E3A; --muted: #5E6472; --muted-2: #8A8579;
+  --gold: #D4B17A; --gold-2: #B0935F; --ink: #131E3A; --muted: #5E6472; --muted-2: #6E6A5E;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -55,7 +55,13 @@ body.menu-open { overflow: hidden; }
 .hero-media { position: absolute; inset: 0; }
 .hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.7) 40%, rgba(15,24,48,0.25) 70%, rgba(15,24,48,0.1) 100%), linear-gradient(180deg, rgba(15,24,48,0.5), transparent 30%, transparent 70%, rgba(15,24,48,0.6)); }
-.hero-text { position: relative; padding: 140px clamp(24px, 7vw, 120px) 80px; max-width: 720px; }
+/* The padding grows with the viewport (7vw) but is subtracted from max-width, so a fixed 720px box
+   left only 518px of text at 1440 and 480px at 1920 — narrower than «vedlikeholdsbehov» set at 72px,
+   which is why overflow-wrap then split it mid-word. The box grows with the viewport instead, so the
+   measure never shrinks as the screen gets bigger; it stays 720px until 900px wide, where it is
+   already the full column. break-word stays as the last resort for a word that genuinely cannot fit
+   (only reachable on the narrowest phones), and never fires while the line has room. */
+.hero-text { position: relative; padding: 140px clamp(24px, 7vw, 120px) 80px; max-width: clamp(720px, 50vw + 240px, 960px); }
 .hero h1 { overflow-wrap: break-word; font-size: clamp(38px, 5.4vw, 72px); color: #fff; text-wrap: balance; margin-top: 18px; text-shadow: 0 4px 40px rgba(15,24,48,0.6); }
 .lede { margin-top: 20px; font-size: clamp(17px, 2vw, 22px); line-height: 1.4; font-weight: 500; color: rgba(247,244,238,0.85); max-width: 600px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 32px; }
@@ -73,6 +79,20 @@ body.menu-open { overflow: hidden; }
 .section.dark h2 { color: #fff; }
 .section.dark .lede { margin-left: auto; margin-right: auto; }
 .lede.light { color: rgba(247,244,238,0.75); }
+
+/* product sections (tools/content_<slug>.py via H.section) and the per-page closing */
+.section[id] { scroll-margin-top: 90px; }
+.section.dark .label { color: var(--gold); }
+.section.dark .steps-intro { margin-left: auto; margin-right: auto; color: rgba(247,244,238,0.75); }
+.wrap > * + .pw, .wrap > * + .pw-groups, .wrap > * + .pw-saves, .wrap > * + .pw-compare, .wrap > * + .pw-results, .wrap > * + .pw-roles, .wrap > * + .pw-chain, .wrap > * + .pw-scenario, .wrap > * + .pw-dashboard, .wrap > * + .pw-grid, .wrap > * + .pw-cols, .wrap > * + .pw-cards, .wrap > * + .pw-arch, .wrap > * + .pw-cta-row, .wrap > * + .pw-flow { margin-top: 32px; }
+.wrap > * + .pw-legend { margin-top: 18px; }
+.wrap > .pw-legend + .pw, .wrap > .pw-legend + .pw-groups, .wrap > .pw-legend + .pw-dashboard { margin-top: 20px; }
+.wrap > .pw + .pw, .wrap > .pw-scenario + .pw, .wrap > .pw + .pw-scenario { margin-top: 24px; }
+.closing .btn { margin-top: 28px; }
+.closing .lead-in { margin-top: 40px; font-size: 16px; font-weight: 600; color: rgba(247,244,238,0.85); }
+.closing .lead-in + .intent { margin-top: 14px; }
+.closing .lead-in + .lead { margin-top: 16px; }
+.closing-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 4px; }
 
 .beta-badge { display: inline-flex; align-items: center; margin-top: 20px; padding: 7px 14px; border-radius: 999px; background: rgba(212,177,122,0.16); border: 1px solid rgba(212,177,122,0.5); color: var(--gold); font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em; }
 .beta-note { margin-top: 10px; font-size: 14.5px; font-weight: 600; color: rgba(247,244,238,0.8); }
@@ -235,7 +255,10 @@ body.menu-open { overflow: hidden; }
 .lead { display: flex; flex-direction: column; gap: 10px; margin: 32px auto 0; width: 520px; max-width: 100%; text-align: left; }
 .lead .lead-pill { display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 22px; border-radius: 999px; background: #fff; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .lead-value-wrap { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
-.lead-value-wrap input { width: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: var(--ink); }
+/* 44px tall so the field is a real target; the pill is already taller than that, so nothing moves. */
+.lead-value-wrap input { width: 100%; min-height: 44px; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: var(--ink); }
+/* The input's own outline is suppressed so the ring can follow the pill instead of the bare field. */
+.lead .lead-pill:focus-within { outline: 2px solid var(--gold); outline-offset: 3px; }
 #lead-typewriter { position: absolute; inset: 0; display: flex; align-items: center; pointer-events: none; background: #fff; font-size: 16px; color: var(--muted-2); white-space: nowrap; overflow: hidden; }
 .field-label { position: absolute; left: 0; top: -20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,244,238,0.65); opacity: 0; transform: translateY(4px); transition: opacity 0.18s ease, transform 0.18s ease; pointer-events: none; white-space: nowrap; }
 #lead-value:focus ~ .field-label, #lead-value:not(:placeholder-shown) ~ .field-label,

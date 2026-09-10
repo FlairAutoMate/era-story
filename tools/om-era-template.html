@@ -26,7 +26,7 @@
       </div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ abTextTop }}; bottom: {{ abTextBottom }}; transform: {{ abTextTy }}; max-width: 760px; pointer-events: none">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px; opacity: {{ abEyeOp }}; transform: {{ abEyeTy }}">Om ERA</div>
-        <h2 style="margin: 0; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6); opacity: {{ abHeadOp }}; transform: {{ abHeadTy }}">Et agentisk system for hele boligens livsløp.</h2>
+        <h1 style="margin: 0; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance; text-shadow: 0 4px 40px rgba(15,24,48,0.6); opacity: {{ abHeadOp }}; transform: {{ abHeadTy }}">Et agentisk system for hele boligens livsløp.</h1>
         <p style="margin: 22px 0 0; max-width: 620px; font-size: clamp(17px, 1.9vw, 23px); line-height: 1.4; font-weight: 500; color: rgba(247,244,238,0.85); text-wrap: balance; opacity: {{ abBodyOp }}; transform: {{ abBodyTy }}">ERA kobler boligdata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt boligen.</p>
         <p style="margin: 26px 0 0; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.3; font-weight: 700; letter-spacing: -0.02em; color: #D4B17A; opacity: {{ abLineOp }}; transform: {{ abLineTy }}">Fra boligdata til handling.<br>Fra handling tilbake til boligen.</p>
       </div>
@@ -65,15 +65,60 @@
     </div>
   </section>
 
-  <!-- 17 · DEN AGENTISKE SLØYFEN -->
-  <section id="sloyfen" ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Den agentiske sløyfen">
+  <!-- 16b · PRODUKTARKITEKTUR — statisk seksjon (padding, ikke sticky): tre arbeidsflater over én bolig- og eiendomsmodell.
+       Bygget av /product.css (.pw-arch) og avdekket med vis.arch (arHeadOp … arFlowOp i skriptet), som teamkapittelet. -->
+  <section id="arkitektur" ref="{{ refArch }}" data-theme="dark" style="position: relative; padding: clamp(80px, 12vh, 140px) clamp(24px, 7vw, 120px); background: #0F1830" data-screen-label="16b Arkitektur" aria-label="Produktarkitektur">
+    <div style="max-width: 1080px; margin: 0 auto">
+      <div style="max-width: 760px; opacity: {{ arHeadOp }}; transform: {{ arHeadTy }}">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A">Produktarkitektur</div>
+        <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4.4vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; color: #FFFFFF; text-wrap: balance">Tre arbeidsflater over samme bolig- og eiendomsmodell.</h2>
+        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: rgba(247,244,238,0.78)">Boligeieren, styret og håndverkeren jobber i hver sin arbeidsflate. Alle leser og skriver mot den samme boligen.</p>
+      </div>
+      <div class="pw-arch" style="margin-top: clamp(36px, 5vh, 56px); opacity: {{ arDiagOp }}; transform: {{ arDiagTy }}">
+        <div class="pw-arch-surfaces">
+          <div class="pw-arch-surface"><div class="name">ERA Bolig</div><div class="role">Forstå boligen, se hva som bør gjøres, få hjelp til å gjennomføre</div><span class="pw-tag pw-tag--beta">Kontrollert beta</span></div>
+          <div class="pw-arch-surface"><div class="name">ERA Styret</div><div class="role">Prioritere, budsjettere og beslutte felles tiltak</div><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+          <div class="pw-arch-surface"><div class="name">ERA Håndverker</div><div class="role">Fra kvalifisert forespørsel til tilbud, gjennomføring og dokumentasjon</div><span class="pw-tag pw-tag--pilot">I pilot</span></div>
+        </div>
+        <div class="pw-arch-model" style="text-align: center"><div class="t">Én bolig- og eiendomsmodell</div><div class="d">Boligprofil · bygningsdeler · tilstand · historikk · dokumentasjon · vedlikeholdsplan</div></div>
+        <div class="pw-arch-services"><span>Faghandel og produkter</span><span>Betaling</span><span>Dokumentasjon og FDV</span><span>Bildeanalyse</span></div>
+        <p style="margin: 12px 0 0; text-align: center; font-size: 12.5px; line-height: 1.4; color: rgba(247,244,238,0.62)">Integrerte tjenester rundt arbeidsflatene</p>
+        <div class="pw-legend" style="justify-content: center; margin-top: 12px">
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--dev">Under utvikling</span><span class="note" style="color: rgba(247,244,238,0.72)">Faghandel og produkter</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--pilot">I pilot</span><span class="note" style="color: rgba(247,244,238,0.72)">Betaling</span></span>
+          <span class="pw-legend-item"><span class="pw-tag pw-tag--beta">Kontrollert beta</span><span class="note" style="color: rgba(247,244,238,0.72)">Dokumentasjon og FDV, bildeanalyse</span></span>
+        </div>
+      </div>
+      <div class="era-arch-tiles" style="margin-top: clamp(36px, 5vh, 56px); opacity: {{ arTilesOp }}; transform: {{ arTilesTy }}">
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Én kilde, ikke kopier</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">Boligdata og historikk lagres én gang i eiendomsmodellen. Arbeidsflatene leser og skriver til samme kilde i stedet for å kopiere informasjon mellom separate siloer.</p>
+        </div>
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Rollebasert tilgang</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">Privat boliginformasjon deles ikke automatisk med styret eller håndverkeren. Boligeieren velger hva som deles. Styret ser fellesarealet, ikke den enkelte bolig.</p>
+        </div>
+        <div style="min-width: 0; padding: 18px 20px; border-radius: 16px; background: rgba(255,253,248,0.06); border: 1px solid rgba(247,244,238,0.14)">
+          <h3 style="margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #FFFFFF">Derfor kaller vi det agentisk</h3>
+          <p style="margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: rgba(247,244,238,0.75)">ERA er agentisk fordi systemet ikke bare lagrer informasjon. Det bruker boligens kontekst til å oppdage behov, foreslå neste steg, forberede handling og føre resultatet tilbake til eiendommens historikk.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: clamp(28px, 4vh, 40px); opacity: {{ arFlowOp }}; transform: {{ arFlowTy }}">
+        <div class="pw-flow pw-flow--dark"><span class="pw-flow-step">Forstå</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">prioritere</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">planlegge</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">bestille</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">gjennomføre</span><span class="pw-flow-arr" aria-hidden="true">→</span><span class="pw-flow-step">dokumentere</span></div>
+        <a href="/#hva" class="era-link" style="font-size: 15px; font-weight: 600; color: #D4B17A" style-hover="color: #FFFFFF">Se arbeidsflatene på forsiden →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 · SLØYFEN RUNDT BOLIGEN -->
+  <section id="sloyfen" ref="{{ refLoop }}" data-theme="dark" style="position: relative; height: {{ h_loop }}; background: #131E3A" data-screen-label="17 Sløyfen" aria-label="Sløyfen rundt boligen">
     <div class="era-vh" style="position: sticky; top: 0; overflow: hidden; isolation: isolate">
       <div style="position: absolute; inset: 0; transform: translateZ(0) scale({{ lpImgScale }}); backface-visibility: hidden; opacity: 0.55">
         <image-slot id="loop-home" shape="rect" src="/assets/story/loop-home-v3.jpg" placeholder="Sløyfen — samme bolig, sett utenfra"></image-slot>
       </div>
       <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(19,30,58,0.95) 0%, rgba(19,30,58,0.8) 40%, rgba(19,30,58,0.45) 70%, rgba(19,30,58,0.6) 100%)"></div>
       <div style="position: absolute; left: clamp(24px, 7vw, 120px); right: 24px; top: {{ lpTextTop }}; bottom: {{ lpTextBottom }}; transform: {{ lpTextTy }}; max-width: 480px; pointer-events: none">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Den agentiske sløyfen</div>
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Sløyfen rundt boligen</div>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: rgba(247,244,238,0.55)">{{ lpCounter }}</div>
         <h2 style="margin: 8px 0 0; font-size: clamp(40px, 6vw, 88px); line-height: 1; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF; opacity: {{ lpStepOp }}; transform: {{ lpStepTy }}">{{ lpStepName }}</h2>
         <p style="margin: 16px 0 0; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.4; color: rgba(247,244,238,0.8); opacity: {{ lpStepOp }}">{{ lpStepText }}</p>
@@ -145,7 +190,7 @@
             <sc-for list="{{ shToday }}" as="td" hint-placeholder-count="3">
               <div style="padding: {{ shRowPad }} 0; border-bottom: 1px solid #E3DDD0; opacity: {{ td.op }}; transform: {{ td.ty }}">
                 <div style="font-size: clamp(17px, 1.7vw, 22px); font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #131E3A">{{ td.label }}</div>
-                <div style="margin-top: 4px; font-size: 14px; color: #8A8579">← {{ td.note }}</div>
+                <div style="margin-top: 4px; font-size: 14px; color: #6E6A5E">← {{ td.note }}</div>
               </div>
             </sc-for>
             <p style="margin: 18px 0 0; max-width: 380px; font-size: 15px; line-height: 1.5; color: #5E6472; opacity: {{ shCopy0Op }}">I dag starter store deler av boligmarkedet etter at boligeieren allerede har identifisert behovet.</p>
@@ -247,7 +292,7 @@
       <div style="max-width: 760px; opacity: {{ tmHeadOp }}; transform: {{ tmHeadTy }}">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B0935F">Menneskene bak ERA</div>
         <h2 style="margin: 16px 0 0; font-size: clamp(32px, 4.4vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; text-wrap: balance">Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>
-        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: #5E6472">ERA samler erfaring fra eiendom, teknologi, finans, produktutvikling, salg, markedsføring og kommersialisering rundt én ambisjon: å bygge et agentisk system for hele boligens livsløp.</p>
+        <p style="margin: 18px 0 0; max-width: 680px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; color: #5E6472">ERA samler erfaring fra eiendom, teknologi, finans, produktutvikling, salg, markedsføring og kommersialisering rundt én ambisjon: å bygge ett system som følger boligen gjennom hele livsløpet.</p>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(20px, 3vw, 40px) clamp(16px, 2.5vw, 32px); margin-top: clamp(40px, 6vh, 72px)">
         <sc-for list="{{ tmPeople }}" as="tp" hint-placeholder-count="6">
@@ -265,7 +310,7 @@
             <div style="margin-top: 18px; font-size: {{ tp.nameSize }}; font-weight: 800; letter-spacing: -0.02em; color: #131E3A">{{ tp.name }}</div>
             <div style="margin-top: 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #B0935F">{{ tp.role }}</div>
             <p style="margin: 10px 0 0; font-size: 14.5px; line-height: 1.5; color: #5E6472">{{ tp.bio }}</p>
-            <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: #8A8579; display: {{ tp.detailDisplay }}">{{ tp.detail }}</p>
+            <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: #6E6A5E; display: {{ tp.detailDisplay }}">{{ tp.detail }}</p>
             <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid #E3DDD0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.7; color: #9A968C">{{ tp.tags }}</div>
           </div>
         </sc-for>

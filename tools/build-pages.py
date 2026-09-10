@@ -110,7 +110,7 @@ AUDIENCES = {
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
         image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
         app_hero=dict(src="/assets/story/app-hjem.png", w=853, h=1844, size="lg",
-                      alt="ERA Bolig på mobil: forsiden for Myrerveien 46A med boligtype enebolig, 162 m², byggeår 1987, tilstand God 78 av 100, neste tiltak «Fasadevask og maling» og estimert kostnad 80 000–120 000 kr"),
+                      alt="ERA Bolig på mobil: forsiden for Myrerveien 46A med boligtype enebolig, 162 m², tilstand God 78 av 100, neste tiltak «Fasadevask og maling» og estimert kostnad 80 000–120 000 kr"),
         app_sections=[
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
@@ -133,7 +133,7 @@ AUDIENCES = {
                       "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og assistenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
                       "lg"),
                 points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
-                        ("Hva det betyr", "Vanlig for boliger fra 1980-tallet. Ikke akutt, men bør følges opp."),
+                        ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
                         ("Mitt forslag", "Få fasaden vurdert av en fagperson og hent inn tilbud.")],
                 alt_bg=True, flip=True, sid="assistenten"),
             app_section(

@@ -744,7 +744,7 @@ function eraTrack(name, data) {
   } catch (e) {}
 }
 class Component extends DCLogic {
-  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, docPct: 0, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
+  state = { cueSeen: false, prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, docPct: 0, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
@@ -991,10 +991,20 @@ class Component extends DCLogic {
       const r = el.getBoundingClientRect();
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) chapter = chapMap[k];
     });
-    const navShown = this.pinRefs.door ? (prog.door || 0) > 0.55 : true;
-    const docPct = Math.max(0, Math.min(1, scrollNow / Math.max(1, document.documentElement.scrollHeight - vh)));
+    // The second clause is a guard: if the door's scroll maths ever breaks (a section shorter
+    // than the viewport yields no progress), the nav must still appear once the visitor has
+    // clearly started scrolling — otherwise the CTA is invisible for the whole story.
+    const navShown = this.pinRefs.door ? ((prog.door || 0) > 0.55 || scrollNow > vh * 0.6) : true;
+    // Once the visitor has started, the scroll cue has done its job and never returns.
+    const cueSeen = this.state.cueSeen || (prog.door || 0) > 0.04 || scrollNow > 40;
+    const storyOrder = document.body.getAttribute('data-page') === 'om-era'
+      ? ['about', 'frag', 'loop', 'close', 'shift', 'tech', 'vision', 'team', 'finale']
+      : ['door', 'home', 'chaos', 'see', 'prio', 'magic', 'choice', 'commerce', 'pro', 'memory', 'whole', 'board', 'split', 'finale'];
+    let scenes = 0, played = 0;
+    storyOrder.forEach((k) => { if (this.pinRefs[k]) { scenes++; played += prog[k] || 0; } });
+    const docPct = scenes ? played / scenes : Math.max(0, Math.min(1, scrollNow / Math.max(1, document.documentElement.scrollHeight - vh)));
     this.trackStoryProgress(navShown, docPct);
-    this.setState({ prog, vis, theme, activeNav, chapter, navShown, docPct, mobile: window.innerWidth < 900, reduced });
+    this.setState({ prog, vis, theme, activeNav, chapter, navShown, cueSeen, docPct, mobile: window.innerWidth < 900, reduced });
   }
   // Fires each engagement milestone once per session — cheap, since it's just Set lookups riding the existing scroll tick.
   trackStoryProgress(navShown, docPct) {
@@ -1495,7 +1505,7 @@ class Component extends DCLogic {
     // payoffs) keep more room so they don't feel rushed; the finale keeps its old ratio since the lead
     // form's own layout is tied to it.
     const H = (d, f = 0.75) => `${mobile ? Math.round(d * f) : d}vh`;
-    const heights = { h_door: H(180, 0.55), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
+    const heights = { h_door: H(180, 0.95), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',
@@ -1528,6 +1538,7 @@ class Component extends DCLogic {
       mobProgOp: navShown && mobile ? 1 : 0, mobProgW: `${Math.round((this.state.docPct || 0) * 100)}%`,
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
+      doorCueOp: this.state.cueSeen ? 0 : (1 - ramp(d, 0.02, 0.10)),
       doorCueIcon: mobile ? '↑' : '↓', doorCueText: mobile ? 'Sveip opp' : 'Scroll for å utforske ERA',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
@@ -1542,7 +1553,8 @@ class Component extends DCLogic {
       magicImgScale: 1 + m * 0.03, magicDim: 0.1 + seg(m, 0, 0.2, 0.08) * 0.25,
       wallLeft: `${wallX}%`, wallTop: `${wallY}%`, wallWidth: `${wallW}%`, wallHeight: `${wallH}%`, wallPaint: paintKey, wallPaintName: paintNames[paintKey] || 'Valgt farge', wallPaintOp,
       wallOutlineOp: wallHighlight * 0.9, wallOutlineInnerOp: wallHighlight * 0.4, wallVignette: wallHighlight * 0.35, wallTagOp: seg(m, 0.28, 0.9, 0.05),
-      magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magic1Op: seg(m, 0.26, 0.4, 0.04), magic1Ty: ty(seg(m, 0.26, 0.4, 0.04), 12),
+      magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magicCamOp: seg(m, 0.19, 0.30, 0.04), magicCamTy: ty(seg(m, 0.19, 0.30, 0.04), 12),
+      magic1Op: seg(m, 0.33, 0.44, 0.04), magic1Ty: ty(seg(m, 0.33, 0.44, 0.04), 12),
       magicPlanOp: seg(m, 0.44, 1, 0.05), magicPlanTy: ty(seg(m, 0.44, 1, 0.05), 30), planRows, magicDoneOp: seg(m, 0.9, 1, 0.05),
       wholeHomeSrc: RS.wholeHome || '', wholeHomeDevOp: hasImg('wholeHome') ? 0 : 1, plumberSrc: RS.plumber || '', plumberDevOp: hasImg('plumber') ? 0 : 1, electricianSrc: RS.electrician || '', electricianDevOp: hasImg('electrician') ? 0 : 1,
       wholeImgScale: 1 + wh * 0.03, wholeOutOp: wholeOut, wholeDim: 0.1 + seg(wh, 0, 0.18, 0.06) * 0.3 + seg(wh, 0.92, 1, 0.04) * 0.25, wholeSpots,

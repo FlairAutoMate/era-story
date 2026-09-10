@@ -62,7 +62,7 @@ AUDIENCES = {
         key="owner", nav="Boligeier", title="ERA for boligeiere",
         label="For boligeier", hook="Boligeierskap uten gjetting.",
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
-        image="/assets/story/couple-sofa-window-v4.jpg", image_pos="45% 50%",
+        image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
         scenes=dict(
             eyebrow="Fra behov til plan", title="Fra «vi vil male stua» til en plan du kan bestille etter.",
             lede="Følg boligens vei fra det som ligger i skuffen til en klar plan, med samme eksempel gjennom alle stegene.",

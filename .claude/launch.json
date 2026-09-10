@@ -4,9 +4,24 @@
     {
       "name": "dashboard-preview",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "dashboard", "run", "preview"],
+      "runtimeArgs": [
+        "--prefix",
+        "dashboard",
+        "run",
+        "preview"
+      ],
       "port": 5179,
       "url": "http://localhost:5179"
+    },
+    {
+      "name": "era-story",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8791"
+      ],
+      "port": 8791
     }
   ]
 }

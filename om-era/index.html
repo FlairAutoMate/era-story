@@ -1540,6 +1540,7 @@ class Component extends DCLogic {
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
       doorCueOp: this.state.cueSeen ? 0 : (1 - ramp(d, 0.02, 0.10)),
       doorCueIcon: mobile ? '↑' : '↓', doorCueText: mobile ? 'Sveip opp' : 'Scroll for å utforske ERA',
+      coupleFit: (mobile && window.innerHeight > window.innerWidth && window.innerWidth < 700) ? 'contain' : 'cover',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
       home2Op: home2, home2Ty: ty(home2), home2Left: mobile ? '0' : '30%', home2Align: mobile ? 'left' : 'right',

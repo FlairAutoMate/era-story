@@ -1816,8 +1816,10 @@ class Component extends DCLogic {
     // beats) shrink hard; the heavy, multi-beat chapters (the worked example and its commerce/pro/memory
     // payoffs) keep more room so they don't feel rushed; the finale keeps its old ratio since the lead
     // form's own layout is tied to it.
-    const H = (d, f = 0.75) => `${mobile ? Math.round(d * f) : d}vh`;
-    const heights = { h_door: H(180, 0.95), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
+    // A pinned scene shorter than the viewport yields prog === 0 for ever: it never animates and
+    // everything gated on it silently stops. The floor keeps every mobile height above 100vh.
+    const H = (d, f = 0.75) => `${mobile ? Math.max(115, Math.round(d * f)) : d}vh`;
+    const heights = { h_door: H(180, 0.95), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.9), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',

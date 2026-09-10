@@ -57,12 +57,118 @@ def dash(title, meta, kpis=(), groups=(), cols=(), footer=None, tag=None):
     return "".join(out)
 
 
+def phone(src, w, h, alt, size="md", eager=False, cap=None):
+    """One ERA Bolig screen in a device frame. Never cropped: width/height come from the file, and
+    each size class caps the width at the source resolution so nothing is upscaled and soft."""
+    load = 'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
+    cap_html = f'<p class="pw-phone-cap">{esc(cap)}</p>' if cap else ''
+    return (f'<div class="pw-phone pw-phone--{size}">'
+            f'<img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}" {load} decoding="async">'
+            f'{cap_html}</div>')
+
+
+def ui(src, w, h, alt, cap=None):
+    """A cropped piece of the app UI, shown as the card it is rather than inside a device frame."""
+    cap_html = f'<p class="pw-phone-cap">{esc(cap)}</p>' if cap else ''
+    return (f'<div class="pw-ui"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}"'
+            f' loading="lazy" decoding="async">{cap_html}</div>')
+
+
+def app_section(eyebrow, title, lede, visual_html, points=(), alt_bg=False, flip=False, sid=None,
+                dark=False, foot=None):
+    """One product beat: a single message beside a single screen."""
+    cls = "section appsec" + (" alt" if alt_bg else "") + (" dark" if dark else "") + (" appsec--flip" if flip else "")
+    pts = ('<ul class="appsec-points">' + "".join(f'<li><b>{esc(t)}</b>{esc(d)}</li>' for t, d in points) + '</ul>') if points else ""
+    foot_html = f'<p class="fine dark2">{esc(foot)}</p>' if foot else ""
+    return (f'<section class="{cls}"' + (f' id="{sid}"' if sid else '') + '><div class="wrap">'
+            f'<div class="appsec-text"><div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
+            f'<p class="lede">{esc(lede)}</p>{pts}{foot_html}</div>'
+            f'<div class="appsec-visual">{visual_html}</div>'
+            '</div></section>')
+
+
+def app_loop(eyebrow, title, steps, foot):
+    """The whole loop in one row: five screens, five short labels, one grid so they stay aligned."""
+    shots = "".join(
+        f'<div class="apploop-shot"><img src="{src}" width="853" height="1844" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
+        for _, _, src, alt in steps)
+    labels = "".join(
+        f'<div class="apploop-step"><span class="n">0{i+1}</span><b>{esc(t)}</b><span>{esc(d)}</span></div>'
+        for i, (t, d, _, _) in enumerate(steps))
+    return ('<section class="section alt" id="loopen"><div class="wrap wide">'
+            f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
+            f'<div class="apploop">{shots}</div>'
+            f'<div class="apploop-steps">{labels}</div>'
+            f'<p class="fine dark2">{esc(foot)}</p>'
+            '</div></section>')
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
         label="For boligeier", hook="Boligeierskap uten gjetting.",
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
-        image="/assets/story/couple-sofa-window-v4.jpg", image_pos="45% 50%",
+        image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
+        app_hero=dict(src="/assets/story/app-hjem.png", w=853, h=1844, size="lg",
+                      alt="ERA Bolig på mobil: forsiden for Myrerveien 46A med boligtype enebolig, 162 m², tilstand God 78 av 100, neste tiltak «Fasadevask og maling» og estimert kostnad 80 000–120 000 kr"),
+        app_sections=[
+            app_section(
+                "Min bolig", "Alt om boligen. Ett sted.",
+                "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
+                phone("/assets/story/app-minbolig.png", 853, 1844,
+                      "ERA Bolig: Min bolig for Myrerveien 46A med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne",
+                      "lg"),
+                alt_bg=True, flip=True, sid="min-bolig"),
+            app_section(
+                "Kamera", "Vis ERA hva du ser.",
+                "Ta et bilde av noe du lurer på. ERA analyserer det sammen med informasjonen den allerede har om boligen.",
+                phone("/assets/story/app-kamera.png", 853, 1844,
+                      "ERA Bolig: kameraet rettet mot avflassende maling på kledningen ved et vindu, med teksten «Ta et bilde – fokuser på problemet, så analyserer ERA det for deg» og valget «Analyser med ERA»",
+                      "lg", cap="Eksempeldata · Myrerveien 46A"),
+                foot="Du starter med det du faktisk ser, ikke med et skjema."),
+            app_section(
+                "ERA-assistenten", "Ikke bare et AI-svar. Et svar om boligen din.",
+                "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
+                phone("/assets/story/app-agent.png", 853, 1844,
+                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og assistenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
+                      "lg"),
+                points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
+                        ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
+                        ("Mitt forslag", "Få fasaden vurdert av en fagperson og hent inn tilbud.")],
+                alt_bg=True, flip=True, sid="assistenten"),
+            app_section(
+                "Prosjekt", "Fra anbefaling til gjennomføring.",
+                "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
+                phone("/assets/story/app-prosjekt.png", 853, 1844,
+                      "ERA Bolig: prosjektet «Fasadevask og maling» på Myrerveien 46A med estimert kostnad 80 000–120 000 kr, planlagt oppstart april 2026, fremdrift, håndverker og fem oppgaver",
+                      "lg", cap="Eksempeldata"),
+                points=[("Planlegging", "Omfang, oppstart og varighet."),
+                        ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),
+                        ("Gjennomføring", "Fem oppgaver fra stillas til sluttkontroll.")],
+                foot="Fasadefunnet fra bildet er nå et prosjekt med kostnad, håndverker og oppgaver."),
+            app_section(
+                "Boligminne", "Alt som gjøres blir en del av boligen.",
+                "Arbeid, dokumentasjon og historikk følger boligen videre – slik at du slipper å starte på nytt hver gang noe skal vedlikeholdes, vurderes eller forbedres.",
+                ui("/assets/story/app-boligminne.png", 783, 645,
+                   "ERA Bolig, boligminnet: tidslinjen 2020 nytt bad, 2022 varmepumpe, 2024 nytt tak og 2026 fasadevask og maling",
+                   cap="Eksempeldata · Myrerveien 46A"),
+                points=[("Det som er gjort", "Bad, varmepumpe og tak ligger med år og dokumentasjon."),
+                        ("Det som kommer", "Fasadeprosjektet fra bildet står som planlagt.")],
+                alt_bg=False, flip=True, sid="boligminne"),
+            app_loop(
+                "Hele loopen", "Fra spørsmål til ferdig dokumentert.",
+                [("Boligen", "ERA kjenner den.", "/assets/story/app-hjem.png",
+                  "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak"),
+                 ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
+                  "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu"),
+                 ("ERA", "Forstå hva det betyr.", "/assets/story/app-agent.png",
+                  "ERA Bolig: assistentens analyse av bildet med funn, betydning og forslag"),
+                 ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
+                  "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver"),
+                 ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
+                  "ERA Bolig: Min bolig med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne")],
+                "Eksempeldata. Samme bolig, Myrerveien 46A, gjennom hele loopen."),
+        ],
         scenes=dict(
             eyebrow="Fra behov til plan", title="Fra «vi vil male stua» til en plan du kan bestille etter.",
             lede="Følg boligens vei fra det som ligger i skuffen til en klar plan, med samme eksempel gjennom alle stegene.",
@@ -70,7 +176,7 @@ AUDIENCES = {
                 dict(nav="Kartlegging", heading="Boligen kartlegges.",
                      text="Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted, det du har liggende i skuffen, på e-post og på telefonen.",
                      value="Utgangspunktet er det du allerede har, ikke en ny rapport du må bestille.",
-                     view=dash("Boligminne", "Borgveien 14",
+                     view=dash("Boligminne", "Myrerveien 46A",
                                kpis=[("Tilstandsrapport", "2021"), ("FDV", "3 dokumenter"), ("Kvitteringer", "12 lagt inn"), ("Bilder", "24 lagt inn")],
                                footer="Eksempeldata. Jo mer du legger inn, jo mer presis blir planen.")),
                 dict(nav="Forståelse", heading="ERA forstår.",
@@ -83,7 +189,7 @@ AUDIENCES = {
                 dict(nav="Plan", heading="Du får en plan.",
                      text="Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris.",
                      value="Det samme gjelder bad, gulv, elektro, rør og tak, og ERA sier fra når jobben krever fagperson.",
-                     view=dash("Plan · Male stua", "Borgveien 14",
+                     view=dash("Plan · Male stua", "Myrerveien 46A",
                                kpis=[("Vegg", "42 m²"), ("Forbehandling", "Lett sparkling"), ("Strøk", "2"), ("Estimert kostnad", "ca. 6 800 kr")],
                                footer="Eksempeldata. Fra «vi vil male stua» til en plan du kan bestille etter, på minutter.")),
                 dict(nav="Veivalg", heading="Gjør det selv, eller få hjelp.",
@@ -511,6 +617,16 @@ def page(slug, a):
     others = [s for s in ORDER if s != slug]
     other_links = " · ".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in others)
     done_head, done_sub = a["done"]
+    hero_mod, hero_wrap, hero_visual = "", "hero-plain", ""
+    hero_media = ('<div class="hero-media"><img src="' + a["image"] + '" srcset="' + a["image"][:-4]
+                  + '-m.jpg 1400w, ' + a["image"] + ' 3000w" sizes="100vw" alt="" style="object-position: '
+                  + a["image_pos"] + '"></div>')
+    ah = a.get("app_hero")
+    if ah:
+        # On this page the product IS the app, so the hero shows the app, not a photo of a house.
+        hero_mod, hero_wrap, hero_media = " hero--product", "hero-grid", ""
+        hero_visual = '<div class="hero-visual">' + phone(ah["src"], ah["w"], ah["h"], ah["alt"], ah.get("size", "lg"), eager=True) + '</div>'
+    product_story = "".join(a.get("app_sections", []))
     is_svg = a["image"].endswith(".svg")
     return f'''<!DOCTYPE html>
 <html lang="no">
@@ -529,17 +645,22 @@ def page(slug, a):
 <body data-audience="{a["key"]}">
 {nav_html(slug, esc(a["form_cta"]), "#skjema")}
 
-<header class="hero">
-  <div class="hero-media">{'<img src="' + a["image"] + '" srcset="' + a["image"][:-4] + '-m.jpg 1400w, ' + a["image"] + ' 3000w" sizes="100vw" alt="" style="object-position: ' + a["image_pos"] + '">'}</div>
+<header class="hero{hero_mod}">
+  {hero_media}
+  <div class="{hero_wrap}">
   <div class="hero-text">
     <div class="label">{esc(a["label"])}</div>
     <h1>{esc(a["hook"])}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}
     <p class="lede">{esc(a["lede"])}</p>{f'<p class="hero-support">{esc(a["hero_support"])}</p>' if a.get("hero_support") else ''}
     <div class="hero-actions"><a class="btn" href="#skjema">{esc(beta["cta_primary"] if beta else a["form_cta"])}</a><a class="link" href="{hero_secondary[1]}">{esc(hero_secondary[0])}</a></div>
   </div>
+  {hero_visual}
+  </div>
 </header>
 
 <main>
+  {product_story}
+
   {steps_section}
 
   {aside_section}

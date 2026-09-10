@@ -388,7 +388,7 @@
           <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #D4B17A; margin-bottom: 32px">era.</div>
           <h1 style="margin: 0; font-size: clamp(26px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #F7F4EE">Velkommen<br>til en ny ERA.</h1>
         </div>
-        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: max(6vh, env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: {{ door0Op }}; animation: era-cue-pulse 2.6s ease-in-out infinite">
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: max(6vh, env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: {{ doorCueOp }}; animation: era-cue-pulse 2.6s ease-in-out infinite">
           <span style="font-size: 15px; color: rgba(212,177,122,0.85); line-height: 1">{{ doorCueIcon }}</span>
           <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(247,244,238,0.55)">{{ doorCueText }}</span>
         </div>
@@ -562,6 +562,12 @@
           <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #D4B17A; margin-bottom: 18px">Gjennomfør tiltak · Ett eksempel</div>
           <h2 style="margin: 0; font-size: clamp(32px, 4.6vw, 60px); font-weight: 800; letter-spacing: -0.03em; font-style: italic; color: #FFFFFF; text-shadow: 0 4px 40px rgba(15,24,48,0.6)">«Vi vil male stua.»</h2>
         </div>
+        <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magicCamTy }}; display: flex; align-items: center; gap: 12px; opacity: {{ magicCamOp }}">
+          <span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(212,177,122,0.55); background: rgba(15,24,48,0.45)">
+            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true"><path d="M2 5.5h3.2L6.6 3h6.8l1.4 2.5H18a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1v-8a1 1 0 011-1z" stroke="#D4B17A" stroke-width="1.3" stroke-linejoin="round"/><circle cx="10" cy="10" r="3.2" stroke="#D4B17A" stroke-width="1.3"/></svg>
+          </span>
+          <span style="font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; text-shadow: 0 4px 30px rgba(15,24,48,0.6)">Du tar ett bilde.</span>
+        </div>
         <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%) {{ magic1Ty }}; font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; color: #FFFFFF; opacity: {{ magic1Op }}; text-shadow: 0 4px 30px rgba(15,24,48,0.6)">ERA forstår rommet.</div>
       </div>
       <div class="era-short-hide" style="position: absolute; left: {{ planLeft }}; right: {{ planRight }}; top: {{ planTop }}; bottom: {{ planBottom }}; transform: {{ planBaseTy }} {{ magicPlanTy }}; width: {{ planWidth }}; padding: {{ planPad }}; border-radius: 22px; background: rgba(255,253,248,0.97); box-shadow: 0 40px 100px rgba(15,24,48,0.4); opacity: {{ magicPlanOp }}">
@@ -585,8 +591,8 @@
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; opacity: {{ magicDoneOp }}">
           <div style="font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em">Klar plan.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
-            <button type="button" data-detail="plan" aria-expanded="{{ detailPlanExpanded }}" aria-controls="detail-plan" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se planen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailPlanChev }}">⌄</span></button>
-            <a href="#partnere" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
+            <button type="button" data-detail="plan" aria-expanded="{{ detailPlanExpanded }}" aria-controls="detail-plan" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se planen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailPlanChev }}">⌄</span></button>
+            <a href="#partnere" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; color: #131E3A; font-size: 13.5px; font-weight: 600">Se handleliste</a>
             <a href="#handverker" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: #131E3A; color: #F7F4EE; font-size: 14px; font-weight: 600" style-hover="background: #26344F">Få hjelp</a>
           </div>
         </div>
@@ -677,7 +683,7 @@
           <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Med håndverker (planens estimat)</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">ca. 6 800 kr</span></div>
           <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Betaling i ERA</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Bestilling og avtalt tid samlet <span style="margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: #F1EDE4; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A7758">I pilot</span></span></div>
         </div>
-        <div style="margin-top: 12px"><button type="button" data-detail="products" aria-expanded="{{ detailProductsExpanded }}" aria-controls="detail-products" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se produktvalg <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailProductsChev }}">⌄</span></button></div>
+        <div style="margin-top: 12px"><button type="button" data-detail="products" aria-expanded="{{ detailProductsExpanded }}" aria-controls="detail-products" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se produktvalg <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailProductsChev }}">⌄</span></button></div>
         <div style="margin-top: 26px; opacity: {{ comDeliveryOp }}; transform: {{ comDeliveryTy }}">
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8579; margin-bottom: 10px">Levering</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap">
@@ -816,7 +822,7 @@
           <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Utført av</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Deg selv, eller håndverker med navn</span></div>
           <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFEAE0"><span style="font-size: 13px; color: #8A8579">Vedlikeholdsplan</span><span style="font-size: 13.5px; font-weight: 600; text-align: right">Oppdatert: neste kontroll høst 2026</span></div>
         </div>
-        <div style="margin-top: 14px"><button type="button" data-detail="docs" aria-expanded="{{ detailDocsExpanded }}" aria-controls="detail-docs" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se dokumentasjonen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailDocsChev }}">⌄</span></button></div>
+        <div style="margin-top: 14px"><button type="button" data-detail="docs" aria-expanded="{{ detailDocsExpanded }}" aria-controls="detail-docs" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #E3DDD0; background: transparent; color: #131E3A; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">Se dokumentasjonen <span aria-hidden="true" style="font-size: 12px; transition: transform 0.3s; transform: {{ detailDocsChev }}">⌄</span></button></div>
 
       </div>
     </div>
@@ -1050,7 +1056,7 @@ function eraTrack(name, data) {
   } catch (e) {}
 }
 class Component extends DCLogic {
-  state = { prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, docPct: 0, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
+  state = { cueSeen: false, prog: {}, vis: {}, detail: '', theme: 'dark', activeNav: '', chapter: 0, navShown: false, docPct: 0, mobile: false, reduced: false, audience: 'owner', lead: 'idle', leadError: '', leadCheckDrawn: false, menuOpen: false };
   pinRefs = {};
   _refFns = {};
 
@@ -1297,10 +1303,20 @@ class Component extends DCLogic {
       const r = el.getBoundingClientRect();
       if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) chapter = chapMap[k];
     });
-    const navShown = this.pinRefs.door ? (prog.door || 0) > 0.55 : true;
-    const docPct = Math.max(0, Math.min(1, scrollNow / Math.max(1, document.documentElement.scrollHeight - vh)));
+    // The second clause is a guard: if the door's scroll maths ever breaks (a section shorter
+    // than the viewport yields no progress), the nav must still appear once the visitor has
+    // clearly started scrolling — otherwise the CTA is invisible for the whole story.
+    const navShown = this.pinRefs.door ? ((prog.door || 0) > 0.55 || scrollNow > vh * 0.6) : true;
+    // Once the visitor has started, the scroll cue has done its job and never returns.
+    const cueSeen = this.state.cueSeen || (prog.door || 0) > 0.04 || scrollNow > 40;
+    const storyOrder = document.body.getAttribute('data-page') === 'om-era'
+      ? ['about', 'frag', 'loop', 'close', 'shift', 'tech', 'vision', 'team', 'finale']
+      : ['door', 'home', 'chaos', 'see', 'prio', 'magic', 'choice', 'commerce', 'pro', 'memory', 'whole', 'board', 'split', 'finale'];
+    let scenes = 0, played = 0;
+    storyOrder.forEach((k) => { if (this.pinRefs[k]) { scenes++; played += prog[k] || 0; } });
+    const docPct = scenes ? played / scenes : Math.max(0, Math.min(1, scrollNow / Math.max(1, document.documentElement.scrollHeight - vh)));
     this.trackStoryProgress(navShown, docPct);
-    this.setState({ prog, vis, theme, activeNav, chapter, navShown, docPct, mobile: window.innerWidth < 900, reduced });
+    this.setState({ prog, vis, theme, activeNav, chapter, navShown, cueSeen, docPct, mobile: window.innerWidth < 900, reduced });
   }
   // Fires each engagement milestone once per session — cheap, since it's just Set lookups riding the existing scroll tick.
   trackStoryProgress(navShown, docPct) {
@@ -1801,7 +1817,7 @@ class Component extends DCLogic {
     // payoffs) keep more room so they don't feel rushed; the finale keeps its old ratio since the lead
     // form's own layout is tied to it.
     const H = (d, f = 0.75) => `${mobile ? Math.round(d * f) : d}vh`;
-    const heights = { h_door: H(180, 0.55), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
+    const heights = { h_door: H(180, 0.95), h_home: H(240, 0.68), h_chaos: H(280, 0.8), h_see: H(280, 0.8), h_prio: H(240, 0.68), h_magic: H(300, 0.8), h_whole: H(300, 0.8), h_choice: H(180, 0.55), h_commerce: H(260, 0.8), h_pro: H(300, 0.8), h_trust: H(300), h_memory: H(300, 0.8), h_board: H(280, 0.68), h_split: H(300, 0.68), h_finale: H(onOm ? 380 : 360), h_about: H(320, 0.68), h_frag: H(280, 0.68), h_loop: H(320, 0.68), h_photo: H(340), h_diy: H(480), h_close: H(260, 0.68), h_shift: H(280, 0.8), h_tech: H(380, 0.8), h_agent: H(440), h_eco: H(260), h_vision: H(320, 0.55) };
     const resp = mobile ? {
       navCtaLabel: 'Finn bolig', dlgLeft: '0', dlgTop: 'auto', dlgBottom: '16vh', dlgAlign: 'left', homeGrad: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(15,24,48,0.75) 100%)',
       spotDisplay: 'none', spotListDisplay: 'flex', seeTextTop: 'auto', seeTextBottom: '24px', seeTextTy: 'none',
@@ -1834,6 +1850,7 @@ class Component extends DCLogic {
       mobProgOp: navShown && mobile ? 1 : 0, mobProgW: `${Math.round((this.state.docPct || 0) * 100)}%`,
       doorLeftTx: `${-open * 100}%`, doorRightTx: `${open * 100}%`, doorSeamOp: 1 - ramp(d, 0.08, 0.28), doorSeamGlow: seg(d, 0.06, 0.16, 0.05) * 0.8, doorGlowA: 0.55 * seg(d, 0.14, 0.5, 0.15) * (1 + (this._scrollSpeed || 0) * 0.7), doorGlowR: `${30 + open * 50 + (this._scrollSpeed || 0) * 10}%`, doorGlowScale: 1 + open * 0.08 + (this._scrollSpeed || 0) * 0.05, doorPos: `50% ${58 - open * 4}%`, doorDim: 0.35 - open * 0.2,
       door0Op: 1 - ramp(d, 0.04, 0.18), door0Ty: ty(1 - ramp(d, 0.04, 0.18), -20), door1Op: seg(d, 0.72, 1, 0.08), door1Ty: ty(seg(d, 0.72, 1, 0.08)),
+      doorCueOp: this.state.cueSeen ? 0 : (1 - ramp(d, 0.02, 0.10)),
       doorCueIcon: mobile ? '↑' : '↓', doorCueText: mobile ? 'Sveip opp' : 'Scroll for å utforske ERA',
       homeImgScale: 1 + h * 0.035, homeDim: ramp(h, 0.7, 0.95) * 0.5, homeBathOp: ease(ramp(h, 0.22, 0.32)),
       home0Op: seg(h, 0.04, 0.2), home0Ty: ty(seg(h, 0.04, 0.2)), home1Op: seg(h, 0.28, 0.44), home1Ty: ty(seg(h, 0.28, 0.44)),
@@ -1848,7 +1865,8 @@ class Component extends DCLogic {
       magicImgScale: 1 + m * 0.03, magicDim: 0.1 + seg(m, 0, 0.2, 0.08) * 0.25,
       wallLeft: `${wallX}%`, wallTop: `${wallY}%`, wallWidth: `${wallW}%`, wallHeight: `${wallH}%`, wallPaint: paintKey, wallPaintName: paintNames[paintKey] || 'Valgt farge', wallPaintOp,
       wallOutlineOp: wallHighlight * 0.9, wallOutlineInnerOp: wallHighlight * 0.4, wallVignette: wallHighlight * 0.35, wallTagOp: seg(m, 0.28, 0.9, 0.05),
-      magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magic1Op: seg(m, 0.26, 0.4, 0.04), magic1Ty: ty(seg(m, 0.26, 0.4, 0.04), 12),
+      magic0Op: seg(m, 0.03, 0.18), magic0Ty: ty(seg(m, 0.03, 0.18)), magicCamOp: seg(m, 0.19, 0.30, 0.04), magicCamTy: ty(seg(m, 0.19, 0.30, 0.04), 12),
+      magic1Op: seg(m, 0.33, 0.44, 0.04), magic1Ty: ty(seg(m, 0.33, 0.44, 0.04), 12),
       magicPlanOp: seg(m, 0.44, 1, 0.05), magicPlanTy: ty(seg(m, 0.44, 1, 0.05), 30), planRows, magicDoneOp: seg(m, 0.9, 1, 0.05),
       wholeHomeSrc: RS.wholeHome || '', wholeHomeDevOp: hasImg('wholeHome') ? 0 : 1, plumberSrc: RS.plumber || '', plumberDevOp: hasImg('plumber') ? 0 : 1, electricianSrc: RS.electrician || '', electricianDevOp: hasImg('electrician') ? 0 : 1,
       wholeImgScale: 1 + wh * 0.03, wholeOutOp: wholeOut, wholeDim: 0.1 + seg(wh, 0, 0.18, 0.06) * 0.3 + seg(wh, 0.92, 1, 0.04) * 0.25, wholeSpots,

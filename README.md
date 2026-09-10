@@ -11,11 +11,24 @@ Deploy: `npx vercel --prod`.
 - **Tre faser** bærer historien og skinnen: Forstå boligen (02–04) → Gjennomfør tiltak (05–09) → Dokumenter verdien (10, 05b). Fasen står som eyebrow i scenene, og 02 sier tidlig at ERA er en AI-drevet boligplattform.
 - **Fem hendelser** i én kjede rundt paret og stua: behovet (01) → plan og estimat (05) → produkter og valg (06–07) → bestilling og gjennomføring (08) → ferdig og dokumentert (09–10). «Hele boligen» ligger etter «Hukommelse» som overgang til styret.
 - **Detaljer på forespørsel**: «Se planen» (05), «Se produktvalg» (07) og «Se dokumentasjonen» (10) er knapper (`data-detail`) som åpner et panel inline på desktop og som bunnark på mobil. Innholdet ligger i HTML også når det er lukket. Funksjoner som ikke er dokumentert tilgjengelige er merket «Planlagt» (energi og forbedringer) eller «I pilot» (betaling i ERA).
+- **Kamera-beatet i 05**: mellom «Vi vil male stua.» og «ERA forstår rommet.» ligger «Du tar ett bilde.» Gullrammen som allerede tennes på veggen leser da som kameraets ramme, og «Vegg · 42 m²» som ERAs måling fra bildet. Det gjør kamera → agent → prosjekt → hukommelse synlig i hovedhistorien.
+
+### Scenehøyder og mobil — les dette før du endrer `heights`
+
+Hver sticky-scene er `height: {{ h_* }}` med en `.era-vh`-child på `100dvh`, og `H(d, f)` gir mobil en kortere variant. **Blir en seksjon kortere enn viewporten, blir `prog`-verdien permanent 0** — scenen animerer aldri, og alt som henger på den slutter å virke.
+
+Det var tilfellet for døren: `H(180, 0.55)` ga 99vh mot et 100dvh-barn, altså −8px scroll-distanse på 390×844. Døren åpnet seg aldri på mobil, hele navigasjonen lå på `opacity: 0` (men var fortsatt trykkbar), fremdriftslinjen vistes aldri, og `era_story_started` / `find_home_cta_viewed` fyrte aldri. Faktoren er nå 0.95. **Hold enhver mobilfaktor over ~1.1× viewporthøyden.**
+
+`navShown` har derfor en sikring: navigasjonen vises også når `scrollY > 0.6 × vh`, slik at en tilsvarende regnefeil ikke kan skjule CTA-en igjen.
+
+- **Historieprogresjon** regnes som snittet av scenenes egen `prog`, ikke dokument-scroll — én sticky-scene kan eie fem viewporter, så scroll-prosent er misvisende. Den styrer både fremdriftslinjen på mobil og `era_story_25/50/75`.
+- **Dør-cue-en** («Scroll for å utforske ERA» / «Sveip opp») låses via `state.cueSeen` når historien har startet, så den ikke kommer tilbake hvis man scroller opp igjen.
 
 ## Om ERA — egen side
 
 `/om-era` er Om ERA-filmen som egen side (13 scener: bro fra ett bygg til alle boliger, den fragmenterte boligen, den agentiske sløyfen, «fra et bilde», gjør det selv / få hjelp i én scene, lukk sløyfen, hvor kundereisen starter, teknologi, agent, aktørene, visjon, menneskene, finale med kapittelets sluttfraser). Forsiden lenker dit fra split-scenen («Hvorfor ERA finnes →»), finalen, skinnen, mobilmenyen og bunnteksten.
 
+- Sidens `h1` er broscenens overskrift «Et agentisk system for hele boligens livsløp.» i `tools/om-era-template.html`. Siden hadde tidligere ingen `h1` i det hele tatt — forsidens ligger i dør-scenen, som ikke er med i dette bygget.
 - Scenene ligger i `tools/om-era-template.html`. `python tools/build-om-era.py` setter dem sammen med forsidens hode, meny, skinne, finale, bunntekst og skript til `om-era/index.html`. Rediger malen, ikke den bygde filen.
 - Én scroll-motor for begge sider: skriptet i `index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
 - Etter en ny designeksport: `rebase-deltas.py` → `build-om-era.py` → `build-pages.py`. Merk at komprimeringen 2026-09-05 (05c fjernet, 20+21 slått sammen, nye scenehøyder) ikke ligger i `rebase-deltas.py` ennå.
@@ -66,6 +79,18 @@ Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (
 
 `/boligeier`, `/styret`, `/handverker`, `/faghandel` genereres av `python tools/build-pages.py` fra én innholdsstruktur (hook, verdiforslag, fire steg, gevinst, eksempel, spørsmål, skjema). Delt stil i `pages.css`, fonter i `fonts.css`, skjema i `pages.js` (samme `/api/lead`). Endre tekst i generatoren og kjør den på nytt.
 
+### Produktflater på /boligeier
+
+Boligeiersiden viser ERA Bolig med ekte appskjermer i stedet for å forklare produktet med tekst. Rekkefølgen følger loopen: **hero** (appens forside med tilstand, neste tiltak og estimat) → **Min bolig** → **Kamera** → **ERA-assistenten** → **Prosjekt** → **Boligminne** → **hele loopen**.
+
+- Innholdet ligger i `app_hero` og `app_sections` i målgruppedicten. Byggerne er `phone()` (skjerm i enhetsramme), `ui()` (utsnitt av et enkelt kort, uten ramme), `app_section()` (ett budskap ved siden av én skjerm) og `app_loop()` (fem skjermer i ett rutenett med etiketter).
+- Har en side `app_hero`, bytter heroen fotografiet med appen (`.hero--product`, tekst til venstre og skjerm til høyre). Uten `app_hero` er heroen som før — wrapperen `.hero-plain` er `display: contents` og endrer ingenting.
+- **Skjermbilder skaleres aldri opp.** Størrelsesklassene i `.pw-phone` (`--sm` 236px, `--md` 300px, `--lg` 420px) og `.pw-ui` (400px) er satt etter kildeoppløsningen. Alle flater ligger i dag på 2,03× eller bedre. Legger du inn et nytt bilde, sjekk `naturalWidth` mot visningsbredden før du velger klasse.
+- Gløden bak enheten (`.pw-phone::before`) er begrenset horisontalt. Et pseudoelement teller med i `scrollWidth`, og en bleed på 18 % ga 423px dokument på en 390px skjerm.
+- **Loop-stripen bygges i HTML** av de samme fem skjermene som seksjonene bruker, ikke av et bakt komposittbilde. Da kan den ikke drifte fra seksjonene når en skjerm byttes. Under 900px skjules stripen: fem telefoner ved siden av hverandre blir ~65px brede og uleselige, og skjermene er allerede vist i lesbar størrelse i seksjonene over.
+- **Én demobolig per side.** `/boligeier` bruker **Myrerveien 46A** gjennomgående; de andre målgruppesidene bruker Borgveien 14. Ikke bland dem på samme side.
+- **Åpent (sept. 2026):** boligens byggeår er 1967, men skjermbildene viser 1987 (Hjem i statraden, assistenten i både analysen og «Hva det betyr»). Årstallet er derfor midlertidig ute av alt-teksten og av punktet «Hva det betyr», så siden ikke motsier bildet ved siden av. Samtidig oppgir Hjem 6,8 mill. kr og Boligminne 8,9 mill. kr for samme bolig — derfor brukes bare Boligminne-*kortet*, ikke hele den skjermen. Begge løses av to nye eksporter.
+
 ## Nye bilder som venter på foto
 
 Kapitlene «Hele boligen» (05b), «Flere behov» (05c) og «Få hjelp» (08) bruker tre motiver som ennå ikke er fotografert: hele boligen, rørlegger og elektriker. De hentes fra `window.__resources` i `<head>` (nøklene `wholeHome`, `plumber`, `electrician`). Så lenge nøkkelen er tom vises en ERA-stilt placeholder med etiketten `BILDE · …`; legg inn stien til fotoet, så forsvinner etiketten av seg selv. Markørposisjonene i 05b ligger i `wholeSpotDefs` i skriptet og justeres når fotoet foreligger.
@@ -83,6 +108,7 @@ Siste base ligger i `tools/base-export-2026-09-04.html`.
 - **E-postvarsel per lead:** sett `RESEND_API_KEY` og `LEAD_NOTIFY_TO` (kommaseparert) med `npx vercel env add`. Uten disse lagres leads stille. `LEAD_NOTIFY_FROM` kan settes når et domene er verifisert hos Resend.
 - **Lagring:** privat Vercel Blob-lager `era-leads-eu` i Frankfurt (EU/EØS).
 - **Analyse:** `/_vercel/insights/script.js` er lagt inn på alle sider. Slå på Web Analytics én gang i Vercel-dashbordet (prosjekt → Analytics), ellers gjør skriptet ingenting.
+- **Hendelser:** `era_story_landed/started/25/50/75/completed` og `find_home_cta_viewed/cta_clicked/started/completed`, sendt via `eraTrack()`. Milepælene bygger på historieprogresjon, ikke dokument-scroll. Fram til september 2026 fyrte `era_story_started` og `find_home_cta_viewed` aldri på mobil — se scenehøydene over.
 - **Personvern:** `/personvern` genereres av `tools/build-pages.py` og beskriver nøyaktig det siden gjør. Oppdater den hvis skjemaet eller lagringen endres.
 - **Delingsbilde:** `og.jpg` rendres fra `tools/og-source.html` (1200 × 630) med Playwright.
 

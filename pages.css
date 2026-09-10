@@ -59,6 +59,9 @@ body.menu-open { overflow: hidden; }
    only ~518px of text at 1440 — narrower than «vedlikeholdsbehov» at 72px, which is why
    overflow-wrap then split it mid-word. The box grows instead, so the measure never shrinks. */
 .hero-text { position: relative; padding: 140px clamp(24px, 7vw, 120px) 80px; max-width: clamp(720px, 50vw + 240px, 960px); }
+.hero-dash { position: relative; flex: 1 1 380px; max-width: 440px; margin: 40px clamp(24px, 6vw, 80px) 40px 0; padding: 22px 24px; border-radius: 22px; background: rgba(255,253,248,0.97); color: var(--ink); box-shadow: 0 40px 100px rgba(0,0,0,0.35); }
+.hero-dash .kpis { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 899px) { .hero { flex-direction: column; align-items: stretch; padding: 24px 0 32px; min-height: 0; } .hero-text { padding: 120px clamp(20px, 6vw, 40px) 0; } .hero-dash { margin: 24px clamp(20px, 6vw, 40px) 0; max-width: none; } }
 .hero h1 { overflow-wrap: break-word; font-size: clamp(38px, 5.4vw, 72px); color: #fff; text-wrap: balance; margin-top: 18px; text-shadow: 0 4px 40px rgba(15,24,48,0.6); }
 .lede { margin-top: 20px; font-size: clamp(17px, 2vw, 22px); line-height: 1.4; font-weight: 500; color: rgba(247,244,238,0.85); max-width: 600px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 32px; }

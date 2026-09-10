@@ -242,6 +242,9 @@ AUDIENCES = {
         hero_support="Styret skifter. Planen består.",
         image="/assets/story/block-bikes-v3.jpg", image_pos="50% 50%",
         hero_secondary=("Se hvordan det henger sammen", "/#styret"),
+        hero_view=dash("Perrongen Borettslag", "200 boliger · 4 bygg · Eidsvoll · byggeår 1986",
+                        kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
+                        footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
             lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",
@@ -250,7 +253,7 @@ AUDIENCES = {
                      text="Rapporter, tidligere arbeid og innmeldte behov gir styret ett samlet utgangspunkt.",
                      value="ERA skiller dokumenterte funn fra forslag som styret må vurdere.",
                      view=dash("Eiendomsoversikt", "Samlet utgangspunkt for styret",
-                               kpis=[("Eiendom", "Borgveien 14"), ("Seksjoner", "24"), ("Område", "Fasade"), ("Sist utført", "Malt 2012")],
+                               kpis=[("Eiendom", "Perrongen Borettslag"), ("Boliger", "200 · 4 bygg"), ("Område", "Fasade"), ("Sist utført", "Malt 2012")],
                                groups=[("doc", [("Tilstandsrapport 2021", "Maling flasser på sør- og vestvegg"), ("Innmeldt behov", "Avskalling ved inngang B")]),
                                        ("ai", [("Forslag", "Befaring innen 12 måneder")])],
                                footer="Eksempeldata. ERA-forslag vurderes og besluttes av styret.")),
@@ -260,7 +263,7 @@ AUDIENCES = {
                      view=dash("Vedlikeholdsplan", "Forslag fra ERA, til styrets vurdering",
                                kpis=[("Foreslått tiltak", "Male sør- og vestvegg"), ("Anbefalt år", "2027"), ("Kostnadsintervall", "1,0–1,3 mill"), ("Status", "Til vurdering")],
                                groups=[("doc", [("Funn", "Maling flasser, sør- og vestvegg · rapport 2021"), ("Egen oppgave i totalplanen", "Tak · 2031")]),
-                                       ("ai", [("Grunnlag", "Rapport 2021 og innmeldt avskalling"), ("Per seksjon", "ca. 42–54 000 kr")])],
+                                       ("ai", [("Grunnlag", "Rapport 2021 og innmeldt avskalling"), ("Per bolig", "ca. 5 000–6 500 kr")])],
                                footer="Eksempeldata. Styret vurderer og beslutter; ERA foreslår.")),
                 dict(nav="Beslutning", heading="Et tydelig behov. Et tydelig oppdrag.",
                      text="Tiltaket tas videre som arbeidsbeskrivelse og beslutningsgrunnlag for styret.",
@@ -626,6 +629,10 @@ def page(slug, a):
         # On this page the product IS the app, so the hero shows the app, not a photo of a house.
         hero_mod, hero_wrap, hero_media = " hero--product", "hero-grid", ""
         hero_visual = '<div class="hero-visual">' + phone(ah["src"], ah["w"], ah["h"], ah["alt"], ah.get("size", "lg"), eager=True) + '</div>'
+    elif a.get("hero_view"):
+        # A dashboard-style KPI card floats over the property photo (kept, unlike app_hero above)
+        # so the hero still shows the physical asset alongside the decision-support view of it.
+        hero_visual = '<div class="hero-dash">' + a["hero_view"] + '</div>'
     product_story = "".join(a.get("app_sections", []))
     is_svg = a["image"].endswith(".svg")
     return f'''<!DOCTYPE html>

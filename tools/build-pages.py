@@ -268,22 +268,6 @@ AUDIENCES = {
         hero_view=dash("Perrongen Borettslag", "200 boliger · 4 bygg · Eidsvoll · byggeår 1986",
                         kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
                         footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
-        app_sections=[
-            app_section(
-                "Planlegg vedlikehold", "Se hva som kommer – før det blir akutt.",
-                "ERA samler tiltak, prioriteringer og kostnader i en levende vedlikeholdsplan som oppdateres når eiendommen endrer seg.",
-                '<div class="appsec-dash">' + dash("10-årig vedlikeholdsplan", "Perrongen Borettslag",
-                    groups=[("planned", [("2027 · Fasade", "1,2 MNOK"), ("2028 · Ventilasjon", "650 000 kr"), ("2029 · Soilrør", "4,8 MNOK"), ("2030 · Tak", "2,1 MNOK"), ("2031 · Vinduer", "1,8 MNOK")])],
-                    footer="Eksempeldata. Tidspunkt og kostnad er anslag som oppdateres etter hvert som tilstand og pris avklares.") + '</div>',
-                alt_bg=True, sid="vedlikeholdsplan"),
-            app_section(
-                "ERA hjelper styret prioritere", "Beslutningsstøtte, ikke en chatbot.",
-                "Basert på vedlikeholdsplanen, registrert tilstand og risiko foreslår ERA hva styret bør prioritere først, med begrunnelse og kostnadsestimat.",
-                '<div class="appsec-dash">' + dash("ERA Styre-agent", "«Hva bør styret prioritere de neste 24 månedene?»",
-                    groups=[("ai", [("1. Soilrør", "Høy prioritet · estimert 4,2–5,0 MNOK"), ("2. Fasade", "Planlegg innen 18 måneder · estimert 1,0–1,3 MNOK"), ("3. Ventilasjon", "Bør kartlegges · estimert 80 000–120 000 kr")])],
-                    footer="Eksempeldata. ERA foreslår og begrunner; styret vurderer og beslutter.") + '</div>',
-                flip=True, sid="styre-agent"),
-        ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
             lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",

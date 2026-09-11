@@ -144,6 +144,43 @@ def app_loop(eyebrow, title, steps, foot):
             '</div></section>')
 
 
+PRIORITY_LABELS = {"high": "Høy prioritet", "med": "Middels prioritet", "low": "Lav prioritet"}
+
+
+def priority_dot(level):
+    return f'<span class="pdot pdot-{level}" aria-hidden="true"></span>'
+
+
+def maintenance_plan_view(title, meta, kpis, rows, footer):
+    """The 10-year plan view: a dot-coded priority timeline plus filter-style KPI counts,
+    built from the same .dash/.kpi/.drow parts as dash() so it stays visually consistent."""
+    kpi_html = '<div class="kpis">' + "".join(
+        f'<div class="kpi"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in kpis) + '</div>'
+    row_html = '<div class="dash-group plan-rows">' + "".join(
+        f'<div class="drow plan-row"><span>{priority_dot(level)}{esc(year)} · {esc(name)}</span>'
+        f'<b>{esc(cost)}<i class="plan-pri">{esc(PRIORITY_LABELS[level])}</i></b></div>'
+        for year, name, cost, level in rows) + '</div>'
+    return (f'<div class="dash"><div class="dash-head"><div><div class="dash-title">{esc(title)}</div>'
+            f'<div class="dash-meta">{esc(meta)}</div></div></div>{kpi_html}{row_html}'
+            f'<div class="dash-foot">{esc(footer)}</div></div>')
+
+
+def styre_agent_view(question, answer_lede, picks, footer):
+    """The ERA Styre-agent view: a question bubble, a short answer, and a numbered priority list."""
+    picks_html = "".join(
+        f'<div class="agent-pick"><span class="agent-n">{i+1}</span>'
+        f'<div><b>{esc(name)}</b><span>{esc(detail)}</span></div></div>'
+        for i, (name, detail) in enumerate(picks))
+    return (
+        '<div class="dash agent-dash">'
+        '<div class="dash-head"><div><div class="dash-title">ERA Styre-agent</div>'
+        f'<div class="dash-meta">Beslutningsstøtte basert på eiendomsdata</div></div></div>'
+        f'<div class="agent-q">{esc(question)}</div>'
+        f'<div class="agent-a"><p>{esc(answer_lede)}</p>{picks_html}</div>'
+        f'<div class="dash-foot">{esc(footer)}</div></div>'
+    )
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
@@ -268,6 +305,32 @@ AUDIENCES = {
         hero_view=dash("Perrongen Borettslag", "200 boliger · 4 bygg · Eidsvoll · byggeår 1986",
                         kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
                         footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
+        app_sections=[
+            app_section(
+                "Planlegg vedlikehold", "Se hva som kommer – før det blir akutt.",
+                "ERA samler tiltak, prioriteringer og kostnader i en levende vedlikeholdsplan som oppdateres når eiendommen endrer seg.",
+                '<div class="appsec-dash">' + maintenance_plan_view(
+                    "10-årig vedlikeholdsplan", "Perrongen Borettslag",
+                    kpis=[("Alle tiltak", "12"), ("Høy prioritet", "3"), ("Middels", "6"), ("Lav", "3")],
+                    rows=[("2027", "Fasade", "1,2 MNOK", "high"),
+                          ("2028", "Ventilasjon", "650 000 kr", "med"),
+                          ("2029", "Soilrør", "4,8 MNOK", "high"),
+                          ("2030", "Tak", "2,1 MNOK", "med"),
+                          ("2031", "Vinduer", "1,8 MNOK", "low")],
+                    footer="Eksempeldata. Tidspunkt og kostnad er anslag som oppdateres etter hvert som tilstand og pris avklares.") + '</div>',
+                alt_bg=True, sid="vedlikeholdsplan"),
+            app_section(
+                "ERA hjelper styret prioritere", "Beslutningsstøtte, ikke en chatbot.",
+                "Basert på vedlikeholdsplanen, registrert tilstand og risiko foreslår ERA hva styret bør prioritere først, med begrunnelse og kostnadsestimat.",
+                '<div class="appsec-dash">' + styre_agent_view(
+                    "Hva bør styret prioritere de neste 24 månedene?",
+                    "Basert på tilstand, alder på komponenter og vedlikeholdsplanen anbefaler ERA at dere prioriterer:",
+                    picks=[("Soilrør", "Høy risiko for følgeskader · estimert 4,2–5,0 MNOK"),
+                           ("Fasade", "Planlegg innen 18 måneder · estimert 1,0–1,3 MNOK"),
+                           ("Ventilasjon", "Bør kartlegges · estimert 80 000–120 000 kr")],
+                    footer="Eksempeldata. ERA foreslår og begrunner; styret vurderer og beslutter.") + '</div>',
+                flip=True, sid="styre-agent"),
+        ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
             lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",

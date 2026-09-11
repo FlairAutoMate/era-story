@@ -89,7 +89,29 @@ Boligeiersiden viser ERA Bolig med ekte appskjermer i stedet for å forklare pro
 - Gløden bak enheten (`.pw-phone::before`) er begrenset horisontalt. Et pseudoelement teller med i `scrollWidth`, og en bleed på 18 % ga 423px dokument på en 390px skjerm.
 - **Loop-stripen bygges i HTML** av de samme fem skjermene som seksjonene bruker, ikke av et bakt komposittbilde. Da kan den ikke drifte fra seksjonene når en skjerm byttes. Under 900px skjules stripen: fem telefoner ved siden av hverandre blir ~65px brede og uleselige, og skjermene er allerede vist i lesbar størrelse i seksjonene over.
 - **Én demobolig per side.** `/boligeier` bruker **Myrerveien 46A** gjennomgående; de andre målgruppesidene bruker Borgveien 14. Ikke bland dem på samme side.
-- **Åpent (sept. 2026):** boligens byggeår er 1967, men skjermbildene viser 1987 (Hjem i statraden, assistenten i både analysen og «Hva det betyr»). Årstallet er derfor midlertidig ute av alt-teksten og av punktet «Hva det betyr», så siden ikke motsier bildet ved siden av. Samtidig oppgir Hjem 6,8 mill. kr og Boligminne 8,9 mill. kr for samme bolig — derfor brukes bare Boligminne-*kortet*, ikke hele den skjermen. Begge løses av to nye eksporter.
+- **Skjermene har ikke samme oppløsning.** Fire ligger på 853×1844, Min bolig på 941×1672. Derfor bærer hvert steg i `app_loop()` sine egne `width`/`height`; en hardkodet størrelse strekker bildet. Ulikt sideforhold gjør også at telefonene i loop-stripen får ulik høyde — 941×1672 blir ~91px kortere enn naboene ved 236px bredde. Én felles eksportstørrelse for alle fem er å foretrekke.
+
+#### Faktaark for demoboligen
+
+Tre ulike verdier for samme bolig har rukket å gå i produksjon ved et uhell (6,8 mill. / 8,9 mill. / 6 250 000), to estimater for samme jobb, to byggeår og to feilstavinger av adressen. Årsaken var at tallene ble bestemt på nytt i hver enkelt eksport. Fasiten ligger nå ett sted, i `DEMO_HOME` i `tools/build-pages.py`, og alt-tekstene bygges av den:
+
+| Felt | Verdi |
+| --- | --- |
+| Adresse | Myrerveien 46A, Oslo |
+| Boligtype · areal | Enebolig · 162 m² |
+| Byggeår | 1967 |
+| Tilstand | God · 78 av 100 |
+| Neste tiltak | Fasadevask og maling |
+| Estimert kostnad | 85 000–140 000 kr |
+| Estimert verdi | 6 250 000 kr |
+| Oppstart · varighet | April 2026 · 2–3 uker |
+| Håndverker | Oslo Fasade AS |
+
+**Endre tallet her først, eksporter skjermen etterpå — aldri motsatt vei.** `python tools/check-demo-home.py` feiler hvis en gammel verdi dukker opp igjen i en generert side, eller hvis en verdi fra faktaarket forsvinner ut av teksten. Sjekken er avgrenset til `/boligeier` for tallene, siden de samme beløpene er gyldige andre steder — `/styret` priser ventilasjon for et annet bygg til 80 000–120 000 kr. Feilstavet adresse fanges på alle sider.
+
+Sjekken leser generert HTML og **kan ikke se inn i en PNG**. Når en skjerm eksporteres på nytt, må bildet kontrolleres med øynene og alt-teksten stemmes av mot det; sperren hindrer først drift etterpå.
+
+- **Åpent (sept. 2026):** `/boligeier` er internt motstridende. Min bolig er byttet til det nye datasettet (1967, 85 000–140 000 kr, 6 250 000 kr), mens Hjem, Boligagent og Prosjekt fortsatt viser 1987 og 80 000–120 000 kr — og de står ved siden av hverandre i loop-stripen. Alt-tekstene følger faktaarket og beskriver derfor foreløpig verdier som ikke står på de tre gamle bildene. Løses av tre nye eksporter i 853×1844. Ikke publiser siden før de er på plass.
 
 ## Nye bilder som venter på foto
 

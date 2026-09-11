@@ -74,6 +74,33 @@ def soften(text):
     return text
 
 
+# The one demo home used across every ERA Bolig screen on /boligeier. This is the fact sheet: the
+# app screenshots must show these values, and the alt texts below are built from it so the two
+# cannot drift apart. Three different values for the same home have already shipped by accident
+# (6,8 mill. / 8,9 mill. / 6 250 000) — change a number here, re-export the screens, never the
+# other way around. tools/check-demo-home.py fails if a stale value reappears in a generated page.
+DEMO_HOME = {
+    "address": "Myrerveien 46A",
+    "city": "Oslo",
+    "type": "enebolig",
+    "area": "162 m²",
+    "year": "1967",
+    "condition": "God",
+    "score": "78 av 100",
+    "measure": "Fasadevask og maling",
+    "cost": "85 000–140 000 kr",
+    "value": "6 250 000 kr",
+    "start": "april 2026",
+    "duration": "2–3 uker",
+    "pro": "Oslo Fasade AS",
+}
+
+# Values that shipped earlier and must never come back. Kept here so the fact sheet and the guard
+# that enforces it live in the same place.
+DEMO_HOME_STALE = ["1987", "80 000–120 000", "80 000 – 120 000", "6,8 mill", "8,9 mill",
+                   "Myrveien", "Myreveien", "Borgveien"]
+
+
 def phone(src, w, h, alt, size="md", eager=False, cap=None):
     """One ERA Bolig screen in a device frame. Never cropped: width/height come from the file, and
     each size class caps the width at the source resolution so nothing is upscaled and soft."""
@@ -129,14 +156,17 @@ AUDIENCES = {
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
         image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
         app_hero=dict(src="/assets/story/app-hjem.png", w=853, h=1844, size="lg",
-                      alt="ERA Bolig på mobil: forsiden for Myrerveien 46A med boligtype enebolig, 162 m², tilstand God 78 av 100, neste tiltak «Fasadevask og maling» og estimert kostnad 80 000–120 000 kr"),
+                      alt=f"ERA Bolig på mobil: forsiden for {DEMO_HOME['address']} med boligtype {DEMO_HOME['type']}, "
+                          f"{DEMO_HOME['area']}, byggeår {DEMO_HOME['year']}, tilstand {DEMO_HOME['condition']} "
+                          f"{DEMO_HOME['score']}, neste tiltak «{DEMO_HOME['measure']}» og estimert kostnad {DEMO_HOME['cost']}"),
         app_sections=[
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
                 "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
                 phone("/assets/story/app-minbolig.png", 941, 1672,
-                      "ERA Bolig: Min bolig for Myrerveien 46A – enebolig fra 1967 på 162 m² med tilstand God 78 av 100, "
-                      "vedlikeholdstiltaket «Fasadevask og maling» til 85 000–140 000 kr, estimert verdi 6 250 000 kr og samlet dokumentasjon",
+                      f"ERA Bolig: Min bolig for {DEMO_HOME['address']} – {DEMO_HOME['type']} fra {DEMO_HOME['year']} på "
+                      f"{DEMO_HOME['area']} med tilstand {DEMO_HOME['condition']} {DEMO_HOME['score']}, vedlikeholdstiltaket "
+                      f"«{DEMO_HOME['measure']}» til {DEMO_HOME['cost']}, estimert verdi {DEMO_HOME['value']} og samlet dokumentasjon",
                       "lg"),
                 alt_bg=True, flip=True, sid="slik"),
             app_section(
@@ -150,7 +180,8 @@ AUDIENCES = {
                 "Boligagent", "Ikke bare et AI-svar. Et svar om boligen din.",
                 "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
                 phone("/assets/story/app-agent.png", 853, 1844,
-                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
+                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte "
+                      f"fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad {DEMO_HOME['cost']}",
                       "lg"),
                 points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
                         ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
@@ -160,7 +191,8 @@ AUDIENCES = {
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
                 phone("/assets/story/app-prosjekt.png", 853, 1844,
-                      "ERA Bolig: prosjektet «Fasadevask og maling» på Myrerveien 46A med estimert kostnad 80 000–120 000 kr, planlagt oppstart april 2026, fremdrift, håndverker og fem oppgaver",
+                      f"ERA Bolig: prosjektet «{DEMO_HOME['measure']}» på {DEMO_HOME['address']} med estimert kostnad "
+                      f"{DEMO_HOME['cost']}, planlagt oppstart {DEMO_HOME['start']}, fremdrift, håndverker og fem oppgaver",
                       "lg", cap="Eksempeldata"),
                 points=[("Planlegging", "Omfang, oppstart og varighet."),
                         ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),

@@ -229,6 +229,23 @@ def completion_view(title, meta, kpis, docs, footer):
     )
 
 
+def building_overview_view(title, meta, buildings, footer):
+    """The property-map view: one status card per building, so the board sees where attention
+    is needed before diving into any single maintenance item."""
+    cards = "".join(
+        f'<div class="bldg-card{" bldg-card--risk" if risk else ""}">'
+        f'<div class="bldg-name">{esc(name)}</div><div class="bldg-meta">{esc(units)}</div>'
+        f'<div class="bldg-score"><b>{esc(score)}</b><span>vedlikeholdsstatus</span></div>'
+        f'<div class="bldg-tasks">{esc(tasks)}</div>'
+        + ('<span class="bldg-flag">Krever oppfølging</span>' if risk else '')
+        + '</div>'
+        for name, units, score, tasks, risk in buildings)
+    return (f'<div class="dash"><div class="dash-head"><div><div class="dash-title">{esc(title)}</div>'
+            f'<div class="dash-meta">{esc(meta)}</div></div></div>'
+            f'<div class="bldg-grid">{cards}</div>'
+            f'<div class="dash-foot">{esc(footer)}</div></div>')
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
@@ -354,6 +371,17 @@ AUDIENCES = {
                         kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
                         footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
         app_sections=[
+            app_section(
+                "Eiendommen samlet", "Fire bygg. Én status.",
+                "Før styret går inn i ett enkelt tiltak, ser dere hvor det trengs mest – bygg for bygg, ikke bare for eiendommen som helhet.",
+                '<div class="appsec-dash">' + building_overview_view(
+                    "Bygningsoversikt", "Perrongen Borettslag · byggeår 1986",
+                    buildings=[("Bygg A", "52 boliger", "68/100", "3 tiltak", True),
+                               ("Bygg B", "48 boliger", "81/100", "2 tiltak", False),
+                               ("Bygg C", "50 boliger", "74/100", "3 tiltak", False),
+                               ("Bygg D", "50 boliger", "62/100", "4 tiltak", True)],
+                    footer="Eksempeldata. Status per bygg bygger på tilstandsrapporter og innmeldte behov.") + '</div>',
+                sid="eiendomskart"),
             app_section(
                 "Planlegg vedlikehold", "Se hva som kommer – før det blir akutt.",
                 "ERA samler tiltak, prioriteringer og kostnader i en levende vedlikeholdsplan som oppdateres når eiendommen endrer seg.",

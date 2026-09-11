@@ -143,6 +143,17 @@ body.menu-open { overflow: hidden; }
 .done-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: rgba(92,138,107,0.14); color: #3E6650; font-size: 12px; font-weight: 700; }
 .doc-chips { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
 .doc-chip { padding: 7px 14px; border-radius: 999px; background: var(--sand); font-size: 13px; color: var(--ink); }
+.bldg-grid { margin-top: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.bldg-card { position: relative; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); }
+.bldg-card--risk { border-color: rgba(196,87,63,0.4); background: rgba(196,87,63,0.05); }
+.bldg-name { font-weight: 700; font-size: 15px; }
+.bldg-meta { font-size: 12px; color: var(--muted-2); margin-top: 2px; }
+.bldg-score { margin-top: 10px; display: flex; align-items: baseline; gap: 6px; }
+.bldg-score b { font-size: 20px; }
+.bldg-score span { font-size: 12px; color: var(--muted-2); }
+.bldg-tasks { margin-top: 6px; font-size: 13px; color: var(--ink); }
+.bldg-flag { display: inline-block; margin-top: 8px; padding: 2px 10px; border-radius: 999px; background: rgba(196,87,63,0.14); color: #8C4433; font-size: 11px; font-weight: 700; }
+@media (max-width: 520px) { .bldg-grid { grid-template-columns: 1fr; } }
 .appsec-points { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 12px; }
 .appsec-points li { position: relative; padding-left: 26px; font-size: 15.5px; line-height: 1.45; color: var(--muted); }
 .appsec-points li b { display: block; color: var(--ink); font-size: 16px; }

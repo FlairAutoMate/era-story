@@ -31,7 +31,7 @@ Det var tilfellet for døren: `H(180, 0.55)` ga 99vh mot et 100dvh-barn, altså 
 - Sidens `h1` er broscenens overskrift «Et agentisk system for hele boligens livsløp.» i `tools/om-era-template.html`. Siden hadde tidligere ingen `h1` i det hele tatt — forsidens ligger i dør-scenen, som ikke er med i dette bygget.
 - Scenene ligger i `tools/om-era-template.html`. `python tools/build-om-era.py` setter dem sammen med forsidens hode, meny, skinne, finale, bunntekst og skript til `om-era/index.html`. Rediger malen, ikke den bygde filen.
 - Én scroll-motor for begge sider: skriptet i `index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
-- Etter en ny designeksport: `rebase-deltas.py` → `build-om-era.py` → `build-pages.py`. Merk at komprimeringen 2026-09-05 (05c fjernet, 20+21 slått sammen, nye scenehøyder) ikke ligger i `rebase-deltas.py` ennå.
+- Etter en ny designeksport: `rebase-deltas.py` → `build-om-era.py` → `build-pages.py`. **Men `rebase-deltas.py` er brutt** — se advarselen under «Oppdatere fra en ny designeksport».
 
 Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
@@ -123,9 +123,27 @@ Alle tre fotoene foreligger nå (`whole-home-v3.jpg`, `plumber-v3.jpg`, `electri
 
 ## Oppdatere fra en ny designeksport
 
+> ### ⚠️ Denne veien virker ikke i dag — les før du prøver
+>
+> `rebase-deltas.py` kan ikke lenger reprodusere `index.html` fra den arkiverte basen. Målt 11. sept. 2026:
+>
+> ```
+> python tools/rebase-deltas.py tools/base-export-2026-09-04.html ut.html
+> → MISSING: 8 deltaer, exit 1, ingen fil skrevet
+> ```
+>
+> **Ingen av de åtte søkestrengene finnes i `base-export-2026-09-04.html`.** Tre av dem finnes derimot i `index.html` (`navItems` med ferdige `/boligeier`-lenker, `shot-contractor` med `painter-v3.jpg`, `t1` med `block-season-1-v3.jpg`) — de er altså skrevet mot den ferdige filen, ikke mot basen. De fem andre viser til bilder og verdier som ikke finnes noe sted lenger (`bathroom-v3.jpg`, `couple-sofa-window-v4.jpg`, `materials-floor-v3.jpg`, `"electrician": ""`).
+>
+> Basen er 94 KB, `index.html` er 193 KB. Avstanden er altså ikke åtte deltaer — det er mesteparten av arbeidet siden 4. sept., inkludert komprimeringen 5. sept. (05c fjernet, 20+21 slått sammen, nye scenehøyder).
+>
+> Det ene som fungerer: skriptet **feiler høylytt** og skriver ingen fil, så det kan ikke ødelegge `index.html` i stillhet.
+>
+> Kommer det en ny designeksport, må dette avgjøres først: arkiver en fersk base og skriv deltaene på nytt mot den, eller forlat rebase-tilnærmingen og flett for hånd. Ikke kjør skriptet og anta at resultatet er komplett.
+
 1. Pakk ut den frittstående eksporten (bilder til `assets/story/*-v2.*`, fonter til `fonts/`, malen til `base.html` med ressurskart i `<head>`).
-2. `python tools/rebase-deltas.py base.html index.html` legger ERAs egne endringer oppå (meny og bunntekst til undersidene, målgruppetekster, finale med skjema, dyplenker, firmanavn).
+2. `python tools/rebase-deltas.py base.html index.html` legger ERAs egne endringer oppå (meny og bunntekst til undersidene, målgruppetekster, finale med skjema, dyplenker, firmanavn) — **se advarselen over**.
 3. `python tools/build-pages.py`, deretter `node qa-story.mjs` og `node qa-board.mjs`.
+4. `python tools/check-demo-home.py` for å fange sprik i demoboligens data.
 
 Siste base ligger i `tools/base-export-2026-09-04.html`.
 

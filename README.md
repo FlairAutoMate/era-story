@@ -31,7 +31,7 @@ Det var tilfellet for døren: `H(180, 0.55)` ga 99vh mot et 100dvh-barn, altså 
 - Sidens `h1` er broscenens overskrift «Et agentisk system for hele boligens livsløp.» i `tools/om-era-template.html`. Siden hadde tidligere ingen `h1` i det hele tatt — forsidens ligger i dør-scenen, som ikke er med i dette bygget.
 - Scenene ligger i `tools/om-era-template.html`. `python tools/build-om-era.py` setter dem sammen med forsidens hode, meny, skinne, finale, bunntekst og skript til `om-era/index.html`. Rediger malen, ikke den bygde filen.
 - Én scroll-motor for begge sider: skriptet i `index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
-- Etter en ny designeksport: `rebase-deltas.py` → `build-om-era.py` → `build-pages.py`. **Men `rebase-deltas.py` er brutt** — se advarselen under «Oppdatere fra en ny designeksport».
+- Etter en ny designeksport: flett designerens endringer inn i `index.html`, deretter `build-om-era.py` → `build-pages.py`. `rebase-deltas.py` er **arkivert** — se «Oppdatere fra en ny designeksport».
 
 Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
@@ -138,12 +138,31 @@ Alle tre fotoene foreligger nå (`whole-home-v3.jpg`, `plumber-v3.jpg`, `electri
 >
 > Det ene som fungerer: skriptet **feiler høylytt** og skriver ingen fil, så det kan ikke ødelegge `index.html` i stillhet.
 >
-> Kommer det en ny designeksport, må dette avgjøres først: arkiver en fersk base og skriv deltaene på nytt mot den, eller forlat rebase-tilnærmingen og flett for hånd. Ikke kjør skriptet og anta at resultatet er komplett.
+`tools/rebase-deltas.py` er derfor **arkivert**, ikke i bruk. Rutinen under har snudd retning.
 
-1. Pakk ut den frittstående eksporten (bilder til `assets/story/*-v2.*`, fonter til `fonts/`, malen til `base.html` med ressurskart i `<head>`).
-2. `python tools/rebase-deltas.py base.html index.html` legger ERAs egne endringer oppå (meny og bunntekst til undersidene, målgruppetekster, finale med skjema, dyplenker, firmanavn) — **se advarselen over**.
-3. `python tools/build-pages.py`, deretter `node qa-story.mjs` og `node qa-board.mjs`.
-4. `python tools/check-demo-home.py` for å fange sprik i demoboligens data.
+### Hvorfor retningen er snudd
+
+Den gamle rutinen tok designerens ferske fil og spilte ERAs ~100 deltaer oppå den. Det forutsetter at ERAs endringer er et lite tillegg. Den forutsetningen holder ikke: ERAs eget arbeid er nå omtrent to tredjedeler av `index.html`. Vi spilte flertallet oppå mindretallet.
+
+Rotårsaken var likevel ikke størrelsen, men at `rebase-deltas.py` var **en andre kopi av arbeidet som måtte holdes synkronisert for hånd**. Den kopien drev fra hverandre to ganger: komprimeringen 5. sept. ble aldri skrevet inn, og tre deltaer ble skrevet mot `index.html` i stedet for mot basen — den naturlige feilen når man vedlikeholder to sannheter. Enhver løsning som beholder kopien, vil drive fra hverandre igjen.
+
+Den nye rutinen har ingen kopi. Du gjør bare arbeid når en eksport faktisk kommer.
+
+### Rutine
+
+1. Pakk ut den nye eksporten et sted utenfor repoet. Ikke skriv over `index.html`.
+2. **Diff de to eksportene, ikke eksporten mot `index.html`:**
+   ```bash
+   diff tools/base-export-2026-09-04.html /sti/til/ny-eksport.html
+   ```
+   Dette er designerens endringer siden sist — den lille mengden. `index.html` er kilden og skal ikke gjenskapes.
+3. Påfør de endringene på `index.html` for hånd. De fleste vil være i markup og stil; ERAs egne scener, `heights`, analysehendelser og målgruppetekster skal bli stående.
+4. Legg nye bilder i `assets/story/` og fonter i `fonts/`.
+5. **Arkiver den nye eksporten** som `tools/base-export-<dato>.html` og oppdater stien i punkt 2. Hopper du over dette, mister neste diff sitt utgangspunkt — det er det eneste steget som må gjøres hver gang.
+6. `python tools/build-om-era.py` og `python tools/build-pages.py`.
+7. `node qa-story.mjs`, `node qa-board.mjs`, `python tools/check-demo-home.py`.
+
+Forutsetningen bak rutinen er at ERA eier `index.html`, og at designeksporter er justeringer. Kommer det en helt ny eksport som skal erstatte alt, holder ikke dette — da må ERAs arbeid beskrives på nytt i den nye strukturen, og det er en større jobb enn en flette.
 
 Siste base ligger i `tools/base-export-2026-09-04.html`.
 

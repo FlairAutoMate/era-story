@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
-"""Applies ERA's own deltas on top of a fresh Claude Design export (base.html → index.html):
-audience pages in the menu/footer, faghandel/håndverker/styret copy, audience-aware finale with
-the lead form, deep-link jump, mobile framing for the wall mask, company name.
-Usage: python tools/rebase-deltas.py <base.html> <out index.html>"""
+"""ARKIVERT 11. sept. 2026 — IKKE I BRUK. Ikke kjør dette mot en ny designeksport.
+
+Skriptet spilte ERAs egne deltaer oppå en fersk Claude Design-eksport (base.html → index.html).
+Det virker ikke lenger: mot tools/base-export-2026-09-04.html treffer 8 av deltaene ikke, og
+skriptet avslutter med exit 1 uten å skrive fil. Tre av dem er dessuten skrevet mot den ferdige
+index.html i stedet for mot basen. Basen er 94 KB, index.html er 193 KB — ERAs eget arbeid er nå
+to tredjedeler av filen, så retningen var feil vei.
+
+Rutinen er snudd: index.html er kilden, og designerens endringer finnes ved å diffe den gamle
+eksporten mot den nye. Se «Oppdatere fra en ny designeksport» i README.
+
+Filen er beholdt fordi deltaene dokumenterer hva ERA endret fra den opprinnelige eksporten.
+Les den som historikk, ikke som verktøy.
+
+Usage (historisk): python tools/rebase-deltas.py <base.html> <out index.html>"""
 import re, sys
 
 src, dst = sys.argv[1], sys.argv[2]

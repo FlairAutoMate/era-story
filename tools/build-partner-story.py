@@ -357,7 +357,7 @@ def build_jotun(p):
         "ERA er bygget rundt boligens livsløp, ikke én enkelt transaksjon. Det gir muligheten til å møte kunden igjen når et nytt relevant behov oppstår. Dette handler om en digital kunderelasjon og løpende kontaktpunkter, ikke om eierskap til kunden.",
         "Én bolig. Mange prosjekter. Mange år.",
         "block-season-2-v3.jpg",
-        extra=dash("Boligens tidslinje", "Eksempel, Borgveien 14",
+        extra=dash("Boligens tidslinje", "Eksempel, Myrerveien 14",
                    kpis=[("2027", "Fasade"), ("2028", "Terrasse"), ("2029", "Innvendig"), ("2031", "Ny vurdering")])))
 
     s.append(scene(None,

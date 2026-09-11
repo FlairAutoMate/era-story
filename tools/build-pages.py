@@ -74,6 +74,28 @@ def soften(text):
     return text
 
 
+# The one demo home used across every ERA Bolig screen on /boligeier. This is the fact sheet: the
+# app screenshots must show these values, and the alt texts below are built from it so the two
+# cannot drift apart. Three different values for the same home have already shipped by accident
+# (6,8 mill. / 8,9 mill. / 6 250 000) — change a number here, re-export the screens, never the
+# other way around. tools/check-demo-home.py fails if a stale value reappears in a generated page.
+DEMO_HOME = {
+    "address": "Myrerveien 46A",
+    "city": "Oslo",
+    "type": "enebolig",
+    "area": "162 m²",
+    "year": "1967",
+    "condition": "God",
+    "score": "78 av 100",
+    "measure": "Fasadevask og maling",
+    "cost": "85 000–140 000 kr",
+    "value": "6 250 000 kr",
+    "start": "april 2026",
+    "duration": "2–3 uker",
+    "pro": "Oslo Fasade AS",
+}
+
+
 def phone(src, w, h, alt, size="md", eager=False, cap=None):
     """One ERA Bolig screen in a device frame. Never cropped: width/height come from the file, and
     each size class caps the width at the source resolution so nothing is upscaled and soft."""
@@ -105,13 +127,15 @@ def app_section(eyebrow, title, lede, visual_html, points=(), alt_bg=False, flip
 
 
 def app_loop(eyebrow, title, steps, foot):
-    """The whole loop in one row: five screens, five short labels, one grid so they stay aligned."""
+    """The whole loop in one row: five screens, five short labels, one grid so they stay aligned.
+    Each step carries its own width/height: the screens are exported at different resolutions, and a
+    hardcoded size would stretch them."""
     shots = "".join(
-        f'<div class="apploop-shot"><img src="{src}" width="853" height="1844" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
-        for _, _, src, alt in steps)
+        f'<div class="apploop-shot"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
+        for _, _, src, alt, w, h in steps)
     labels = "".join(
         f'<div class="apploop-step"><span class="n">0{i+1}</span><b>{esc(t)}</b><span>{esc(d)}</span></div>'
-        for i, (t, d, _, _) in enumerate(steps))
+        for i, (t, d, _, _, _, _) in enumerate(steps))
     return ('<section class="section alt" id="loopen"><div class="wrap wide">'
             f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
             f'<div class="apploop">{shots}</div>'
@@ -127,13 +151,17 @@ AUDIENCES = {
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
         image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
         app_hero=dict(src="/assets/story/app-hjem.png", w=853, h=1844, size="lg",
-                      alt="ERA Bolig på mobil: forsiden for Myrerveien 46A med boligtype enebolig, 162 m², tilstand God 78 av 100, neste tiltak «Fasadevask og maling» og estimert kostnad 80 000–120 000 kr"),
+                      alt=f"ERA Bolig på mobil: forsiden for {DEMO_HOME['address']} med boligtype {DEMO_HOME['type']}, "
+                          f"{DEMO_HOME['area']}, byggeår {DEMO_HOME['year']}, tilstand {DEMO_HOME['condition']} "
+                          f"{DEMO_HOME['score']}, neste tiltak «{DEMO_HOME['measure']}» og estimert kostnad {DEMO_HOME['cost']}"),
         app_sections=[
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
                 "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
-                phone("/assets/story/app-minbolig.png", 853, 1844,
-                      "ERA Bolig: Min bolig for Myrerveien 46A med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne",
+                phone("/assets/story/app-minbolig.png", 941, 1672,
+                      f"ERA Bolig: Min bolig for {DEMO_HOME['address']} – {DEMO_HOME['type']} fra {DEMO_HOME['year']} på "
+                      f"{DEMO_HOME['area']} med tilstand {DEMO_HOME['condition']} {DEMO_HOME['score']}, vedlikeholdstiltaket "
+                      f"«{DEMO_HOME['measure']}» til {DEMO_HOME['cost']}, estimert verdi {DEMO_HOME['value']} og samlet dokumentasjon",
                       "lg"),
                 alt_bg=True, flip=True, sid="slik"),
             app_section(
@@ -147,7 +175,8 @@ AUDIENCES = {
                 "Boligagent", "Ikke bare et AI-svar. Et svar om boligen din.",
                 "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
                 phone("/assets/story/app-agent.png", 853, 1844,
-                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
+                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte "
+                      f"fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad {DEMO_HOME['cost']}",
                       "lg"),
                 points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
                         ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
@@ -157,7 +186,8 @@ AUDIENCES = {
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
                 phone("/assets/story/app-prosjekt.png", 853, 1844,
-                      "ERA Bolig: prosjektet «Fasadevask og maling» på Myrerveien 46A med estimert kostnad 80 000–120 000 kr, planlagt oppstart april 2026, fremdrift, håndverker og fem oppgaver",
+                      f"ERA Bolig: prosjektet «{DEMO_HOME['measure']}» på {DEMO_HOME['address']} med estimert kostnad "
+                      f"{DEMO_HOME['cost']}, planlagt oppstart {DEMO_HOME['start']}, fremdrift, håndverker og fem oppgaver",
                       "lg", cap="Eksempeldata"),
                 points=[("Planlegging", "Omfang, oppstart og varighet."),
                         ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),
@@ -175,15 +205,15 @@ AUDIENCES = {
             app_loop(
                 "Hele loopen", "Fra spørsmål til ferdig dokumentert.",
                 [("Boligen", "ERA kjenner den.", "/assets/story/app-hjem.png",
-                  "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak"),
+                  "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak", 853, 1844),
                  ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
-                  "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu"),
+                  "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu", 853, 1844),
                  ("Boligagent", "Forstå hva det betyr.", "/assets/story/app-agent.png",
-                  "ERA Bolig: boligagentens analyse av bildet med funn, betydning og forslag"),
+                  "ERA Bolig: boligagentens analyse av bildet med funn, betydning og forslag", 853, 1844),
                  ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
-                  "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver"),
+                  "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver", 853, 1844),
                  ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
-                  "ERA Bolig: Min bolig med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne")],
+                  "ERA Bolig: Min bolig med nøkkeltall, vedlikeholdstiltak, estimert verdi og dokumentasjon", 941, 1672)],
                 "Eksempeldata. Samme bolig, Myrerveien 46A, gjennom hele loopen."),
         ],
         gains=[
@@ -336,7 +366,7 @@ AUDIENCES = {
                      text="Kundens beskrivelse, bilder og tilgjengelig boliginformasjon følger henvendelsen.",
                      value="Du vurderer jobben og forbereder befaringen på et bedre grunnlag.",
                      view=dash("Oppdragsgrunnlag", "Male stue · fra kundens henvendelse",
-                               kpis=[("Adresse", "Borgveien 14"), ("Rom", "Stue, 2 vegger"), ("Bilder", "4 vedlagt"), ("Ønsket tid", "Uke 38–40")],
+                               kpis=[("Adresse", "Myrerveien 14"), ("Rom", "Stue, 2 vegger"), ("Bilder", "4 vedlagt"), ("Ønsket tid", "Uke 38–40")],
                                groups=[("ai", [("Anslått flate", "ca. 42 m²")]),
                                        ("check", [("Forbehandling", "Sjekkes på befaring")])],
                                footer="Eksempeldata. Bare det kunden har delt vises; ERA-forslaget er et utgangspunkt, ikke en fasit.")),

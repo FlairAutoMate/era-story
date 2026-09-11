@@ -107,6 +107,55 @@ def converge(left_title, left_items, right_title, right_items, mid):
     )
 
 
+def browser_card(url, brand_note, nav_links, eyebrow, heading, text, cta_label, quote, quote_by):
+    """A nested 'site preview' card — a concept of a partner's own website with ERA built in.
+    Deliberately schematic, not a pixel clone of the partner's real UI."""
+    return (
+        '<div class="p-browser">'
+        '<div class="p-browser-bar"><span class="p-browser-dot"></span><span class="p-browser-dot"></span><span class="p-browser-dot"></span>'
+        f'<span class="p-browser-url">{esc(url)}</span></div>'
+        '<div class="p-browser-body">'
+        f'<div class="p-browser-nav"><span class="p-browser-brand"><b>JOTUN</b><i>{esc(brand_note)}</i></span><span class="p-browser-navlinks">{esc(nav_links)}</span></div>'
+        '<div class="p-browser-hero"><div>'
+        f'<div class="p-eyebrow" style="color:var(--gold-2)">{esc(eyebrow)}</div>'
+        f'<h3>{esc(heading)}</h3><p>{esc(text)}</p>'
+        f'<span class="p-browser-cta">{esc(cta_label)}</span>'
+        '</div>'
+        f'<div class="p-browser-quote">«{esc(quote)}»<b>— {esc(quote_by)}</b></div>'
+        '</div></div></div>'
+    )
+
+
+def product_card(eyebrow, title, text, checks, cta_primary, cta_secondary):
+    """Illustrative product highlight — a color swatch stands in for packaging, not a real
+    product render (pair with a DEMO_PRODUCT_DATA-style disclaimer, as used elsewhere)."""
+    li = "".join(f'<li>{esc(x)}</li>' for x in checks)
+    return (
+        '<div class="p-product">'
+        '<div class="p-product-swatch" aria-hidden="true"></div>'
+        '<div class="p-product-body">'
+        f'<div class="p-eyebrow" style="color:var(--gold-2)">{esc(eyebrow)}</div>'
+        f'<h3>{esc(title)}</h3><p>{esc(text)}</p>'
+        f'<ul class="p-product-checks">{li}</ul>'
+        f'<div class="p-actions" style="margin-top:16px"><span class="btn" style="pointer-events:none">{esc(cta_primary)}</span><span class="link" style="pointer-events:none">{esc(cta_secondary)}</span></div>'
+        '</div></div>'
+    )
+
+
+def phone_card(image, title, meta, rows, cta):
+    """A schematic phone-frame mockup of a concept ERA app screen; pass as split()'s
+    media_html to replace the usual full-bleed photo in the media slot."""
+    rows_html = "".join(f'<div class="drow"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in rows)
+    return (
+        '<div class="p-phone-stage"><div class="p-phone"><div class="p-phone-notch"></div>'
+        '<div class="p-phone-screen">'
+        f'<div class="p-phone-top"><b>{esc(title)}</b><span>{esc(meta)}</span></div>'
+        f'<div class="p-phone-media" style="background-image:url(/assets/story/{esc(image)})"></div>'
+        f'<div class="p-phone-body">{rows_html}<span class="p-phone-cta">{esc(cta)}</span></div>'
+        '</div></div></div>'
+    )
+
+
 def scene(id_, body, image=None, dark=True, short=False, wide=False, center=False, body_class=""):
     cls = "p-scene" + ("" if dark else " light") + (" short" if short else "")
     bcls = "p-scene-body" + (" wide" if wide else "") + (" center" if center else "") + ((" " + body_class) if body_class else "")
@@ -127,7 +176,7 @@ def hero(eyebrow, title, sub, image, primary, secondary):
     return f'<section class="p-scene p-hero"><div class="p-scene-media reveal-img in-view">{img(image)}</div><div class="p-scene-body reveal in-view">{body}</div></section>'
 
 
-def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False, dark=True, extra=""):
+def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False, dark=True, extra="", media_html=None):
     body = (
         f'<div class="p-eyebrow{"" if dark else " dark2"}">{esc(eyebrow)}</div>'
         f'<h2 class="p-h2" style="margin-top:14px">{esc(heading)}</h2>'
@@ -138,9 +187,11 @@ def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False
     cls = "p-split reverse" if reverse else "p-split"
     bg = "background:var(--navy);color:var(--warm)" if dark else "background:var(--paper);color:var(--ink)"
     idattr = f' id="{esc(id_)}"' if id_ else ""
+    media = media_html if media_html is not None else img(image, image_alt)
+    media_reveal = "p-split-media" if media_html is not None else "p-split-media reveal-img"
     return (
         f'<section{idattr} class="{cls}" style="{bg}">'
-        f'<div class="p-split-media reveal-img">{img(image, image_alt)}</div>'
+        f'<div class="{media_reveal}">{media}</div>'
         f'<div class="p-scene-body reveal">{body}</div>'
         '</section>'
     )
@@ -368,6 +419,45 @@ def build_jotun(p):
         + '<p class="p-payoff">Samme prosjekt- og produktmotor. Fire innganger til Jotuns produkter.</p>',
         image="ecosystem-v3.jpg",
     ))
+
+    # KONKRET VISJON — jotun.no med ERA innebygd, produktkoblingen og app-øyeblikket gjort synlig
+    s.append(scene(None,
+        '<div class="p-eyebrow">Konkret visjon</div>'
+        '<h2 class="p-h1">Slik kan jotun.no se ut med ERA innebygd.</h2>'
+        '<p class="p-lede">Ikke en egen app boligeieren må oppdage — ERA kan leve rett på jotun.no, som en naturlig del av handleopplevelsen.</p>'
+        + browser_card(
+            "jotun.no", "× era.", "Farger · Produkter · Inspirasjon",
+            "JOTUN × ERA", "Fra boligbehov til handling.",
+            "Jotuns farger og produkter. ERAs kunnskap om din bolig. Sammen gjør vi det enklere å planlegge, handle og gjennomføre malingsprosjekter.",
+            "Kom i gang med ditt prosjekt →",
+            "Endelig en løsning som kjenner boligen min.", "Marte, Oslo",
+        )
+        + '<p class="p-fine">Konseptvisning — illustrasjon av hvordan integrasjonen kunne se ut på jotun.no, ikke en reell side.</p>',
+        image="livingroom-wall-v3.jpg", wide=True,
+    ))
+
+    s.append(split(None, "Produktet møter prosjektet", "ERA kobler behovet til riktig Jotun-produkt.",
+        "Når ERA har beregnet mengde og overflate, kan riktig produkt foreslås direkte — med begrunnelse, ikke bare en lenke til nettbutikken.",
+        None, "materials-floor-v3.jpg", reverse=True,
+        extra=product_card(
+            "Populært valg", "LADY New Era",
+            "Robust kvalitet som gir en varig, vakker matt finish.",
+            ["Vakker, matt utseende", "Ekstremt slitesterk, flekkavvisende og vaskbar", "Resirkulert materiale — dokumentert lavere karbonavtrykk"],
+            "Bruk på min bolig", "Finn farge",
+        ) + '<p class="p-fine">DEMO_PRODUCT_DATA — illustrasjon, ikke reell Jotun-katalog eller -produktdata.</p>'))
+
+    s.append(split(None, "Din bolig. Ditt prosjekt.", "ERA kjenner boligen din.",
+        "Ta et bilde av rommet, så hjelper ERA deg med å beregne hva du trenger. Du får en ferdig handleliste med Jotun-produkter, tilpasset din bolig og ditt prosjekt.",
+        None, None, reverse=False,
+        media_html=phone_card(
+            "materials-floor-v3.jpg", "Male stue", "Myrveien 46A",
+            [("Rom", "Stue · 26 m²"), ("Strøk", "2")],
+            "Fortsett",
+        ),
+        extra=(
+            flow([("Bilde av rommet", None), ("ERA beregner", None), ("Handleliste", "solid")])
+            + '<p class="p-fine">Konseptvisning av en fremtidig ERA-app-skjerm — ikke et eksisterende produkt.</p>'
+        )))
 
     s.append(scene(None,
         '<div class="p-eyebrow">Fem forslag</div>'

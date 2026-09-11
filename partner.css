@@ -133,6 +133,53 @@
   .p-converge { gap: 16px; }
 }
 
+/* browser-chrome mockup: a nested "site preview" card showing a concept of a partner's own
+   website with ERA built in — floats as light content on a dark .p-scene, same pattern as
+   .dash. Deliberately schematic (no real partner UI cloned pixel-for-pixel). */
+.p-browser { width: 100%; max-width: 720px; border-radius: 20px; overflow: hidden; background: var(--paper); box-shadow: 0 40px 90px rgba(15,24,48,0.45); border: 1px solid rgba(19,30,58,0.08); }
+.p-browser-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--sand); border-bottom: 1px solid var(--line); }
+.p-browser-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(19,30,58,0.18); }
+.p-browser-url { margin-left: 10px; padding: 4px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 11.5px; color: var(--muted-2); font-family: 'JetBrains Mono', monospace; }
+.p-browser-body { padding: 22px clamp(18px, 3vw, 32px) 26px; color: var(--ink); }
+.p-browser-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; margin-bottom: 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.p-browser-brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; letter-spacing: -0.01em; }
+.p-browser-brand b { padding: 3px 9px; border-radius: 6px; background: #D8420B; color: #fff; font-size: 12px; letter-spacing: 0.02em; }
+.p-browser-brand i { font-style: normal; color: var(--muted-2); font-weight: 600; }
+.p-browser-navlinks { font-size: 12px; color: var(--muted-2); }
+.p-browser-hero { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
+.p-browser-hero h3 { margin: 10px 0 0; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.1; letter-spacing: -0.02em; }
+.p-browser-hero p { margin: 10px 0 0; max-width: 320px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.p-browser-cta { display: inline-flex; align-items: center; margin-top: 16px; padding: 0 16px; height: 38px; border-radius: 999px; background: var(--navy-2); color: var(--warm); font-size: 12.5px; font-weight: 700; }
+.p-browser-quote { align-self: flex-end; max-width: 220px; padding: 14px 16px; border-radius: 14px; background: var(--sand); font-size: 13px; line-height: 1.45; color: var(--ink); }
+.p-browser-quote b { display: block; margin-top: 6px; font-weight: 700; color: var(--muted-2); font-size: 11.5px; }
+@media (max-width: 560px) { .p-browser-quote { align-self: flex-start; } }
+
+/* product highlight card: illustrative, not a real product render (see DEMO_PRODUCT_DATA
+   disclaimers used alongside it) — a color swatch stands in for packaging. */
+.p-product { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; max-width: 640px; padding: 24px; border-radius: 20px; background: var(--paper); color: var(--ink); box-shadow: 0 30px 80px rgba(15,24,48,0.4); }
+.p-product-swatch { flex: none; width: 84px; height: 84px; border-radius: 18px; background: linear-gradient(160deg, #D8420B, #8F2A0A); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+.p-product-body { flex: 1; min-width: 220px; }
+.p-product-body h3 { margin: 6px 0 0; font-size: 22px; letter-spacing: -0.01em; }
+.p-product-body p { margin: 8px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+.p-product-checks { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.p-product-checks li { position: relative; padding-left: 22px; font-size: 13.5px; color: var(--ink); }
+.p-product-checks li::before { content: "✓"; position: absolute; left: 0; color: var(--gold-2); font-weight: 700; }
+
+/* phone mockup: a schematic device frame (not a pixel-accurate render) presenting a concept ERA
+   app screen — used as a .p-split media-slot override in place of the usual full-bleed photo. */
+.p-phone-stage { width: 100%; height: 100%; min-height: 420px; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at 50% 30%, rgba(212,177,122,0.14), transparent 60%), var(--navy-2); padding: 40px 20px; }
+.p-phone { width: 232px; border-radius: 40px; background: #0B1226; border: 8px solid #0B1226; box-shadow: 0 40px 90px rgba(0,0,0,0.5); overflow: hidden; }
+.p-phone-notch { height: 22px; display: flex; align-items: center; justify-content: center; }
+.p-phone-notch::after { content: ""; width: 70px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.14); }
+.p-phone-screen { background: var(--paper); color: var(--ink); border-radius: 26px 26px 0 0; overflow: hidden; }
+.p-phone-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px; }
+.p-phone-top b { font-size: 13px; color: var(--ink); }
+.p-phone-top span { font-size: 10.5px; color: var(--muted-2); }
+.p-phone-media { height: 130px; background-size: cover; background-position: center; }
+.p-phone-body { padding: 14px 16px 20px; }
+.p-phone-body .drow { font-size: 12.5px; padding: 7px 0; }
+.p-phone-cta { display: block; margin-top: 10px; padding: 10px; border-radius: 12px; background: var(--navy-2); color: var(--warm); text-align: center; font-size: 12.5px; font-weight: 700; }
+
 /* the dash/kpi/card vocabulary (pages.css) assumes a light-themed ancestor; a dark .p-scene sets
    color:var(--warm) on itself, which otherwise cascades into these components. The boxed pieces
    (kpi tiles, grouped rows, card, example) are always opaque white/sand and need ink regardless

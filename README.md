@@ -55,7 +55,11 @@ Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index
 - Historien bytter til mobilkomposisjon under 900 px (samme bruddpunkt som undersidenes hamburger). Under 520 px høyde (liggende mobil) slår `html.era-short` inn: sidebilder og flytende kort skjules, typografien strammes.
 - Trykkflater: **undersidene** (`/boligeier`, `/styret`, `/handverker`, `/faghandel`, `/personvern`) er på 44 px overalt — `.pill .links a` var 36 px og ble rettet 11. sept. 2026. Inputtekst er 16 px.
 
-  **Hovedhistorien `/` er ikke der ennå.** Målt med `node qa-responsive.mjs … chromium all`: bunntekstens lenker er 36 px og skinnens kapittellenker («Hjemmet», «Forstå boligen», …) er 28 px, på alle bredder fra 1024 px og opp. Begge ligger over WCAG 2.5.8 (AA) sitt krav på 24 px, men under husregelen på 44 px. De ligger i `index.html`s egen `<style>`, ikke i `pages.css`, og er bevisst ikke rørt — endringer i hovedhistorien tas som egen beslutning.
+  **Hovedhistorien `/` er også der nå** (rettet 11. sept. 2026). Tre steder var under 44 px: toppmenyens lenker (36 px), skinnens kapittellenker (28 px) og «Se alle tiltak →» i helsetilstand-kortet (**16 px — under WCAG 2.5.8 sitt AA-krav på 24 px**).
+
+  Skinnen krevde et triks: kapitlene ligger 48 px fra hverandre, og en 44 px boks ville strukket skinnen og flyttet prikkene. Lenken har derfor `min-height: 44px; margin: -8px 0` — marginboksen er fortsatt 28 px, så layouten er uendret, mens trykkflaten er 44 px. Nabolenkene får 4 px klaring. Verifisert piksel for piksel: skinnen er identisk før og etter.
+
+  Menyens `aria-current`-understrek måtte flyttes fra `bottom: 3px` til `7px` både her og i `pages.css` — en 44 px boks sentrert i den 58 px høye pillen starter 4 px høyere enn en 36 px boks.
 
 - Mobil er ren: 320/360/390/414/768 px gir **null funn** på alle ruter. Alt over er rapportert på 1024 px og oppover.
 - `qa-responsive.mjs` rapporterer to «outside-viewport»-funn på `/` som er **falske positiver**: split-scenens etiketter «MIN BOLIG» og «VÅRT BYGG» står parkert nøyaktig 24 px utenfor hver side på alle bredder, før de glir inn. Det er iscenesettelse, ikke overflyt.

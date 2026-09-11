@@ -88,7 +88,7 @@ Boligeiersiden viser ERA Bolig med ekte appskjermer i stedet for å forklare pro
 - **Skjermbilder skaleres aldri opp.** Størrelsesklassene i `.pw-phone` (`--sm` 236px, `--md` 300px, `--lg` 420px) og `.pw-ui` (400px) er satt etter kildeoppløsningen. Alle flater ligger i dag på 2,03× eller bedre. Legger du inn et nytt bilde, sjekk `naturalWidth` mot visningsbredden før du velger klasse.
 - Gløden bak enheten (`.pw-phone::before`) er begrenset horisontalt. Et pseudoelement teller med i `scrollWidth`, og en bleed på 18 % ga 423px dokument på en 390px skjerm.
 - **Loop-stripen bygges i HTML** av de samme fem skjermene som seksjonene bruker, ikke av et bakt komposittbilde. Da kan den ikke drifte fra seksjonene når en skjerm byttes. Under 900px skjules stripen: fem telefoner ved siden av hverandre blir ~65px brede og uleselige, og skjermene er allerede vist i lesbar størrelse i seksjonene over.
-- **Én demobolig per side.** `/boligeier` bruker **Myrerveien 46A** gjennomgående; de andre målgruppesidene bruker Borgveien 14. Ikke bland dem på samme side.
+- **Én demobolig per side.** `/boligeier` bruker **Myrerveien 46A** gjennomgående; de andre målgruppesidene bruker Myrerveien 14. Ikke bland dem på samme side.
 - **Skjermene har ikke samme oppløsning.** Fire ligger på 853×1844, Min bolig på 941×1672. Derfor bærer hvert steg i `app_loop()` sine egne `width`/`height`; en hardkodet størrelse strekker bildet. Ulikt sideforhold gjør også at telefonene i loop-stripen får ulik høyde — 941×1672 blir ~91px kortere enn naboene ved 236px bredde. Én felles eksportstørrelse for alle fem er å foretrekke.
 
 #### Faktaark for demoboligen

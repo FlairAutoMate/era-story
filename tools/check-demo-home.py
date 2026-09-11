@@ -31,16 +31,22 @@ STALE_BOLIGEIER = {
     "8,9 mill": "gammel verdi (skal vare 6 250 000 kr)",
 }
 
-# Always a typo, on any page.
+# Always wrong, on any page. Borgveien was the old street name and is now Myrerveien everywhere;
+# the only place it may still appear is the search string in tools/rebase-deltas.py, which has to
+# keep matching the vendor export verbatim, and that file is not scanned here.
 STALE_ANYWHERE = {
-    "Myrveien": "feilstavet adresse (skal vare Myrerveien 46A)",
-    "Myreveien": "feilstavet adresse (skal vare Myrerveien 46A)",
+    "Myrveien": "feilstavet adresse (skal vare Myrerveien)",
+    "Myreveien": "feilstavet adresse (skal vare Myrerveien)",
+    "Borgveien": "gammelt gatenavn (skal vare Myrerveien)",
 }
 
 # Must still be present somewhere on /boligeier, so a rewrite cannot quietly drop the facts.
 REQUIRED = ["Myrerveien 46A", "1967", "85 000–140 000 kr", "6 250 000 kr", "162 m²"]
 
 PAGES = ["boligeier", "styret", "handverker", "faghandel"]
+
+# The street name is checked on the story and partner pages too, not just the audience subpages.
+EXTRA_FILES = ["index.html", "om-era/index.html", "partner/jotun/index.html"]
 
 
 def main():
@@ -58,6 +64,16 @@ def main():
         for bad, why in checks.items():
             if bad in html:
                 problems.append("%s/index.html inneholder %r — %s" % (slug, bad, why))
+
+    for rel in EXTRA_FILES:
+        path = os.path.join(ROOT, *rel.split("/"))
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            html = f.read()
+        for bad, why in STALE_ANYWHERE.items():
+            if bad in html:
+                problems.append("%s inneholder %r — %s" % (rel, bad, why))
 
     path = os.path.join(ROOT, "boligeier", "index.html")
     if os.path.exists(path):

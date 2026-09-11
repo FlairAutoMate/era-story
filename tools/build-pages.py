@@ -95,11 +95,6 @@ DEMO_HOME = {
     "pro": "Oslo Fasade AS",
 }
 
-# Values that shipped earlier and must never come back. Kept here so the fact sheet and the guard
-# that enforces it live in the same place.
-DEMO_HOME_STALE = ["1987", "80 000–120 000", "80 000 – 120 000", "6,8 mill", "8,9 mill",
-                   "Myrveien", "Myreveien", "Borgveien"]
-
 
 def phone(src, w, h, alt, size="md", eager=False, cap=None):
     """One ERA Bolig screen in a device frame. Never cropped: width/height come from the file, and
@@ -371,7 +366,7 @@ AUDIENCES = {
                      text="Kundens beskrivelse, bilder og tilgjengelig boliginformasjon følger henvendelsen.",
                      value="Du vurderer jobben og forbereder befaringen på et bedre grunnlag.",
                      view=dash("Oppdragsgrunnlag", "Male stue · fra kundens henvendelse",
-                               kpis=[("Adresse", "Borgveien 14"), ("Rom", "Stue, 2 vegger"), ("Bilder", "4 vedlagt"), ("Ønsket tid", "Uke 38–40")],
+                               kpis=[("Adresse", "Myrerveien 14"), ("Rom", "Stue, 2 vegger"), ("Bilder", "4 vedlagt"), ("Ønsket tid", "Uke 38–40")],
                                groups=[("ai", [("Anslått flate", "ca. 42 m²")]),
                                        ("check", [("Forbehandling", "Sjekkes på befaring")])],
                                footer="Eksempeldata. Bare det kunden har delt vises; ERA-forslaget er et utgangspunkt, ikke en fasit.")),

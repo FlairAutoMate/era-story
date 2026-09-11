@@ -828,9 +828,9 @@ rep("""    const jobRows = [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke
     const proState = pr >= 0.62 ? 2 : pr >= 0.42 ? 1 : 0;
     const proShot1Op = seg(pr, 0.42, 0.62, 0.05), proShot2Op = seg(pr, 0.64, 1, 0.05);
     const jobCards = [
-      { title: 'Male stue · 42 m²', meta: 'Borgveien 14 · 4 bilder vedlagt', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
-      { title: 'Lekkasje under kjøkkenvask', meta: 'Borgveien 14 · 2 bilder og video', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
-      { title: 'Ny kurs til kjøkken', meta: 'Borgveien 14 · sikringsskap dokumentert', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
+      { title: 'Male stue · 42 m²', meta: 'Myrerveien 14 · 4 bilder vedlagt', trade: 'Maler', rows: [['Omfang', 'Vegger, 2 strøk'], ['Ønsket tid', 'Uke 38–40'], ['Materialer', 'Ligger klart']], at: 0.12 },
+      { title: 'Lekkasje under kjøkkenvask', meta: 'Myrerveien 14 · 2 bilder og video', trade: 'Rørlegger', rows: [['Omfang', 'Avløp og vannlås'], ['Ønsket tid', 'Denne uken'], ['Grunnlag', 'Bilder, alder, tidligere arbeid']], at: 0.44 },
+      { title: 'Ny kurs til kjøkken', meta: 'Myrerveien 14 · sikringsskap dokumentert', trade: 'Elektriker', rows: [['Omfang', '1 kurs · 16 A'], ['Ønsket tid', 'Uke 40'], ['Grunnlag', 'Skap, tavle og plan ligger klart']], at: 0.66 }
     ];
     const job = jobCards[proState];
     const jobRows = job.rows.map(([k, v], i) => ({ k, v, op: seg(pr, job.at + 0.06 + i * 0.04, 1, 0.03) }));

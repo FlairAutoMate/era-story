@@ -113,9 +113,11 @@ Sjekken leser generert HTML og **kan ikke se inn i en PNG**. Når en skjerm eksp
 
 - **Åpent (sept. 2026):** `/boligeier` er internt motstridende. Min bolig er byttet til det nye datasettet (1967, 85 000–140 000 kr, 6 250 000 kr), mens Hjem, Boligagent og Prosjekt fortsatt viser 1987 og 80 000–120 000 kr — og de står ved siden av hverandre i loop-stripen. Alt-tekstene følger faktaarket og beskriver derfor foreløpig verdier som ikke står på de tre gamle bildene. Løses av tre nye eksporter i 853×1844. Ikke publiser siden før de er på plass.
 
-## Nye bilder som venter på foto
+## Placeholder-mekanikken for foto
 
-Kapitlene «Hele boligen» (05b), «Flere behov» (05c) og «Få hjelp» (08) bruker tre motiver som ennå ikke er fotografert: hele boligen, rørlegger og elektriker. De hentes fra `window.__resources` i `<head>` (nøklene `wholeHome`, `plumber`, `electrician`). Så lenge nøkkelen er tom vises en ERA-stilt placeholder med etiketten `BILDE · …`; legg inn stien til fotoet, så forsvinner etiketten av seg selv. Markørposisjonene i 05b ligger i `wholeSpotDefs` i skriptet og justeres når fotoet foreligger.
+Kapitlene «Hele boligen» (05b) og «Få hjelp» (08) henter motivene hele boligen, rørlegger og elektriker fra `window.__resources` i `<head>` (nøklene `wholeHome`, `plumber`, `electrician`). Så lenge en nøkkel er tom vises en ERA-stilt placeholder med etiketten `BILDE · …`; legg inn stien til fotoet, så forsvinner etiketten av seg selv. Markørposisjonene i 05b ligger i `wholeSpotDefs` i skriptet.
+
+Alle tre fotoene foreligger nå (`whole-home-v3.jpg`, `plumber-v3.jpg`, `electrician-v3.jpg`, levert 5. sept. 2026), så ingen placeholder er aktiv. Mekanikken er beskrevet her fordi den gjelder neste gang et motiv skal byttes eller mangler.
 
 ## Oppdatere fra en ny designeksport
 

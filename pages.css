@@ -27,9 +27,13 @@ p { margin: 0; }
 .nav { position: fixed; top: max(14px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 300; display: flex; justify-content: center; pointer-events: none; }
 .pill { pointer-events: auto; margin: 0 16px; width: 100%; max-width: 1080px; height: 58px; padding: 0 10px 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 999px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: rgba(15,24,48,0.55); border: 1px solid rgba(247,244,238,0.14); color: var(--warm); box-shadow: 0 10px 34px rgba(15,24,48,0.16); }
 .pill .links { display: flex; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500; }
-.pill .links a { position: relative; padding: 9px 12px; border-radius: 999px; color: inherit; opacity: 0.85; }
+/* 44px trykkflate, ikke 36px: fra 900px og opp vises disse lenkene i stedet for hamburgeren, og
+   1024x768 / 1180x820 er nettbrett med berøring. Pillen er 58px, så boksen vokser innenfor den og
+   menyhøyden er uendret. Understreken er flyttet fra bottom:3px til 7px for å bli stående der den
+   sto: en 44px boks sentrert i pillen starter 4px høyere enn en 36px boks. */
+.pill .links a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; color: inherit; opacity: 0.85; }
 .pill .links a[aria-current="page"] { opacity: 1; }
-.pill .links a[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--gold); }
+.pill .links a[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 7px; height: 2px; border-radius: 2px; background: var(--gold); }
 .pill .cta { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: var(--gold); color: var(--navy-2); font-weight: 600; font-size: 14.5px; white-space: nowrap; }
 .pill .right { display: flex; align-items: center; gap: 6px; }
 .menu-btn { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(247,244,238,0.25); background: transparent; color: inherit; font: inherit; font-size: 20px; line-height: 1; cursor: pointer; }

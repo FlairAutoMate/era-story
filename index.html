@@ -340,7 +340,7 @@
       <a href="#hjem" aria-label="ERA — til toppen" style="display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: inherit">era<span style="color: #D4B17A">.</span></a>
       <div style="display: {{ navLinksDisplay }}; align-items: center; gap: 2px; font-size: 14.5px; font-weight: 500">
         <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
-          <a href="{{ n.href }}" style="position: relative; padding: 9px 12px; border-radius: 999px; color: inherit; opacity: {{ n.op }}">{{ n.label }}<span style="position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: #D4B17A; opacity: {{ n.markOp }}"></span></a>
+          <a href="{{ n.href }}" style="position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; color: inherit; opacity: {{ n.op }}">{{ n.label }}<span style="position: absolute; left: 12px; right: 12px; bottom: 7px; height: 2px; border-radius: 2px; background: #D4B17A; opacity: {{ n.markOp }}"></span></a>
         </sc-for>
       </div>
       <div style="display: flex; align-items: center; gap: 6px">
@@ -359,7 +359,7 @@
   <div aria-hidden="true" style="position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 290; display: flex; flex-direction: column; align-items: flex-end; opacity: {{ railOp }}; transition: opacity 0.5s; pointer-events: none">
     <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="8">
       <div style="display: flex; flex-direction: column; align-items: flex-end">
-        <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; min-height: 28px; padding: 0 0 0 12px; color: inherit">
+        <a href="{{ c.href }}" style="pointer-events: auto; display: flex; align-items: center; gap: 10px; min-height: 44px; margin: -8px 0; padding: 0 0 0 12px; color: inherit">
           <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: {{ railFg }}; opacity: {{ c.labelOp }}; transition: opacity 0.4s">{{ c.label }}</span>
           <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ c.dot }}; box-shadow: {{ c.glow }}; transition: background 0.4s"></span>
         </a>
@@ -505,7 +505,7 @@
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4C8A63"></span><span style="color: #131E3A">8 ok</span></div>
           <div style="display: flex; align-items: center; gap: 8px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #C7C2B6"></span><span style="color: #8A8579">1 ikke vurdert</span></div>
         </div>
-        <a href="#prioriter" style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
+        <a href="#prioriter" style="display: block; margin-top: 8px; padding: 8px 0; font-size: 13px; font-weight: 600; color: #B0935F; opacity: {{ healthCtaOp }}">Se alle tiltak →</a>
       </div>
     </div>
   </section>

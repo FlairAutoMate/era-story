@@ -156,6 +156,74 @@ def phone_card(image, title, meta, rows, cta):
     )
 
 
+def mocknav():
+    """A visual-only replica of the partner's real site nav, used once at the top of the closing
+    'vision' act to set context — not part of the story's own <nav>, not interactive."""
+    links = "".join(f'<a>{esc(l)}</a>' for l in ["Farger", "Produkter", "Inspirasjon", "Guider", "Våre tjenester"])
+    return (
+        '<div class="p-mocknav"><span class="p-mocknav-logo">JOTUN</span>'
+        f'<nav class="p-mocknav-links">{links}</nav>'
+        '<div class="p-mocknav-icons"><span>Finn forhandler</span><span aria-hidden="true">⚲</span><span aria-hidden="true">♡</span><span aria-hidden="true">◎</span></div>'
+        '</div>'
+    )
+
+
+def timeline(stops):
+    """stops: list of (number, text) — a horizontal numbered journey."""
+    items = "".join(
+        f'<div class="p-timeline-stop"><span class="p-timeline-n">{esc(n)}</span><p>{esc(t)}</p></div>'
+        for n, t in stops
+    )
+    return f'<div class="p-timeline">{items}</div>'
+
+
+def quote_float(quote, by):
+    """A testimonial floating over a photo — pass alongside img() as split()'s media_html."""
+    return f'<div class="p-quote-float">«{esc(quote)}»<b>— {esc(by)}</b></div>'
+
+
+def check_icons(items):
+    return '<ul class="p-check-icons">' + "".join(f'<li>{esc(x)}</li>' for x in items) + '</ul>'
+
+
+def product_duo(product_html, use_title, use_text, use_cta, use_cta2):
+    """A product_card() paired with a companion 'use this on your home' panel, side by side."""
+    return (
+        '<div class="p-product-duo">'
+        f'{product_html}'
+        f'<div class="p-usehome"><h4>{esc(use_title)}</h4><p>{esc(use_text)}</p>'
+        f'<div class="p-actions" style="margin-top:14px"><span class="btn" style="pointer-events:none">{esc(use_cta)}</span><span class="link" style="pointer-events:none">{esc(use_cta2)}</span></div></div>'
+        '</div>'
+    )
+
+
+def path_card(tag_label, image, title, text, cta):
+    return (
+        '<div class="p-path-card">'
+        f'<div class="p-path-media">{img(image)}<span class="p-path-tag">{esc(tag_label)}</span></div>'
+        f'<div class="p-path-body"><h4>{esc(title)}</h4><p>{esc(text)}</p>'
+        f'<span class="btn" style="pointer-events:none">{esc(cta)}</span></div>'
+        '</div>'
+    )
+
+
+def twopath(cards):
+    return '<div class="p-twopath">' + "".join(cards) + '</div>'
+
+
+def phone_checklist(title, items):
+    """A phone-frame mockup whose screen holds a checklist instead of the usual project rows —
+    used for the closing 'saved in ERA' moment."""
+    li = "".join(f'<li>{esc(x)}</li>' for x in items)
+    return (
+        '<div class="p-phone-stage"><div class="p-phone"><div class="p-phone-notch"></div>'
+        '<div class="p-phone-screen">'
+        f'<div class="p-phone-top"><b>{esc(title)}</b></div>'
+        f'<div class="p-phone-body"><ul class="p-check-icons" style="max-width:none;margin-top:4px">{li}</ul></div>'
+        '</div></div></div>'
+    )
+
+
 def scene(id_, body, image=None, dark=True, short=False, wide=False, center=False, body_class=""):
     cls = "p-scene" + ("" if dark else " light") + (" short" if short else "")
     bcls = "p-scene-body" + (" wide" if wide else "") + (" center" if center else "") + ((" " + body_class) if body_class else "")
@@ -185,6 +253,8 @@ def split(id_, eyebrow, heading, text, value, image, image_alt="", reverse=False
         + extra
     )
     cls = "p-split reverse" if reverse else "p-split"
+    if not dark:
+        cls += " light"
     bg = "background:var(--navy);color:var(--warm)" if dark else "background:var(--paper);color:var(--ink)"
     idattr = f' id="{esc(id_)}"' if id_ else ""
     media = media_html if media_html is not None else img(image, image_alt)
@@ -420,45 +490,6 @@ def build_jotun(p):
         image="ecosystem-v3.jpg",
     ))
 
-    # KONKRET VISJON — jotun.no med ERA innebygd, produktkoblingen og app-øyeblikket gjort synlig
-    s.append(scene(None,
-        '<div class="p-eyebrow">Konkret visjon</div>'
-        '<h2 class="p-h1">Slik kan jotun.no se ut med ERA innebygd.</h2>'
-        '<p class="p-lede">Ikke en egen app boligeieren må oppdage — ERA kan leve rett på jotun.no, som en naturlig del av handleopplevelsen.</p>'
-        + browser_card(
-            "jotun.no", "× era.", "Farger · Produkter · Inspirasjon",
-            "JOTUN × ERA", "Fra boligbehov til handling.",
-            "Jotuns farger og produkter. ERAs kunnskap om din bolig. Sammen gjør vi det enklere å planlegge, handle og gjennomføre malingsprosjekter.",
-            "Kom i gang med ditt prosjekt →",
-            "Endelig en løsning som kjenner boligen min.", "Marte, Oslo",
-        )
-        + '<p class="p-fine">Konseptvisning — illustrasjon av hvordan integrasjonen kunne se ut på jotun.no, ikke en reell side.</p>',
-        image="livingroom-wall-v3.jpg", wide=True,
-    ))
-
-    s.append(split(None, "Produktet møter prosjektet", "ERA kobler behovet til riktig Jotun-produkt.",
-        "Når ERA har beregnet mengde og overflate, kan riktig produkt foreslås direkte — med begrunnelse, ikke bare en lenke til nettbutikken.",
-        None, "materials-floor-v3.jpg", reverse=True,
-        extra=product_card(
-            "Populært valg", "LADY New Era",
-            "Robust kvalitet som gir en varig, vakker matt finish.",
-            ["Vakker, matt utseende", "Ekstremt slitesterk, flekkavvisende og vaskbar", "Resirkulert materiale — dokumentert lavere karbonavtrykk"],
-            "Bruk på min bolig", "Finn farge",
-        ) + '<p class="p-fine">DEMO_PRODUCT_DATA — illustrasjon, ikke reell Jotun-katalog eller -produktdata.</p>'))
-
-    s.append(split(None, "Din bolig. Ditt prosjekt.", "ERA kjenner boligen din.",
-        "Ta et bilde av rommet, så hjelper ERA deg med å beregne hva du trenger. Du får en ferdig handleliste med Jotun-produkter, tilpasset din bolig og ditt prosjekt.",
-        None, None, reverse=False,
-        media_html=phone_card(
-            "materials-floor-v3.jpg", "Male stue", "Myrerveien 14",
-            [("Rom", "Stue · 42 m²"), ("Strøk", "2")],
-            "Fortsett",
-        ),
-        extra=(
-            flow([("Bilde av rommet", None), ("ERA beregner", None), ("Handleliste", "solid")])
-            + '<p class="p-fine">Konseptvisning av en fremtidig ERA-app-skjerm — ikke et eksisterende produkt.</p>'
-        )))
-
     s.append(scene(None,
         '<div class="p-eyebrow">Fem forslag</div>'
         '<h2 class="p-h1">Hva dette kan gi Jotun.</h2>'
@@ -493,6 +524,94 @@ def build_jotun(p):
         + '<div class="p-actions"><a class="link" href="/">Tilbake til ERA</a></div>',
         image="whole-home-v3.jpg",
     ))
+
+    # KONKRET VISJON — a full mock-up of jotun.no with ERA built in, mirrored section-by-section
+    # from a reference sketch: real-looking nav, a hero with a floating testimonial, the 5-step
+    # journey, a product card paired with a "use on your home" panel, the ERA-app phone moment,
+    # the DIY-vs-help fork, and a dark closing screen. Deliberately schematic (see the disclaimers
+    # on each scene) — not a pixel clone of Jotun's real site.
+    s.append(mocknav())
+
+    s.append(split(None, "JOTUN × ERA", "Fra boligbehov til handling.",
+        "Jotuns farger og produkter. ERAs kunnskap om boligen din. Sammen gjør vi det enklere å planlegge, handle og gjennomføre malingsprosjekter — enten du gjør det selv eller får hjelp av en fagperson.",
+        None, "livingroom-wall-v3.jpg", dark=False,
+        media_html=img("livingroom-wall-v3.jpg") + quote_float("Endelig en løsning som kjenner boligen min.", "Marte, Oslo"),
+        extra=(
+            '<div class="p-actions"><span class="btn" style="pointer-events:none">Kom i gang med ditt prosjekt →</span></div>'
+            '<p class="p-fine">Vakkert hjem. Enklere prosjekter. — Konseptvisning, illustrasjon av hvordan integrasjonen kunne se ut på jotun.no, ikke en reell side.</p>'
+        )))
+
+    s.append(scene(None,
+        '<div class="p-eyebrow">Slik fungerer det</div>'
+        '<h2 class="p-h1">Fra inspirasjon til ferdig prosjekt.</h2>'
+        '<p class="p-lede">Jotun og ERA guider deg hele veien — med riktig produkt, riktig mengde og riktig neste steg.</p>'
+        + timeline([
+            ("1", "Finn inspirasjon og produkt"),
+            ("2", "Bruk på din bolig med ERA"),
+            ("3", "Få mengde, farge og handleliste"),
+            ("4", "Handle i butikk eller få hjelp av fagperson"),
+            ("5", "Dokumenter og husk det i ERA"),
+        ])
+        + '<p class="p-fine">Konseptvisning av kundereisen — ikke en publisert funksjon på jotun.no i dag.</p>',
+        dark=False, wide=True,
+    ))
+
+    s.append(scene(None,
+        '<div class="p-eyebrow">Populært valg</div>'
+        '<h2 class="p-h1">LADY New Era møter din bolig.</h2>'
+        '<p class="p-lede">Når ERA har beregnet mengde og overflate, kan riktig produkt foreslås direkte — med begrunnelse, ikke bare en lenke til nettbutikken.</p>'
+        + product_duo(
+            product_card(
+                "Populært valg", "LADY New Era",
+                "Robust kvalitet som gir en varig, vakker matt finish.",
+                ["Vakker, matt utseende", "Ekstremt slitesterk, flekkavvisende og vaskbar", "Resirkulert materiale — dokumentert lavere karbonavtrykk"],
+                "Bruk på min bolig", "Finn farge",
+            ),
+            "Bruk LADY New Era på din bolig",
+            "ERA kobler produktet til boligen din og hjelper deg videre med mengde, farge og neste steg.",
+            "Finn boligen din", "Se hvordan det fungerer",
+        )
+        + '<p class="p-fine">DEMO_PRODUCT_DATA — illustrasjon, ikke reell Jotun-katalog eller -produktdata.</p>',
+        dark=False, wide=True,
+    ))
+
+    s.append(split(None, "Din bolig. Ditt prosjekt.", "ERA kjenner boligen din.",
+        "Ta et bilde av rommet, så hjelper ERA deg med å beregne hva du trenger. Du får en ferdig handleliste med Jotun-produkter, tilpasset din bolig og ditt prosjekt.",
+        None, None, dark=False,
+        media_html=phone_card(
+            "materials-floor-v3.jpg", "Male stue", "Myrerveien 14",
+            [("Rom", "Stue · 42 m²"), ("Strøk", "2")],
+            "Fortsett",
+        ),
+        extra=(
+            check_icons(["Enkel registrering med bilde", "Riktig mengde og tilbehør", "Anbefalt fremgangsmåte", "Lagre prosjektet i boligen din"])
+            + '<div class="p-actions" style="margin-top:18px"><span class="btn" style="pointer-events:none">Prøv ERA med din bolig</span></div>'
+            + '<p class="p-fine">Konseptvisning av en fremtidig ERA-app-skjerm — ikke et eksisterende produkt.</p>'
+        )))
+
+    s.append(scene(None,
+        '<div class="p-eyebrow">To måter å gjøre jobben på</div>'
+        '<h2 class="p-h1">Du velger. Vi legger til rette.</h2>'
+        + twopath([
+            path_card("Gjør det selv", "materials-floor-v3.jpg", "Handleliste klar",
+                      "Få alt du trenger av Jotun-produkter og tilbehør, basert på ditt rom og prosjekt.",
+                      "Finn nærmeste forhandler"),
+            path_card("Få hjelp", "painter-v3.jpg", "Finn fagperson",
+                      "Send prosjektet til en kvalifisert maler. De får all informasjon og kan gi tilbud.",
+                      "Finn maler"),
+        ])
+        + '<p class="p-fine">Konseptvisning — ruting til forhandler og fagperson er ikke koblet i dag.</p>',
+        dark=False, wide=True,
+    ))
+
+    s.append(split(None, "JOTUN × ERA", "Ferdig i dag. Husket i morgen.",
+        "Når prosjektet er ferdig, kan du lagre bilder, produkt, fargekode og kvittering i ERA. Slik har du alltid oversikt over hva som er gjort i boligen din.",
+        None, None, dark=True,
+        media_html=phone_checklist("Prosjekt", ["Prosjekt fullført", "Bilder lagret", "Produkt og fargekode", "Kvittering", "En del av boligen din"]),
+        extra=(
+            '<div class="p-actions"><span class="btn" style="pointer-events:none">Start ditt første prosjekt →</span></div>'
+            '<p class="p-fine">Hjem varer lenger. — Konseptvisning, ikke en publisert funksjon.</p>'
+        )))
 
     return "".join(s)
 

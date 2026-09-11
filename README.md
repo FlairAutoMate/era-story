@@ -111,7 +111,9 @@ Tre ulike verdier for samme bolig har rukket å gå i produksjon ved et uhell (6
 
 Sjekken leser generert HTML og **kan ikke se inn i en PNG**. Når en skjerm eksporteres på nytt, må bildet kontrolleres med øynene og alt-teksten stemmes av mot det; sperren hindrer først drift etterpå.
 
-- **Åpent (sept. 2026):** `/boligeier` er internt motstridende. Min bolig er byttet til det nye datasettet (1967, 85 000–140 000 kr, 6 250 000 kr), mens Hjem, Boligagent og Prosjekt fortsatt viser 1987 og 80 000–120 000 kr — og de står ved siden av hverandre i loop-stripen. Alt-tekstene følger faktaarket og beskriver derfor foreløpig verdier som ikke står på de tre gamle bildene. Løses av tre nye eksporter i 853×1844. Ikke publiser siden før de er på plass.
+- **Åpent (sept. 2026):** Min bolig og Boligagent er byttet til det nye datasettet (1967, 85 000–140 000 kr, 6 250 000 kr). **Hjem og Prosjekt er ikke eksportert på nytt** og viser fortsatt 1987, 6,8 mill. og 80 000–120 000 kr, så loop-stripen har to skjermer som motsier de tre andre. Det er en bevisst avveining — siden er publisert med avviket.
+
+  Alt-tekstene for de to gamle skjermene beskriver **det bildet faktisk viser**, ikke faktaarket. En alt-tekst som fulgte `DEMO_HOME` ville lest opp tall en seende besøkende ikke finner på skjermen. `PENDING_REEXPORT` i `tools/check-demo-home.py` lister nøyaktig hvilke verdier det gjelder, og rapporterer dem som advarsel i stedet for feil. **Tøm den dicten når de to skjermene er byttet** — da går verdiene tilbake til å være harde feil.
 
 ## Placeholder-mekanikken for foto
 

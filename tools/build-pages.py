@@ -158,10 +158,11 @@ AUDIENCES = {
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
                 "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
-                phone("/assets/story/app-minbolig.png", 941, 1672,
+                phone("/assets/story/app-minbolig.png", 853, 1844,
                       f"ERA Bolig: Min bolig for {DEMO_HOME['address']} – {DEMO_HOME['type']} fra {DEMO_HOME['year']} på "
-                      f"{DEMO_HOME['area']} med tilstand {DEMO_HOME['condition']} {DEMO_HOME['score']}, vedlikeholdstiltaket "
-                      f"«{DEMO_HOME['measure']}» til {DEMO_HOME['cost']}, estimert verdi {DEMO_HOME['value']} og samlet dokumentasjon",
+                      f"{DEMO_HOME['area']} med tilstand {DEMO_HOME['condition']} {DEMO_HOME['score']}, neste prosjekt "
+                      f"«{DEMO_HOME['measure']}» til {DEMO_HOME['cost']} med oppstart {DEMO_HOME['start']} og "
+                      f"{DEMO_HOME['pro']}, estimert verdi {DEMO_HOME['value']} og samlet dokumentasjon",
                       "lg"),
                 alt_bg=True, flip=True, sid="slik"),
             app_section(
@@ -175,12 +176,14 @@ AUDIENCES = {
                 "Boligagent", "Ikke bare et AI-svar. Et svar om boligen din.",
                 "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
                 phone("/assets/story/app-agent.png", 853, 1844,
-                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte "
-                      f"fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad {DEMO_HOME['cost']}",
+                      f"ERA Bolig, boligagenten for {DEMO_HOME['address']}: fotoet av huset er merket av med fasade og tak "
+                      "til oppfølging og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser» med de fire "
+                      f"punktene, «Hva det betyr» for en bolig fra {DEMO_HOME['year']}, og forslaget «{DEMO_HOME['measure']}» "
+                      f"med estimert kostnad {DEMO_HOME['cost']}, oppstart {DEMO_HOME['start']} og {DEMO_HOME['pro']}",
                       "lg"),
-                points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
-                        ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
-                        ("Mitt forslag", "Få fasaden vurdert av en fagperson og hent inn tilbud.")],
+                points=[("Hva jeg ser", "Fasade og tak bør følges opp. Takrenner og grunnmur er i god stand."),
+                        ("Hva det betyr", f"Boligen er fra {DEMO_HOME['year']}. Det gjør fasade, tak og el-anlegg verdt å se nærmere på."),
+                        ("Mitt forslag", f"«{DEMO_HOME['measure']}» med kostnad, oppstart og en håndverker som kan gjøre jobben.")],
                 alt_bg=True, flip=True, sid="boligagent"),
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
@@ -209,11 +212,11 @@ AUDIENCES = {
                  ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
                   "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu", 853, 1844),
                  ("Boligagent", "Forstå hva det betyr.", "/assets/story/app-agent.png",
-                  "ERA Bolig: boligagentens analyse av bildet med funn, betydning og forslag", 853, 1844),
+                  "ERA Bolig: boligagentens analyse av huset med funn, betydning og forslag", 853, 1844),
                  ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
                   "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver", 853, 1844),
                  ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
-                  "ERA Bolig: Min bolig med nøkkeltall, vedlikeholdstiltak, estimert verdi og dokumentasjon", 941, 1672)],
+                  "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt, estimert verdi og dokumentasjon", 853, 1844)],
                 "Eksempeldata. Samme bolig, Myrerveien 46A, gjennom hele loopen."),
         ],
         gains=[

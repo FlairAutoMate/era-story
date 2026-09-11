@@ -181,6 +181,23 @@ def styre_agent_view(question, answer_lede, picks, footer):
     )
 
 
+def offer_comparison_view(title, meta, offers, recommended, footer):
+    """The offer-comparison view: three vendor rows with an initial-circle avatar, price and
+    lead time, one marked as ERA's recommendation."""
+    rows = "".join(
+        f'<div class="offer-row{" offer-row--rec" if name == recommended else ""}">'
+        f'<span class="agent-n offer-av">{esc(name[0])}</span>'
+        f'<div class="offer-main"><b>{esc(name)}</b><span>{esc(scope)}</span></div>'
+        f'<div class="offer-price"><b>{esc(price)}</b><span>{esc(weeks)}</span></div>'
+        + (f'<span class="offer-tag">Anbefalt</span>' if name == recommended else "")
+        + '</div>'
+        for name, scope, price, weeks in offers)
+    return (f'<div class="dash offer-dash"><div class="dash-head"><div><div class="dash-title">{esc(title)}</div>'
+            f'<div class="dash-meta">{esc(meta)}</div></div></div>'
+            f'<div class="offer-rows">{rows}</div>'
+            f'<div class="dash-foot">{esc(footer)}</div></div>')
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
@@ -330,6 +347,17 @@ AUDIENCES = {
                            ("Ventilasjon", "Bør kartlegges · estimert 80 000–120 000 kr")],
                     footer="Eksempeldata. ERA foreslår og begrunner; styret vurderer og beslutter.") + '</div>',
                 flip=True, sid="styre-agent"),
+            app_section(
+                "Sammenlign tilbud", "Tre tilbud. Samme grunnlag. Én oversikt.",
+                "Når tiltaket er besluttet, samler ERA inn tilbud på samme arbeidsbeskrivelse, slik at styret sammenligner pris og fremdrift direkte, uten regneark.",
+                '<div class="appsec-dash">' + offer_comparison_view(
+                    "Fasade 2027 · tilbud", "3 tilbud på samme omfang",
+                    offers=[("Mestergruppen", "Fasade og utvendig maling", "2 350 000 kr", "8 uker"),
+                            ("Proff Malerservice", "Fasade, balkonger og detaljer", "2 480 000 kr", "10 uker"),
+                            ("Fargerike Prosjekt", "Totalleveranse", "2 690 000 kr", "9 uker")],
+                    recommended="Mestergruppen",
+                    footer="Eksempeldata. ERA sammenstiller tilbudene; styret velger leverandør.") + '</div>',
+                alt_bg=True, sid="tilbud"),
         ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",

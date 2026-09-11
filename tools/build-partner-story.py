@@ -450,8 +450,8 @@ def build_jotun(p):
         "Ta et bilde av rommet, så hjelper ERA deg med å beregne hva du trenger. Du får en ferdig handleliste med Jotun-produkter, tilpasset din bolig og ditt prosjekt.",
         None, None, reverse=False,
         media_html=phone_card(
-            "materials-floor-v3.jpg", "Male stue", "Myrveien 46A",
-            [("Rom", "Stue · 26 m²"), ("Strøk", "2")],
+            "materials-floor-v3.jpg", "Male stue", "Myrerveien 14",
+            [("Rom", "Stue · 42 m²"), ("Strøk", "2")],
             "Fortsett",
         ),
         extra=(

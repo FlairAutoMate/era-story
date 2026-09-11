@@ -57,6 +57,23 @@ def dash(title, meta, kpis=(), groups=(), cols=(), footer=None, tag=None):
     return "".join(out)
 
 
+SHY = "­"
+
+# Long Norwegian compounds in a hero headline: at 320-390px the line is narrower than the word, and
+# without a break point the browser cuts it mid-word. The soft hyphen puts the break at the seam.
+SOFT_BREAKS = {
+    "vedlikeholdsbehov": "vedlikeholds" + SHY + "behov",
+    "Boligeierskap": "Bolig" + SHY + "eierskap",
+}
+
+
+def soften(text):
+    """Insert soft hyphens at known compound seams. Only affects rendering when a line is too narrow."""
+    for word, softened in SOFT_BREAKS.items():
+        text = text.replace(word, softened)
+    return text
+
+
 def phone(src, w, h, alt, size="md", eager=False, cap=None):
     """One ERA Bolig screen in a device frame. Never cropped: width/height come from the file, and
     each size class caps the width at the source resolution so nothing is upscaled and soft."""
@@ -642,7 +659,7 @@ def page(slug, a):
   <div class="{hero_wrap}">
   <div class="hero-text">
     <div class="label">{esc(a["label"])}</div>
-    <h1>{esc(a["hook"])}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}
+    <h1>{soften(esc(a["hook"]))}</h1>{f'<div class="beta-badge">{esc(beta["badge"])}</div><p class="beta-note">{esc(beta["note"])}</p>' if beta else ''}
     <p class="lede">{esc(a["lede"])}</p>{f'<p class="hero-support">{esc(a["hero_support"])}</p>' if a.get("hero_support") else ''}
     <div class="hero-actions"><a class="btn" href="#skjema">{esc(beta["cta_primary"] if beta else a["form_cta"])}</a><a class="link" href="{hero_secondary[1]}">{esc(hero_secondary[0])}</a></div>
   </div>

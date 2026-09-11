@@ -53,7 +53,12 @@ Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index
 - Sticky-scener bruker `100dvh` med `100vh` som fallback (`.era-vh`), så de fyller det synlige vinduet på iOS. `#start`-ankeret følger samme høyde.
 - `viewport-fit=cover`; meny og fast CTA respekterer `safe-area-inset-*`.
 - Historien bytter til mobilkomposisjon under 900 px (samme bruddpunkt som undersidenes hamburger). Under 520 px høyde (liggende mobil) slår `html.era-short` inn: sidebilder og flytende kort skjules, typografien strammes.
-- Alle lenker og knapper har minst 44 px trykkflate (`.era-link`, bunntekst, skinne, pill). Inputtekst er 16 px.
+- Trykkflater: **undersidene** (`/boligeier`, `/styret`, `/handverker`, `/faghandel`, `/personvern`) er på 44 px overalt — `.pill .links a` var 36 px og ble rettet 11. sept. 2026. Inputtekst er 16 px.
+
+  **Hovedhistorien `/` er ikke der ennå.** Målt med `node qa-responsive.mjs … chromium all`: bunntekstens lenker er 36 px og skinnens kapittellenker («Hjemmet», «Forstå boligen», …) er 28 px, på alle bredder fra 1024 px og opp. Begge ligger over WCAG 2.5.8 (AA) sitt krav på 24 px, men under husregelen på 44 px. De ligger i `index.html`s egen `<style>`, ikke i `pages.css`, og er bevisst ikke rørt — endringer i hovedhistorien tas som egen beslutning.
+
+- Mobil er ren: 320/360/390/414/768 px gir **null funn** på alle ruter. Alt over er rapportert på 1024 px og oppover.
+- `qa-responsive.mjs` rapporterer to «outside-viewport»-funn på `/` som er **falske positiver**: split-scenens etiketter «MIN BOLIG» og «VÅRT BYGG» står parkert nøyaktig 24 px utenfor hver side på alle bredder, før de glir inn. Det er iscenesettelse, ikke overflyt.
 - Mobilmenyen låser bakgrunnsscroll, lukkes med Escape og ved trykk utenfor.
 - Flytende brikker (kaos, fragmentert bolig, lukk sløyfen) klemmes inn i viewporten.
 

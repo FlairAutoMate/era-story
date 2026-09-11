@@ -198,6 +198,37 @@ def offer_comparison_view(title, meta, offers, recommended, footer):
             f'<div class="dash-foot">{esc(footer)}</div></div>')
 
 
+def resident_notice_view(title, meta, recipients, body, checklist, footer):
+    """The resident-notification view: a message preview plus a short 'what happens next'
+    checklist, reusing the agent-bubble look for the message body."""
+    check_html = "".join(f'<li>{esc(item)}</li>' for item in checklist)
+    return (
+        '<div class="dash notice-dash">'
+        f'<div class="dash-head"><div><div class="dash-title">{esc(title)}</div>'
+        f'<div class="dash-meta">{esc(meta)}</div></div></div>'
+        f'<div class="kpis"><div class="kpi"><span>Varsel sendes til</span><b>{esc(recipients)}</b></div></div>'
+        f'<div class="agent-q notice-msg">{esc(body)}</div>'
+        f'<div class="notice-next"><span class="notice-next-label">Hva skjer videre?</span><ul>{check_html}</ul></div>'
+        f'<div class="dash-foot">{esc(footer)}</div></div>'
+    )
+
+
+def completion_view(title, meta, kpis, docs, footer):
+    """The project-completion view: a done badge, outcome KPIs, and a document chip row."""
+    kpi_html = '<div class="kpis">' + "".join(
+        f'<div class="kpi"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in kpis) + '</div>'
+    doc_html = '<div class="doc-chips">' + "".join(
+        f'<span class="doc-chip">{esc(d)}</span>' for d in docs) + '</div>'
+    return (
+        '<div class="dash">'
+        '<div class="dash-head"><div><span class="done-badge">✓ Prosjektet er ferdig</span>'
+        f'<div class="dash-title" style="margin-top:8px">{esc(title)}</div>'
+        f'<div class="dash-meta">{esc(meta)}</div></div></div>'
+        f'{kpi_html}{doc_html}'
+        f'<div class="dash-foot">{esc(footer)}</div></div>'
+    )
+
+
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Boligeier", title="ERA for boligeiere",
@@ -358,6 +389,28 @@ AUDIENCES = {
                     recommended="Mestergruppen",
                     footer="Eksempeldata. ERA sammenstiller tilbudene; styret velger leverandør.") + '</div>',
                 alt_bg=True, sid="tilbud"),
+            app_section(
+                "Varsle beboerne", "Styret varsler. Beboerne vet hva som skjer.",
+                "Når arbeidet er avtalt, varsler ERA alle boligeierne samtidig, med det de faktisk trenger å vite – og en åpning for å melde egne behov i samme prosjekt.",
+                '<div class="appsec-dash">' + resident_notice_view(
+                    "Send varsel til beboere", "Fasade 2027 · alle seksjoner",
+                    recipients="200 boliger",
+                    body="Styret planlegger overflatebehandling og maling av fasader, balkonger og fellesarealer fra mai 2027. Du får mer informasjon om tidsplan og tilgang, og kan melde behov for egen balkong i samme prosjekt.",
+                    checklist=["Beboere får varsel i app og e-post",
+                               "Spørsmål samles i én tråd til styret",
+                               "Beboere kan melde interesse for tilleggsarbeid",
+                               "Styret får oversikt over svar og spørsmål"],
+                    footer="Eksempeldata. Varsling og svar vises som illustrasjon av beboerflyten.") + '</div>',
+                flip=True, sid="beboerflyt"),
+            app_section(
+                "Fra ferdig til dokumentert", "Jobben er ferdig. Historikken lever videre.",
+                "Når arbeidet er utført, oppdaterer ERA vedlikeholdsplanen automatisk og samler dokumentasjon, bilder og kostnad på eiendommen – klart for neste styre.",
+                '<div class="appsec-dash">' + completion_view(
+                    "Fasade 2027", "Overflatebehandling og maling",
+                    kpis=[("Totalkostnad", "2 350 000 kr"), ("Avvik fra estimat", "−5 %"), ("Varighet", "8 uker, i rute"), ("Beboere informert", "100 %")],
+                    docs=["Sluttrapport (PDF)", "Bilder før/etter (18)", "FDV-dokumentasjon", "Oppdatert tilstandsrapport"],
+                    footer="Eksempeldata. Dokumentasjonen lagres på eiendommen og oppdaterer vedlikeholdsplanen.") + '</div>',
+                alt_bg=True, sid="dokumentasjon"),
         ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",

@@ -150,10 +150,14 @@ AUDIENCES = {
         label="For boligeier", hook="Boligeierskap uten gjetting.",
         lede="ERA forstår hva boligen din trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
         image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
+        # Alt-teksten beskriver det bildet faktisk viser, ikke faktaarket. app-hjem.png er ikke
+        # eksportert på nytt ennå og viser fortsatt 1987, 6,8 mill. og 80 000–120 000 kr. En
+        # alt-tekst som fulgte DEMO_HOME ville lest opp tall som ikke står på skjermen. Se
+        # PENDING_REEXPORT i tools/check-demo-home.py.
         app_hero=dict(src="/assets/story/app-hjem.png", w=853, h=1844, size="lg",
                       alt=f"ERA Bolig på mobil: forsiden for {DEMO_HOME['address']} med boligtype {DEMO_HOME['type']}, "
-                          f"{DEMO_HOME['area']}, byggeår {DEMO_HOME['year']}, tilstand {DEMO_HOME['condition']} "
-                          f"{DEMO_HOME['score']}, neste tiltak «{DEMO_HOME['measure']}» og estimert kostnad {DEMO_HOME['cost']}"),
+                          f"{DEMO_HOME['area']}, byggeår 1987, tilstand {DEMO_HOME['condition']} "
+                          f"{DEMO_HOME['score']}, neste tiltak «{DEMO_HOME['measure']}» og estimert kostnad 80 000–120 000 kr"),
         app_sections=[
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
@@ -188,9 +192,10 @@ AUDIENCES = {
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
+                # Som heroen: app-prosjekt.png viser fortsatt 80 000–120 000 kr.
                 phone("/assets/story/app-prosjekt.png", 853, 1844,
                       f"ERA Bolig: prosjektet «{DEMO_HOME['measure']}» på {DEMO_HOME['address']} med estimert kostnad "
-                      f"{DEMO_HOME['cost']}, planlagt oppstart {DEMO_HOME['start']}, fremdrift, håndverker og fem oppgaver",
+                      f"80 000–120 000 kr, planlagt oppstart {DEMO_HOME['start']}, fremdrift, håndverker og fem oppgaver",
                       "lg", cap="Eksempeldata"),
                 points=[("Planlegging", "Omfang, oppstart og varighet."),
                         ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),

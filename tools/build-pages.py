@@ -118,7 +118,7 @@ AUDIENCES = {
                 phone("/assets/story/app-minbolig.png", 853, 1844,
                       "ERA Bolig: Min bolig for Myrerveien 46A med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne",
                       "lg"),
-                alt_bg=True, flip=True, sid="min-bolig"),
+                alt_bg=True, flip=True, sid="slik"),
             app_section(
                 "Kamera", "Vis ERA hva du ser.",
                 "Ta et bilde av noe du lurer på. ERA analyserer det sammen med informasjonen den allerede har om boligen.",
@@ -127,15 +127,15 @@ AUDIENCES = {
                       "lg", cap="Eksempeldata · Myrerveien 46A"),
                 foot="Du starter med det du faktisk ser, ikke med et skjema."),
             app_section(
-                "ERA-assistenten", "Ikke bare et AI-svar. Et svar om boligen din.",
+                "Boligagent", "Ikke bare et AI-svar. Et svar om boligen din.",
                 "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
                 phone("/assets/story/app-agent.png", 853, 1844,
-                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og assistenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
+                      "ERA Bolig: brukeren spør «Kan du se på dette bildet?», og boligagenten svarer med det annoterte fotoet, to observasjoner, hva funnet betyr, et forslag og estimert kostnad 80 000–120 000 kr",
                       "lg"),
                 points=[("Hva jeg ser", "Avflassing av maling og slitasje rundt vinduet."),
                         ("Hva det betyr", "Vanlig for hus fra denne perioden. Ikke akutt, men bør følges opp."),
                         ("Mitt forslag", "Få fasaden vurdert av en fagperson og hent inn tilbud.")],
-                alt_bg=True, flip=True, sid="assistenten"),
+                alt_bg=True, flip=True, sid="boligagent"),
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
@@ -161,46 +161,14 @@ AUDIENCES = {
                   "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak"),
                  ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
                   "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu"),
-                 ("ERA", "Forstå hva det betyr.", "/assets/story/app-agent.png",
-                  "ERA Bolig: assistentens analyse av bildet med funn, betydning og forslag"),
+                 ("Boligagent", "Forstå hva det betyr.", "/assets/story/app-agent.png",
+                  "ERA Bolig: boligagentens analyse av bildet med funn, betydning og forslag"),
                  ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
                   "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver"),
                  ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
                   "ERA Bolig: Min bolig med boligdetaljer, verdi og utvikling, vedlikeholdsplan og boligminne")],
                 "Eksempeldata. Samme bolig, Myrerveien 46A, gjennom hele loopen."),
         ],
-        scenes=dict(
-            eyebrow="Fra behov til plan", title="Fra «vi vil male stua» til en plan du kan bestille etter.",
-            lede="Følg boligens vei fra det som ligger i skuffen til en klar plan, med samme eksempel gjennom alle stegene.",
-            items=[
-                dict(nav="Kartlegging", heading="Boligen kartlegges.",
-                     text="Tilstandsrapport, FDV, kvitteringer og bilder samles på ett sted, det du har liggende i skuffen, på e-post og på telefonen.",
-                     value="Utgangspunktet er det du allerede har, ikke en ny rapport du må bestille.",
-                     view=dash("Boligminne", "Myrerveien 46A",
-                               kpis=[("Tilstandsrapport", "2021"), ("FDV", "3 dokumenter"), ("Kvitteringer", "12 lagt inn"), ("Bilder", "24 lagt inn")],
-                               footer="Eksempeldata. Jo mer du legger inn, jo mer presis blir planen.")),
-                dict(nav="Forståelse", heading="ERA forstår.",
-                     text="Hver del av boligen får tilstand, alder og neste forventede behov, ikke bare det du ser, men det bak veggen også.",
-                     value="Vurderingen bygger på det som er dokumentert, ikke gjetning.",
-                     view=dash("Boligens tilstand", "Basert på boligminnet",
-                               groups=[("doc", [("Stue", "Vegg slitt, ingen skader")]),
-                                       ("ai", [("Neste forventede behov", "Overflatebehandling innen 12 mnd")])],
-                               footer="Eksempeldata. ERA-forslaget er et utgangspunkt du vurderer.")),
-                dict(nav="Plan", heading="Du får en plan.",
-                     text="Hva som haster, hva som kan vente, og hva det koster. «Vi vil male stua» blir veggflate, forarbeid, strøk, tid og pris.",
-                     value="Det samme gjelder bad, gulv, elektro, rør og tak, og ERA sier fra når jobben krever fagperson.",
-                     view=dash("Plan · Male stua", "Myrerveien 46A",
-                               kpis=[("Vegg", "42 m²"), ("Forbehandling", "Lett sparkling"), ("Strøk", "2"), ("Estimert kostnad", "ca. 6 800 kr")],
-                               footer="Eksempeldata. Fra «vi vil male stua» til en plan du kan bestille etter, på minutter.")),
-                dict(nav="Veivalg", heading="Gjør det selv, eller få hjelp.",
-                     text="Materialene er beregnet og kan bestilles. Eller jobben går til håndverker, ferdig beskrevet.",
-                     value="Alt blir historikk i boligen, uansett hvilken vei du velger.",
-                     view=dash("Veivalg", "Male stue · 42 m²",
-                               cols=[("order", [("Gjør det selv", "Materialer beregnet, klar for bestilling")]),
-                                     ("pro", [("Få hjelp", "Jobb ferdig beskrevet til håndverker")])],
-                               footer="Eksempeldata. Uansett vei blir jobben historikk i boligen.")),
-            ],
-        ),
         gains=[
             ("Vit hva som haster", "Og hva som kan vente. Noen ganger er riktig råd å gjøre ingenting ennå."),
             ("Slutt på gjetting", "Kostnad, tid og forarbeid er regnet ut før du bestemmer deg."),
@@ -245,6 +213,22 @@ AUDIENCES = {
         hero_view=dash("Perrongen Borettslag", "200 boliger · 4 bygg · Eidsvoll · byggeår 1986",
                         kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
                         footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
+        app_sections=[
+            app_section(
+                "Planlegg vedlikehold", "Se hva som kommer – før det blir akutt.",
+                "ERA samler tiltak, prioriteringer og kostnader i en levende vedlikeholdsplan som oppdateres når eiendommen endrer seg.",
+                '<div class="appsec-dash">' + dash("10-årig vedlikeholdsplan", "Perrongen Borettslag",
+                    groups=[("planned", [("2027 · Fasade", "1,2 MNOK"), ("2028 · Ventilasjon", "650 000 kr"), ("2029 · Soilrør", "4,8 MNOK"), ("2030 · Tak", "2,1 MNOK"), ("2031 · Vinduer", "1,8 MNOK")])],
+                    footer="Eksempeldata. Tidspunkt og kostnad er anslag som oppdateres etter hvert som tilstand og pris avklares.") + '</div>',
+                alt_bg=True, sid="vedlikeholdsplan"),
+            app_section(
+                "ERA hjelper styret prioritere", "Beslutningsstøtte, ikke en chatbot.",
+                "Basert på vedlikeholdsplanen, registrert tilstand og risiko foreslår ERA hva styret bør prioritere først, med begrunnelse og kostnadsestimat.",
+                '<div class="appsec-dash">' + dash("ERA Styre-agent", "«Hva bør styret prioritere de neste 24 månedene?»",
+                    groups=[("ai", [("1. Soilrør", "Høy prioritet · estimert 4,2–5,0 MNOK"), ("2. Fasade", "Planlegg innen 18 måneder · estimert 1,0–1,3 MNOK"), ("3. Ventilasjon", "Bør kartlegges · estimert 80 000–120 000 kr")])],
+                    footer="Eksempeldata. ERA foreslår og begrunner; styret vurderer og beslutter.") + '</div>',
+                flip=True, sid="styre-agent"),
+        ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
             lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver boligeier får egen boligoversikt, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",
@@ -546,6 +530,7 @@ def page(slug, a):
         '<section class="section" id="slik">'
         f'<div class="label">{esc(steps_label)}</div><h2>{esc(steps_title)}</h2>{steps_intro}'
         f'<ol class="steps">{steps}</ol></section>'
+        if a.get("steps") else ""
     )
     if beta:
         hero_secondary = (beta["cta_secondary"], "#slik")

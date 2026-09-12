@@ -40,16 +40,15 @@ STALE_ANYWHERE = {
     "Borgveien": "gammelt gatenavn (skal vare Myrerveien)",
 }
 
-# Screens not re-exported yet. app-hjem.png and app-prosjekt.png still show these values, and the
-# alt texts describe what is on screen rather than the fact sheet — an alt text that read out the
-# fact sheet would announce numbers a sighted visitor cannot see. Reported as a warning, not a
-# failure, so the guard stays usable. Empty this dict the day both screens are re-exported: the
-# values then go back to being hard failures.
-PENDING_REEXPORT = {
-    "1987": "app-hjem.png er ikke eksportert pa nytt (skal vare 1967)",
-    "80 000–120 000": "app-hjem.png og app-prosjekt.png er ikke eksportert pa nytt (skal vare 85 000–140 000 kr)",
-    "6,8 mill": "app-hjem.png er ikke eksportert pa nytt (skal vare 6 250 000 kr)",
-}
+# Screens whose values are still stale. Empty since 11. sept. 2026: all five ERA Bolig screens now
+# carry the fact sheet. Add an entry here only as a deliberate, temporary allowance — a value that
+# is on screen and therefore in the alt text, but not yet corrected — and empty it again when the
+# screen is re-exported, so the value goes back to being a hard failure.
+#
+# NB: this guard reads generated HTML and cannot see inside a PNG. Text that appears only in a
+# screenshot is not covered. Known open items of that kind are listed in README under
+# «Produktflater på /boligeier».
+PENDING_REEXPORT = {}
 
 # Must still be present somewhere on /boligeier, so a rewrite cannot quietly drop the facts.
 REQUIRED = ["Myrerveien 46A", "1967", "85 000–140 000 kr", "6 250 000 kr", "162 m²"]

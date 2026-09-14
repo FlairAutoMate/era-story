@@ -15,7 +15,7 @@
     entries.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }
     });
-  }, { threshold: 0.35, rootMargin: "0px 0px -8% 0px" });
+  }, { threshold: window.matchMedia("(max-width: 899px)").matches ? 0.12 : 0.35, rootMargin: window.matchMedia("(max-width: 899px)").matches ? "0px 0px -2% 0px" : "0px 0px -8% 0px" });
   document.querySelectorAll(".reveal, .reveal-stagger, .reveal-img, .p-transition").forEach(function (el) { io.observe(el); });
 })();
 
@@ -31,6 +31,6 @@
       if (e.isIntersecting) links.forEach(function (l) { l.removeAttribute("aria-current"); });
       if (e.isIntersecting) link.setAttribute("aria-current", "true");
     });
-  }, { rootMargin: "-45% 0px -45% 0px" });
+  }, { rootMargin: window.matchMedia("(max-width: 899px)").matches ? "-30% 0px -55% 0px" : "-45% 0px -45% 0px" });
   sections.forEach(function (s) { io.observe(s); });
 })();

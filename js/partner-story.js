@@ -15,7 +15,7 @@
     entries.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }
     });
-  }, { threshold: 0.35, rootMargin: "0px 0px -8% 0px" });
+  }, { threshold: window.matchMedia("(max-width: 899px)").matches ? 0.12 : 0.35, rootMargin: window.matchMedia("(max-width: 899px)").matches ? "0px 0px -3% 0px" : "0px 0px -8% 0px" });
   document.querySelectorAll(".reveal, .reveal-stagger, .reveal-img, .p-transition").forEach(function (el) { io.observe(el); });
 })();
 

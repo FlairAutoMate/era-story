@@ -240,3 +240,316 @@
    through and breaks the ink text color pinned above. Make it a proper opaque card everywhere
    a partner story uses it. */
 .p-scene .dash-group-ai, .p-split .dash-group-ai { background: #F8F1E1; border-color: rgba(212,177,122,0.5); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mobile partner story hardening — 14 Sep 2026
+   Goal: one idea per screen, no clipped media, no horizontal overflow, stable
+   iOS viewport behaviour and readable partner presentation on 320–899 px.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 899px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  @supports not (overflow: clip) { html, body { overflow-x: hidden; } }
+
+  .p-nav {
+    top: max(8px, env(safe-area-inset-top));
+    padding-inline: max(8px, env(safe-area-inset-left));
+  }
+  .p-pill {
+    width: calc(100% - 16px);
+    max-width: none;
+    min-width: 0;
+    margin: 0 8px;
+    height: 48px;
+    padding: 0 6px 0 14px;
+    gap: 6px;
+  }
+  .p-pill .p-brand {
+    min-width: 0;
+    max-width: calc(100vw - 150px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13.5px;
+    padding-right: 8px;
+    margin-right: 0;
+  }
+  .p-pill .p-back {
+    margin-left: auto;
+    height: 38px;
+    min-width: 44px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .p-scene,
+  .p-hero {
+    min-height: 100svh;
+    padding: calc(76px + env(safe-area-inset-top)) 20px max(44px, env(safe-area-inset-bottom));
+    align-items: flex-end;
+  }
+  @supports (min-height: 100dvh) {
+    .p-scene,
+    .p-hero { min-height: 100dvh; }
+  }
+  .p-scene.short {
+    min-height: auto;
+    padding: 72px 20px 52px;
+  }
+  .p-scene-body,
+  .p-scene-body.wide,
+  .p-scene-body.center {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    text-align: left;
+  }
+  .p-h1,
+  .p-hero .p-h1 {
+    font-size: clamp(38px, 11vw, 58px);
+    line-height: .98;
+    letter-spacing: -0.045em;
+    text-wrap: pretty;
+  }
+  .p-h2 {
+    font-size: clamp(30px, 9vw, 44px);
+    line-height: 1.02;
+    text-wrap: pretty;
+  }
+  .p-lede {
+    margin-top: 16px;
+    max-width: 34ch;
+    font-size: clamp(16px, 4.5vw, 19px);
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .p-body-text { max-width: 36ch; }
+  .p-payoff {
+    margin-top: 18px;
+    max-width: 30ch;
+    font-size: clamp(20px, 6vw, 28px);
+    line-height: 1.18;
+  }
+  .p-actions { margin-top: 22px; gap: 10px; }
+  .p-actions .btn,
+  .p-actions .link { min-height: 44px; }
+
+  /* Mobile imagery: zoom out, preserve the complete visual and keep text readable. */
+  .p-scene-media img,
+  .p-scene-media image-slot,
+  .p-transition-layer img,
+  .p-transition-layer image-slot {
+    object-position: center center;
+  }
+  .p-scene-media::after {
+    background:
+      linear-gradient(180deg, rgba(15,24,48,.08) 0%, rgba(15,24,48,.12) 38%, rgba(15,24,48,.86) 78%, rgba(15,24,48,.96) 100%);
+  }
+  .p-scene-media.reveal-img img,
+  .p-scene-media.reveal-img image-slot,
+  .reveal-img img,
+  .reveal-img image-slot {
+    transform: none !important;
+  }
+
+  /* Splits become clean vertical scenes. Never stretch phone/UI media. */
+  .p-split {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .p-split.reverse { direction: ltr; }
+  .p-split-media {
+    order: 1;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+  }
+  .p-split-media > img,
+  .p-split-media > image-slot {
+    width: 100%;
+    height: auto;
+    max-height: 62svh;
+    object-fit: contain;
+    object-position: center;
+    background: var(--navy);
+  }
+  .p-split .p-scene-body {
+    order: 2;
+    max-width: none;
+    padding: 34px 20px 48px;
+  }
+
+  /* Flow diagrams are intentionally simpler on mobile. */
+  .p-flow {
+    gap: 8px;
+    margin-top: 22px;
+    align-items: flex-start;
+  }
+  .p-flow-step {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.25;
+    font-size: 12.5px;
+    padding: 8px 12px;
+  }
+  .p-flow-arrow { font-size: 13px; }
+
+  /* Cards and dashboards must fit the viewport, no side bleed. */
+  .dash,
+  .p-browser,
+  .p-product,
+  .p-product-duo,
+  .p-twopath,
+  .p-converge,
+  .p-steps-grid,
+  .p-reveal-list,
+  .p-timeline {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .dash { gap: 10px; }
+  .dash-head { gap: 8px; }
+  .dash-title { font-size: 16px; }
+  .dash-meta { font-size: 12px; }
+  .kpis { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi { padding: 12px; }
+  .drow { gap: 10px; font-size: 13.5px; }
+  .drow span { flex: 1 1 auto; min-width: 0; }
+  .drow b { flex: 0 1 52%; overflow-wrap: anywhere; }
+  .dash-cols { grid-template-columns: 1fr; }
+
+  .p-browser { border-radius: 16px; }
+  .p-browser-bar { padding: 10px 12px; }
+  .p-browser-url {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .p-browser-body { padding: 18px 16px 20px; }
+  .p-browser-navlinks { display: none; }
+  .p-browser-quote { max-width: 100%; }
+
+  .p-product {
+    display: grid;
+    grid-template-columns: 70px minmax(0,1fr);
+    gap: 16px;
+    padding: 18px;
+  }
+  .p-product-swatch { width: 70px; height: 70px; border-radius: 14px; }
+  .p-product-body { min-width: 0; }
+
+  .p-product-duo,
+  .p-twopath { grid-template-columns: 1fr; }
+  .p-path-media { height: min(44vw, 180px); }
+
+  /* Phone mockups: proportional, smaller and never clipped. */
+  .p-phone-stage {
+    min-height: 0;
+    height: auto;
+    padding: 28px 20px 30px;
+    overflow: visible;
+  }
+  .p-phone {
+    width: min(210px, 62vw);
+    max-width: 100%;
+    border-width: 7px;
+    border-radius: 34px;
+    transform: none;
+  }
+  .p-phone-media { height: auto; aspect-ratio: 16 / 10; }
+  .p-phone-body { padding: 12px 14px 18px; }
+  .p-phone-body .drow { font-size: 11.5px; padding: 6px 0; }
+
+  /* Timeline scrolls horizontally instead of compressing into unreadable columns. */
+  .p-timeline {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scroll-snap-type: x proximity;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .p-timeline::before { display: none; }
+  .p-timeline-stop {
+    flex: 0 0 150px;
+    min-width: 150px;
+    scroll-snap-align: start;
+  }
+
+  .p-converge {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .p-converge-mid {
+    order: 2;
+    justify-self: start;
+    white-space: normal;
+    text-align: left;
+  }
+
+  .p-transition {
+    min-height: 100svh;
+    overflow: hidden;
+  }
+  @supports (min-height: 100dvh) { .p-transition { min-height: 100dvh; } }
+  .p-transition-text {
+    align-items: flex-end;
+    text-align: left;
+    padding: 84px 20px max(48px, env(safe-area-inset-bottom));
+  }
+  .p-transition-text > * { width: 100%; max-width: 100%; }
+  .p-transition-text::before {
+    background: linear-gradient(180deg, rgba(15,24,48,.08), rgba(15,24,48,.88) 78%, rgba(15,24,48,.95));
+  }
+
+  /* Floating quote/cards no longer sit on top of the core photo on phones. */
+  .p-quote-float {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    max-width: none;
+    margin: 14px;
+    box-shadow: none;
+  }
+
+  /* Footer respects safe area and stays legible. */
+  .p-foot {
+    padding: 36px 20px max(28px, env(safe-area-inset-bottom));
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .p-scene,
+  .p-hero { padding-left: 18px; padding-right: 18px; }
+  .p-h1,
+  .p-hero .p-h1 { font-size: clamp(36px, 10.6vw, 50px); }
+  .p-h2 { font-size: clamp(29px, 8.8vw, 40px); }
+  .p-eyebrow { font-size: 10.5px; letter-spacing: .13em; }
+  .p-lede { font-size: 16px; }
+  .p-payoff { font-size: 21px; }
+  .kpis { grid-template-columns: 1fr; }
+  .p-product { grid-template-columns: 1fr; }
+  .p-product-swatch { width: 64px; height: 64px; }
+  .p-mocknav { padding: 12px 16px; gap: 12px; }
+  .p-mocknav-icons span:not(:first-child) { display: none; }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .p-scene,
+  .p-hero {
+    min-height: auto;
+    padding-top: 76px;
+    padding-bottom: 32px;
+    align-items: center;
+  }
+  .p-scene-media { opacity: .48; }
+  .p-h1,
+  .p-hero .p-h1 { font-size: clamp(34px, 7vw, 48px); }
+  .p-lede { font-size: 15px; }
+  .p-payoff { font-size: 20px; }
+  .p-split-media > img,
+  .p-split-media > image-slot { max-height: 78svh; }
+}

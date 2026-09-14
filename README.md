@@ -120,9 +120,13 @@ Tre ulike verdier for samme bolig har rukket å gå i produksjon ved et uhell (6
 
 Sjekken leser generert HTML og **kan ikke se inn i en PNG**. Når en skjerm eksporteres på nytt, må bildet kontrolleres med øynene og alt-teksten stemmes av mot det; sperren hindrer først drift etterpå.
 
-- **Åpent (sept. 2026):** Min bolig og Boligagent er byttet til det nye datasettet (1967, 85 000–140 000 kr, 6 250 000 kr). **Hjem og Prosjekt er ikke eksportert på nytt** og viser fortsatt 1987, 6,8 mill. og 80 000–120 000 kr, så loop-stripen har to skjermer som motsier de tre andre. Det er en bevisst avveining — siden er publisert med avviket.
+- **Åpent (sept. 2026):** alle fem ERA Bolig-skjermene bærer nå faktaarket — 1967, 85 000–140 000 kr, 6 250 000 kr, Myrerveien 46A. `PENDING_REEXPORT` er derfor tom. Tre ting gjenstår, og **ingen av dem kan fanges av `check-demo-home.py`, fordi de står inne i PNG-ene**:
 
-  Alt-tekstene for de to gamle skjermene beskriver **det bildet faktisk viser**, ikke faktaarket. En alt-tekst som fulgte `DEMO_HOME` ville lest opp tall en seende besøkende ikke finner på skjermen. `PENDING_REEXPORT` i `tools/check-demo-home.py` lister nøyaktig hvilke verdier det gjelder, og rapporterer dem som advarsel i stedet for feil. **Tøm den dicten når de to skjermene er byttet** — da går verdiene tilbake til å være harde feil.
+  1. **`app-hjem.png`: statusbrikken sier «Dagen er langt til».** Det er ikke meningsbærende norsk; det skal være «Boligen er lagt til». Brikken står øverst til høyre i heroen — det første produktbildet på siden.
+  2. **`app-hjem.png`: «Nedbør. Middels» står ved siden av radon-ikonet.** Etiketten ble byttet fra radon til nedbør, ikonet ikke. Punktum der det skal være kolon.
+  3. **`app-hjem.png` og `app-prosjekt.png` er 935×1683, de tre andre 853×1844.** I loop-stripen blir de to 425 px høye mot 510 px — synlig ujevnt. Be om 853×1844 ved neste eksport, så retter det seg av seg selv.
+
+  Bevisst akseptert 11. sept. 2026 for å få riktige tall ut. Til app-teamet: bunnmenyen markerer «Hjem» som aktiv også på Min bolig- og Boligagent-skjermene.
 
 ## Placeholder-mekanikken for foto
 

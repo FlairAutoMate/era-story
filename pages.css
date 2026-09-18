@@ -332,6 +332,12 @@ body.menu-open { overflow: hidden; }
 .gain p { margin-top: 8px; font-size: 14.5px; line-height: 1.45; color: var(--muted); }
 .gain:first-child p { color: rgba(247,244,238,0.75); }
 
+.nsteps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; margin-top: 32px; }
+.nstep { padding: 26px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line); }
+.nstep h3 { font-size: 18px; letter-spacing: -0.01em; }
+.nstep p { margin-top: 8px; font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+.nstep .link { margin-top: 14px; }
+
 .example { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 48px; align-items: center; max-width: 1080px; }
 .card { padding: 28px 30px; border-radius: 22px; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 40px 100px rgba(19,30,58,0.12); max-width: 440px; }
 .card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }

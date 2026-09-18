@@ -126,6 +126,23 @@ def app_section(eyebrow, title, lede, visual_html, points=(), alt_bg=False, flip
             '</div></section>')
 
 
+def next_steps_section(eyebrow, title, lede, cards, sid, foot=None):
+    """A full-width three-card section for what comes after ERA has identified a need: not a
+    fourth product screen, just a short next-step link per path (insurance, financing, execution).
+    Deliberately non-promissory copy — see the cards passed in."""
+    cards_html = "".join(
+        f'<div class="nstep"><h3>{esc(h)}</h3><p>{esc(t)}</p>'
+        + (f'<a class="link" href="{href}">{esc(link_text)} →</a>' if href else "")
+        + '</div>'
+        for h, t, link_text, href in cards)
+    foot_html = f'<p class="fine dark2">{esc(foot)}</p>' if foot else ""
+    return (f'<section class="section" id="{sid}"><div class="wrap">'
+            f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
+            f'<p class="lede dark">{esc(lede)}</p>'
+            f'<div class="nsteps">{cards_html}</div>{foot_html}'
+            '</div></section>')
+
+
 def app_loop(eyebrow, title, steps, foot):
     """The whole loop in one row: five screens, five short labels, one grid so they stay aligned.
     Each step carries its own width/height: the screens are exported at different resolutions, and a
@@ -303,6 +320,19 @@ AUDIENCES = {
                         ("Tilbud", "Håndverker med vurderinger, klar for forespørsel."),
                         ("Gjennomføring", "Fem oppgaver fra stillas til sluttkontroll.")],
                 foot="Fasadefunnet fra bildet er nå et prosjekt med kostnad, håndverker og oppgaver."),
+            next_steps_section(
+                "Neste steg", "Når boligen trenger mer enn en påminnelse.",
+                "ERA kobler det dokumenterte behovet med riktige muligheter for gjennomføring – enten det gjelder forsikring, finansiering eller kvalifiserte fagfolk.",
+                cards=[
+                    ("Forsikring", "Sjekk om forholdet kan være relevant for forsikringen din, og finn frem nødvendig dokumentasjon.",
+                     "Avklar dekning", "#boligagent"),
+                    ("Finansiering", "Få oversikt over forventet kostnad og mulige finansieringsalternativer før du starter prosjektet.",
+                     "Se muligheter", "#boligagent"),
+                    ("Gjennomføring", "Gå videre til kvalifisert håndverker med samme dokumentasjon, bilder og prosjektgrunnlag.",
+                     "Innhent tilbud", "/handverker"),
+                ],
+                sid="neste-steg",
+                foot="ERA gir grunnlag for å vurdere alternativer. ERA gir ikke forsikrings- eller lånetilsagn, og lover ikke dekning, godkjenning eller vilkår."),
             app_section(
                 "Boligminne", "Alt som gjøres blir en del av boligen.",
                 "Arbeid, dokumentasjon og historikk følger boligen videre – slik at du slipper å starte på nytt hver gang noe skal vedlikeholdes, vurderes eller forbedres.",

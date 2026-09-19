@@ -246,6 +246,22 @@ def completion_view(title, meta, kpis, docs, footer):
     )
 
 
+def budget_view(title, meta, kpis, rows, financing_note, footer):
+    """The budget view: cost-per-year KPIs plus a short, deliberately non-promissory financing
+    note — same restrained tone as the boligeier next-steps cards, styled like the agent card."""
+    kpi_html = '<div class="kpis">' + "".join(
+        f'<div class="kpi"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in kpis) + '</div>'
+    row_html = '<div class="dash-group">' + "".join(
+        f'<div class="drow"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for k, v in rows) + '</div>'
+    return (
+        '<div class="dash"><div class="dash-head"><div><div class="dash-title">' + esc(title) +
+        f'</div><div class="dash-meta">{esc(meta)}</div></div></div>'
+        f'{kpi_html}{row_html}'
+        f'<div class="agent-a"><p>{esc(financing_note)}</p></div>'
+        f'<div class="dash-foot">{esc(footer)}</div></div>'
+    )
+
+
 def building_overview_view(title, meta, buildings, footer):
     """The property-map view: one status card per building, so the board sees where attention
     is needed before diving into any single maintenance item."""
@@ -426,6 +442,17 @@ AUDIENCES = {
                     footer="Eksempeldata. Tidspunkt og kostnad er anslag som oppdateres etter hvert som tilstand og pris avklares.") + '</div>',
                 alt_bg=True, sid="vedlikeholdsplan"),
             app_section(
+                "Budsjett", "Hva koster planen – og hvordan finansieres den?",
+                "ERA regner ut hva vedlikeholdsplanen betyr i kroner, år for år og per bolig, slik at styret kan vurdere fond, felleskostnader og finansiering med samme tall.",
+                '<div class="appsec-dash">' + budget_view(
+                    "Budsjett 2027–2031", "Perrongen Borettslag · 200 boliger",
+                    kpis=[("Totalt planlagt", "10,55 MNOK"), ("Snitt per år", "1,06 MNOK"), ("Snitt per bolig/år", "5 275 kr"), ("Fellesgjeld i dag", "0 kr")],
+                    rows=[("2027 · Fasade", "1,2 MNOK"), ("2028 · Ventilasjon", "650 000 kr"),
+                          ("2029 · Soilrør", "4,8 MNOK"), ("2030 · Tak", "2,1 MNOK"), ("2031 · Vinduer", "1,8 MNOK")],
+                    financing_note="Mindre tiltak kan dekkes av vedlikeholdsfond og løpende felleskostnader. For de største tiltakene (som soilrør i 2029) kan styret vurdere felleslån. ERA gir tallgrunnlaget for vurderingen – ikke lånetilsagn eller anbefalt bank.",
+                    footer="Eksempeldata. Finansiering besluttes av styret og generalforsamlingen, ikke av ERA.") + '</div>',
+                flip=True, sid="budsjett"),
+            app_section(
                 "ERA hjelper styret prioritere", "Beslutningsstøtte, ikke en chatbot.",
                 "Basert på vedlikeholdsplanen, registrert tilstand og risiko foreslår ERA hva styret bør prioritere først, med begrunnelse og kostnadsestimat.",
                 '<div class="appsec-dash">' + styre_agent_view(
@@ -435,7 +462,7 @@ AUDIENCES = {
                            ("Fasade", "Planlegg innen 18 måneder · estimert 1,0–1,3 MNOK"),
                            ("Ventilasjon", "Bør kartlegges · estimert 80 000–120 000 kr")],
                     footer="Eksempeldata. ERA foreslår og begrunner; styret vurderer og beslutter.") + '</div>',
-                flip=True, sid="styre-agent"),
+                alt_bg=True, flip=True, sid="styre-agent"),
             app_section(
                 "Sammenlign tilbud", "Tre tilbud. Samme grunnlag. Én oversikt.",
                 "Når tiltaket er besluttet, samler ERA inn tilbud på samme arbeidsbeskrivelse, slik at styret sammenligner pris og fremdrift direkte, uten regneark.",
@@ -446,7 +473,7 @@ AUDIENCES = {
                             ("Fargerike Prosjekt", "Totalleveranse", "2 690 000 kr", "9 uker")],
                     recommended="Mestergruppen",
                     footer="Eksempeldata. ERA sammenstiller tilbudene; styret velger leverandør.") + '</div>',
-                alt_bg=True, sid="tilbud"),
+                sid="tilbud"),
             app_section(
                 "Varsle beboerne", "Styret varsler. Beboerne vet hva som skjer.",
                 "Når arbeidet er avtalt, varsler ERA alle boligeierne samtidig, med det de faktisk trenger å vite – og en åpning for å melde egne behov i samme prosjekt.",
@@ -459,7 +486,7 @@ AUDIENCES = {
                                "Beboere kan melde interesse for tilleggsarbeid",
                                "Styret får oversikt over svar og spørsmål"],
                     footer="Eksempeldata. Varsling og svar vises som illustrasjon av beboerflyten.") + '</div>',
-                flip=True, sid="beboerflyt"),
+                alt_bg=True, flip=True, sid="beboerflyt"),
             app_section(
                 "Fra ferdig til dokumentert", "Jobben er ferdig. Historikken lever videre.",
                 "Når arbeidet er utført, oppdaterer ERA vedlikeholdsplanen automatisk og samler dokumentasjon, bilder og kostnad på eiendommen – klart for neste styre.",
@@ -468,7 +495,16 @@ AUDIENCES = {
                     kpis=[("Totalkostnad", "2 350 000 kr"), ("Avvik fra estimat", "−5 %"), ("Varighet", "8 uker, i rute"), ("Beboere informert", "100 %")],
                     docs=["Sluttrapport (PDF)", "Bilder før/etter (18)", "FDV-dokumentasjon", "Oppdatert tilstandsrapport"],
                     footer="Eksempeldata. Dokumentasjonen lagres på eiendommen og oppdaterer vedlikeholdsplanen.") + '</div>',
-                alt_bg=True, sid="dokumentasjon"),
+                sid="dokumentasjon"),
+            next_steps_section(
+                "Oppsummert", "Forstå. Gjennomfør. Dokumenter.",
+                "Tre steg, samme eiendom, hver gang: ERA hjelper styret forstå hva som trengs, gjennomføre riktig tiltak med riktig leverandør, og dokumentere resultatet slik at neste styre starter med historikken, ikke fra null.",
+                cards=[
+                    ("Forstå", "Tilstand, risiko og innmeldte behov samlet i én bygningsoversikt og vedlikeholdsplan.", None, None),
+                    ("Gjennomfør", "Fra prioritering og budsjett til sammenlignede tilbud og varslede beboere.", None, None),
+                    ("Dokumenter", "Utført arbeid, kostnad og bilder lagres på eiendommen og oppdaterer planen.", None, None),
+                ],
+                sid="oppsummering"),
         ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",

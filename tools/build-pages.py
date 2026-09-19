@@ -414,7 +414,7 @@ AUDIENCES = {
         image="/assets/story/block-bikes-v3.jpg", image_pos="50% 50%",
         hero_secondary=("Se hvordan det henger sammen", "/#styret"),
         hero_view=dash("Perrongen Borettslag", "200 boliger · 4 bygg · Eidsvoll · byggeår 1986",
-                        kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt vedlikehold", "3,8 MNOK"), ("Risiko", "2 tiltak")],
+                        kpis=[("Vedlikeholdsstatus", "72 / 100"), ("Neste 12 mnd", "4 tiltak"), ("Planlagt, 10 år", "10,55 MNOK"), ("Risiko", "2 tiltak")],
                         footer="Eksempeleiendom og -tall. Illustrerer hvordan ERA samler styrets beslutningsgrunnlag."),
         app_sections=[
             app_section(
@@ -488,6 +488,15 @@ AUDIENCES = {
                     footer="Eksempeldata. Varsling og svar vises som illustrasjon av beboerflyten.") + '</div>',
                 alt_bg=True, flip=True, sid="beboerflyt"),
             app_section(
+                "Boligeieren ser det også", "Ikke bare et varsel. Egen oppfølging.",
+                "Det samme fasadeprosjektet dukker opp i boligeierens egen ERA-app, sammen med resten av boligen deres. Fellesareal og privat bolig holdes adskilt: privat boligdokumentasjon deles ikke automatisk med styret.",
+                phone("/assets/story/app-minbolig.png", 853, 1844,
+                      "ERA Bolig, boligeierens Min bolig-side: viser egen bolig med tilstand og neste prosjekt, samt fellesprosjektet fra styret",
+                      "md"),
+                points=[("For boligeieren", "Egen bolig, dokumentasjon og vedlikeholdsplan – pluss fellesprosjekter fra styret."),
+                        ("For styret", "Ingen ekstra jobb. Samme varsel gjør fellesprosjektet synlig i boligeierens app.")],
+                foot="Eksempeldata. Skjermbilde fra ERA for boligeiere.", sid="boligeier-visning"),
+            app_section(
                 "Fra ferdig til dokumentert", "Jobben er ferdig. Historikken lever videre.",
                 "Når arbeidet er utført, oppdaterer ERA vedlikeholdsplanen automatisk og samler dokumentasjon, bilder og kostnad på eiendommen – klart for neste styre.",
                 '<div class="appsec-dash">' + completion_view(
@@ -495,7 +504,7 @@ AUDIENCES = {
                     kpis=[("Totalkostnad", "2 350 000 kr"), ("Avvik fra estimat", "−5 %"), ("Varighet", "8 uker, i rute"), ("Beboere informert", "100 %")],
                     docs=["Sluttrapport (PDF)", "Bilder før/etter (18)", "FDV-dokumentasjon", "Oppdatert tilstandsrapport"],
                     footer="Eksempeldata. Dokumentasjonen lagres på eiendommen og oppdaterer vedlikeholdsplanen.") + '</div>',
-                sid="dokumentasjon"),
+                alt_bg=True, sid="dokumentasjon"),
             next_steps_section(
                 "Oppsummert", "Forstå. Gjennomfør. Dokumenter.",
                 "Tre steg, samme eiendom, hver gang: ERA hjelper styret forstå hva som trengs, gjennomføre riktig tiltak med riktig leverandør, og dokumentere resultatet slik at neste styre starter med historikken, ikke fra null.",
@@ -554,8 +563,8 @@ AUDIENCES = {
             ],
         ),
         aside=dict(
-            label="Beboerverdi", heading="Verdi for styret. Hjelp til hver bolig.",
-            text="Styret får oversikt over felles vedlikehold. Boligeieren får relevant informasjon om fellesarbeidet, og hjelp til å følge opp egen bolig med dokumentasjon, vedlikeholdsplan og påminnelser. Fellesareal og privat bolig holdes adskilt: privat boligdokumentasjon deles ikke automatisk med styret.",
+            label="Beboerverdi", heading="Samme prosjekt, sett fra boligeierens app.",
+            text="Nysgjerrig på hvordan boligeieren opplever den andre siden av samme prosjekt – egen bolig, egen dokumentasjon, egne påminnelser?",
             link="Se ERA for boligeiere →", href="/boligeier",
         ),
         gains=[

@@ -695,21 +695,23 @@ def build_investor(p):
         '<h2 class="p-h1">Fra produkt til kommersiell validering.</h2>'
         + dash("Status september 2026", "Signert, i prosess og i dialog",
                kpis=[("Håndverkerbedrifter på venteliste", "90"), ("Byer besøkt", "11"),
-                     ("Leiligheter i signert pilot", "69"), ("Pilot", "Perrongen BRL")],
+                     ("Boliger i pilot", "2 500"), ("Pilot", "Boligbyggelag og borettslag")],
                groups=[
                    ("doc", [("Perrongen BRL, Eidsvoll", "69 leiligheter · signert pilot")]),
-                   ("pilot", [("ABBL + NBBL", "Dialog om distribusjon"),
+                   ("pilot", [("Boligbyggelag og borettslag", "Prosess på gang — 2 500 boliger i pilot"),
+                              ("ABBL + NBBL", "Dialog om distribusjon"),
                               ("Mesterfarge / Mal Proff", "LOI og nettverk — kommersiell inngang"),
-                              ("Jotun", "Kommersiell dialog om distribusjon og produktsalg")]),
+                              ("Jotun", "Kommersiell dialog om distribusjon og produktsalg"),
+                              ("2 eiendomsmeglerkjeder", "Interesse for distribusjon")]),
                ],
-               footer="Kun Perrongen er en signert avtale. Øvrige er i prosess og ikke inngåtte avtaler."),
+               footer="Kun Perrongen er en signert avtale. Øvrige, inkludert de 2 500 boligene i pilotprosess, er i prosess og ikke inngåtte avtaler."),
         image="block-facade-v3.jpg",
     ))
 
     s.append(scene("skalering",
         '<div class="p-eyebrow">Fra pilot til skalering</div>'
         '<h2 class="p-h1">Bevis modellen før vi skalerer den.</h2>'
-        + flow([("NÅ · 69 signert pilot", "solid"), ("BEVISE · 100+ aktive boliger", None),
+        + flow([("NÅ · 2 500 boliger i pilotprosess", "solid"), ("BEVISE · 100+ aktive boliger", None),
                 ("FØRSTE SKALA · 1 000 betalende", None), ("KONVERTERE · 2–3 boligbyggelag", None),
                 ("ÅR 2 · 5–10k betalende", None)])
         + '<p class="p-payoff">1 000 betalende boliger er første tydelige kommersielle milepæl, før videre skalering mot 5 000–10 000.</p>',

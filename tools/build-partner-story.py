@@ -287,12 +287,15 @@ NAV = [
 ]
 
 
-def nav_html(partner_name, back_href="/", back_label="Tilbake til ERA"):
-    links = "".join(f'<a class="p-link" href="#{k}" data-act="{k}">{esc(l)}</a>' for k, l in NAV)
+def nav_html(brand, nav=None, label=None, back_href="/", back_label="Tilbake til ERA"):
+    """`brand` er teksten etter «era.» i pillen — «× Jotun» for en partner, «Investor» for
+    investorfortellingen. `nav` er seksjonslista, og må matche id-ene bygget faktisk legger ut."""
+    items = NAV if nav is None else nav
+    links = "".join(f'<a class="p-link" href="#{k}" data-act="{k}">{esc(l)}</a>' for k, l in items)
     return (
-        '<nav class="p-nav" aria-label="ERA × ' + esc(partner_name) + '">'
+        '<nav class="p-nav" aria-label="' + esc(label or ("ERA " + brand)) + '">'
         '<div class="p-pill">'
-        f'<span class="p-brand">era<span>.</span> × {esc(partner_name)}</span>'
+        f'<span class="p-brand">era<span>.</span> {esc(brand)}</span>'
         f'{links}<a class="p-back" href="{esc(back_href)}">{esc(back_label)}</a>'
         '</div></nav>'
     )
@@ -320,13 +323,13 @@ def page(slug, p):
 <meta name="description" content="{esc(p["description"])}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-{head_meta("/partner/" + slug, p["title"], p["description"])}
+{head_meta(p.get("path", "/partner/" + slug), p["title"], p["description"])}
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 <link rel="stylesheet" href="/partner.css">
 </head>
 <body>
-{nav_html(p["partner_name"])}
+{nav_html(p.get("brand", "× " + p.get("partner_name", "")), p.get("nav"), p.get("nav_label"))}
 <main>
 {body}
 </main>
@@ -616,7 +619,172 @@ def build_jotun(p):
     return "".join(s)
 
 
+
+# ── ERA Investor ──────────────────────────────────────────────────────────────
+# Investorfortellingen fra investordekket, satt i samme scenespråk som partnersiden.
+# Egen rute, noindex, og ikke lenket fra hovedmenyen — den deles som lenke, den skal
+# ikke kunne finnes av seg selv.
+
+TEAM = [
+    ("Lars-Henrik Sand", "Gründer", "17+ år innen eiendom, teknologi, markedsføring og digital distribusjon.", "team-lars.jpg"),
+    ("Thomas Floden", "CTO · Partner", "20 år full-stack og AI-/LLM-produktarkitektur.", "team-thomas.jpg"),
+    ("Adam Haeger", "Softwarearkitekt · fullstack", "Arkitekt og tech lead fra Digdir/Altinn Studio og Teleplan Globe. Datamodellering, systemarkitektur og frontend i stor skala.", "team-adam.jpg"),
+    ("Ragnvald Løhren", "Finans og selskapsutvikling · Partner", "Finans, investering, strategi og selskapsutvikling.", "team-ragnvald.jpg"),
+    ("Eskild Løken Ugland", "Styremedlem · Partner", "Tidligere salgs- og markedsdirektør i Block Watne. Kjedesjef i Mal Proff og Mesterfarge.", "team-eskild-v2.jpg"),
+    ("Magnus Stensrud", "Salg", "Salg, salgsledelse og kundereiser.", "team-magnus-v4.jpg"),
+    ("William Lente", "Kommersiell · kundeopplevelse", "Digital markedsføring, leadgenerering, web og design.", "team-william.jpg"),
+]
+
+
+def team_grid(people):
+    """Teamet som et rutenett. Mangler portrettet, vises en ERA-stilt plassholder med initialene,
+    slik at raden ikke kollapser mens vi venter på foto."""
+    cards = []
+    for name, role, bio, asset in people:
+        path = os.path.join(ROOT, "assets", "story", asset)
+        if os.path.exists(path):
+            media = f'<img src="/assets/story/{asset}" alt="{esc(name)}" loading="lazy" decoding="async">'
+        else:
+            initials = "".join(w[0] for w in name.split()[:2]).upper()
+            media = f'<span class="p-team-ph" aria-hidden="true">{esc(initials)}</span>'
+        cards.append(
+            f'<figure class="p-team-card"><div class="p-team-shot">{media}</div>'
+            f'<figcaption><b>{esc(name)}</b><span class="p-team-role">{esc(role)}</span>'
+            f'<span class="p-team-bio">{esc(bio)}</span></figcaption></figure>')
+    return '<div class="p-team">' + "".join(cards) + '</div>'
+
+
+# Navngitte motparter star i fremdriftsseksjonen, der de er merket som dialog eller LOI.
+# De star bevisst IKKE ved siden av en prosentsats: dette er en apen URL som blir
+# videresendt, og en sats knyttet til et navn er publisert for motparten har sagt ja.
+def build_investor(p):
+    s = []
+
+    s.append(hero(
+        "ERA · INVESTOR", "Boliger har ingen hukommelse.<br>ERA gir dem en.",
+        "Vedlikehold, dokumentasjon og utført arbeid ligger spredt. ERA samler boligens historie og gjør den handlingsbar.",
+        "door-evening-v4.jpg", ("Se caset", "#problemet"), ("Tilbake til ERA", "/"),
+    ))
+
+    s.append(scene("problemet",
+        '<div class="p-eyebrow">Problemet</div>'
+        '<h2 class="p-h1">Boligens historie finnes ikke samlet noe sted.</h2>'
+        + converge(
+            "Slik er det i dag",
+            ["Fragmentert data — dokumenter og historikk spredt",
+             "Reaktivt vedlikehold — behov oppdages for sent",
+             "Risiko ved salg — mangelfull dokumentasjon"],
+            "Med ERA",
+            ["Boligen husker — tilstand, tiltak og dokumentasjon følger boligen",
+             "ERA vet hva som bør skje videre",
+             "Dokumentasjonen følger boligen, også til neste eier"],
+            "Boligen husker")
+        + '<p class="p-payoff">ERA vet hva som bør skje videre.</p>',
+        image="fragmented-home-v3.jpg", wide=True,
+    ))
+
+    s.append(scene("team",
+        '<div class="p-eyebrow">Team</div>'
+        '<h2 class="p-h1">Bygget for eiendom, teknologi og gjennomføring.</h2>'
+        + team_grid(TEAM),
+        dark=False, wide=True,
+    ))
+
+    s.append(scene("fremdrift",
+        '<div class="p-eyebrow">Dokumentert fremdrift</div>'
+        '<h2 class="p-h1">Fra produkt til kommersiell validering.</h2>'
+        + dash("Status september 2026", "Signert, i prosess og i dialog",
+               kpis=[("Håndverkerbedrifter på venteliste", "90"), ("Byer besøkt", "11"),
+                     ("Leiligheter i signert pilot", "69"), ("Pilot", "Perrongen BRL")],
+               groups=[
+                   ("doc", [("Perrongen BRL, Eidsvoll", "69 leiligheter · signert pilot")]),
+                   ("pilot", [("ABBL + NBBL", "Dialog om distribusjon"),
+                              ("Mesterfarge / Mal Proff", "LOI og nettverk — kommersiell inngang"),
+                              ("Jotun", "Kommersiell dialog om distribusjon og produktsalg")]),
+               ],
+               footer="Kun Perrongen er en signert avtale. Øvrige er i prosess og ikke inngåtte avtaler."),
+        image="block-facade-v3.jpg",
+    ))
+
+    s.append(scene("skalering",
+        '<div class="p-eyebrow">Fra pilot til skalering</div>'
+        '<h2 class="p-h1">Bevis modellen før vi skalerer den.</h2>'
+        + flow([("NÅ · 69 signert pilot", "solid"), ("BEVISE · 100+ aktive boliger", None),
+                ("FØRSTE SKALA · 1 000 betalende", None), ("KONVERTERE · 2–3 boligbyggelag", None),
+                ("ÅR 2 · 5–10k betalende", None)])
+        + '<p class="p-payoff">1 000 betalende boliger er første tydelige kommersielle milepæl, før videre skalering mot 5 000–10 000.</p>',
+        image="neighbourhood-dusk-v4.jpg", wide=True,
+    ))
+
+    s.append(scene("inntekt",
+        '<div class="p-eyebrow">Inntektsmotor</div>'
+        '<h2 class="p-h1">Én bolig. Flere inntektsstrømmer.</h2>'
+        + steps_grid([
+            ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier."),
+            ("ca. 5 %", "kickback på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør."),
+            ("3,5 %", "på håndverkerjobber", "Når oppdrag gjennomføres via ERA."),
+        ])
+        + '<p class="p-body-text">Senere: byggvarepartnere med flere kickback-avtaler, og eiendomsmeglerpartnere som avtales etter at den første leverandøravtalen er på plass.</p>'
+        + '<p class="p-payoff">Abonnement, produktinntekt og transaksjonsinntekt fra samme bolig.</p>',
+        dark=False, wide=True,
+    ))
+
+    s.append(scene("distribusjon",
+        '<div class="p-eyebrow">Marked og distribusjon</div>'
+        '<h2 class="p-h1">Distribusjonen er bygget inn i ERA.</h2>'
+        '<p class="p-lede">Vi går gjennom aktørene som allerede har tilgang til boligen – og lar selve bruken skape videre distribusjon.</p>'
+        + flow([("Boligbyggelag · én avtale", None), ("Borettslag og sameier · mange boliger", None),
+                ("Boligeiere · behov og prosjekter", "solid"), ("Produsenter og forhandlere · kjøp", None),
+                ("Håndverkere · dokumentert jobb", None)])
+        + '<p class="p-payoff">Vekst gjennom økosystemet rundt boligen – ikke bare betalt markedsføring.</p>',
+        image="ecosystem-v3.jpg", wide=True,
+    ))
+
+    s.append(scene("kapital",
+        '<div class="p-eyebrow">Kapital og milepæler</div>'
+        '<h2 class="p-h1">Kapitalen skal bevise og skalere modellen.</h2>'
+        + converge(
+            "Bruk av kapital",
+            ["Produkt og produksjonsdata", "Pilot og kundeaktivering",
+             "Distribusjon og kommersialisering", "Kjernekapasitet i teamet"],
+            "Milepæler",
+            ["Perrongen: dokumentert aktivering og bruk", "2–3 boligbyggelag på kommersielle avtaler",
+             "5 000–10 000 betalende boliger", "Dokumentert inntekt per aktiv bolig"],
+            "Bevise, så skalere")
+        + '<p class="p-body-text">Beløp og emisjonsvilkår presenteres separat.</p>',
+        image="property-intelligence-v3.jpg", wide=True,
+    ))
+
+    s.append(scene(None,
+        '<h2 class="p-h1">Boligen husker. ERA vet hva som bør skje videre.</h2>'
+        '<p class="p-lede">Fra vedlikeholdsbehov til produkt, håndverker og dokumentert resultat.</p>'
+        '<p class="p-body-text">Lars-Henrik Sand · ERA Technologies AS · Investor deck, september 2026</p>'
+        '<div class="p-actions"><a class="link" href="/">Tilbake til ERA</a></div>',
+        image="loop-home-v3.jpg", center=True,
+    ))
+
+    return "".join(s)
+
+
+
+INVESTOR_NAV = [
+    ("problemet", "Problemet"), ("team", "Team"), ("fremdrift", "Fremdrift"),
+    ("skalering", "Skalering"), ("inntekt", "Inntekt"), ("distribusjon", "Distribusjon"),
+    ("kapital", "Kapital"),
+]
+
 PARTNERS = {
+    "investor": dict(
+        partner_name="Investor",
+        brand="Investor",
+        nav=INVESTOR_NAV,
+        nav_label="ERA Investor",
+        path="/investor",
+        out="investor",
+        title="ERA — Investor",
+        description="Boliger har ingen hukommelse. ERA gir dem en. Problem, team, dokumentert fremdrift, inntektsmodell, distribusjon og kapitalbruk.",
+        build=build_investor,
+    ),
     "jotun": dict(
         partner_name="Jotun",
         title="ERA × Jotun — Fra boligbehov til handling",
@@ -627,7 +795,9 @@ PARTNERS = {
 
 if __name__ == "__main__":
     for slug, p in PARTNERS.items():
-        out_dir = os.path.join(ROOT, "partner", slug)
+        # `out` lar en fortelling bo utenfor /partner — investorsiden har sin egen rute.
+        rel = p.get("out")
+        out_dir = os.path.join(ROOT, rel) if rel else os.path.join(ROOT, "partner", slug)
         os.makedirs(out_dir, exist_ok=True)
         out = os.path.join(out_dir, "index.html")
         content = page(slug, p)

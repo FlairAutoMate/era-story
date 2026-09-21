@@ -654,6 +654,9 @@ def team_grid(people):
     return '<div class="p-team">' + "".join(cards) + '</div>'
 
 
+# Navngitte motparter star i fremdriftsseksjonen, der de er merket som dialog eller LOI.
+# De star bevisst IKKE ved siden av en prosentsats: dette er en apen URL som blir
+# videresendt, og en sats knyttet til et navn er publisert for motparten har sagt ja.
 def build_investor(p):
     s = []
 
@@ -718,10 +721,10 @@ def build_investor(p):
         '<h2 class="p-h1">Én bolig. Flere inntektsstrømmer.</h2>'
         + steps_grid([
             ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier."),
-            ("ca. 5 %", "kickback på maling", "Jotun-salg gjennom ERA. Forutsatt endelig avtale."),
+            ("ca. 5 %", "kickback på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør."),
             ("3,5 %", "på håndverkerjobber", "Når oppdrag gjennomføres via ERA."),
         ])
-        + '<p class="p-body-text">Senere: byggvarepartnere med flere kickback-avtaler, og eiendomsmeglerpartnere som avtales etter at Jotun-avtalen er på plass.</p>'
+        + '<p class="p-body-text">Senere: byggvarepartnere med flere kickback-avtaler, og eiendomsmeglerpartnere som avtales etter at den første leverandøravtalen er på plass.</p>'
         + '<p class="p-payoff">Abonnement, produktinntekt og transaksjonsinntekt fra samme bolig.</p>',
         dark=False, wide=True,
     ))

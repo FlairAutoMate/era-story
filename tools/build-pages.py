@@ -321,6 +321,14 @@ AUDIENCES = {
                         ("Hva det betyr", f"Boligen er fra {DEMO_HOME['year']}. Det gjør fasade, tak og el-anlegg verdt å se nærmere på."),
                         ("Mitt forslag", f"«{DEMO_HOME['measure']}» med kostnad, oppstart og en håndverker som kan gjøre jobben.")],
                 alt_bg=True, flip=True, sid="boligagent"),
+            next_steps_section(
+                "Visualiser og velg", "Se det. Velg det. Kjøp det. Få det gjort.",
+                "Med ERA kan du visualisere boligen din med ulike farger, produkter og løsninger, og se hvordan resultatet kan bli før du bestemmer deg. Når du har funnet løsningen du ønsker, velger du selv hvordan du vil gå videre – alt hjemme fra sofaen.",
+                cards=[
+                    ("Gjør jobben selv", "ERA hjelper deg med riktige produkter og mengder. Gjennomfør kjøpet direkte hjemmefra – hent ferdig pakkede varer i butikken, eller få alt levert på døren.", None, None),
+                    ("Få noen til å gjøre jobben", "Be om tilbud fra en anbefalt håndverker gjennom ERA. Motta og godkjenn tilbudet på telefonen – håndverkeren kjøper inn riktige produkter og gjennomfører jobben.", None, None),
+                ],
+                sid="visualiser"),
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",

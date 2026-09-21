@@ -23,6 +23,28 @@
       ],
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/investor",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.era-app.no"
+        }
+      ],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/investor",
+      "has": [
+        {
+          "type": "host",
+          "value": "era-app.no"
+        }
+      ],
+      "destination": "/",
+      "permanent": false
     }
   ],
   "headers": [

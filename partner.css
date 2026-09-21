@@ -98,7 +98,9 @@
 .p-pill { pointer-events: auto; margin: 0 16px; display: flex; align-items: center; gap: 4px; height: 52px; padding: 0 8px 0 18px; border-radius: 999px; background: rgba(15,24,48,0.7); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(247,244,238,0.14); color: var(--warm); box-shadow: 0 10px 34px rgba(15,24,48,0.2); }
 .p-pill .p-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: inherit; padding-right: 10px; margin-right: 6px; border-right: 1px solid rgba(247,244,238,0.2); white-space: nowrap; }
 .p-pill .p-brand span { color: var(--gold); }
-.p-pill a.p-link { padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: rgba(247,244,238,0.8); white-space: nowrap; }
+/* 44px trykkflate, som resten av siden. Pillen er 52px, sa boksen vokser innenfor den, og
+   lenken har ingen bakgrunn i hvile — endringen er usynlig til man peker pa den. */
+.p-pill a.p-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: rgba(247,244,238,0.8); white-space: nowrap; }
 .p-pill a.p-link:hover, .p-pill a.p-link[aria-current="true"] { color: #fff; background: rgba(247,244,238,0.1); }
 .p-pill .p-back { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; background: var(--gold); color: var(--navy-2); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
 @media (max-width: 780px) { .p-pill .p-link { display: none; } }
@@ -553,3 +555,17 @@
   .p-split-media > img,
   .p-split-media > image-slot { max-height: 78svh; }
 }
+
+/* team-rutenett — investorfortellingen. Samme kortsprak som .p-step-card, men med portrett.
+   Mangler portrettet, star initialene i en gullring i stedet, sa raden ikke kollapser. */
+.p-team { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 18px; margin-top: 34px; }
+.p-team-card { margin: 0; padding: 18px; border-radius: 18px; background: rgba(247,244,238,0.06); border: 1px solid rgba(247,244,238,0.16); }
+.p-scene.light .p-team-card { background: #fff; border-color: var(--line); }
+.p-team-shot { width: 76px; height: 76px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(212,177,122,0.16); border: 1px solid rgba(212,177,122,0.45); }
+.p-team-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p-team-ph { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--gold); }
+.p-team-card figcaption { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+.p-team-card figcaption b { font-size: 16px; letter-spacing: -0.01em; }
+.p-team-role { font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.p-team-bio { font-size: 13.5px; line-height: 1.45; color: rgba(247,244,238,0.78); }
+.p-scene.light .p-team-bio { color: var(--muted); }

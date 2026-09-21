@@ -4,7 +4,12 @@ Statisk landingsside bygget fra Claude Design-eksporten «ERA Scroll Story». In
 
 Lokalt: `python -m http.server 8787` og åpne http://localhost:8787/. Visuell QA: `node qa-scroll.mjs`.
 
-Deploy: `npx vercel --prod`.
+**Deploy skjer automatisk.** Vercel bygger `master` ca. ett minutt etter hver merge — en merge er
+en publisering. `npx vercel --prod` er bare nødvendig for å tvinge en deploy utenom.
+
+Jobber du i dette repoet med Claude Code: les `CLAUDE.md` først. Den viktigste regelen der er at
+hver økt må starte med `git fetch origin && git checkout -B claude/<oppgave> origin/master` —
+arbeidstreet husker sin egen branch, og flere samtaler jobber her parallelt.
 
 ## Historiens dramaturgi (3 · 5 · 7)
 
@@ -45,6 +50,22 @@ En egen, gjenbrukbar historieform for kommersielle partnersamtaler (`ERA × Jotu
 - Egen, diskret meny (`ERA × <partner>` + Oversikt/B2C/Distribusjon/Innsikt/Pilot + «Tilbake til ERA»), ikke lenket inn i den offentlige toppmenyen.
 - `noindex,nofollow` og utelatt fra `sitemap.xml` — møtespesifikt innhold, ikke en offentlig lansert side.
 - Påstandsdisiplin følges gjennomgående: `TAG_LABELS` skiller Dokumentert/ERA-forslag/Fremtidsbilde/I pilot, og produktkort er tydelig merket `DEMO_PRODUCT_DATA`.
+
+### `/investor` — samme generator, egen rute
+
+Investordekket bruker de samme scenetypene, men er ikke en partnerfortelling. Derfor er
+`build-partner-story.py` data-drevet: `nav` (seksjonslista), `brand` (teksten etter «era.» i pillen),
+`path` og `out` kommer fra oppføringen, slik at en fortelling kan bo utenfor `/partner`. Jotun-siden
+er bit-identisk før og etter den endringen.
+
+- Seksjoner: Problemet · Team · Fremdrift · Skalering · Inntekt · Distribusjon · Kapital.
+- Teamet er `TEAM` i generatoren. Mangler et portrett i `assets/story/`, vises initialene i en
+  gullring i stedet — legg inn bildet, så tas det automatisk. Adam Haeger venter på `team-adam.jpg`,
+  både her og i `teamDefs` i `index.html`.
+- **Ingen prosentsats ved siden av en motparts navn.** Sidene er `noindex`, men de er åpne URL-er som
+  blir videresendt — det finnes verken adgangskontroll, utløpsdato eller mulighet til å trekke dem
+  tilbake. En sats knyttet til et navn er publisert før motparten har sagt ja. Navnet hører hjemme i
+  fremdriftslista, merket som dialog eller LOI, ikke i en betingelse.
 
 ## Responsivitet og nettleser-QA
 

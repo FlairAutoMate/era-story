@@ -87,12 +87,20 @@ def reveal_list(items):
 
 
 def steps_grid(items):
-    """items: list of (number, title, text)."""
-    cards = "".join(
-        f'<div class="p-step-card"><span class="p-reveal-n">{esc(n)}</span><b>{esc(t)}</b><p>{esc(x)}</p></div>'
-        for n, t, x in items
-    )
-    return f'<div class="p-steps-grid reveal-stagger">{cards}</div>'
+    """items: (number, title, text) eller (number, title, text, tag_kind).
+
+    Det valgfrie fjerde feltet setter et statusmerke på kortet — Planlagt, I pilot,
+    Fremtidsbilde. Statusen hører hjemme på kortet, ikke i en fotnote under: et tall
+    uten status leses som noe som allerede skjer."""
+    cards = []
+    for it in items:
+        n, t, x = it[0], it[1], it[2]
+        kind = it[3] if len(it) > 3 else None
+        badge = tag(kind) if kind else ""
+        cards.append(
+            f'<div class="p-step-card">{badge}<span class="p-reveal-n">{esc(n)}</span>'
+            f'<b>{esc(t)}</b><p>{esc(x)}</p></div>')
+    return '<div class="p-steps-grid reveal-stagger">' + "".join(cards) + '</div>'
 
 
 def converge(left_title, left_items, right_title, right_items, mid):
@@ -718,16 +726,32 @@ def build_investor(p):
         image="neighbourhood-dusk-v4.jpg", wide=True,
     ))
 
+    # Tidslinjen ligger i denne seksjonen, ikke i en egen. Spørsmålet en investor stiller rett
+    # etter å ha sett inntektsstrømmene er «når begynner de å tjene penger» — svaret hører til
+    # ved siden av spørsmålet. Skaleringsseksjonen er en volumakse (antall boliger); å slå dem
+    # sammen ville blandet to historier.
     s.append(scene("inntekt",
         '<div class="p-eyebrow">Inntektsmotor</div>'
         '<h2 class="p-h1">Én bolig. Flere inntektsstrømmer.</h2>'
         + steps_grid([
-            ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier."),
-            ("ca. 5 %", "kickback på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør."),
-            ("3,5 %", "på håndverkerjobber", "Når oppdrag gjennomføres via ERA."),
+            ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier.", "pilot"),
+            ("ca. 5 %", "provisjon på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør.", "planned"),
+            ("3,5 %", "påslag på håndverkerjobber", "På faktura når oppdraget gjennomføres via ERA.", "planned"),
+            ("3 000 kr", "per boligsalg", "ERA inn i oppdragsavtalen for boligselgere, som revenue share med megler.", "planned"),
+            ("Provisjon", "forsikring og finansiering", "Når boligeieren går videre fra et dokumentert behov.", "planned"),
         ])
-        + '<p class="p-body-text">Senere: byggvarepartnere med flere kickback-avtaler, og eiendomsmeglerpartnere som avtales etter at den første leverandøravtalen er på plass.</p>'
-        + '<p class="p-payoff">Abonnement, produktinntekt og transaksjonsinntekt fra samme bolig.</p>',
+        + '<p class="p-body-text">Øvrige byggfag kommer som partneravtaler på samme modell: elektro, VVS og snekker.</p>'
+        + '<div class="p-eyebrow" style="margin-top: 38px">Når inntektene starter</div>'
+        + reveal_list([
+            ("Q4 2026", "Abonnement", "Første inntekter. Boliger og borettslag/sameier."),
+            ("Q1 2027", "Malingsalg", "Provisjon på produkt solgt gjennom ERA."),
+            ("Q1 2027", "Eiendomsmegler", "ERA inn i oppdragsavtalen for boligselgere."),
+            ("Q1 2027", "Håndverkere", "Påslag på faktura for oppdrag gjennomført via ERA."),
+            ("Q1 2027", "Øvrige byggfag", "Partneravtaler med elektro, VVS og snekker."),
+        ])
+        + '<p class="p-fine">Ingen av strømmene genererer inntekt i dag. Abonnementet er i signert pilot; '
+          'de øvrige er planlagt og ikke inngått.</p>'
+        + '<p class="p-payoff">Abonnementet først. Produkt- og transaksjonsinntektene kobles på i Q1 2027.</p>',
         dark=False, wide=True,
     ))
 

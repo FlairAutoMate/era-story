@@ -103,10 +103,24 @@
 .p-pill a.p-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: rgba(247,244,238,0.8); white-space: nowrap; }
 .p-pill a.p-link:hover, .p-pill a.p-link[aria-current="true"] { color: #fff; background: rgba(247,244,238,0.1); }
 .p-pill .p-back { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; background: var(--gold); color: var(--navy-2); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
-@media (max-width: 780px) { .p-pill .p-link { display: none; } }
+/* Ma matche spesifisiteten til .p-pill a.p-link over, som setter display: inline-flex for
+   44px trykkflate. Med bare .p-pill .p-link (0,2,0) vant regelen over (0,2,1), og lenkene
+   ble staende synlige pa mobil — de sprengte pillen og klemte merket til 8px. */
+@media (max-width: 780px) { .p-pill a.p-link { display: none; } }
+/* 781–900px: investorsidens sju seksjoner + merke + knapp trenger ~27px mer enn pillen har
+   ved 820px, og merket ble klemt til «era. Invest». Strammere polstring frigjor 56px. Valgt
+   framfor a skjule lenkene tidligere, som ville tatt seksjonsnavigasjonen fra Jotun-siden pa
+   nettbrett uten at den har problemet. */
+@media (min-width: 781px) and (max-width: 900px) {
+  .p-pill a.p-link { padding: 0 8px; min-width: 44px; justify-content: center; font-size: 12.5px; }
+  .p-pill .p-brand { flex: none; }
+}
 
-.p-foot { padding: 40px clamp(24px, 7vw, 120px) 32px; background: var(--navy); color: rgba(247,244,238,0.55); font-size: 13px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.p-foot a { color: rgba(247,244,238,0.75); }
+.p-foot { padding: 40px clamp(24px, 7vw, 120px) 32px; background: var(--navy); color: rgba(247,244,238,0.55); font-size: 13px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+/* 44px trykkflate. Lenkene var 16px hoye — under WCAG 2.5.8 (AA) sitt minimum pa 24px, ikke
+   bare under husregelen. Inline-flex med min-height vokser boksen uten a flytte teksten,
+   siden bunnteksten allerede har gap mellom radene. */
+.p-foot a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; color: rgba(247,244,238,0.75); }
 .p-foot a:hover { color: #fff; }
 
 /* reveal-on-scroll: content is visible without JS/CSS support; the transform only applies once

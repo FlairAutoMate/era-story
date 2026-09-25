@@ -8,7 +8,11 @@ import { writeFileSync, mkdirSync } from "node:fs";
 const base = process.argv[2] ?? "http://localhost:8787";
 const engines = (process.argv[3] ?? "chromium").split(",");
 const vpSet = process.argv[4] ?? "all";
-const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern").split(",");
+// /om-era, /partner/jotun og /investor manglet her til 25. sept. 2026. /om-era er offentlig og
+// indeksert og hadde aldri vaert testet; partner- og investorsiden skjulte en regresjon der
+// menylenkene sto synlige pa mobil og sprengte pillen. En side som ikke er i denne lista blir
+// ikke testet av noen.
+const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/partner/jotun,/investor").split(",");
 const ALL = [[320, 568], [360, 800], [375, 812], [390, 844], [414, 896], [768, 1024], [820, 1180], [1024, 768], [1280, 800], [1440, 900], [1920, 1080], [812, 375], [844, 390], [1180, 820]];
 const QUICK = [[320, 568], [390, 844], [768, 1024], [1440, 900], [844, 390]];
 const viewports = vpSet === "quick" ? QUICK : ALL;

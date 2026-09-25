@@ -59,13 +59,15 @@ Investordekket bruker de samme scenetypene, men er ikke en partnerfortelling. De
 er bit-identisk før og etter den endringen.
 
 - Seksjoner: Problemet · Team · Fremdrift · Skalering · Inntekt · Distribusjon · Kapital.
+- **Ingen statusmerker på inntektskortene.** Seksjonen skal vise forretningsmodellen; et
+  «Planlagt» på hvert kort trekker blikket mot hva som mangler. Tidslinjen rett under sier
+  når hver strøm starter — samme informasjon, uten å undergrave.
 - **Inntektsseksjonen bærer både strømmene og tidslinjen.** Tidslinjen ligger her, ikke i en egen
   seksjon: spørsmålet en investor stiller rett etter å ha sett inntektsstrømmene er når de begynner
   å gi penger, og svaret hører til ved siden av spørsmålet. Skaleringsseksjonen er en volumakse
   (antall boliger) — å slå dem sammen ville blandet to historier.
 - `steps_grid()` tar et valgfritt fjerde felt per kort: et statusmerke (`pilot`, `planned`,
-  `vision`). **Et tall uten status leses som noe som allerede skjer**, så statusen står på kortet
-  og ikke i en fotnote. I dag er ett kort «I pilot» og fire «Planlagt».
+  `vision`). Brukes ikke på inntektskortene i dag, se over.
 - Teamet er `TEAM` i generatoren. Mangler et portrett i `assets/story/`, vises initialene i en
   gullring i stedet — legg inn bildet, så tas det automatisk. Adam Haeger venter på `team-adam.jpg`,
   både her og i `teamDefs` i `index.html`.

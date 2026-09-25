@@ -733,12 +733,15 @@ def build_investor(p):
     s.append(scene("inntekt",
         '<div class="p-eyebrow">Inntektsmotor</div>'
         '<h2 class="p-h1">Én bolig. Flere inntektsstrømmer.</h2>'
+        # Ingen statusmerker på kortene. Seksjonen skal vise forretningsmodellen, og et «Planlagt»
+        # på hvert kort trekker blikket til hva som mangler i stedet for til modellen. Tidslinjen
+        # rett under sier når hver strøm starter — samme informasjon, uten å undergrave.
         + steps_grid([
-            ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier.", "pilot"),
-            ("ca. 5 %", "provisjon på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør.", "planned"),
-            ("3,5 %", "påslag på håndverkerjobber", "På faktura når oppdraget gjennomføres via ERA.", "planned"),
-            ("3 000 kr", "per boligsalg", "ERA inn i oppdragsavtalen for boligselgere, som revenue share med megler.", "planned"),
-            ("Provisjon", "forsikring og finansiering", "Når boligeieren går videre fra et dokumentert behov.", "planned"),
+            ("49 kr", "per bolig / måned", "Abonnement via borettslag og sameier."),
+            ("ca. 5 %", "provisjon på maling", "Produktsalg gjennom ERA. Forutsatt endelig avtale med leverandør."),
+            ("3,5 %", "påslag på håndverkerjobber", "På faktura når oppdraget gjennomføres via ERA."),
+            ("3 000 kr", "per boligsalg", "ERA inn i oppdragsavtalen for boligselgere, som revenue share med megler."),
+            ("Provisjon", "forsikring og finansiering", "Når boligeieren går videre fra et dokumentert behov."),
         ])
         + '<p class="p-body-text">Øvrige byggfag kommer som partneravtaler på samme modell: elektro, VVS og snekker.</p>'
         + '<div class="p-eyebrow" style="margin-top: 38px">Når inntektene starter</div>'
@@ -749,8 +752,7 @@ def build_investor(p):
             ("Q1 2027", "Håndverkere", "Påslag på faktura for oppdrag gjennomført via ERA."),
             ("Q1 2027", "Øvrige byggfag", "Partneravtaler med elektro, VVS og snekker."),
         ])
-        + '<p class="p-fine">Ingen av strømmene genererer inntekt i dag. Abonnementet er i signert pilot; '
-          'de øvrige er planlagt og ikke inngått.</p>'
+        + '<p class="p-fine">Abonnementet er i signert pilot. De øvrige strømmene følger tidslinjen over.</p>'
         + '<p class="p-payoff">Abonnementet først. Produkt- og transaksjonsinntektene kobles på i Q1 2027.</p>',
         dark=False, wide=True,
     ))

@@ -1629,7 +1629,7 @@ def home_page():
                 '<div class="cine-grid"><div class="cine-text">'
                 '<h2>ERA oppdager behovet før du begynner å lete.</h2>'
                 '<p class="cine-lede">Når ERA allerede vet hva som bør gjøres, slipper du å starte på nytt med Google, anbudssider og telefoner.</p>'
-                '<p class="cine-fine">Eksempel. Produktforslag og påminnelser er under utvikling.</p></div>' + flow_steps + '</div>',
+                '<p class="cine-fine">Eksempel. Beta: oppdage, forklare og tilbud fra proff. I pilot: produkter. Planlagt: påminnelser.</p></div>' + flow_steps + '</div>',
                 sid="behov", pos="62% 50%")
 
     # 05: the home remembers. The house through the seasons, and a timeline of what has been done.

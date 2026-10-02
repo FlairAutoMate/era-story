@@ -1264,6 +1264,80 @@ def team_html():
     return '<div class="team-all">' + "".join(card(*p) for p in NY_TEAM) + '</div>'
 
 
+# Three scenes from the old story, in a short form. Each one starts when it scrolls into view
+# ([data-reveal] -> .is-in) and plays once. Without JS or with reduced motion they stand in their final state.
+CHAOS_ITEMS = [
+    # kind, title, meta, x%, y%, rotation, image
+    ("PDF", "Tilstandsrapport 2021", "Fra takstmann", 18, 24, -5, None),
+    ("E-post", "Re: Tilbud rørlegger", "2 vedlegg", 80, 18, 4, None),
+    ("FDV", "Vinduer", "Garantidokument", 9, 66, 3, None),
+    ("Bilde", "Bad etter rehab", "IMG_4471.jpg", 88, 60, -6, "/assets/story/bathroom-v3-m.jpg"),
+    ("Kvittering", "Byggmakker", "Kvittering", 30, 84, -7, None),
+    ("Notat", "Bør sjekke takrenner før vinteren", "Fra håndverker", 52, 10, 2, None),
+    ("Skjermbilde", "Tilbud fra håndverker", "Fasademaling", 66, 82, -2, "/assets/story/chaos-phone-v3.png"),
+]
+
+
+def scene_chaos():
+    """Everything about the home lies scattered; it is drawn into one place. The messy state is the
+    start, the tidy one the end."""
+    items = "".join(
+        f'<div class="chaos-item" style="--x:{x}%;--y:{y}%;--r:{r}deg;--i:{i}">'
+        + (f'<img src="{img}" alt="" decoding="async">' if img else '')
+        + f'<div class="chaos-txt"><span>{esc(kind)}</span><b>{esc(title)}</b><em>{esc(meta)}</em></div></div>'
+        for i, (kind, title, meta, x, y, r, img) in enumerate(CHAOS_ITEMS))
+    return ('<section class="section chaos" id="samler" data-nav="light" data-reveal aria-label="ERA samler boligen">'
+            '<div class="chaos-stage" aria-hidden="true">' + items +
+            '<div class="chaos-core">era<span>.</span></div></div>'
+            '<div class="chaos-copy"><p class="chaos-before">Tilstandsrapporter, e-poster, kvitteringer og bilder.</p>'
+            '<h2>ERA samler boligen.</h2><p class="chaos-after">Og gjør det forståelig.</p></div></section>')
+
+
+SEE_SPOTS = [
+    # name, line 1, line 2 (label, value, tone), x%, y%, card side
+    ("Tak og beslag", ("Alder og tetting", "Bør kontrolleres"), ("Ansvar", "Felles", "mid"), 66, 24, "right"),
+    ("Fasade", ("Maling", "Flasser"), ("Ansvar", "Felles", "mid"), 72, 52, "left"),
+    ("Bad", ("Dokumentasjon", "Delvis"), ("Rehabilitering nå", "Ikke anbefalt", "calm"), 84, 76, "left"),
+]
+
+
+def scene_see():
+    """ERA reads the building: three places light up one at a time, each with what is known and who is
+    responsible. Example data, as the old story had it."""
+    spots = "".join(
+        f'<div class="see-spot see-spot--{side}" style="--x:{x}%;--y:{y}%;--i:{i}"><span class="see-dot"></span>'
+        f'<div class="see-card"><b>{esc(name)}</b><div><span>{esc(a[0])}</span><i>{esc(a[1])}</i></div>'
+        f'<div><span>{esc(b[0])}</span><i class="tone-{b[2]}">{esc(b[1])}</i></div></div></div>'
+        for i, (name, a, b, x, y, side) in enumerate(SEE_SPOTS))
+    rows = "".join(f'<li><b>{esc(n)}</b><span>{esc(a[1])}</span></li>' for n, a, b, x, y, side in SEE_SPOTS)
+    body = ('<div class="see-spots" aria-hidden="true">' + spots + '</div>'
+            '<div class="cine-text see-text"><h2>Se hva som bør gjøres.</h2>'
+            '<p class="cine-lede">Og hva som kan vente.</p>'
+            '<p class="see-sub">Bad, kjøkken og overflater er dine. Fasade, tak og rør er felles. ERA holder oversikt over begge.</p>'
+            f'<ul class="see-list">{rows}</ul>'
+            '<p class="cine-fine">Eksempeldata.</p></div>')
+    return cine("/assets/story/roof-detail-v3.jpg", body, sid="ser", cls="cine--see", pos="60% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+
+
+PAINT_ROWS = [("Underlag", "Veggen i stua"), ("Forbehandling", "Lett sparkling"), ("Strøk", "To"),
+              ("Materialer", "Samlet i én liste"), ("Etterpå", "Dokumentert i boligen")]
+
+
+def scene_paint():
+    """One concrete example, from a question to a plan: the quote, the photo, the plan card."""
+    rows = "".join(f'<div class="paint-row" style="--i:{i}"><span>{esc(k)}</span><b>{esc(v)}</b></div>' for i, (k, v) in enumerate(PAINT_ROWS))
+    cam = ('<svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true"><path d="M2 5.5h3.2L6.6 3h6.8l1.4 2.5H18a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1v-8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.4"/>'
+           '<circle cx="10" cy="10.2" r="3" stroke="currentColor" stroke-width="1.4"/></svg>')
+    body = ('<div class="cine-grid paint-grid"><div class="cine-text paint-text"><h2 class="paint-quote">«Vi vil male stua.»</h2>'
+            f'<p class="paint-photo"><span aria-hidden="true">{cam}</span>Du tar ett bilde.</p>'
+            '<p class="cine-fine">Eksempel. Visualisering av farge er planlagt.</p></div>'
+            '<div class="paint-card"><div class="paint-head"><b>Plan · Male stua</b><span>Myrerveien 46A</span></div>'
+            '<div class="paint-thumb"><img src="/assets/story/livingroom-wall-v3-m.jpg" alt="" loading="lazy" decoding="async"></div>'
+            + rows + '<div class="paint-done">Klar plan.</div></div></div>')
+    return cine("/assets/story/livingroom-wall-v3.jpg", body, sid="stua", cls="cine--paint", pos="50% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+
+
+
 def home_page():
     """/: the homeowner-first front page (the old story now lives at /historie).
     The rhythm is cinematic, product, flow, cinematic, product, action: the photographs carry the
@@ -1376,6 +1450,8 @@ def home_page():
                  '<p class="ny-trust"><b>Dine data.</b> Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem.</p></div>',
                  sid="skjema", cls="cine--center cine--close", pos="60% 50%")
 
+    chaos, see, paint = scene_chaos(), scene_see(), scene_paint()
+
     # Om ERA is a teaser here and a page of its own next to this one.
     teaser = ('<section class="ny-teaser" data-nav="dark"><div class="wrap"><div><h2>Hvert hjem får en agent.</h2>'
               '<p>ERA bygger et agentisk system for hele boligens livsløp: boligdata, kunstig intelligens og dokumentasjon i én flyt rundt boligen.</p></div>'
@@ -1415,11 +1491,17 @@ def home_page():
 </header>
 
 <main>
+  {chaos}
+
   {flow}
 
   {knows}
 
+  {see}
+
   {need}
+
+  {paint}
 
   {learns}
 

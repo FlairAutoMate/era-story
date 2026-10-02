@@ -363,6 +363,9 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     var back = flow.querySelector(".flow-return");
     var awake = 0;
     flow.classList.add("flow-js");
+    // The gold line leaves the journey and runs on into the next section; its length is measured, not guessed.
+    var sizeDrop = function () { if (back) back.style.setProperty("--drop", Math.max(0, flow.getBoundingClientRect().bottom - back.getBoundingClientRect().top + 64) + "px"); };
+    sizeDrop(); window.addEventListener("resize", sizeDrop); window.addEventListener("load", sizeDrop);
     var wake = function (n) {
       if (n <= awake) return;
       awake = n;

@@ -117,7 +117,7 @@ document.querySelectorAll("form.lead").forEach(function (form) {
         if (r2.ok && j2.ok) {
           track("email_submitted");
           title.textContent = "Takk.";
-          sub.textContent = "Vi sier fra til " + email + " når ERA åpner for boligen din.";
+          sub.textContent = "Vi sier fra til " + email + " når ERA åpner for hjemmet ditt.";
           if (note) note.hidden = true;
           fform.hidden = true;
           return;

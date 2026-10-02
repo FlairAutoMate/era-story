@@ -1753,8 +1753,8 @@ def home_page():
   <div class="hero-grid">
   <div class="hero-text">
     <div class="label">ERA · for boligeiere</div>
-    <h1 data-hero-h1 data-a="En personlig agent for boligen din.">Boligens AI-agent.<span class="h1-sub">Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.</span></h1>
-    <p class="lede" data-hero-sub data-a="Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.">En personlig agent for boligen din. Spør ERA, ta et bilde eller start et prosjekt.</p>
+    <h1 data-hero-h1 data-a="Boligens AI-agent.">En personlig agent for boligen din.<span class="h1-sub">Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.</span></h1>
+    <p class="lede" data-hero-sub data-a="Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.">Boligens AI-agent. Spør ERA, ta et bilde eller start et prosjekt.</p>
     <div id="adresse">
       {hero_form}
     </div>

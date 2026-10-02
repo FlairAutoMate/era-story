@@ -1693,7 +1693,7 @@ def partner_page():
             '<p class="cine-lede">ERA samler boligens historikk, dokumentasjon og utført arbeid på ett sted. Sammen med meglere og partnere kan boligen bli levert med historikken på plass, og eieren får hjelp også etter overtakelsen.</p></div></section>')
     blocks = [("For meglere", "Boligen kan overleveres med dokumentasjon og historikk samlet. Kjøperen starter med en bolig ERA allerede kjenner, i stedet for en mappe med papirer."),
               ("For leverandører og faghandel", "Når ERA har beskrevet et behov, kan det gå videre til produkter og fagfolk. Behovet er allerede forklart, og resultatet dokumenteres tilbake på boligen."),
-              ("For andre partnere", "Boligbyggerlag og andre som møter boligeiere. Vi utforsker samarbeid der boligens historikk gjør tjenesten enklere for eieren.")]
+              ("For andre partnere", "Boligbyggerlag, forsikring, bank og andre som møter boligeiere. Vi utforsker samarbeid der boligens historikk gjør tjenesten enklere for eieren.")]
     items = "".join(f'<li><h3>{esc(t)}</h3><p>{esc(d)}</p></li>' for t, d in blocks)
     body = ('<section class="section partner-blocks" data-nav="light"><div class="wrap wide">'
             '<h2 class="sr">Slik kan vi samarbeide</h2>'

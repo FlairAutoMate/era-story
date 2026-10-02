@@ -282,7 +282,8 @@ def building_overview_view(title, meta, buildings, footer):
 AUDIENCES = {
     "boligeier": dict(
         key="owner", nav="Huseier", title="ERA for huseiere",
-        label="For huseiere", hook="Å eie hjem uten gjetting.",
+        meta="Hjemmets AI-agent for boligeiere. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres først og samler tilstand, historikk og dokumentasjon i én plan.",
+        label="For boligeiere", hook="Å eie hjem uten gjetting.",
         lede="ERA forstår hva hjemmet ditt trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
         image="/assets/story/couple-sofa-v3.jpg", image_pos="55% 55%",
         app_hero=dict(src="/assets/story/app-hjem.png", w=935, h=1683, size="lg",
@@ -388,6 +389,9 @@ AUDIENCES = {
         # resten ligger bak «Se alle sporsmal». Rekkefolgen er bevisst: tvilen om hva ERA *er*
         # ryddes for sporsmal om data, handling og pris.
         faq=[
+            ("Hva er ERA?",
+             "ERA er hjemmets AI-agent. Den bygger kunnskap om hjemmet, oppdager relevante behov og hjelper deg fra "
+             "spørsmål til ferdig jobb."),
             ("Hva er forskjellen på ERA og Boligmappa?",
              "Boligmappa er først og fremst et sted for dokumentasjon og historikk knyttet til hjemmet. ERA bygger videre "
              "på samme type kunnskap om hjemmet, men bruker den aktivt: Hva vet vi? → Hva betyr det? → Hva bør gjøres? → Skal "
@@ -466,7 +470,7 @@ AUDIENCES = {
             note="Gratis de første tolv månedene. Begrenset antall plasser.",
             cta_primary="Søk om betatilgang", cta_secondary="Se hvordan ERA fungerer",
             heading="Bli en av 300 huseiere som tester ERA",
-            lede="ERA åpner nå en kontrollert betafase for 300 huseiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i hjemmet, uten abonnement eller kostnad i betaperioden.",
+            lede="ERA åpner nå en kontrollert betafase for 300 huseiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i hjemmet, uten abonnement eller kostnad de første tolv månedene.",
             items=[
                 "Ta bilde av et behov i hjemmet.",
                 "Få analyse, oppgaveliste og prisestimat.",
@@ -888,7 +892,7 @@ def footer_html():
 </footer>'''
 
 
-FAQ_VISIBLE = 6
+FAQ_VISIBLE = 7
 
 
 def faq_html(items, visible=FAQ_VISIBLE):
@@ -1042,10 +1046,10 @@ def page(slug, a):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(a["title"])} — ERA</title>
-<meta name="description" content="{esc(a["lede"])}">
+<meta name="description" content="{esc(a.get("meta", a["lede"]))}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-{head_meta("/" + slug, a["title"] + " — ERA", a["lede"])}
+{head_meta("/" + slug, a["title"] + " — ERA", a.get("meta", a["lede"]))}
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
@@ -1206,7 +1210,7 @@ def privacy_page():
 '''
 
 
-NY_DESC = "Hjemmets AI-agent. ERA kjenner hjemmet ditt og hjelper deg få ting gjort. Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det."
+NY_DESC = "Hjemmets AI-agent. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort. Spør om hjemmet eller ta et bilde."
 
 
 def lead_form_html(suffix, a, done, label=None, placeholder=None):
@@ -1580,15 +1584,16 @@ def home_page():
                   sid="husker", pos="50% 60%")
 
     faq_items = [
-        ("Hva er ERA?", "ERA er AI-agenten for hjemmet ditt. Den samler kunnskap om hjemmet, hjelper deg forstå hva som bør gjøres og kan hjelpe deg videre til produkter eller fagfolk."),
-        ("Hva vet ERA om hjemmet?", "ERA starter med tilgjengelige eiendomsdata og informasjon du legger til, som bilder, dokumenter og historikk. Den viser hva som er dokumentert, hva den foreslår og hva den ikke vet."),
-        ("Må jeg legge inn alt selv?", "Nei. Målet er at ERA skal starte med det som allerede finnes og lære hjemmet gradvis."),
-        ("Kan jeg ta bilde og spørre?", "Ja. Du kan ta et bilde eller beskrive hva du lurer på. ERA bruker det du viser den sammen med det den allerede vet om hjemmet."),
-        ("Kan ERA hjelpe meg gjøre det selv?", "ERA skal hjelpe med produkter, materialer og plan når du ønsker å gjøre arbeidet selv. Produktforslag er under utvikling."),
-        ("Kan ERA hente tilbud fra proff?", "ERA utvikles for å kunne gjøre et identifisert behov om til et konkret oppdrag, hente tilbud og hjelpe deg følge jobben frem til dokumentasjon."),
-        ("Hva skjer etter at jobben er ferdig?", "Bilder, dokumentasjon og historikk lagres på hjemmet, slik at neste gang starter ERA med det den allerede vet."),
-        ("Hva skjer med dataene mine?", "Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det."),
-        ("Hva koster ERA?", "ERA er gratis i betaperioden. Ingen betalingskort."),
+        ('Hva er ERA?', 'ERA er hjemmets AI-agent. Den bygger kunnskap om hjemmet, oppdager relevante behov og hjelper deg fra spørsmål til ferdig jobb.'),
+        ('Er ERA et nytt FDV-system?', 'Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen aktivt for å forstå hjemmet, oppdage behov og hjelpe deg videre til handling.'),
+        ('Hva er forskjellen på ERA og Boligmappa?', 'Boligmappa er først og fremst dokumentasjon og historikk. ERA bruker kunnskapen om hjemmet til å svare på: Hva betyr dette? Hva bør jeg gjøre nå? Og vil du at jeg skal hjelpe deg få det gjort?'),
+        ('Hva er forskjellen på ERA og Mittanbud?', 'Mittanbud blir relevant når du allerede vet at du trenger en håndverker. ERA kan starte tidligere: forstå behovet, forklare det og hjelpe deg velge mellom å gjøre det selv eller få hjelp av proff.'),
+        ('Hva er forskjellen på ERA og ChatGPT?', 'ChatGPT er generell AI. ERA bygger en vedvarende hukommelse rundt ditt konkrete hjem og bruker eiendomsdata, bilder, dokumentasjon og historikk som kontekst.'),
+        ('Hva vet ERA om hjemmet mitt?', 'ERA starter med tilgjengelige eiendomsdata og informasjon du legger til, som bilder, dokumenter og historikk. Den viser hva som er dokumentert, hva den foreslår og hva den ikke vet.'),
+        ('Kan ERA hjelpe meg gjøre det selv eller finne en proff?', 'Begge deler. Vil du gjøre jobben selv, skal ERA hjelpe med produkter, materialer og plan. Vil du ha hjelp, kan det samme behovet gå videre til en proff, uten at du må beskrive det på nytt. Produktforslag og tilbud er under utvikling.'),
+        ('Fungerer ERA også for leilighet og borettslag?', 'Ja. ERA kan brukes for enebolig, rekkehus og leilighet. I borettslag og sameier kan noe informasjon og ansvar ligge hos styret, mens annet gjelder det enkelte hjemmet.'),
+        ('Hva skjer med dataene mine?', 'Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det.'),
+        ('Hva koster ERA?', 'ERA er gratis de første tolv månedene. Ingen betalingskort og ingen binding.'),
     ]
     faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>' for q, ans in faq_items)
     done = ("Takk. Vi har adressen din.", "")
@@ -1601,7 +1606,7 @@ def home_page():
                  '<h2>Finn hjemmet ditt.</h2>'
                  '<p class="cine-lede">Se hva ERA allerede kan vite – og begynn å bygge hjemmets hukommelse.</p>'
                  + end_form +
-                 '<p class="ny-micro">Gratis i beta · Ingen betalingskort</p>'
+                 '<p class="ny-micro">Gratis i tolv måneder · Ingen betalingskort</p>'
                  '<p class="ny-trust"><b>Dine data. Ditt hjem.</b> Du bestemmer hvem som får tilgang.</p></div>',
                  sid="skjema", cls="cine--center cine--close", pos="60% 50%")
 
@@ -1633,13 +1638,13 @@ def home_page():
   <div class="hero-media"><picture><source media="(max-width: 899px)" srcset="{hero_img[:-4]}-m.jpg"><img src="{hero_img}" alt="" fetchpriority="high" style="object-position: 45% 50%"></picture></div>
   <div class="hero-grid">
   <div class="hero-text">
-    <div class="label">ERA · for huseiere</div>
-    <h1 data-hero-h1 data-a="ERA kjenner hjemmet ditt. Og hjelper deg når noe skal gjøres.">Hjemmets AI-agent.<span class="h1-sub">ERA kjenner hjemmet ditt og hjelper deg få ting gjort.</span></h1>
-    <p class="lede" data-hero-sub data-a="Hjemmets AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det.</p>
+    <div class="label">ERA · for boligeiere</div>
+    <h1 data-hero-h1 data-a="ERA kjenner hjemmet ditt. Og hjelper deg når noe skal gjøres.">Hjemmets AI-agent.<span class="h1-sub">ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort.</span></h1>
+    <p class="lede" data-hero-sub data-a="Hjemmets AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om hjemmet, ta et bilde eller se hva som bør følges opp. ERA hjelper deg videre med plan, produkter eller tilbud fra proff.</p>
     <div id="adresse">
       {hero_form}
     </div>
-    <p class="ny-micro">Gratis i beta · Ingen betalingskort</p>
+    <p class="ny-micro">Gratis i tolv måneder · Ingen betalingskort</p>
   </div>
   {hero_visual}
   </div>
@@ -1665,6 +1670,19 @@ def home_page():
   {need}
 
   {learns}
+
+  <section class="section" data-nav="light" id="kategori">
+    <div class="wrap narrow">
+      <div class="label">Kategorien</div>
+      <h2>Hva slags produkt er ERA?</h2>
+      <div class="kat" role="list">
+        <div class="kat-row" role="listitem"><b>Boligmappa</b><span>Dokumentasjon og historikk.</span></div>
+        <div class="kat-row" role="listitem"><b>Mittanbud</b><span>Markedsplass for håndverkere, når du allerede vet hva som skal gjøres.</span></div>
+        <div class="kat-row" role="listitem"><b>ChatGPT</b><span>Generell AI, uten vedvarende kontekst om hjemmet ditt.</span></div>
+        <div class="kat-row kat-era" role="listitem"><b>ERA</b><span><i>Hjemmets AI-agent.</i> Kjenner hjemmet, oppdager behov og hjelper deg videre til handling.</span></div>
+      </div>
+    </div>
+  </section>
 
   <section class="section alt" data-nav="light">
     <div class="wrap narrow">
@@ -1749,7 +1767,7 @@ def om_era_page():
     hero = ('<section class="cine cine--hero om-hero" data-nav="dark"><div class="cine-media"><img src="' + about_src + '" srcset="' + about_src[:-4]
             + '-m.jpg 900w, ' + about_src + ' 1600w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></div><div class="cine-body">'
             '<div class="label">Om ERA</div><h1>Hvert hjem får en agent.</h1>'
-            '<p class="cine-lede">ERA bygger et agentisk system for hele hjemmets livsløp: hjemmedata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt hjemmet.</p>'
+            '<p class="cine-lede">ERA bygger hjemmets AI-agent: den kjenner hjemmet, oppdager hva som bør gjøres og hjelper deg fra behov til ferdig jobb. Bak den ligger hjemmedata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt hjemmet.</p>'
             '<p class="cine-gold">Fra hjemmedata til handling.<br>Fra handling tilbake til hjemmet.</p></div></section>')
     why = ('<section class="section om-why" data-nav="light"><div class="wrap narrow"><div class="label">Hvorfor ERA</div>'
            '<h2>Hjemmet er spredt over mange steder.</h2>'
@@ -1772,9 +1790,9 @@ def om_era_page():
             '<p class="ny-team-lede">ERA bygges av mennesker med lang erfaring fra eiendom, teknologi, finans, bygg, handel og AI. Sammen bygger vi en enklere måte å eie, forstå og ta vare på hjemmet på.</p>'
             + team_html() + '</div></section>')
     cta = ('<section class="ny-teaser ny-teaser--cta" data-nav="dark"><div class="wrap"><div><h2>Finn hjemmet ditt.</h2>'
-           '<p>Skriv adressen din, så åpner vi ERA for hjemmet ditt i betaperioden.</p></div>'
+           '<p>Skriv adressen din, så åpner vi ERA for hjemmet ditt. Gratis de første tolv månedene.</p></div>'
            '<a class="btn" href="/#adresse">Finn hjemmet mitt</a></div></section>')
-    desc = "Hvert hjem får en agent. Hvorfor ERA finnes, hva vi bygger og menneskene bak."
+    desc = "ERA bygger hjemmets AI-agent. Hvert hjem får en agent. Hvorfor ERA finnes, hva vi bygger og menneskene bak."
     return f'''<!DOCTYPE html>
 <html lang="no">
 <head>

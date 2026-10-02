@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hjemmets AI-agent — ERA</title>
-<meta name="description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt og hjelper deg få ting gjort. Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det.">
+<meta name="description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort. Spør om hjemmet eller ta et bilde.">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://era-story.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ERA">
 <meta property="og:title" content="Hjemmets AI-agent — ERA">
-<meta property="og:description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt og hjelper deg få ting gjort. Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det.">
+<meta property="og:description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort. Spør om hjemmet eller ta et bilde.">
 <meta property="og:image" content="https://era-story.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hjemmets AI-agent — ERA">
-<meta name="twitter:description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt og hjelper deg få ting gjort. Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det.">
+<meta name="twitter:description" content="Hjemmets AI-agent. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort. Spør om hjemmet eller ta et bilde.">
 <meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,9 +40,9 @@
   <div class="hero-media"><picture><source media="(max-width: 899px)" srcset="/assets/story/couple-sofa-window-v4-m.jpg"><img src="/assets/story/couple-sofa-window-v4.jpg" alt="" fetchpriority="high" style="object-position: 45% 50%"></picture></div>
   <div class="hero-grid">
   <div class="hero-text">
-    <div class="label">ERA · for huseiere</div>
-    <h1 data-hero-h1 data-a="ERA kjenner hjemmet ditt. Og hjelper deg når noe skal gjøres.">Hjemmets AI-agent.<span class="h1-sub">ERA kjenner hjemmet ditt og hjelper deg få ting gjort.</span></h1>
-    <p class="lede" data-hero-sub data-a="Hjemmets AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om hjemmet, se hva som bør følges opp og få hjelp når du trenger det.</p>
+    <div class="label">ERA · for boligeiere</div>
+    <h1 data-hero-h1 data-a="ERA kjenner hjemmet ditt. Og hjelper deg når noe skal gjøres.">Hjemmets AI-agent.<span class="h1-sub">ERA kjenner hjemmet ditt, oppdager hva som bør gjøres og hjelper deg få det gjort.</span></h1>
+    <p class="lede" data-hero-sub data-a="Hjemmets AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om hjemmet, ta et bilde eller se hva som bør følges opp. ERA hjelper deg videre med plan, produkter eller tilbud fra proff.</p>
     <div id="adresse">
       <form id="era-lead-hero" class="lead" data-audience="owner" data-follow="email">
         <label class="lead-label" for="lead-value-hero">Skriv adressen din</label>
@@ -75,7 +75,7 @@
       </div>
       <div class="err" hidden></div>
     </div>
-    <p class="ny-micro">Gratis i beta · Ingen betalingskort</p>
+    <p class="ny-micro">Gratis i tolv måneder · Ingen betalingskort</p>
   </div>
   <div class="hero-visual"><ul class="ny-prompts" aria-label="Eksempler på spørsmål til ERA"><li>Hva bør jeg følge opp nå?</li><li>Finn noen som kan fikse dette</li></ul><div class="hero-phones"><div class="pw-phone pw-phone--sm"><img src="/assets/story/app-minbolig.png" width="853" height="1844" alt="ERA Bolig: Min bolig for Myrerveien 46A – enebolig fra 1967 på 162 m² med tilstand God 78 av 100, neste prosjekt «Fasadevask og maling» til 85 000–140 000 kr med oppstart april 2026 og Oslo Fasade AS, estimert verdi 6 250 000 kr og samlet dokumentasjon" loading="eager" fetchpriority="high" decoding="async"></div><div class="pw-phone pw-phone--md"><img src="/assets/story/app-agent.png" width="853" height="1844" alt="ERA Bolig, boligagenten for Myrerveien 46A: fotoet av huset er merket av med fasade og tak til oppfølging og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser», «Hva det betyr» for et hjem fra 1967 og forslaget «Fasadevask og maling» med estimert kostnad 85 000–140 000 kr" loading="eager" fetchpriority="high" decoding="async"></div></div></div>
   </div>
@@ -102,11 +102,24 @@
 
   <section class="cine " data-nav="dark" id="husker"><div class="cine-media"><img src="/assets/story/whole-home-v3.jpg" srcset="/assets/story/whole-home-v3-m.jpg 1400w, /assets/story/whole-home-v3.jpg 3000w" sizes="100vw" alt="" loading="lazy" decoding="async" style="object-position: 50% 60%"></div><div class="cine-body"><div class="cine-grid cine-grid--seasons"><div class="cine-text" data-reveal><h2>Hjemmet husker. Du slipper.</h2><p class="cine-lede">Hvert prosjekt, bilde og dokument blir en del av hjemmet. Derfor starter ERA smartere neste gang.</p><ol class="cine-timeline cine-timeline--left"><li class="" style="--k:0"><span>Kjøpt</span></li><li class="" style="--k:1"><span>Malt</span></li><li class="is-link" style="--k:2"><span>Bad dokumentert</span></li><li class="" style="--k:3"><span>Elektrisk arbeid</span></li><li class="" style="--k:4"><span>Dokumentert</span></li><li class="is-next" style="--k:5"><span>Neste behov</span></li></ol><p class="cine-fine">Eksempel på et hjems tidslinje.</p></div><div class="seasons" aria-hidden="true"><img class="is-on" src="/assets/story/block-season-0-v3.jpg" srcset="/assets/story/block-season-0-v3-m.jpg 1400w, /assets/story/block-season-0-v3.jpg 1600w" sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async"><img src="/assets/story/block-season-1-v3.jpg" srcset="/assets/story/block-season-1-v3-m.jpg 1400w, /assets/story/block-season-1-v3.jpg 1600w" sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async"><img src="/assets/story/block-season-2-v3.jpg" srcset="/assets/story/block-season-2-v3-m.jpg 1400w, /assets/story/block-season-2-v3.jpg 1600w" sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async"><img src="/assets/story/block-season-3-v3.jpg" srcset="/assets/story/block-season-3-v3-m.jpg 1400w, /assets/story/block-season-3-v3.jpg 1600w" sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async"></div></div><ul class="husker-feats"><li><b>Bilder og dokumentasjon</b><span>Alt samlet på ett sted.</span></li><li><b>Påminnelser</b><span>Beskjed når det er tid for vedlikehold, ut fra alder, materialer og forhold.</span><i class="nstep-tag">Planlagt</i></li><li><b>Del med andre</b><span>Del det som er relevant med håndverkere, styret eller kjøpere, når du selv velger det.</span><i class="nstep-tag">Planlagt</i></li></ul></div></section>
 
+  <section class="section" data-nav="light" id="kategori">
+    <div class="wrap narrow">
+      <div class="label">Kategorien</div>
+      <h2>Hva slags produkt er ERA?</h2>
+      <div class="kat" role="list">
+        <div class="kat-row" role="listitem"><b>Boligmappa</b><span>Dokumentasjon og historikk.</span></div>
+        <div class="kat-row" role="listitem"><b>Mittanbud</b><span>Markedsplass for håndverkere, når du allerede vet hva som skal gjøres.</span></div>
+        <div class="kat-row" role="listitem"><b>ChatGPT</b><span>Generell AI, uten vedvarende kontekst om hjemmet ditt.</span></div>
+        <div class="kat-row kat-era" role="listitem"><b>ERA</b><span><i>Hjemmets AI-agent.</i> Kjenner hjemmet, oppdager behov og hjelper deg videre til handling.</span></div>
+      </div>
+    </div>
+  </section>
+
   <section class="section alt" data-nav="light">
     <div class="wrap narrow">
       <div class="label">Spørsmål</div>
       <h2>Det folk lurer på.</h2>
-      <div class="faq ny-faq"><details><summary>Hva er ERA?</summary><p>ERA er AI-agenten for hjemmet ditt. Den samler kunnskap om hjemmet, hjelper deg forstå hva som bør gjøres og kan hjelpe deg videre til produkter eller fagfolk.</p></details><details><summary>Hva vet ERA om hjemmet?</summary><p>ERA starter med tilgjengelige eiendomsdata og informasjon du legger til, som bilder, dokumenter og historikk. Den viser hva som er dokumentert, hva den foreslår og hva den ikke vet.</p></details><details><summary>Må jeg legge inn alt selv?</summary><p>Nei. Målet er at ERA skal starte med det som allerede finnes og lære hjemmet gradvis.</p></details><details><summary>Kan jeg ta bilde og spørre?</summary><p>Ja. Du kan ta et bilde eller beskrive hva du lurer på. ERA bruker det du viser den sammen med det den allerede vet om hjemmet.</p></details><details><summary>Kan ERA hjelpe meg gjøre det selv?</summary><p>ERA skal hjelpe med produkter, materialer og plan når du ønsker å gjøre arbeidet selv. Produktforslag er under utvikling.</p></details><details><summary>Kan ERA hente tilbud fra proff?</summary><p>ERA utvikles for å kunne gjøre et identifisert behov om til et konkret oppdrag, hente tilbud og hjelpe deg følge jobben frem til dokumentasjon.</p></details><details><summary>Hva skjer etter at jobben er ferdig?</summary><p>Bilder, dokumentasjon og historikk lagres på hjemmet, slik at neste gang starter ERA med det den allerede vet.</p></details><details><summary>Hva skjer med dataene mine?</summary><p>Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det.</p></details><details><summary>Hva koster ERA?</summary><p>ERA er gratis i betaperioden. Ingen betalingskort.</p></details></div>
+      <div class="faq ny-faq"><details><summary>Hva er ERA?</summary><p>ERA er hjemmets AI-agent. Den bygger kunnskap om hjemmet, oppdager relevante behov og hjelper deg fra spørsmål til ferdig jobb.</p></details><details><summary>Er ERA et nytt FDV-system?</summary><p>Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen aktivt for å forstå hjemmet, oppdage behov og hjelpe deg videre til handling.</p></details><details><summary>Hva er forskjellen på ERA og Boligmappa?</summary><p>Boligmappa er først og fremst dokumentasjon og historikk. ERA bruker kunnskapen om hjemmet til å svare på: Hva betyr dette? Hva bør jeg gjøre nå? Og vil du at jeg skal hjelpe deg få det gjort?</p></details><details><summary>Hva er forskjellen på ERA og Mittanbud?</summary><p>Mittanbud blir relevant når du allerede vet at du trenger en håndverker. ERA kan starte tidligere: forstå behovet, forklare det og hjelpe deg velge mellom å gjøre det selv eller få hjelp av proff.</p></details><details><summary>Hva er forskjellen på ERA og ChatGPT?</summary><p>ChatGPT er generell AI. ERA bygger en vedvarende hukommelse rundt ditt konkrete hjem og bruker eiendomsdata, bilder, dokumentasjon og historikk som kontekst.</p></details><details><summary>Hva vet ERA om hjemmet mitt?</summary><p>ERA starter med tilgjengelige eiendomsdata og informasjon du legger til, som bilder, dokumenter og historikk. Den viser hva som er dokumentert, hva den foreslår og hva den ikke vet.</p></details><details><summary>Kan ERA hjelpe meg gjøre det selv eller finne en proff?</summary><p>Begge deler. Vil du gjøre jobben selv, skal ERA hjelpe med produkter, materialer og plan. Vil du ha hjelp, kan det samme behovet gå videre til en proff, uten at du må beskrive det på nytt. Produktforslag og tilbud er under utvikling.</p></details><details><summary>Fungerer ERA også for leilighet og borettslag?</summary><p>Ja. ERA kan brukes for enebolig, rekkehus og leilighet. I borettslag og sameier kan noe informasjon og ansvar ligge hos styret, mens annet gjelder det enkelte hjemmet.</p></details><details><summary>Hva skjer med dataene mine?</summary><p>Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det.</p></details><details><summary>Hva koster ERA?</summary><p>ERA er gratis de første tolv månedene. Ingen betalingskort og ingen binding.</p></details></div>
     </div>
   </section>
 
@@ -139,7 +152,7 @@
           </form>
         </div>
       </div>
-      <div class="err" hidden></div><p class="ny-micro">Gratis i beta · Ingen betalingskort</p><p class="ny-trust"><b>Dine data. Ditt hjem.</b> Du bestemmer hvem som får tilgang.</p></div></div></section>
+      <div class="err" hidden></div><p class="ny-micro">Gratis i tolv måneder · Ingen betalingskort</p><p class="ny-trust"><b>Dine data. Ditt hjem.</b> Du bestemmer hvem som får tilgang.</p></div></div></section>
 
   <section class="ny-teaser" data-nav="dark"><div class="wrap"><div><h2>Hvert hjem får en agent.</h2><p>En agent som kjenner hjemmet, følger med på hva den trenger og hjelper deg få ting gjort.</p></div><a class="link" href="/ny/om-era">Les historien om ERA →</a></div></section>
 </main>

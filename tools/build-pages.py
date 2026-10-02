@@ -1274,12 +1274,11 @@ def how_it_works():
     is drawn from 1 to 2 to 3 as the section scrolls into view."""
     pin = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14s5-4.2 5-8a5 5 0 10-10 0c0 3.8 5 8 5 8z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6" r="1.8" stroke="currentColor" stroke-width="1.4"/></svg>'
     chk = '__CHECK__'
-    v1 = ('<div class="how-visual"><img src="/assets/story/whole-home-v3-m.jpg" alt="" loading="lazy" decoding="async">'
-          f'<div class="how-chip how-chip--addr" aria-hidden="true"><span>{pin}Skriv adressen din</span><i>Myrerveien 46A, Oslo</i></div></div>')
-    v2 = ('<div class="how-visual"><img src="/assets/story/livingroom-wall-v3-m.jpg" alt="" loading="lazy" decoding="async">'
-          f'<div class="how-chip how-chip--scan" aria-hidden="true"><b>Analyserer bildet</b><span>{chk}Kjenner boligen</span><span>{chk}Ser etter behov</span><span>{chk}Henter relevante løsninger</span></div></div>')
-    v3 = ('<div class="how-visual"><img src="/assets/story/painter-v3-m.jpg" alt="" loading="lazy" decoding="async">'
-          '<div class="how-chip how-chip--paths" aria-hidden="true"><span>Gjør det selv</span><span class="is-dark">Få tilbud fra proff</span></div></div>')
+    def shot(src, alt):
+        return (f'<div class="how-visual how-visual--app"><img src="{src}" width="853" height="1844" alt="{esc(alt)}" loading="lazy" decoding="async"></div>')
+    v1 = shot("/assets/story/app-minbolig.png", "ERA Bolig: Min bolig med boligprofil, neste prosjekt og dokumentasjon")
+    v2 = shot("/assets/story/app-kamera.png", "ERA Bolig: kameraet rettet mot avflassende maling, klart til å analysere bildet")
+    v3 = shot("/assets/story/app-prosjekt.png", "ERA Bolig: prosjektet med plan, valget mellom å gjøre det selv eller be om tilbud, og fremdrift")
     steps = [(v1, "Finn boligen", "Skriv inn adressen din. ERA starter med det som allerede finnes av boligdata, dokumentasjon og historikk."),
              (v2, "Vis eller spør", "Ta et bilde eller beskriv hva du lurer på. ERA bruker boligens kontekst sammen med det du viser den."),
              (v3, "Få det gjort", "Få forslag og en plan. Gjør det selv, eller be om tilbud fra proff. Resultatet lagres på boligen.")]

@@ -841,3 +841,7 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 }
 
 .cine-fine { text-shadow: 0 1px 14px rgba(15,24,48,0.85); }
+
+/* Slik fungerer ERA: ekte appskjermer uten mennesker, beskåret så toppen av appen står igjen */
+.how-visual--app { display: flex; justify-content: center; align-items: flex-start; padding: 22px 22px 0; background: linear-gradient(180deg, #EAE4D8 0%, #F4F0E8 100%); }
+.how-visual--app img { width: 66%; height: auto; max-height: none; object-fit: initial; border-radius: 22px 22px 0 0; box-shadow: 0 24px 56px rgba(19,30,58,0.2), 0 3px 10px rgba(19,30,58,0.08); }

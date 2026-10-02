@@ -356,7 +356,9 @@ body.menu-open { overflow: hidden; }
 .faq summary, .features summary { cursor: pointer; padding: 18px 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
 .faq summary::-webkit-details-marker, .features summary::-webkit-details-marker { display: none; }
 .faq summary::after, .features summary::after { content: "+"; color: var(--gold-2); font-weight: 500; }
-.faq details[open] summary::after, .features details[open] summary::after { content: "–"; }
+/* > summary, ikke summary: .faq-more er selv et [open] details, og en etterkommer-selektor
+   satte «–» pa alle de nostede, lukkede sporsmalene inni den. */
+.faq details[open] > summary::after, .features details[open] > summary::after { content: "–"; }
 .faq p, .features p { padding: 0 0 18px; font-size: 15.5px; line-height: 1.5; color: var(--muted); max-width: 640px; }
 
 /* form */
@@ -926,3 +928,19 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
   .reise-paths span { padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 600; }
   .reise-paths span:last-child { background: var(--navy-2); border-color: var(--navy-2); color: #fff; }
 }
+/* FAQ: seks spørsmål åpent, resten bak «Se alle spørsmål». Toggelen er en <details>, så den
+   virker uten JavaScript og er tastaturnavigerbar av seg selv. Den skal lese som en handling,
+   ikke som enda et spørsmål — derfor gull, lettere vekt og pil i stedet for pluss. */
+.faq-more > summary { color: var(--gold-2); font-size: 15.5px; font-weight: 600; }
+/* .faq details[open] > summary::after er (0,2,3) og vant over (0,2,2). details.faq-more
+   gir (0,3,2), som vinner pa klasseantall. */
+.faq details.faq-more > summary::after { content: "↓"; }
+.faq details.faq-more[open] > summary::after { content: "↑"; }
+.faq-more > .faq { margin-top: 0; border-top: 0; }
+.faq-more > .faq details:last-child { border-bottom: 0; }
+
+/* Punkter i et svar, der strukturen bærer meningen (Dokumentert / ERA-forslag / Mangler). */
+.faq-points { margin: 0; padding: 0 0 18px; list-style: none; max-width: 640px; display: flex; flex-direction: column; gap: 9px; }
+.faq-points li { position: relative; padding-left: 15px; font-size: 15.5px; line-height: 1.5; color: var(--muted); }
+.faq-points li::before { content: ""; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+.faq-points b { color: var(--ink); font-weight: 700; }

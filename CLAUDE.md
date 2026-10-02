@@ -26,11 +26,11 @@ Vercel deployer `master` automatisk, ca. ett minutt etter merge. Investorsiden e
 
 | Fil | Bygges av |
 | --- | --- |
-| `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/`, `ny/` | `python tools/build-pages.py` |
-| `om-era/` | `python tools/build-om-era.py` (henter hodet fra `index.html`) |
+| `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/`, `index.html` (forsiden), `ny/om-era/` | `python tools/build-pages.py` |
+| `om-era/` | `python tools/build-om-era.py` (henter hodet fra `historie/index.html`) |
 | `sites/investor/` | `python tools/build-partner-story.py` |
 
-Endrer du `index.html`s hode eller meny, må `build-om-era.py` kjøres etterpå — ellers henger
+Endrer du `historie/index.html`s hode eller meny, må `build-om-era.py` kjøres etterpå — ellers henger
 `/om-era` igjen med den gamle versjonen.
 
 `tools/rebase-deltas.py` er **arkivert** og skal ikke kjøres. Se README, «Oppdatere fra en ny

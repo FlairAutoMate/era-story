@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Builds om-era/index.html — the "Om ERA" film as its own page — from index.html and
+"""Builds om-era/index.html — the "Om ERA" film as its own page — from historie/index.html (the story) and
 tools/om-era-template.html. The page reuses the story's head, nav, progress rail, finale,
 footer and the whole <script data-dc-script> (one scroll engine for both pages); only the
 scenes between the rail and the finale differ. Usage: python tools/build-om-era.py"""
 import os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+src = open(os.path.join(ROOT, 'historie', 'index.html'), encoding='utf-8').read()
 tpl = open(os.path.join(ROOT, 'tools', 'om-era-template.html'), encoding='utf-8').read()
 
 def between(s, a, b):
@@ -41,8 +41,8 @@ def rep(a, b, count=1):
 rep('<title>ERA — Velkommen til en ny ERA</title>', '<title>Om ERA — Et agentisk system for hele boligens livsløp</title>')
 rep('<meta name="description" content="ERA forstår boligen din og hjelper deg å vite hva som bør gjøres — og hva som kan vente.">',
     '<meta name="description" content="Hvorfor ERA finnes, teknologien bak, visjonen og menneskene. ERA kobler boligdata, kunstig intelligens, handel, tjenester og dokumentasjon i én flyt rundt boligen.">')
-rep('<link rel="canonical" href="https://era-story.vercel.app/">', '<link rel="canonical" href="https://era-story.vercel.app/om-era">')
-rep('<meta property="og:url" content="https://era-story.vercel.app/">', '<meta property="og:url" content="https://era-story.vercel.app/om-era">')
+rep('<meta name="robots" content="noindex">\n<link rel="canonical" href="https://era-story.vercel.app/historie">', '<link rel="canonical" href="https://era-story.vercel.app/om-era">')
+rep('<meta property="og:url" content="https://era-story.vercel.app/historie">', '<meta property="og:url" content="https://era-story.vercel.app/om-era">')
 rep('<meta property="og:title" content="ERA — Boligeierskap uten gjetting">', '<meta property="og:title" content="Om ERA — Et agentisk system for hele boligens livsløp">')
 rep('<meta name="twitter:title" content="ERA — Boligeierskap uten gjetting">', '<meta name="twitter:title" content="Om ERA — Et agentisk system for hele boligens livsløp">')
 rep('<body>', '<body data-page="om-era">')
@@ -52,10 +52,10 @@ rep('<link rel="preload" href="/assets/story/door-evening-v4-m.jpg" as="image" m
 rep('<link rel="preload" href="/assets/story/door-evening-v4.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">',
     '<link rel="preload" href="/assets/story/about-hero-v5.jpg" as="image" media="(min-width: 900px)" fetchpriority="high">')
 rep('<a href="#hjem" aria-label="ERA — til toppen"', '<a href="/" aria-label="ERA — til forsiden"')
-page = page.replace("['hva', 'Hva ERA gjør', '#hva']", "['hva', 'Hva ERA gjør', '/#hva']")
-page = page.replace("[['#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']", "[['/#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']")
-page = page.replace('<a href="#hva">Hva ERA gjør</a>', '<a href="/#hva">Hva ERA gjør</a>')
-page = page.replace("if (href === '#boligeier' || href === '#hva' || href === '#hjem') return 'owner';", "if (href === '#boligeier' || href === '#hva' || href === '/#hva' || href === '#hjem' || href === '/') return 'owner';")
+page = page.replace("['hva', 'Hva ERA gjør', '#hva']", "['hva', 'Hva ERA gjør', '/historie#hva']")
+page = page.replace("[['#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']", "[['/historie#hva', 'Hva ERA gjør'], ['/boligeier', 'Boligeier']")
+page = page.replace('<a href="#hva">Hva ERA gjør</a>', '<a href="/historie#hva">Hva ERA gjør</a>')
+page = page.replace("if (href === '#boligeier' || href === '#hva' || href === '#hjem') return 'owner';", "if (href === '#boligeier' || href === '#hva' || href === '/historie#hva' || href === '#hjem' || href === '/') return 'owner';")
 
 out = os.path.join(ROOT, 'om-era', 'index.html')
 os.makedirs(os.path.dirname(out), exist_ok=True)

@@ -16,7 +16,7 @@ const vpSet = process.argv[4] ?? "all";
 // /investor er et eget Vercel-prosjekt siden 2. okt. 2026 (sites/investor) og er en videresending her.
 // Test det slik: cd sites/investor && python -m http.server 8803, deretter
 // node qa-responsive.mjs http://127.0.0.1:8803 chromium all /
-const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/ny,/ny/om-era").split(",");
+const routes = (process.argv[5] ?? "/,/historie,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/ny/om-era").split(",");
 const ALL = [[320, 568], [360, 800], [375, 812], [390, 844], [414, 896], [768, 1024], [820, 1180], [1024, 768], [1280, 800], [1440, 900], [1920, 1080], [812, 375], [844, 390], [1180, 820]];
 const QUICK = [[320, 568], [390, 844], [768, 1024], [1440, 900], [844, 390]];
 const viewports = vpSet === "quick" ? QUICK : ALL;
@@ -76,7 +76,7 @@ for (const eng of engines) {
       try {
         await page.goto(base + route, { waitUntil: "networkidle", timeout: 30000 });
         await page.waitForTimeout(800);
-        const stops = route === "/"
+        const stops = route === "/historie"
           ? await page.evaluate(() => [...document.querySelectorAll("section")].flatMap((s) => { const y = s.getBoundingClientRect().top + scrollY, hh = s.offsetHeight, ex = Math.max(0, hh - innerHeight); return ex > innerHeight ? [y + ex * 0.25, y + ex * 0.6, y + ex * 0.97] : [y + ex * 0.5]; }))
           : await page.evaluate(() => { const H = document.documentElement.scrollHeight - innerHeight, a = []; for (let y = 0; y <= H; y += innerHeight * 0.8) a.push(y); a.push(H); return a; });
         for (const y of stops) {
@@ -84,7 +84,7 @@ for (const eng of engines) {
           await page.waitForTimeout(220);
           for (const it of await page.evaluate(AUDIT)) { const k = it.kind + "|" + it.detail; if (!found.has(k)) found.set(k, { ...it, y: Math.round(y) }); }
         }
-        if (route === "/" && w < 900) {
+        if (route === "/historie" && w < 900) {
           await page.evaluate(() => scrollTo({ top: innerHeight * 3, behavior: "instant" })); await page.waitForTimeout(400);
           const btn = page.locator("[data-menu-toggle]").first();
           if (await btn.count()) { await btn.click(); await page.waitForTimeout(300); for (const it of await page.evaluate(AUDIT)) { const k = "menu:" + it.kind + "|" + it.detail; if (!found.has(k)) found.set(k, { ...it, kind: "menu:" + it.kind }); } await btn.click(); }

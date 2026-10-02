@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/ny",
+      "destination": "/",
+      "permanent": false
+    },
+    {
       "source": "/investor",
       "has": [
         {

@@ -6,6 +6,7 @@
   <url><loc>https://era-story.vercel.app/handverker</loc></url>
   <url><loc>https://era-story.vercel.app/faghandel</loc></url>
   <url><loc>https://era-story.vercel.app/om-era</loc></url>
+  <url><loc>https://era-story.vercel.app/ny/om-era</loc></url>
   <url><loc>https://era-story.vercel.app/personvern</loc></url>
   <!-- /partner/jotun intentionally excluded: noindex, meeting-specific -->
 </urlset>

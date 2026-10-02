@@ -756,7 +756,7 @@ def head_meta(path, title, description):
 <script defer src="/_vercel/insights/script.js"></script>'''
 
 
-MENU = [("/", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/om-era", "Om ERA"), ("/personvern", "Personvern")]
+MENU = [("/historie", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/om-era", "Om ERA"), ("/personvern", "Personvern")]
 
 
 def nav_html(current, cta_label, cta_href):
@@ -808,7 +808,7 @@ def footer_html():
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -1029,12 +1029,12 @@ PRIVACY_DESC = "Hva ERA lagrer når du bruker skjemaene på denne siden, hvor de
 
 
 def privacy_page():
-    """Honest to what the site actually does today: the address form (and on /ny an optional e-mail), the Kartverket address search, one private store in the EU, no cookies."""
+    """Honest to what the site actually does today: the address form (and on the front page an optional e-mail), the Kartverket address search, one private store in the EU, no cookies."""
     sections = [
         ("Hva vi samler inn", [
             "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
-            "På forhåndsvisningen av den nye forsiden (/ny) gjelder noe mer. Velger du et forslag i adressesøket, lagrer vi også det Kartverket returnerer for den adressen: postnummer og sted, kommune, gårds-, bruks-, feste- og seksjonsnummer og et koordinatpunkt. Velger du ikke et forslag, lagrer vi bare teksten du skrev.",
-            "Etter at du har sendt inn adressen på /ny, kan du også legge igjen e-postadressen din. Det er valgfritt. E-posten lagres som en egen post som er knyttet til innsendingen med en intern id.",
+            "På forsiden gjelder noe mer. Velger du et forslag i adressesøket, lagrer vi også det Kartverket returnerer for den adressen: postnummer og sted, kommune, gårds-, bruks-, feste- og seksjonsnummer og et koordinatpunkt. Velger du ikke et forslag, lagrer vi bare teksten du skrev.",
+            "Etter at du har sendt inn adressen på forsiden, kan du også legge igjen e-postadressen din. Det er valgfritt. E-posten lagres som en egen post som er knyttet til innsendingen med en intern id.",
             "Vi samler ikke inn navn eller telefonnummer, og vi lagrer ikke IP-adressen din.",
         ]),
         ("Adressesøket hos Kartverket", [
@@ -1049,7 +1049,7 @@ def privacy_page():
         ]),
         ("Informasjonskapsler og analyse", [
             "Siden setter ingen informasjonskapsler. Vi bruker Vercel Web Analytics, som teller sidevisninger uten cookies og uten å identifisere deg. Derfor trenger vi ikke et samtykkebanner.",
-            "På /ny teller vi også hendelser som at et adresseforslag ble valgt eller at en e-post ble sendt inn. Hendelsene inneholder verken adressen eller e-posten.",
+            "På forsiden teller vi også hendelser som at et adresseforslag ble valgt eller at en e-post ble sendt inn. Hendelsene inneholder verken adressen eller e-posten.",
         ]),
         ("Dine rettigheter", [
             "Du kan når som helst be om innsyn i, retting av eller sletting av det du har sendt inn, også e-posten. Send oss en melding via skjemaet på siden med «personvern» først i teksten, så svarer vi. Behandlingsansvarlig er ERA technologies AS, Oslo.",
@@ -1086,7 +1086,7 @@ def privacy_page():
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -1147,7 +1147,7 @@ def ny_nav(base=""):
     panel = "".join(f'<a href="{h}" data-menu-close="1">{esc(l)}<span>→</span></a>' for h, l in items)
     return f'''<nav class="nav" aria-label="Hovedmeny">
   <div class="pill">
-    <a class="brand" href="/ny">era<span>.</span></a>
+    <a class="brand" href="/">era<span>.</span></a>
     <div class="links">{links}</div>
     <div class="right"><a class="cta" href="{base}#adresse">Finn boligen din</a><button type="button" class="menu-btn" data-menu-toggle="1" aria-label="Åpne menyen" aria-expanded="false">☰</button></div>
   </div>
@@ -1265,7 +1265,7 @@ def team_html():
 
 
 def home_page():
-    """/ny: the homeowner-first front page, built as a preview next to the existing story at /.
+    """/: the homeowner-first front page (the old story now lives at /historie).
     The rhythm is cinematic, product, flow, cinematic, product, action: the photographs carry the
     feeling, the real app screens carry the meaning, and the address field is the only action.
     Other audiences keep their own pages and live in the footer."""
@@ -1388,10 +1388,9 @@ def home_page():
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Boligens AI-agent — ERA</title>
 <meta name="description" content="{esc(NY_DESC)}">
-<meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-{head_meta("/ny", "Boligens AI-agent — ERA", NY_DESC)}
+{head_meta("/", "Boligens AI-agent — ERA", NY_DESC)}
 <link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
@@ -1470,7 +1469,7 @@ def om_era_page():
             + team_html() + '</div></section>')
     cta = ('<section class="ny-teaser ny-teaser--cta" data-nav="dark"><div class="wrap"><div><h2>Finn boligen din.</h2>'
            '<p>Skriv adressen din, så åpner vi ERA for boligen din i betaperioden.</p></div>'
-           '<a class="btn" href="/ny#adresse">Finn boligen din</a></div></section>')
+           '<a class="btn" href="/#adresse">Finn boligen din</a></div></section>')
     desc = "Hvert hjem får en agent. Hvorfor ERA finnes, hva vi bygger og menneskene bak."
     return f'''<!DOCTYPE html>
 <html lang="no">
@@ -1479,7 +1478,6 @@ def om_era_page():
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Om ERA — Hvert hjem får en agent</title>
 <meta name="description" content="{esc(desc)}">
-<meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {head_meta("/ny/om-era", "Om ERA — Hvert hjem får en agent", desc)}
@@ -1488,7 +1486,7 @@ def om_era_page():
 <link rel="stylesheet" href="/pages.css">
 </head>
 <body class="ny-page" data-audience="{a["key"]}" data-page="om-era-ny">
-{ny_nav("/ny")}
+{ny_nav("/")}
 <main>
   {hero}
 
@@ -1501,7 +1499,7 @@ def om_era_page():
   {cta}
 </main>
 
-{ny_footer("/ny")}
+{ny_footer("/")}
 <script src="/pages.js" defer></script>
 </body>
 </html>
@@ -1518,10 +1516,9 @@ os.makedirs(os.path.join(ROOT, "personvern"), exist_ok=True)
 with open(os.path.join(ROOT, "personvern", "index.html"), "w", encoding="utf-8") as f:
     f.write(privacy_page())
 print("wrote personvern")
-os.makedirs(os.path.join(ROOT, "ny"), exist_ok=True)
-with open(os.path.join(ROOT, "ny", "index.html"), "w", encoding="utf-8") as f:
+with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
     f.write(home_page())
-print("wrote ny")
+print("wrote index.html (front page)")
 os.makedirs(os.path.join(ROOT, "ny", "om-era"), exist_ok=True)
 with open(os.path.join(ROOT, "ny", "om-era", "index.html"), "w", encoding="utf-8") as f:
     f.write(om_era_page())

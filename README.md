@@ -1,6 +1,6 @@
 # ERA Scroll Story
 
-Statisk landingsside bygget fra Claude Design-eksporten «ERA Scroll Story». Ingen byggesteg: `index.html` + `js/` (dc-runtime, image-slot) + `vendor/` (React UMD) + `assets/` + `fonts/`.
+Statisk landingsside bygget fra Claude Design-eksporten «ERA Scroll Story». Ingen byggesteg: `historie/index.html` (gammel story; forsiden `index.html` er generert) + `js/` (dc-runtime, image-slot) + `vendor/` (React UMD) + `assets/` + `fonts/`.
 
 Lokalt: `python -m http.server 8787` og åpne http://localhost:8787/. Visuell QA: `node qa-scroll.mjs`.
 
@@ -35,8 +35,8 @@ Det var tilfellet for døren: `H(180, 0.55)` ga 99vh mot et 100dvh-barn, altså 
 
 - Sidens `h1` er broscenens overskrift «Et agentisk system for hele boligens livsløp.» i `tools/om-era-template.html`. Siden hadde tidligere ingen `h1` i det hele tatt — forsidens ligger i dør-scenen, som ikke er med i dette bygget.
 - Scenene ligger i `tools/om-era-template.html`. `python tools/build-om-era.py` setter dem sammen med forsidens hode, meny, skinne, finale, bunntekst og skript til `om-era/index.html`. Rediger malen, ikke den bygde filen.
-- Én scroll-motor for begge sider: skriptet i `index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
-- Etter en ny designeksport: flett designerens endringer inn i `index.html`, deretter `build-om-era.py` → `build-pages.py`. `rebase-deltas.py` er **arkivert** — se «Oppdatere fra en ny designeksport».
+- Én scroll-motor for begge sider: skriptet i `historie/index.html` sjekker `body[data-page="om-era"]` for skinne-kapitler, kapittelkart, finale-timing og finalehøyde. Endringer i skriptet må følges av `build-om-era.py`.
+- Etter en ny designeksport: flett designerens endringer inn i `historie/index.html`, deretter `build-om-era.py` → `build-pages.py`. `rebase-deltas.py` er **arkivert** — se «Oppdatere fra en ny designeksport».
 
 Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
@@ -100,7 +100,7 @@ Den gamle adressen `era-story.vercel.app/investor` (og `/sites/investor/…`) vi
 
 ## Responsivitet og nettleser-QA
 
-Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `index.html` (`<style>` i `<helmet>`) og `pages.css`:
+Siden er bygget mobile-first fra 320 px og opp. Faste regler som ligger i `historie/index.html` (`<style>` i `<helmet>`) og `pages.css`:
 
 - Sticky-scener bruker `100dvh` med `100vh` som fallback (`.era-vh`), så de fyller det synlige vinduet på iOS. `#start`-ankeret følger samme høyde.
 - `viewport-fit=cover`; meny og fast CTA respekterer `safe-area-inset-*`.
@@ -140,7 +140,7 @@ Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (
 
 `/boligeier`, `/styret`, `/handverker`, `/faghandel` genereres av `python tools/build-pages.py` fra én innholdsstruktur (hook, verdiforslag, fire steg, gevinst, eksempel, spørsmål, skjema). Delt stil i `pages.css`, fonter i `fonts.css`, skjema i `pages.js` (samme `/api/lead`). Endre tekst i generatoren og kjør den på nytt.
 
-`/ny` er en forhåndsvisning av en boligeier-først forside, generert av `home_page()` i samme script. Den er `noindex`, ikke lenket fra menyen og ikke i `sitemap.xml`, og dagens forside på `/` er uendret. Heroen har to overskriftsvarianter under test: B («Boligens AI-agent.») er standard, `?hero=a` viser A. Skjemaene er `form.lead`, og `pages.js` binder alle skjemaer på en side, så hero og avslutning er uavhengige. Alt som beskriver en funksjon må være dokumentert tilgjengelig; visualisering, økonomioversikt og netthandel omtales bare som «kommer» eller «under utvikling».
+Forsiden `/` er den boligeier-først siden, generert av `home_page()` i samme script (`index.html` skrives av `build-pages.py`; ikke rediger den for hånd). Den gamle scroll-historien ligger på `/historie` (`noindex`, kilden for `build-om-era.py`), og `/ny` videresendes til `/`. Heroen har to overskriftsvarianter: B («Boligens AI-agent.») er standard, `?hero=a` viser A. Skjemaene er `form.lead`, og `pages.js` binder alle skjemaer på en side, så hero og avslutning er uavhengige. Alt som beskriver en funksjon må være dokumentert tilgjengelig; visualisering, økonomioversikt og netthandel omtales bare som «kommer» eller «under utvikling».
 
 ### Produktflater på /boligeier
 
@@ -267,7 +267,7 @@ Demo-styring via URL ved første last: `?rolle=styreleder|styremedlem|forretning
 
 Repoet har ingen backend for dette produktet (kun `api/lead.js`). Alt i `DataAdapter` mangler server-side: tenant og sesjon, bygg/oppganger/boliger, bygningsdeler, vedlikeholdstiltak, avvik med historikk og oppgaver, prosjekter med milepæler og endringsordrer, deltakelse per bolig og private tilbud, tilbudsforespørsler og standardiserte tilbud, vedtak, beboere og kontaktinfo, meldinger med status, dokumenter med AI-funn og korrigering, budsjettlinjer, aktivitet og assistentsvar. Fixtures er isolert i `src/data/fixtures/` og importeres bare av `fixtureAdapter.ts`; `tenant.isDemo` gir «Demo-data»-merket i topplinjen.
 
-## Bevegelse på /ny
+## Bevegelse på forsiden
 
 Bevegelse skal forklare hva ERA gjør, ikke vise at siden kan animere. Regler (tokens øverst i den
 siste blokken i `pages.css`): inngang 300–450 ms, mikro 150–220 ms, scroll-tilstand 350–500 ms, ease

@@ -1355,7 +1355,8 @@ def scene_see():
         f'<div><span>{esc(b[0])}</span><i class="tone-{b[2]}">{esc(b[1])}</i></div></div></div>'
         for i, (name, a, b, x, y, side) in enumerate(SEE_SPOTS))
     rows = "".join(f'<li><b>{esc(n)}</b><span>{esc(a[1])}</span></li>' for n, a, b, x, y, side in SEE_SPOTS)
-    body = ('<div class="see-spots" aria-hidden="true">' + spots + '</div>'
+    bx, by = SEE_SPOTS[-1][3], SEE_SPOTS[-1][4]
+    body = ('<div class="see-spots" aria-hidden="true">' + spots + f'<span class="see-line" style="--x:{bx}%;--y:{by}%"></span></div>'
             '<div class="cine-text see-text"><h2>Se hva boligen trenger.</h2>'
             '<p class="cine-lede">Ta et bilde. ERA kobler det du ser til resten av boligen.</p>'
             '<p class="see-sub">Fasadens tilstand, dokumentasjon, alder og tidligere arbeid kan vurderes i samme kontekst.</p>'

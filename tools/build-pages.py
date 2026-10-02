@@ -1138,7 +1138,7 @@ def lead_form_html(suffix, a, done):
 
 def ny_nav():
     """The /ny menu is the homeowner's: no audience pages, no partners. The other audiences live in the footer."""
-    items = [("#produkt", "Produkt"), ("#slik", "Slik fungerer det"), ("/om-era", "Om ERA")]
+    items = [("#produkt", "Produkt"), ("#slik", "Slik fungerer det"), ("#om-era", "Om ERA")]
     links = "".join(f'<a href="{h}">{esc(l)}</a>' for h, l in items)
     panel = "".join(f'<a href="{h}" data-menu-close="1">{esc(l)}<span>→</span></a>' for h, l in items)
     return f'''<nav class="nav" aria-label="Hovedmeny">
@@ -1156,7 +1156,7 @@ def ny_footer():
   <div class="wrap">
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligens AI-agent</div></div>
     <div class="cols">
-      <div><b>ERA</b><a href="#produkt">Produkt</a><a href="#slik">Slik fungerer det</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a></div>
+      <div><b>ERA</b><a href="#produkt">Produkt</a><a href="#slik">Slik fungerer det</a><a href="#om-era">Om ERA</a><a href="#teamet">Teamet</a><a href="/personvern">Personvern</a></div>
       <div><b>For profesjonelle</b><a href="/styret">Borettslag og sameier</a><a href="/handverker">Håndverkere</a><a href="/faghandel">Faghandel</a></div>
     </div>
   </div>
@@ -1172,6 +1172,58 @@ def cine(src, body, sid=None, cls="", pos="50% 50%"):
            f'loading="lazy" decoding="async" style="object-position: {pos}">')
     return (f'<section class="cine {cls}"' + (f' id="{sid}"' if sid else '') + '>'
             f'<div class="cine-media">{img}</div><div class="cine-body">{body}</div></section>')
+
+
+# The people behind ERA: roles, bios and tags exactly as the story's "Menneskene bak ERA" chapter has them
+# (index.html, teamDefs). /investor keeps its own titles and is not touched from here.
+NY_TEAM = [
+    ("Lars-Henrik Sand", "Founder / Product & Operations", True, "team-lars.jpg",
+     "17+ år innen teknologi, eiendom og markedsføring, med erfaring fra 400+ boligprosjekter og ledende aktører i eiendomsmarkedet.",
+     "Leder produkt, UX, AI, strategi, forretningsmodell og partnerskap.", "Teknologi · Eiendom · Markedsføring · Produkt · Strategi"),
+    ("Markus Frost", "Styreleder", False, "team-markus.jpg", "Leder ERAs styrearbeid.", "", ""),
+    ("Ragnvald Løhren", "Finance & Strategy", True, "team-ragnvald.jpg",
+     "Bakgrunn fra finans, investering og forretningsutvikling, blant annet fra Storebrand og VentureLab.",
+     "Leder finansiering, kapitalstrategi, selskapsstruktur og M&A.", "Finans · Investering · Forretningsutvikling · Kapitalstrategi · M&A"),
+    ("Thomas Floden", "CTO", True, "team-thomas.jpg",
+     "Teknologigründer med erfaring fra SaaS, AI, systemarkitektur og digitale plattformer.",
+     "Leder teknologi, arkitektur, data, AI-integrasjoner og utvikling.", "SaaS · AI · Systemarkitektur · Digitale plattformer"),
+    ("Adam Haeger", "Software Architecture", False, "",
+     "Softwarearkitekt og fullstackutvikler med bakgrunn fra Digdir/Altinn Studio og Teleplan Globe.",
+     "Arbeider med datamodellering, systemarkitektur og frontend i stor skala.", "Systemarkitektur · Datamodellering · TypeScript · React"),
+    ("Magnus Stensrud", "Daglig leder / Sales", False, "team-magnus-v4.jpg",
+     "Lang erfaring fra salg, salgsledelse og kundereiser, blant annet fra Elkjøp.",
+     "Driver salg, kundeutvikling, onboarding og kommersiell vekst.", "Salg · Salgsledelse · Kundereiser · Kommersiell vekst"),
+    ("Eskild Løken Ugland", "Styremedlem", False, "team-eskild-v2.jpg",
+     "25+ års erfaring fra bolig, bygg, maling og faghandel, med bakgrunn fra Block Watne og som kjedesjef for Mesterfarge og Mal Proff.",
+     "Leder salg, distribusjon, faghandel og strategiske industripartnerskap.", "Bolig · Bygg · Maling · Faghandel · Salg"),
+    ("Andreas Løhren", "Legal & Regulatory · Styremedlem", False, "team-andreas.jpg",
+     "Bakgrunn fra offentlig forvaltning, EU/EØS, digitalisering og regulatoriske problemstillinger.",
+     "Ansvar for juridisk strategi, avtaler, compliance, regulatoriske spørsmål og offentlig sektor.", "Offentlig forvaltning · EU/EØS · Digitalisering · Regulatorisk"),
+    ("William Lente", "Digital Growth & Design", False, "team-william.jpg",
+     "Bakgrunn fra digital markedsføring, leadgenerering, web og design.",
+     "Driver growth, leads, digitale kundereiser, web, design og konvertering.", "Digital markedsføring · Leadgenerering · Web · Design"),
+]
+
+
+def team_section():
+    cards = []
+    for name, role, lead, photo, bio, detail, tags in NY_TEAM:
+        initials = "".join(w[0] for w in name.replace("-", " ").split() if w[:1].isupper())[:2]
+        shot = (f'<img src="/assets/story/{photo}" alt="{esc(name)} – {esc(role)}" loading="lazy" decoding="async">' if photo else
+                f'<div class="team-ph" aria-hidden="true"><span>{esc(initials)}</span></div>')
+        cards.append(
+            f'<article class="team-card{" team-card--lead" if lead else ""}">'
+            f'<div class="team-shot">{shot}</div>'
+            f'<h3>{esc(name)}</h3><div class="team-role">{esc(role)}</div>'
+            f'<p>{esc(bio)}</p>'
+            + (f'<p class="team-detail">{esc(detail)}</p>' if detail else "")
+            + (f'<div class="team-tags">{esc(tags)}</div>' if tags else "")
+            + '</article>')
+    return ('<section class="section ny-team" id="teamet"><div class="wrap">'
+            '<div class="label">Menneskene bak ERA</div>'
+            '<h2>Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>'
+            '<p class="ny-team-lede">ERA samler erfaring fra eiendom, teknologi, finans, produktutvikling, salg, markedsføring og kommersialisering rundt én ambisjon: å bygge et agentisk system for hele boligens livsløp.</p>'
+            f'<div class="team-grid">{"".join(cards)}</div></div></section>')
 
 
 def home_page():
@@ -1251,6 +1303,25 @@ def home_page():
                   + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>',
                   sid="husker", cls="cine--center", pos="50% 60%")
 
+    # 07: why ERA exists and where it is going, in the words the Om ERA page already uses.
+    kicker_steps = ["Bolig", "Kunnskap", "Behov", "Handling", "Dokumentasjon", "Smartere bolig"]
+    kicker = '<ol class="cine-timeline cine-timeline--left">' + "".join(
+        f'<li class="{"is-next" if i == len(kicker_steps) - 1 else ""}"><span>{esc(t)}</span></li>' for i, t in enumerate(kicker_steps)) + "</ol>"
+    about_src = "/assets/story/about-hero-v5.jpg"
+    about = ('<section class="cine cine--about" id="om-era"><div class="cine-media"><img src="' + about_src + '" srcset="' + about_src[:-4]
+             + '-m.jpg 900w, ' + about_src + ' 1600w" sizes="100vw" alt="" loading="lazy" decoding="async"></div><div class="cine-body">'
+             '<div class="cine-grid"><div class="cine-text">'
+             '<div class="label">Om ERA</div>'
+             '<h2>Hvert hjem får en agent.</h2>'
+             '<p class="cine-lede">ERA bygger et agentisk system for hele boligens livsløp: boligdata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt boligen.</p>'
+             '<p class="cine-gold">Fra boligdata til handling.<br>Fra handling tilbake til boligen.</p></div>'
+             '<div class="cine-text"><div class="cine-card">'
+             '<h3>Hvorfor ERA</h3>'
+             '<p>Boliginformasjon er i dag spredt mellom dokumenter, e-post, håndverkere, banker, forsikring, produkter og tilfeldige Google-søk. ERA samler konteksten rundt boligen og hjelper eieren videre når noe skal gjøres.</p>'
+             '<p>Boligen skal ikke bare være digital. Den skal kunne forstås.</p></div></div></div>'
+             + kicker + '</div></section>')
+    team = team_section()
+
     faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>'
                   for q, ans in (a["faq"][0], a["faq"][2], a["faq"][3]))
     done = ("Takk. Vi har adressen din.", "")
@@ -1310,6 +1381,10 @@ def home_page():
   {need}
 
   {learns}
+
+  {about}
+
+  {team}
 
   <section class="section alt">
     <div class="wrap narrow">

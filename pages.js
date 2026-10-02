@@ -10,15 +10,32 @@
   document.addEventListener("pointerdown", function (e) { if (!panel.hidden && !e.target.closest("nav")) set(false); });
 })();
 
+// Conversion events via Vercel Web Analytics custom events (script tag in <head>). Queues silently
+// if analytics isn't enabled on the deployment, and never throws. Events carry no address and no
+// e-mail, only which form and whether a suggestion was picked.
+function eraTrack(name, data) {
+  try {
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    window.va("event", data ? Object.assign({ name: name }, data) : { name: name });
+  } catch (e) {}
+}
+
 // Lead forms: every form.lead posts to /api/lead with its own audience. A page can hold more than
 // one (hero and closing section on /ny); each form finds its own confirmation and error elements
 // among its siblings, so the forms never touch each other.
+//
+// A form with data-follow="email" (only /ny) is two steps: the address, then an optional e-mail.
+// The address call returns an id; the e-mail call sends it back as leadId, and the server stores the
+// e-mail as its own document that points at the first. Nothing already stored is rewritten.
 document.querySelectorAll("form.lead").forEach(function (form) {
   var scope = form.parentElement;
   var done = scope.querySelector(".done");
   var err = scope.querySelector(".err");
   var btn = form.querySelector("button[type=submit]");
   var label = btn.textContent;
+  var follow = form.dataset.follow === "email";
+  var which = (form.id || "").replace("era-lead-", "") || "form";
+  var track = function (name, extra) { if (follow) eraTrack(name, Object.assign({ page: "ny", form: which }, extra || {})); };
   // Intent toggle (e.g. "Meld interesse" / "Be om demo"): a hidden field, the submit label
   // and the confirmation text follow the chosen button. Pages without a toggle skip all of it.
   var intentInput = form.elements.intent;
@@ -43,11 +60,18 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     var website = (form.elements.website && form.elements.website.value || "").trim();
     err.hidden = true;
     if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; return; }
+    // The structured fields of the suggestion the visitor picked, but only while the field still
+    // holds exactly that text. Anyone who picked and then edited sends the plain text alone.
+    var picked = form.elements.value.__eraPicked;
+    var address = follow && picked && picked.full === value ? picked.address : undefined;
     btn.disabled = true; btn.textContent = "Sender…";
+    track("find_home_started", { picked: !!address });
     try {
-      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.href }) });
+      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.href, address: address }) });
       var j = await r.json().catch(function () { return {}; });
       if (r.ok && j.ok) {
+        track("find_home_completed", { picked: !!address });
+        if (follow) showFollow(j.id, value, address);
         form.hidden = true; done.hidden = false;
         requestAnimationFrame(function () { requestAnimationFrame(function () { done.classList.add("drawn"); }); });
       }
@@ -57,6 +81,54 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     }
     btn.disabled = false; btn.textContent = label;
   });
+
+  // Step two on /ny: say what was found (only what Kartverket actually returned for a picked
+  // suggestion), then offer to leave an e-mail. Skipping it costs nothing: the address is stored.
+  function showFollow(leadId, value, address) {
+    var title = done.querySelector("[data-done-title]");
+    var sub = done.querySelector("[data-done-sub]");
+    var note = done.querySelector("[data-done-note]");
+    var fform = done.querySelector("[data-follow-form]");
+    if (!title || !sub || !fform) return;
+    if (address) {
+      // Kartverket returns municipality names in capitals ("NORDRE FOLLO"); show them as names.
+      var place = address.kommunenavn ? String(address.kommunenavn).toLowerCase().replace(/(^|[\s-])(\S)/g, function (m, a, b) { return a + b.toUpperCase(); }) + " kommune" : "";
+      var matrikkel = address.gardsnummer !== undefined ? "gnr " + address.gardsnummer + " / bnr " + (address.bruksnummer !== undefined ? address.bruksnummer : "-") : "";
+      title.textContent = "Vi fant adressen.";
+      sub.textContent = [value, [place, matrikkel].filter(Boolean).join(" · ")].filter(Boolean).join(" · ");
+    } else {
+      title.textContent = "Takk. Vi har adressen din.";
+      sub.textContent = value;
+    }
+    if (!leadId) { if (note) note.hidden = true; return; }
+    fform.hidden = false;
+    var fbtn = fform.querySelector("button[type=submit]");
+    var ferr = fform.querySelector(".follow-err");
+    fform.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var email = (fform.elements.email.value || "").trim();
+      ferr.hidden = true;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { ferr.textContent = "Skriv inn en e-postadresse, for eksempel navn@epost.no."; ferr.hidden = false; return; }
+      var fl = fbtn.textContent;
+      fbtn.disabled = true; fbtn.textContent = "Sender…";
+      try {
+        var r2 = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, followup: "email", leadId: leadId, value: value, email: email, website: (fform.elements.website && fform.elements.website.value || "").trim(), page: location.href }) });
+        var j2 = await r2.json().catch(function () { return {}; });
+        if (r2.ok && j2.ok) {
+          track("email_submitted");
+          title.textContent = "Takk.";
+          sub.textContent = "Vi sier fra til " + email + " når ERA åpner for boligen din.";
+          if (note) note.hidden = true;
+          fform.hidden = true;
+          return;
+        }
+        ferr.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; ferr.hidden = false;
+      } catch (x) {
+        ferr.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; ferr.hidden = false;
+      }
+      fbtn.disabled = false; fbtn.textContent = fl;
+    });
+  }
 });
 
 // Address autocomplete: on the owner/board pages, each address field gets a Kartverket
@@ -86,6 +158,8 @@ document.querySelectorAll("form.lead").forEach(function (form) {
   function select(i) {
     var it = items[i]; if (!it) return;
     input.value = it.full; close();
+    input.__eraPicked = { full: it.full, address: it.address };
+    if (form.dataset.follow === "email") eraTrack("address_selected", { page: "ny", form: (form.id || "").replace("era-lead-", "") });
     var btn = form.querySelector('button[type="submit"]');
     if (btn && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       btn.animate([{ boxShadow: "0 0 0 0 rgba(212,177,122,0.6)" }, { boxShadow: "0 0 0 4px rgba(212,177,122,0.35)" }, { boxShadow: "0 0 0 14px rgba(212,177,122,0)" }], { duration: 900, easing: "ease-out", iterations: 2 });
@@ -101,7 +175,15 @@ document.querySelectorAll("form.lead").forEach(function (form) {
         var list = Array.isArray(data.adresser) ? data.adresser : [];
         items = list.map(function (a) {
           var sub = [a.postnummer, a.poststed].filter(Boolean).join(" ");
-          return { text: a.adressetekst || "", sub: sub, full: [a.adressetekst, sub].filter(Boolean).join(", ") };
+          var pt = a.representasjonspunkt || {};
+          // What Kartverket returned for this suggestion. Sent along only if the visitor picks it.
+          var address = {
+            text: a.adressetekst, postnummer: a.postnummer, poststed: a.poststed,
+            kommunenummer: a.kommunenummer, kommunenavn: a.kommunenavn,
+            gardsnummer: a.gardsnummer, bruksnummer: a.bruksnummer, festenummer: a.festenummer, seksjonsnummer: a.seksjonsnummer,
+            lat: pt.lat, lon: pt.lon
+          };
+          return { text: a.adressetekst || "", sub: sub, full: [a.adressetekst, sub].filter(Boolean).join(", "), address: address };
         });
         active = -1;
         render();

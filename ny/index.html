@@ -44,7 +44,7 @@
     <h1 data-hero-h1 data-a="ERA kjenner boligen din. Og hjelper deg når noe skal gjøres.">Boligens AI-agent.<span class="h1-sub">Den kjenner boligen din og hjelper deg få ting gjort.</span></h1>
     <p class="lede" data-hero-sub data-a="Boligens AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det. ERA husker historikken underveis.</p>
     <div id="adresse">
-      <form id="era-lead-hero" class="lead" data-audience="owner">
+      <form id="era-lead-hero" class="lead" data-audience="owner" data-follow="email">
         <div class="lead-pill">
           <label class="sr" for="lead-value-hero">Adressen til boligen</label>
           <div class="lead-value-wrap">
@@ -56,9 +56,23 @@
           <button type="submit">Finn boligen din</button>
         </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden>
+      <div class="done done--follow" role="status" aria-live="polite" hidden>
         <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div><b>Takk. Vi finner boligen din.</b><span>Vi sier fra når ERA er klar for adressen.</span></div>
+        <div class="done-body">
+          <b data-done-title>Takk. Vi har adressen din.</b>
+          <span data-done-sub></span>
+          <span data-done-note>Vi inviterer brukere fortløpende. Legg igjen e-post, så sier vi fra når det er din tur.</span>
+          <form class="follow" data-follow-form novalidate hidden>
+            <label class="sr" for="follow-email-hero">E-post</label>
+            <div class="follow-row">
+              <input id="follow-email-hero" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" placeholder="E-post">
+              <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+              <button type="submit">Si fra til meg</button>
+            </div>
+            <small>Valgfritt. Brukes bare til å invitere deg til ERA. Du kan be om sletting når som helst.</small>
+            <span class="follow-err" role="alert" hidden></span>
+          </form>
+        </div>
       </div>
       <div class="err" hidden></div>
     </div>
@@ -88,7 +102,7 @@
     <div class="wrap narrow">
       <h2>Finn boligen din.</h2>
       <p class="lede light">Skriv adressen din. ERA er gratis for boligeiere i betaperioden.</p>
-      <form id="era-lead-end" class="lead" data-audience="owner">
+      <form id="era-lead-end" class="lead" data-audience="owner" data-follow="email">
         <div class="lead-pill">
           <label class="sr" for="lead-value-end">Adressen til boligen</label>
           <div class="lead-value-wrap">
@@ -100,9 +114,23 @@
           <button type="submit">Finn boligen din</button>
         </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden>
+      <div class="done done--follow" role="status" aria-live="polite" hidden>
         <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div><b>Takk. Vi finner boligen din.</b><span>Vi sier fra når ERA er klar for adressen.</span></div>
+        <div class="done-body">
+          <b data-done-title>Takk. Vi har adressen din.</b>
+          <span data-done-sub></span>
+          <span data-done-note>Vi inviterer brukere fortløpende. Legg igjen e-post, så sier vi fra når det er din tur.</span>
+          <form class="follow" data-follow-form novalidate hidden>
+            <label class="sr" for="follow-email-end">E-post</label>
+            <div class="follow-row">
+              <input id="follow-email-end" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" placeholder="E-post">
+              <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+              <button type="submit">Si fra til meg</button>
+            </div>
+            <small>Valgfritt. Brukes bare til å invitere deg til ERA. Du kan be om sletting når som helst.</small>
+            <span class="follow-err" role="alert" hidden></span>
+          </form>
+        </div>
       </div>
       <div class="err" hidden></div>
       <p class="ny-trust"><b>Dine data.</b> Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem.</p>

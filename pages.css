@@ -442,3 +442,19 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .ny-others { margin-top: 26px; font-size: 14px; color: rgba(247,244,238,0.62); }
 .ny-others a { color: var(--gold); display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
 .ny-faq { margin-top: 0; }
+
+/* Steg to på /ny: e-post etter adressen, inne i bekreftelseskortet. Valgfritt, og kortet står
+   fint uten at den fylles ut. */
+.done--follow { align-items: flex-start; }
+.done--follow .check { margin-top: 2px; }
+.done-body { min-width: 0; flex: 1; }
+.done-body [data-done-note] { margin-top: 4px; color: var(--ink); }
+.follow { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.follow-row { display: flex; gap: 8px; align-items: center; }
+.follow input[type="email"] { flex: 1; min-width: 0; height: 46px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; font-size: 16px; }
+.follow input[type="email"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.follow button { height: 46px; padding: 0 20px; border-radius: 999px; border: 0; background: var(--navy-2); color: var(--warm); font: inherit; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.follow button[disabled] { opacity: 0.7; cursor: default; }
+.follow small { font-size: 12.5px; line-height: 1.4; color: var(--muted-2); }
+.follow-err { font-size: 13.5px; color: #8C3B28 !important; }
+@media (max-width: 560px) { .follow-row { flex-direction: column; align-items: stretch; } .follow input[type="email"] { flex: none; width: 100%; } .follow button { width: 100%; } }

@@ -1011,7 +1011,14 @@ def footer_html():
 FAQ_VISIBLE = 7
 
 
-def faq_html(items, visible=FAQ_VISIBLE):
+def dm(desktop, mobile, tag="span"):
+    """The same message, written twice: the full version for a desktop reader and a shorter one for a phone.
+    Both are in the HTML; CSS (.d-only / .m-only, break at 900 px) shows one. Used only where the phone
+    reader needs a different amount of text, not a different message."""
+    return f'<{tag} class="d-only">{desktop}</{tag}><{tag} class="m-only">{mobile}</{tag}>'
+
+
+def faq_html(items, visible=FAQ_VISIBLE, m_visible=None):
     """FAQ-en er en del av produktforklaringen, ikke bare en hjelpefunksjon.
 
     Et element er (spørsmål, svar) eller (spørsmål, svar, punkter). Et punkt er enten en streng
@@ -1036,12 +1043,18 @@ def faq_html(items, visible=FAQ_VISIBLE):
             body += '<ul class="faq-points">' + "".join(lis) + "</ul>"
         return "<details><summary>" + esc(q) + "</summary>" + body + "</details>"
 
-    head = "".join(one(it) for it in items[:visible])
+    mv = visible if m_visible is None else m_visible
+    # Questions mv..visible are open on desktop only; on a phone they sit behind «Se alle spørsmål» (a copy of
+    # them leads the hidden list, shown on phones only).
+    def tag(html_, cls):
+        return html_.replace("<details>", f'<details class="{cls}">', 1)
+    head = "".join((tag(one(it), "d-only") if i >= mv else one(it)) for i, it in enumerate(items[:visible]))
     rest = items[visible:]
     if not rest:
         return head
+    moved = "".join(tag(one(it), "m-only") for it in items[mv:visible])
     return (head + '<details class="faq-more"><summary>Se alle spørsmål</summary>'
-            '<div class="faq">' + "".join(one(it) for it in rest) + "</div></details>")
+            '<div class="faq">' + moved + "".join(one(it) for it in rest) + "</div></details>")
 
 
 def page(slug, a):
@@ -1494,13 +1507,13 @@ def how_it_works():
     v1 = shot("/assets/story/app-agent.png", "ERA Bolig: boligagentens svar om boligen, med funn, betydning og forslag")
     v2 = shot("/assets/story/app-kamera.png", "ERA Bolig: kameraet rettet mot avflassende maling, klart til å analysere bildet")
     v3 = shot("/assets/story/app-prosjekt.png", "ERA Bolig: prosjektet med plan, valget mellom å gjøre det selv eller be om tilbud, og fremdrift")
-    steps = [(v1, "Spør", "«Hva bør jeg følge opp?» ERA svarer ut fra det den vet om boligen."),
-             (v2, "Vis", "Ta et bilde av noe du lurer på. ERA bruker bildet sammen med det den allerede vet om boligen."),
-             (v3, "Gjør", "«Jeg vil male stua.» ERA hjelper deg gjøre ideen om til en plan, og du velger om du vil gjøre det selv eller få tilbud fra proff.")]
-    items = "".join(f'<li>{v}<div class="how-cap"><span class="how-n">{i+1}</span><div><h3>{esc(t)}</h3><p>{esc(d)}</p></div></div></li>' for i, (v, t, d) in enumerate(steps))
+    steps = [(v1, "Spør", "«Hva bør jeg følge opp?» ERA svarer ut fra det den vet om boligen.", "«Hva bør jeg følge opp?»"),
+             (v2, "Vis", "Ta et bilde av noe du lurer på. ERA bruker bildet sammen med det den allerede vet om boligen.", "Ta et bilde av noe du lurer på."),
+             (v3, "Gjør", "«Jeg vil male stua.» ERA hjelper deg gjøre ideen om til en plan, og du velger om du vil gjøre det selv eller få tilbud fra proff.", "«Jeg vil male stua.»")]
+    items = "".join(f'<li>{v}<div class="how-cap"><span class="how-n">{i+1}</span><div><h3>{esc(t)}</h3><p>{dm(esc(d), esc(m))}</p></div></div></li>' for i, (v, t, d, m) in enumerate(steps))
     return ('<section class="section how" id="slik" data-nav="light" data-reveal><div class="wrap wide">'
             '<div class="label">Slik fungerer ERA</div><h2>Bare spør ERA.</h2>'
-            '<p class="how-lede">Still et spørsmål, ta et bilde eller fortell hva du vil gjøre. ERA setter det i sammenheng med det den allerede vet om boligen.</p>'
+            '<p class="how-lede">' + dm("Still et spørsmål, ta et bilde eller fortell hva du vil gjøre. ERA setter det i sammenheng med det den allerede vet om boligen.", "Spør, vis eller fortell. ERA setter det i sammenheng med det den vet om boligen.") + '</p>'
             f'<ol class="how-steps">{items}</ol><span class="how-line" aria-hidden="true"></span></div></section>').replace('__CHECK__', CHECK_SVG)
 
 
@@ -1511,7 +1524,7 @@ def reise_sofa():
             '<p class="cine-lede">Du har en idé om boligen. Fortell ERA hva du vil gjøre.</p>'
             '<p class="reise-say">«Vi burde male stua.»</p></div>'
             '<div class="reise-note" aria-hidden="true"><b>Du til ERA</b><span>Jeg vil male stua.</span><em>ERA setter det sammen med det den vet om boligen, og lager en plan.</em></div>')
-    return cine("/assets/story/couple-reminder-v5.jpg", body, sid="sofaen", cls="cine--reise cine--sofa", pos="50% 55%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+    return cine("/assets/story/couple-reminder-v5.jpg", body, sid="sofaen", cls="cine--reise cine--sofa d-only", pos="50% 55%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
 def reise_bilde():
@@ -1554,7 +1567,7 @@ def reise_ferdig():
     body = ('<div class="reise-text"><h2>Ferdig.<br>Og boligen husker det.</h2>'
             '<p class="cine-lede">Arbeidet, relevante bilder og dokumentasjon kan bli en del av boligens historie. Neste gang starter ERA med mer kunnskap, ikke fra null.</p></div>'
             f'<div class="reise-card reise-card--done"><ul class="reise-done">{lis}</ul></div>')
-    return cine("/assets/story/couple-done-v5.jpg", body, sid="ferdig", cls="cine--reise cine--ferdig", pos="50% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+    return cine("/assets/story/couple-done-v5.jpg", body, sid="ferdig", cls="cine--reise cine--ferdig d-only", pos="50% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
 # Three scenes from the old story, in a short form. Each one starts when it scrolls into view
@@ -1580,12 +1593,12 @@ def scene_see():
     body = ('<div class="see-spots" aria-hidden="true">' + spots + f'<span class="see-line" style="--x:{bx}%;--y:{by}%"></span></div>'
             '<div class="cine-text see-text"><div class="label">Fra bilde til forslag</div><h2>Vis ERA det du ser.</h2>'
             '<p class="cine-lede">Ta et bilde av et rom, en overflate eller noe du lurer på. ERA bruker bildet sammen med det den allerede vet om boligen for å hjelpe deg videre.</p>'
-            '<p class="see-sub">Fasadens tilstand, dokumentasjon, alder og tidligere arbeid kan vurderes i samme kontekst. Svaret er et utgangspunkt, ikke en diagnose eller en teknisk inspeksjon.</p>'
+            '<p class="see-sub d-only">Fasadens tilstand, dokumentasjon, alder og tidligere arbeid kan vurderes i samme kontekst. Svaret er et utgangspunkt, ikke en diagnose eller en teknisk inspeksjon.</p>'
             f'<ul class="see-list">{rows}</ul>'
             '<p class="see-sources"><b>ERA bruker</b> bildene dine, byggeår og materialer, tidligere arbeid og kvitteringer, og fagkunnskap.</p>'
-            '<ul class="see-areas" aria-label="Områder ERA ser på">' + "".join(f'<li>{t}</li>' for t in ("Tak", "Takrenner", "Fasade", "Vinduer", "Bad", "Ventilasjon", "Kjøkken", "Uteområde")) + '</ul>'
+            '<ul class="see-areas d-only" aria-label="Områder ERA ser på">' + "".join(f'<li>{t}</li>' for t in ("Tak", "Takrenner", "Fasade", "Vinduer", "Bad", "Ventilasjon", "Kjøkken", "Uteområde")) + '</ul>'
             '<a class="link see-cta" href="#adresse">Vis ERA →</a>'
-            '<p class="cine-fine">Eksempeldata.</p></div>')
+            '<p class="cine-fine">Eksempeldata.<span class="m-only"> Svaret er et utgangspunkt, ikke en diagnose.</span></p></div>')
     return cine("/assets/story/roof-detail-v3.jpg", body, sid="ser", cls="cine--see", pos="60% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
@@ -1636,7 +1649,7 @@ def home_page():
         '<div class="ny-knows-bg" aria-hidden="true"><img src="/assets/story/whole-home-v3.jpg" srcset="/assets/story/whole-home-v3-m.jpg 1400w, /assets/story/whole-home-v3.jpg 2400w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>'
         '<div class="wrap ny-knows-grid"><div class="ny-knows-text">'
         '<div class="label">ERA kjenner boligen</div><h2>ERA starter ikke fra null.</h2>'
-        '<p class="ny-lede">Bilder, dokumenter, rom, materialer, historikk og utført arbeid settes i sammenheng med det ERA allerede vet om boligen. Boligen får et minne: ny informasjon kobles til det som allerede er kjent, og ERA sier fra når noe mangler.</p>'
+        '<p class="ny-lede">' + dm("Bilder, dokumenter, rom, materialer, historikk og utført arbeid settes i sammenheng med det ERA allerede vet om boligen. Boligen får et minne: ny informasjon kobles til det som allerede er kjent, og ERA sier fra når noe mangler.", "ERA setter bilder, dokumenter og historikk sammen med det den allerede vet. Boligen får et minne.") + '</p>'
         '<ul class="appsec-points">'
         '<li><b>Dokumentert</b>Vi vet hvor informasjonen kommer fra.</li>'
         '<li><b>ERA-forslag</b>ERA vurderer og forklarer hvorfor.</li>'
@@ -1665,7 +1678,8 @@ def home_page():
         f'<li><b>Du velger</b><span class="cine-chips">{chips}</span><span class="cine-note" aria-live="polite"></span></li>'
         '<li><b>ERA ordner</b><span class="mini-state" aria-label="Kartlagt, tilbud, utføres"><i class="is-done">Kartlagt</i><i class="is-now">Tilbud</i><i>Utføres</i></span></li>'
         '<li><b>Dokumenteres</b><span>Alt går tilbake til boligen.</span></li>')
-    flow_steps = f'<ol class="cine-flow">{li}</ol>'
+    flow_steps = (f'<ol class="cine-flow">{li}</ol>'
+                  '<button type="button" class="cine-more m-only" aria-expanded="false" data-more>Se hele løpet</button>')
     need = cine("/assets/story/bathroom-old-v4.jpg",
                 '<div class="cine-grid"><div class="cine-text">'
                 '<h2>ERA hjelper deg se behovet før du begynner å lete.</h2>'
@@ -1677,7 +1691,7 @@ def home_page():
     timeline_steps = [("Kjøpt", False), ("Malt", False), ("Bad dokumentert", False), ("Elektrisk arbeid", False), ("Dokumentert", False), ("Neste behov", True)]
     timeline = '<ol class="cine-timeline cine-timeline--left">' + "".join(
         f'<li class="{"is-next" if nxt else ("is-link" if t == "Bad dokumentert" else "")}" style="--k:{k}"><span>{esc(t)}</span></li>' for k, (t, nxt) in enumerate(timeline_steps)) + "</ol>"
-    seasons = '<div class="seasons" aria-hidden="true">' + "".join(
+    seasons = '<div class="seasons d-only" aria-hidden="true">' + "".join(
         f'<img{" class=" + chr(34) + "is-on" + chr(34) if i == 0 else ""} src="/assets/story/block-season-{i}-v3.jpg" srcset="/assets/story/block-season-{i}-v3-m.jpg 1400w, /assets/story/block-season-{i}-v3.jpg 1600w" '
         f'sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async">' for i in range(4)) + "</div>"
     learns = cine("/assets/story/whole-home-v3.jpg",
@@ -1685,7 +1699,7 @@ def home_page():
                   '<h2>Boligen husker. Du slipper.</h2>'
                   '<p class="cine-lede">Når jobben er ferdig, blir resultatet en del av det ERA vet om boligen. Jo mer boligen lever, desto mer lærer ERA om den.</p>'
                   + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>' + seasons + '</div>'
-                  + '<ul class="husker-feats">'
+                  + '<ul class="husker-feats d-only">'
                   '<li><b>Bilder og dokumentasjon</b><span>Alt samlet på ett sted.</span></li>'
                   '<li><b>Påminnelser</b><span>Beskjed når det er tid for vedlikehold, ut fra alder, materialer og forhold.</span><i class="nstep-tag">Planlagt</i></li>'
                   '<li><b>Del med andre</b><span>Del det som er relevant med håndverkere, styret eller kjøpere, når du selv velger det.</span><i class="nstep-tag">Planlagt</i></li></ul>',
@@ -1708,7 +1722,7 @@ def home_page():
     # /boligeier that the front page does not already answer, so the two lists cannot drift apart.
     covered = ("Hva er ERA?", "Hva er forskjellen på ERA og", "Hva vet ERA om", "Kan ERA hjelpe meg", "Gjelder ERA for leilighet", "Hva koster ERA", "Hva skjer med dataene")
     extra = [it for it in AUDIENCES["boligeier"]["faq"] if not it[0].startswith(covered)]
-    faq = faq_html(faq_items + extra)
+    faq = faq_html(faq_items + extra, m_visible=3)
     done = ("Takk. Vi har adressen din.", "")
     hero_form = lead_form_html("hero", a, done, label="Skriv adressen din", placeholder="Myrerveien 46A, Oslo")
     end_form = lead_form_html("end", a, done, placeholder="Myrerveien 46A, Oslo")
@@ -1752,9 +1766,9 @@ def home_page():
   <div class="hero-media"><picture><source media="(max-width: 899px)" srcset="{hero_img[:-4]}-m.jpg"><img src="{hero_img}" alt="" fetchpriority="high" style="object-position: 45% 50%"></picture></div>
   <div class="hero-grid">
   <div class="hero-text">
-    <div class="label">ERA · for boligeiere</div>
+    <div class="label">{dm('ERA · for boligeiere', 'Boligens AI-agent')}</div>
     <h1 data-hero-h1 data-a="Boligens AI-agent.">En personlig agent for boligen din.<span class="h1-sub">Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.</span></h1>
-    <p class="lede" data-hero-sub data-a="Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.">Boligens AI-agent. Spør ERA, ta et bilde eller start et prosjekt.</p>
+    <p class="lede d-only" data-hero-sub data-a="Kjenner boligen din. Husker hva som er gjort. Hjelper deg få ting gjort.">Boligens AI-agent. Spør ERA, ta et bilde eller start et prosjekt.</p>
     <div id="adresse">
       {hero_form}
     </div>

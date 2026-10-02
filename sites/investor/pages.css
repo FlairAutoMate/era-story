@@ -1042,3 +1042,12 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 /* Rekkefølgen er endret: reisen med fem skjermer ligger ikke lenger rett over «ERA starter ikke fra null», så linjen derfra er fjernet. */
 @media (min-width: 900px) { .flow-return::before, .flow-return::after { display: none; } }
 .om-tech .om-tech-lead { font-size: clamp(18px, 1.8vw, 21px); font-weight: 500; }
+
+/* ERA Prosjekt-scenen på desktop: teksten ligger nederst til venstre, over kvinnens lyse genser. Gradienten er sterkere der teksten står
+   og tones ut før ansiktene, så eyebrow, ingress og fine print er lesbare uten å mørkne parret. */
+@media (min-width: 900px) {
+  .cine--bilde .cine-media::after { background:
+    radial-gradient(ellipse 58% 48% at 14% 72%, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.55) 55%, rgba(15,24,48,0) 100%),
+    linear-gradient(0deg, rgba(15,24,48,0.88) 0%, rgba(15,24,48,0.7) 28%, rgba(15,24,48,0.32) 50%, rgba(15,24,48,0.05) 72%, rgba(15,24,48,0) 100%); }
+  .cine--bilde .reise-text .label { color: var(--gold); text-shadow: 0 1px 12px rgba(15,24,48,0.9); }
+}

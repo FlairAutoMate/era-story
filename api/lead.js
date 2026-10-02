@@ -2,7 +2,7 @@
 // (private access, EU region) and, when RESEND_API_KEY + LEAD_NOTIFY_TO are set, e-mails a
 // notification. Nothing else is sent anywhere.
 //
-// Body: { audience: "owner" | "board" | "pro" | "partner", value: string, email?: string, intent?: "interest" | "demo", website?: string, page?: string,
+// Body: { audience: "owner" | "board" | "pro" | "partner" | "samarbeid", value: string, email?: string, message?: string, intent?: "interest" | "demo", website?: string, page?: string,
 //         address?: { ...Geonorge fields, see cleanAddress }, leadId?: string, followup?: "email" }
 // `website` is a honeypot: humans never fill it, bots do. `email` is optional. A real-shaped e-mail is
 // kept if sent.
@@ -16,8 +16,8 @@
 import { put } from "@vercel/blob";
 import { randomUUID } from "node:crypto";
 
-const AUDIENCES = new Set(["owner", "board", "pro", "partner"]);
-const NAMES = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel" };
+const AUDIENCES = new Set(["owner", "board", "pro", "partner", "samarbeid"]);
+const NAMES = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel", samarbeid: "Meglere og partnere" };
 const MAX_LEN = 200;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -67,6 +67,7 @@ async function notify(doc) {
     `${who}: ${doc.value}`,
     ...(a ? [`Adresse bekreftet mot Kartverket: ${[a.kommunenavn, matrikkel].filter(Boolean).join(", ") || "ja"}`] : []),
     `Ønsker: ${doc.intent === "demo" ? "demo" : "å bli kontaktet"}`,
+    ...(doc.message ? [`Melding: ${doc.message}`] : []),
     `E-post: ${doc.email || "-"}`,
     `Tidspunkt: ${doc.receivedAt}`,
     `Side: ${doc.page || "-"}`,
@@ -98,6 +99,7 @@ export default async function handler(req, res) {
   const value = String(body.value ?? "").trim().replace(/\s+/g, " ").slice(0, MAX_LEN);
   const email = String(body.email ?? "").trim().slice(0, MAX_LEN);
   const intent = body.intent === "demo" ? "demo" : "interest";
+  const message = String(body.message ?? "").trim().replace(/[ \t]+/g, " ").slice(0, 1000);
   const honeypot = String(body.website ?? "").trim();
   const followup = body.followup === "email";
   const leadId = typeof body.leadId === "string" && UUID_RE.test(body.leadId) ? body.leadId : undefined;
@@ -110,6 +112,9 @@ export default async function handler(req, res) {
     if (!EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: "email" });
   } else if (value.length < 3) {
     return res.status(400).json({ ok: false, error: "short" });
+  } else if (audience === "samarbeid" && !EMAIL_RE.test(email)) {
+    // Meglere og partnere: we cannot answer without an e-mail address.
+    return res.status(400).json({ ok: false, error: "email" });
   }
 
   const now = new Date();
@@ -124,7 +129,7 @@ export default async function handler(req, res) {
   };
   const doc = followup
     ? { ...common, kind: "email", leadId, value: value || undefined, email }
-    : { ...common, value, email: EMAIL_RE.test(email) ? email : undefined, intent, address: cleanAddress(body.address) };
+    : { ...common, value, email: EMAIL_RE.test(email) ? email : undefined, intent, message: message || undefined, address: cleanAddress(body.address) };
   const day = now.toISOString().slice(0, 10);
   const pathname = `leads/${audience}/${day}/${now.toISOString().replace(/[:.]/g, "-")}-${id.slice(0, 8)}${followup ? "-epost" : ""}.json`;
 

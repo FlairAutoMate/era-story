@@ -56,7 +56,7 @@ REQUIRED = ["Myrerveien 46A", "1967", "85 000–140 000 kr", "6 250 000 kr", "16
 PAGES = ["boligeier", "styret", "handverker", "faghandel", "ny", "ny/om-era"]
 
 # The street name is checked on the story and partner pages too, not just the audience subpages.
-EXTRA_FILES = ["index.html", "om-era/index.html", "partner/jotun/index.html"]
+EXTRA_FILES = ["index.html", "om-era/index.html"]
 
 
 def main():

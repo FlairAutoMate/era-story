@@ -28,7 +28,7 @@ Vercel deployer `master` automatisk, ca. ett minutt etter merge. Investorsiden e
 | --- | --- |
 | `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/`, `ny/` | `python tools/build-pages.py` |
 | `om-era/` | `python tools/build-om-era.py` (henter hodet fra `index.html`) |
-| `partner/jotun/`, `sites/investor/` | `python tools/build-partner-story.py` |
+| `sites/investor/` | `python tools/build-partner-story.py` |
 
 Endrer du `index.html`s hode eller meny, må `build-om-era.py` kjøres etterpå — ellers henger
 `/om-era` igjen med den gamle versjonen.
@@ -62,3 +62,12 @@ ikke er dokumentert tilgjengelige merkes «Planlagt» eller «I pilot».
 **Ingen prosentsats ved siden av en motparts navn** på `/investor` og `/partner/*`. Sidene er
 `noindex`, men de er åpne URL-er som blir videresendt — en sats knyttet til et navn er publisert før
 motparten har sagt ja. Navnet hører hjemme i en statusliste, ikke i en betingelse.
+
+## Jotun-fortellingen bor et annet sted
+
+`ERA × Jotun` ble skilt ut 2. okt. 2026 til et eget privat repo med sin egen deploy:
+`FlairAutoMate/era-jotun` → https://era-jotun.vercel.app. Den finnes **ikke** i dette repoet
+lenger, og `/partner/jotun` er fjernet sammen med nav-fanen som pekte dit.
+
+`pages.css` og `partner.css` er kopiert dit. Endrer du designsystemet her, følger det **ikke**
+automatisk med — Jotun-repoet må oppdateres manuelt.

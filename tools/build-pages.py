@@ -388,14 +388,14 @@ AUDIENCES = {
         # resten ligger bak «Se alle sporsmal». Rekkefolgen er bevisst: tvilen om hva ERA *er*
         # ryddes for sporsmal om data, handling og pris.
         faq=[
-            ("Er ERA et nytt FDV-system?",
-             "Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen til å forstå boligen, "
-             "oppdage relevante behov og hjelpe deg videre til handling. Målet er ikke bare å lagre hva som har skjedd, "
-             "men å hjelpe deg forstå hva du bør gjøre videre."),
             ("Hva er forskjellen på ERA og Boligmappa?",
              "Boligmappa er først og fremst et sted for dokumentasjon og historikk knyttet til boligen. ERA bygger videre "
              "på samme type boligkunnskap, men bruker den aktivt: Hva vet vi? → Hva betyr det? → Hva bør gjøres? → Skal "
              "ERA hjelpe deg få det gjort? ERA skal derfor være boligens agent, ikke bare boligens arkiv."),
+            ("Gjelder ERA for leilighet og borettslag, eller bare enebolig?",
+             "Begge deler. Den signerte piloten er et borettslag med 69 leiligheter. Bor du i borettslag eller sameie, "
+             "får du din egen boligoversikt, vedlikeholdsplan og påminnelser, samtidig som styret kan bruke ERA for "
+             "fellesarealene."),
             ("Hva er forskjellen på ERA og Mittanbud?",
              "Mittanbud blir relevant når du allerede vet at du trenger en håndverker. ERA kan starte tidligere, og hjelpe "
              "deg forstå behovet og vurdere hva som bør gjøres. Deretter velger du:",
@@ -418,10 +418,6 @@ AUDIENCES = {
              "En generell AI kjenner ikke boligen din. ERA bygger en vedvarende hukommelse rundt din konkrete bolig — med "
              "boligdata, bilder, dokumentasjon, historikk og det som blir gjort over tid. Derfor kan et spørsmål som «Hva "
              "bør jeg følge opp nå?» besvares i kontekst av akkurat din bolig."),
-            ("Gjelder ERA for leilighet og borettslag, eller bare enebolig?",
-             "Begge deler. Den signerte piloten er et borettslag med 69 leiligheter. Bor du i borettslag eller sameie, "
-             "får du din egen boligoversikt, vedlikeholdsplan og påminnelser, samtidig som styret kan bruke ERA for "
-             "fellesarealene."),
             ("Må jeg ha tilstandsrapport?",
              "Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen."),
             ("Må jeg legge inn alt selv?",
@@ -656,6 +652,7 @@ AUDIENCES = {
             ("Passer ERA for små sameier?", "Ja. Et sameie med fire seksjoner har de samme spørsmålene som ett med førti. Planen skalerer."),
             ("Erstatter ERA forretningsfører?", "Nei. ERA holder orden på bygget, ikke regnskapet. Forretningsføreren kan få tilgang til planen."),
             ("Vi har allerede et styresystem. Hvor passer ERA inn?", "ERA samler oppfølgingen av eiendommen fra vedlikeholdsbehov til gjennomført og dokumentert arbeid. I en demo ser vi på hvordan dere jobber i dag, og hvor ERA kan bidra i arbeidsflyten deres."),
+            ("Er ERA et nytt FDV-system?", "Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen til å forstå eiendommen, oppdage relevante behov og vise styret hva som bør gjøres videre. Målet er ikke bare å lagre hva som har skjedd."),
             ("Hvem eier dataene?", "Eiendommen. Styret bestemmer hvem som ser dem. Ved styreskifte følger alt med."),
         ],
         closing=dict(

@@ -411,7 +411,7 @@ AUDIENCES = {
              "Ja. ERA utvikles for begge veier. Vil du gjøre jobben selv, kan ERA hjelpe med plan → produkter → mengder → "
              "handleliste → veiledning. Vil du heller ha hjelp, kan det samme behovet brukes videre mot en proff."),
             ("Hva koster ERA?",
-             "ERA er gratis for boligeiere i betaperioden. Ingen betalingskort og ingen binding."),
+             "ERA er gratis for boligeiere de første tolv månedene. Ingen betalingskort og ingen binding."),
 
             # ── bak «Se alle spørsmål» ──
             ("Hva er forskjellen på ERA og ChatGPT?",
@@ -436,9 +436,9 @@ AUDIENCES = {
             ("Får ERA betalt når jeg kjøper noe?",
              "ERA kan få betalt fra partnere når du velger å kjøpe et produkt eller en tjeneste gjennom ERA. Det endrer "
              "ikke at du bestemmer hva du vil gjøre og hvem du vil bruke."),
-            ("Hva skjer etter betaperioden?",
-             "Du trenger ikke registrere betalingskort, og det er ingen binding. Eventuelle priser etter beta "
-             "kommuniseres tydelig før noe endres."),
+            ("Hva skjer etter de første tolv månedene?",
+             "Prismodellen er ikke fastsatt ennå. Du binder deg ikke til noe, og endringer kommuniseres tydelig før de "
+             "trer i kraft."),
             ("Hvorfor er det bare 300 plasser?",
              "Vi begrenser betafasen for å kunne følge opp brukerne tett, forbedre ERA basert på reelle boligbehov og "
              "sikre kvalitet før en bredere lansering."),
@@ -463,7 +463,7 @@ AUDIENCES = {
         ],
         beta=dict(
             badge="Nå i kontrollert beta — åpnes for 300 boligeiere",
-            note="Gratis for boligeiere i betaperioden. Begrenset antall plasser.",
+            note="Gratis de første tolv månedene. Begrenset antall plasser.",
             cta_primary="Søk om betatilgang", cta_secondary="Se hvordan ERA fungerer",
             heading="Bli en av 300 boligeiere som tester ERA",
             lede="ERA åpner nå en kontrollert betafase for 300 boligeiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i boligen, uten abonnement eller kostnad i betaperioden.",
@@ -653,6 +653,7 @@ AUDIENCES = {
             ("Erstatter ERA forretningsfører?", "Nei. ERA holder orden på bygget, ikke regnskapet. Forretningsføreren kan få tilgang til planen."),
             ("Vi har allerede et styresystem. Hvor passer ERA inn?", "ERA samler oppfølgingen av eiendommen fra vedlikeholdsbehov til gjennomført og dokumentert arbeid. I en demo ser vi på hvordan dere jobber i dag, og hvor ERA kan bidra i arbeidsflyten deres."),
             ("Er ERA et nytt FDV-system?", "Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen til å forstå eiendommen, oppdage relevante behov og vise styret hva som bør gjøres videre. Målet er ikke bare å lagre hva som har skjedd."),
+            ("Hva koster ERA for borettslaget?", "Gratis de første tolv månedene, både for styret og for beboerne. Prismodellen etter det er ikke fastsatt ennå."),
             ("Hvem eier dataene?", "Eiendommen. Styret bestemmer hvem som ser dem. Ved styreskifte følger alt med."),
         ],
         closing=dict(

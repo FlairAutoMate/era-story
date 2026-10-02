@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boligens AI-agent — ERA</title>
+<meta name="description" content="Boligens AI-agent. Den kjenner boligen din og hjelper deg få ting gjort. Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0F1830">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://era-story.vercel.app/ny">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ERA">
+<meta property="og:title" content="Boligens AI-agent — ERA">
+<meta property="og:description" content="Boligens AI-agent. Den kjenner boligen din og hjelper deg få ting gjort. Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det.">
+<meta property="og:image" content="https://era-story.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://era-story.vercel.app/ny">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Boligens AI-agent — ERA">
+<meta name="twitter:description" content="Boligens AI-agent. Den kjenner boligen din og hjelper deg få ting gjort. Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det.">
+<meta name="twitter:image" content="https://era-story.vercel.app/og.jpg">
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body data-audience="owner" data-page="ny">
+<nav class="nav" aria-label="Hovedmeny">
+  <div class="pill">
+    <a class="brand" href="/">era<span>.</span></a>
+    <div class="links"><a href="/">Historien</a><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a><a href="/om-era">Om ERA</a></div>
+    <div class="right"><a class="cta" href="#adresse">Finn boligen din</a><button type="button" class="menu-btn" data-menu-toggle="1" aria-label="Åpne menyen" aria-expanded="false">☰</button></div>
+  </div>
+  <div class="menu-panel" hidden><a href="/" data-menu-close="1">Historien<span>→</span></a><a href="/boligeier" data-menu-close="1">Boligeier<span>→</span></a><a href="/styret" data-menu-close="1">Styret<span>→</span></a><a href="/handverker" data-menu-close="1">Håndverker<span>→</span></a><a href="/faghandel" data-menu-close="1">Faghandel<span>→</span></a><a href="/om-era" data-menu-close="1">Om ERA<span>→</span></a><a href="/personvern" data-menu-close="1">Personvern<span>→</span></a></div>
+</nav>
+
+<header class="hero hero--product ny-hero">
+  <div class="hero-grid">
+  <div class="hero-text">
+    <div class="label">ERA · for boligeiere</div>
+    <h1 data-hero-h1 data-a="ERA kjenner boligen din. Og hjelper deg når noe skal gjøres.">Boligens AI-agent.<span class="h1-sub">Den kjenner boligen din og hjelper deg få ting gjort.</span></h1>
+    <p class="lede" data-hero-sub data-a="Boligens AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det. ERA husker historikken underveis.</p>
+    <div id="adresse">
+      <form id="era-lead-hero" class="lead" data-audience="owner">
+        <div class="lead-pill">
+          <label class="sr" for="lead-value-hero">Adressen til boligen</label>
+          <div class="lead-value-wrap">
+            <input id="lead-value-hero" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til boligen">
+            <span class="lead-typewriter" aria-hidden="true"></span>
+            <span class="field-label" aria-hidden="true">Adresse</span>
+          </div>
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Finn boligen din</button>
+        </div>
+      </form>
+      <div class="done" role="status" aria-live="polite" hidden>
+        <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><b>Takk. Vi finner boligen din.</b><span>Vi sier fra når ERA er klar for adressen.</span></div>
+      </div>
+      <div class="err" hidden></div>
+    </div>
+    <p class="ny-micro">Gratis i betaperioden. Ingen betalingskort.</p>
+    <a class="link" href="#loopen">Se hvordan det fungerer ↓</a>
+  </div>
+  <div class="hero-visual"><ul class="ny-prompts" aria-label="Eksempler på spørsmål til ERA"><li>Hva vet ERA om badet?</li><li>Hva bør jeg gjøre før vinteren?</li><li>Finn noen som kan fikse dette</li></ul><div class="hero-phones"><div class="pw-phone pw-phone--sm"><img src="/assets/story/app-minbolig.png" width="853" height="1844" alt="ERA Bolig: Min bolig for Myrerveien 46A – enebolig fra 1967 på 162 m² med tilstand God 78 av 100, neste prosjekt «Fasadevask og maling» til 85 000–140 000 kr med oppstart april 2026 og Oslo Fasade AS, estimert verdi 6 250 000 kr og samlet dokumentasjon" loading="eager" fetchpriority="high" decoding="async"></div><div class="pw-phone pw-phone--md"><img src="/assets/story/app-agent.png" width="853" height="1844" alt="ERA Bolig, boligagenten for Myrerveien 46A: fotoet av huset er merket av med fasade og tak til oppfølging og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser», «Hva det betyr» for en bolig fra 1967 og forslaget «Fasadevask og maling» med estimert kostnad 85 000–140 000 kr" loading="eager" fetchpriority="high" decoding="async"></div></div></div>
+  </div>
+</header>
+
+<main>
+  <section class="section alt" id="loopen"><div class="wrap wide"><div class="label">Hele reisen</div><h2>Din bolig. Én agent.</h2><div class="apploop apploop--4"><div class="apploop-shot"><img src="/assets/story/app-kamera.png" width="853" height="1844" alt="ERA Bolig: kameraet rettet mot avflassende maling ved et vindu" loading="lazy" decoding="async"></div><div class="apploop-shot"><img src="/assets/story/app-agent.png" width="853" height="1844" alt="ERA Bolig: boligagentens analyse av huset med funn, betydning og forslag" loading="lazy" decoding="async"></div><div class="apploop-shot"><img src="/assets/story/app-prosjekt.png" width="935" height="1683" alt="ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og oppgaver" loading="lazy" decoding="async"></div><div class="apploop-shot"><img src="/assets/story/app-minbolig.png" width="853" height="1844" alt="ERA Bolig: Min bolig med nøkkeltall, neste prosjekt, estimert verdi og dokumentasjon" loading="lazy" decoding="async"></div></div><div class="apploop-steps apploop-steps--4"><div class="apploop-step"><span class="n">01</span><b>Spør eller vis</b><span>Skriv, eller ta et bilde av det du lurer på.</span></div><div class="apploop-step"><span class="n">02</span><b>Forstå</b><span>Få svar ut fra det ERA faktisk vet om boligen.</span></div><div class="apploop-step"><span class="n">03</span><b>Planlegg og få hjelp</b><span>Fra behov til tilbud, gjennomføring og godkjenning.</span></div><div class="apploop-step"><span class="n">04</span><b>Dokumenter</b><span>Resultatet kommer tilbake til boligen.</span></div></div><p class="fine dark2">Eksempeldata. Samme bolig hele veien. Visualisering av farger og løsninger kommer.</p></div></section>
+
+  <section class="section appsec" id="kjenner"><div class="wrap"><div class="appsec-text"><div class="label">ERA kjenner boligen</div><h2>Det ERA vet. Og det den ikke vet.</h2><p class="lede">ERA starter med det som finnes: adresse og tilgjengelige eiendomsdata. Så lærer den boligen over tid, uten at du fyller ut et skjema.</p><ul class="appsec-points"><li><b>Dokumentert</b>Det som ligger i boligen med år, dokumentasjon eller bilder.</li><li><b>ERA-forslag</b>Det ERA mener, med begrunnelse. Du bestemmer.</li><li><b>Mangler</b>Det ERA ikke vet. Den sier ifra i stedet for å gjette.</li></ul></div><div class="appsec-visual"><div class="appsec-dash"><div class="dash"><div class="dash-head"><div><div class="dash-title">Det ERA vet om boligen</div><div class="dash-meta">Myrerveien 46A · enebolig · 1967</div></div></div><div class="dash-group dash-group-doc"><span class="tag tag-doc">Dokumentert</span><div class="drow"><span>Nytt tak</span><b>2024 · med dokumentasjon</b></div><div class="drow"><span>Varmepumpe</span><b>2022 · med dokumentasjon</b></div><div class="drow"><span>Nytt bad</span><b>2020</b></div></div><div class="dash-group dash-group-ai"><span class="tag tag-ai">ERA-forslag</span><div class="drow"><span>Fasade og tak</span><b>Bør følges opp</b></div><div class="drow"><span>Forslag</span><b>Fasadevask og maling · 85 000–140 000 kr</b></div></div><div class="dash-group dash-group-missing"><span class="tag tag-missing">Mangler</span><div class="drow"><span>El-anlegg</span><b>Ingen dokumentasjon registrert ennå</b></div></div><div class="dash-foot">Eksempeldata. ERA sier ifra når den ikke vet.</div></div></div></div></div></section>
+
+  <section class="section scenes" id="slik"><div class="wrap wide"><div class="label">Fra spørsmål til gjort</div><h2>Tre eksempler.</h2><p class="steps-intro">Slik kan ERA hjelpe, fra spørsmålet til et dokumentert resultat.</p><div class="stepnav" role="tablist" aria-label="3 steg" style="grid-template-columns: repeat(3, minmax(0, 1fr))"><button type="button" role="tab" id="tab-1" aria-selected="true" aria-controls="scene-1" tabindex="0"><span class="n">01</span><span class="t">Fasaden</span></button><button type="button" role="tab" id="tab-2" aria-selected="false" aria-controls="scene-2" tabindex="-1"><span class="n">02</span><span class="t">Male stuen</span></button><button type="button" role="tab" id="tab-3" aria-selected="false" aria-controls="scene-3" tabindex="-1"><span class="n">03</span><span class="t">Spør ERA</span></button></div><div class="scene-panel"><div class="scene" role="tabpanel" id="scene-1" aria-labelledby="tab-1"><div class="scene-text"><div class="label">Eksempel 1 · Fasaden</div><h3>Fra «hva er det?» til dokumentert jobb.</h3><p>ERA kjenner boligens alder og historikk, forklarer behovet og setter opp prosjektet.</p><p class="scene-value">Resultatet kommer tilbake til boligen, så neste behov starter med historikk.</p></div><div class="scene-view"><div class="dash"><div class="dash-head"><div><div class="dash-title">Fasadevask og maling</div><div class="dash-meta">Myrerveien 46A</div></div></div><div class="kpis"><div class="kpi"><span>Estimert kostnad</span><b>85 000–140 000 kr</b></div><div class="kpi"><span>Oppstart</span><b>april 2026</b></div><div class="kpi"><span>Varighet</span><b>2–3 uker</b></div><div class="kpi"><span>Håndverker</span><b>Oslo Fasade AS</b></div></div><div class="dash-group dash-group-ai"><span class="tag tag-ai">ERA-forslag</span><div class="drow"><span>Hvorfor</span><b>Boligen er fra 1967, og fasaden bør følges opp</b></div><div class="drow"><span>Neste steg</span><b>Be om tilbud med behovet ferdig beskrevet</b></div></div><div class="dash-group dash-group-doc"><span class="tag tag-doc">Dokumentert</span><div class="drow"><span>Etter jobben</span><b>Bilder og dokumentasjon lagres i boligen</b></div></div><div class="dash-foot">Eksempeldata. ERA foreslår, du bestemmer.</div></div></div><div class="scene-nav"><span></span><button type="button" class="scene-next" data-dir="1">Neste: Male stuen →</button></div></div><div class="scene" role="tabpanel" id="scene-2" aria-labelledby="tab-2" hidden><div class="scene-text"><div class="label">Eksempel 2 · Male stuen</div><h3>Fra «vi vil male stua» til riktig mengde.</h3><p>Velg farge og produkt, og få materialene beregnet ut fra rommet.</p><p class="scene-value">Du velger selv: gjør det selv, eller få en håndverker til å gjøre det.</p></div><div class="scene-view"><div class="dash"><div class="dash-head"><div><div class="dash-title">Male stuen</div><div class="dash-meta">Gjør det selv · eksempel</div></div></div><div class="kpis"><div class="kpi"><span>Veggflate</span><b>42 m²</b></div><div class="kpi"><span>Strøk</span><b>2</b></div><div class="kpi"><span>Forarbeid</span><b>Lett sparkling</b></div><div class="kpi"><span>Tid</span><b>1–2 dager</b></div></div><div class="dash-group dash-group-ai"><span class="tag tag-ai">ERA-forslag</span><div class="drow"><span>Materialer</span><b>Beregnes ut fra veggflate og strøk</b></div><div class="drow"><span>Valg</span><b>Gjør det selv, eller be om tilbud fra håndverker</b></div></div><div class="dash-foot">Eksempeldata. Farge- og produktvalg er under utvikling.</div></div></div><div class="scene-nav"><button type="button" class="scene-prev" data-dir="-1">← Forrige</button><button type="button" class="scene-next" data-dir="1">Neste: Spør ERA →</button></div></div><div class="scene" role="tabpanel" id="scene-3" aria-labelledby="tab-3" hidden><div class="scene-text"><div class="label">Eksempel 3 · Spør ERA</div><h3>Spør om boligen. Få svar fra det ERA vet.</h3><p>ERA svarer ut fra boligens egen historikk og dokumentasjon, ikke fra et generisk søk.</p><p class="scene-value">Når ERA ikke vet, sier den ifra.</p></div><div class="scene-view"><div class="dash agent-dash"><div class="dash-head"><div><div class="dash-title">Spør ERA</div><div class="dash-meta">Boligagenten for Myrerveien 46A</div></div></div><div class="agent-q">Hva bør jeg gjøre med boligen før vinteren?</div><div class="agent-a"><p>Ut fra det ERA vet om boligen:</p><div class="agent-pick"><span class="agent-n">1</span><div><b>Fasade og tak</b><span>Bør følges opp. Boligen er fra 1967.</span></div></div><div class="agent-pick"><span class="agent-n">2</span><div><b>Takrenner og grunnmur</b><span>I god stand.</span></div></div><div class="agent-pick"><span class="agent-n">3</span><div><b>El-anlegg</b><span>Ingen dokumentasjon registrert. Verdt å avklare.</span></div></div></div><div class="dash-foot">Eksempeldata. ERA svarer ut fra det den kjenner til.</div></div></div><div class="scene-nav"><button type="button" class="scene-prev" data-dir="-1">← Forrige</button><a class="scene-next" href="#adresse">Finn boligen din</a></div></div></div></div></section>
+
+  <section class="section alt">
+    <div class="wrap narrow">
+      <div class="label">Spørsmål</div>
+      <h2>Det folk lurer på.</h2>
+      <div class="faq ny-faq"><details><summary>Må jeg ha tilstandsrapport?</summary><p>Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen.</p></details><details><summary>Hva skjer med dataene mine?</summary><p>De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper.</p></details><details><summary>Hva koster ERA for boligeiere?</summary><p>ERA er gratis for de 300 boligeierne som deltar i betafasen. Du trenger ikke registrere betalingskort, og det er ingen binding. Eventuelle priser etter beta kommuniseres tydelig før noe endres.</p></details></div>
+    </div>
+  </section>
+
+  <section class="section dark" id="skjema">
+    <div class="wrap narrow">
+      <h2>Finn boligen din.</h2>
+      <p class="lede light">Skriv adressen din. ERA er gratis for boligeiere i betaperioden.</p>
+      <form id="era-lead-end" class="lead" data-audience="owner">
+        <div class="lead-pill">
+          <label class="sr" for="lead-value-end">Adressen til boligen</label>
+          <div class="lead-value-wrap">
+            <input id="lead-value-end" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="Adressen til boligen">
+            <span class="lead-typewriter" aria-hidden="true"></span>
+            <span class="field-label" aria-hidden="true">Adresse</span>
+          </div>
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Finn boligen din</button>
+        </div>
+      </form>
+      <div class="done" role="status" aria-live="polite" hidden>
+        <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><b>Takk. Vi finner boligen din.</b><span>Vi sier fra når ERA er klar for adressen.</span></div>
+      </div>
+      <div class="err" hidden></div>
+      <p class="ny-trust"><b>Dine data.</b> Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem.</p>
+      <p class="ny-others">Bor du i borettslag eller sameie, er du håndverker eller i faghandel?<br><a href="/styret">Borettslag og sameier</a> · <a href="/handverker">Håndverker</a> · <a href="/faghandel">Faghandel</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
+    <div class="cols">
+      <div><b>Målgrupper</b><a href="/boligeier">Boligeier</a><a href="/styret">Styret</a><a href="/handverker">Håndverker</a><a href="/faghandel">Faghandel</a></div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+    </div>
+  </div>
+  <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
+</footer>
+<script src="/pages.js" defer></script>
+</body>
+</html>

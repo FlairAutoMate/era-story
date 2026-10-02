@@ -12,7 +12,7 @@ const vpSet = process.argv[4] ?? "all";
 // indeksert og hadde aldri vaert testet; partner- og investorsiden skjulte en regresjon der
 // menylenkene sto synlige pa mobil og sprengte pillen. En side som ikke er i denne lista blir
 // ikke testet av noen.
-const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/partner/jotun,/investor").split(",");
+const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/partner/jotun,/investor,/ny").split(",");
 const ALL = [[320, 568], [360, 800], [375, 812], [390, 844], [414, 896], [768, 1024], [820, 1180], [1024, 768], [1280, 800], [1440, 900], [1920, 1080], [812, 375], [844, 390], [1180, 820]];
 const QUICK = [[320, 568], [390, 844], [768, 1024], [1440, 900], [844, 390]];
 const viewports = vpSet === "quick" ? QUICK : ALL;
@@ -36,7 +36,7 @@ const AUDIT = () => {
     const clipped = (() => { let e = el.parentElement; while (e && e !== document.body) { const c = getComputedStyle(e); if (c.overflow !== "visible" || c.overflowX !== "visible") { const cr = e.getBoundingClientRect(); if (r.right <= cr.left + 1 || r.left >= cr.right - 1) return true; return r.left < cr.left - 1 || r.right > cr.right + 1; } e = e.parentElement; } return false; })();
     if (ownText && !clipped && (r.left < -1 || r.right > vw + 1)) out.push({ kind: "outside-viewport", detail: `${el.tagName} "${t}" left=${Math.round(r.left)} right=${Math.round(r.right)}` });
     const cs = getComputedStyle(el);
-    if (ownText && cs.overflow !== "visible" && cs.whiteSpace === "nowrap" && el.scrollWidth > el.clientWidth + 2 && !el.id.includes("typewriter")) out.push({ kind: "clipped-text", detail: `${el.tagName} "${t}" scroll=${el.scrollWidth} client=${el.clientWidth}` });
+    if (ownText && cs.overflow !== "visible" && cs.whiteSpace === "nowrap" && el.scrollWidth > el.clientWidth + 2 && !el.id.includes("typewriter") && !String(el.className).includes("typewriter")) out.push({ kind: "clipped-text", detail: `${el.tagName} "${t}" scroll=${el.scrollWidth} client=${el.clientWidth}` });
     if (/^(H1|H2|H3|P)$/.test(el.tagName) && t && ownText) blocks.push({ el, r, t });
     if (/^(A|BUTTON|SUMMARY)$/.test(el.tagName) || (el.tagName === "INPUT" && el.type !== "hidden")) {
       if (el.getAttribute("aria-hidden") === "true" || el.tabIndex < 0) continue;

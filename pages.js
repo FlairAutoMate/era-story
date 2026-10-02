@@ -302,3 +302,17 @@ document.querySelectorAll("form.lead").forEach(function (form) {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize); else equalize();
   equalize();
 })();
+
+// [data-reveal]: adds .is-in when the element scrolls into view, which starts its CSS transition (the
+// documents on /ny that lie scattered and gather). With reduced motion, or without IntersectionObserver,
+// it starts in its final state.
+(function () {
+  var els = [].slice.call(document.querySelectorAll("[data-reveal]"));
+  if (!els.length) return;
+  var show = function (el) { el.classList.add("is-in"); };
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { els.forEach(show); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.35 });
+  els.forEach(function (el) { io.observe(el); });
+})();

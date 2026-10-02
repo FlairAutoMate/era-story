@@ -15,7 +15,7 @@ const vpSet = process.argv[4] ?? "all";
 // /investor er et eget Vercel-prosjekt siden 2. okt. 2026 (sites/investor) og er en videresending her.
 // Test det slik: cd sites/investor && python -m http.server 8803, deretter
 // node qa-responsive.mjs http://127.0.0.1:8803 chromium all /
-const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/partner/jotun,/ny").split(",");
+const routes = (process.argv[5] ?? "/,/boligeier,/styret,/handverker,/faghandel,/personvern,/om-era,/partner/jotun,/ny,/ny/om-era").split(",");
 const ALL = [[320, 568], [360, 800], [375, 812], [390, 844], [414, 896], [768, 1024], [820, 1180], [1024, 768], [1280, 800], [1440, 900], [1920, 1080], [812, 375], [844, 390], [1180, 820]];
 const QUICK = [[320, 568], [390, 844], [768, 1024], [1440, 900], [844, 390]];
 const viewports = vpSet === "quick" ? QUICK : ALL;

@@ -1579,18 +1579,8 @@ def home_page():
                   '<li><b>Del med andre</b><span>Del det som er relevant med håndverkere, styret eller kjøpere, når du selv velger det.</span><i class="nstep-tag">Planlagt</i></li></ul>',
                   sid="husker", pos="50% 60%")
 
-    faq_items = [
-        ("Hva er ERA?", "ERA er AI-agenten for hjemmet ditt. Den samler kunnskap om hjemmet, hjelper deg forstå hva som bør gjøres og kan hjelpe deg videre til produkter eller fagfolk."),
-        ("Hva vet ERA om hjemmet?", "ERA starter med tilgjengelige eiendomsdata og informasjon du legger til, som bilder, dokumenter og historikk. Den viser hva som er dokumentert, hva den foreslår og hva den ikke vet."),
-        ("Må jeg legge inn alt selv?", "Nei. Målet er at ERA skal starte med det som allerede finnes og lære hjemmet gradvis."),
-        ("Kan jeg ta bilde og spørre?", "Ja. Du kan ta et bilde eller beskrive hva du lurer på. ERA bruker det du viser den sammen med det den allerede vet om hjemmet."),
-        ("Kan ERA hjelpe meg gjøre det selv?", "ERA skal hjelpe med produkter, materialer og plan når du ønsker å gjøre arbeidet selv. Produktforslag er under utvikling."),
-        ("Kan ERA hente tilbud fra proff?", "ERA utvikles for å kunne gjøre et identifisert behov om til et konkret oppdrag, hente tilbud og hjelpe deg følge jobben frem til dokumentasjon."),
-        ("Hva skjer etter at jobben er ferdig?", "Bilder, dokumentasjon og historikk lagres på hjemmet, slik at neste gang starter ERA med det den allerede vet."),
-        ("Hva skjer med dataene mine?", "Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det."),
-        ("Hva koster ERA?", "ERA er gratis i betaperioden. Ingen betalingskort."),
-    ]
-    faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>' for q, ans in faq_items)
+    # The same product FAQ as /boligeier: six questions open, the rest behind «Se alle spørsmål».
+    faq = faq_html(AUDIENCES["boligeier"]["faq"])
     done = ("Takk. Vi har adressen din.", "")
     hero_form = lead_form_html("hero", a, done, label="Skriv adressen din", placeholder="Myrerveien 46A, Oslo")
     end_form = lead_form_html("end", a, done, placeholder="Myrerveien 46A, Oslo")

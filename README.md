@@ -51,12 +51,26 @@ En egen, gjenbrukbar historieform for kommersielle partnersamtaler (`ERA × Jotu
 - `noindex,nofollow` og utelatt fra `sitemap.xml` — møtespesifikt innhold, ikke en offentlig lansert side.
 - Påstandsdisiplin følges gjennomgående: `TAG_LABELS` skiller Dokumentert/ERA-forslag/Fremtidsbilde/I pilot, og produktkort er tydelig merket `DEMO_PRODUCT_DATA`.
 
-### `/investor` — samme generator, egen rute
+### Investorsiden — samme generator, eget Vercel-prosjekt
 
 Investordekket bruker de samme scenetypene, men er ikke en partnerfortelling. Derfor er
 `build-partner-story.py` data-drevet: `nav` (seksjonslista), `brand` (teksten etter «era.» i pillen),
 `path` og `out` kommer fra oppføringen, slik at en fortelling kan bo utenfor `/partner`. Jotun-siden
 er bit-identisk før og etter den endringen.
+
+**Investorsiden bor ikke lenger på hovedsiden.** Den genereres til `sites/investor/` og deployes av et eget
+Vercel-prosjekt, `era-investor` (Root Directory `sites/investor`, koblet til samme GitHub-repo), på
+`https://era-investor.vercel.app`. Mappen er selvforsynt: generatoren kopierer inn hver fil siden
+refererer til (bilder, fonter, `pages.css`, `partner.css`, skript) og skriver en egen `vercel.json`, så
+den kan deployes uten resten av repoet. Lenkene tilbake til hovedsiden skrives som absolutte
+`https://era-story.vercel.app/…`-adresser, siden `/` på investorsiden er investorsiden selv.
+Den gamle adressen `era-story.vercel.app/investor` (og `/sites/investor/…`) videresender dit, via
+`vercel.json` på hovedsiden. På `era-app.no` er `/investor` fortsatt skjult som før.
+
+- Endrer du investorsiden: kjør `python tools/build-partner-story.py` og commit `sites/investor/`.
+- QA: `cd sites/investor && python -m http.server 8803`, deretter
+  `node qa-responsive.mjs http://127.0.0.1:8803 chromium all /`. Hovedsidens QA tester ikke lenger `/investor`.
+- Skifter prosjektet adresse, endre `INVESTOR_SITE` i `build-partner-story.py` og redirect-reglene i `vercel.json`.
 
 - Seksjoner: Problemet · Team · Fremdrift · Skalering · Inntekt · Distribusjon · Kapital.
 - **Ingen statusmerker på inntektskortene.** Seksjonen skal vise forretningsmodellen; et

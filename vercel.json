@@ -45,6 +45,16 @@
       ],
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/investor",
+      "destination": "https://era-investor.vercel.app",
+      "permanent": false
+    },
+    {
+      "source": "/sites/investor/:path*",
+      "destination": "https://era-investor.vercel.app/:path*",
+      "permanent": false
     }
   ],
   "headers": [

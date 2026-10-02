@@ -17,10 +17,13 @@ convergence). Photography is reused entirely from assets/story/ — no new image
 
 Usage: python tools/build-partner-story.py
 """
-import html, os
+import html, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://era-story.vercel.app"
+# The investor page is its own Vercel project, deployed from sites/investor. Everything it links back to on
+# the main site is written as an absolute SITE url, since "/" on this host is the investor page itself.
+INVESTOR_SITE = "https://era-investor.vercel.app"
 
 
 def esc(t):
@@ -309,19 +312,27 @@ def nav_html(brand, nav=None, label=None, back_href="/", back_label="Tilbake til
     )
 
 
-def head_meta(path, title, description):
-    return f'''<link rel="canonical" href="{SITE}{path}">
+def head_meta(path, title, description, site=SITE):
+    return f'''<link rel="canonical" href="{site}{path}">
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ERA">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
-<meta property="og:url" content="{SITE}{path}">
+<meta property="og:url" content="{site}{path}">
 <meta property="og:locale" content="nb_NO">'''
 
 
 def page(slug, p):
     body = p["build"](p)
+    html = _page(slug, p, body)
+    if p.get("standalone"):
+        # On its own host, "/" and "/personvern" are not the main site's. Point them there.
+        html = html.replace('href="/"', f'href="{SITE}/"').replace('href="/personvern"', f'href="{SITE}/personvern"')
+    return html
+
+
+def _page(slug, p, body):
     return f'''<!DOCTYPE html>
 <html lang="no">
 <head>
@@ -331,7 +342,7 @@ def page(slug, p):
 <meta name="description" content="{esc(p["description"])}">
 <meta name="theme-color" content="#0F1830">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-{head_meta(p.get("path", "/partner/" + slug), p["title"], p["description"])}
+{head_meta(p.get("path", "/partner/" + slug), p["title"], p["description"], p.get("site", SITE))}
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 <link rel="stylesheet" href="/partner.css">
@@ -807,8 +818,10 @@ PARTNERS = {
         brand="Investor",
         nav=INVESTOR_NAV,
         nav_label="ERA Investor",
-        path="/investor",
-        out="investor",
+        path="/",
+        out="sites/investor",
+        site=INVESTOR_SITE,
+        standalone=True,
         title="ERA — Investor",
         description="Boliger har ingen hukommelse. ERA gir dem en. Problem, team, dokumentert fremdrift, inntektsmodell, distribusjon og kapitalbruk.",
         build=build_investor,
@@ -821,6 +834,51 @@ PARTNERS = {
     ),
 }
 
+def copy_site_files(out_dir, html):
+    """A standalone site carries its own copy of every file it references, so the folder deploys alone.
+    Collects the root-relative urls from the page and from its stylesheets, copies those files, and
+    writes the site's vercel.json. Stale copies from earlier runs are removed first."""
+    import re, shutil
+    for d in ("assets", "fonts", "js"):
+        shutil.rmtree(os.path.join(out_dir, d), ignore_errors=True)
+    for f in ("fonts.css", "pages.css", "partner.css", "favicon.svg"):
+        try:
+            os.remove(os.path.join(out_dir, f))
+        except FileNotFoundError:
+            pass
+    url_re = re.compile(r'(?<![A-Za-z0-9:])/(?:assets|fonts|js)/[A-Za-z0-9_./-]+[.][A-Za-z0-9]+')
+    wanted = {"fonts.css", "pages.css", "partner.css", "favicon.svg"}
+    wanted |= {m.group(0).lstrip("/") for m in url_re.finditer(html)}
+    # stylesheets can pull in more files (the web fonts)
+    for css in [w for w in sorted(wanted) if w.endswith(".css")]:
+        text = open(os.path.join(ROOT, css), encoding="utf-8").read()
+        wanted |= {m.group(0).lstrip("/") for m in url_re.finditer(text)}
+    missing = []
+    total = 0
+    for rel in sorted(wanted):
+        src = os.path.join(ROOT, *rel.split("/"))
+        if not os.path.isfile(src):
+            missing.append(rel)
+            continue
+        dst = os.path.join(out_dir, *rel.split("/"))
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copyfile(src, dst)
+        total += os.path.getsize(src)
+    config = {
+        "cleanUrls": True,
+        "trailingSlash": False,
+        "headers": [
+            {"source": "/(.*)", "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}]},
+            {"source": "/(assets|fonts|js)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]},
+        ],
+    }
+    with open(os.path.join(out_dir, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(config, indent=2) + "\n")
+    print("  copied", len(wanted) - len(missing), "files,", round(total / 1e6, 1), "MB")
+    if missing:
+        raise SystemExit("missing files for " + os.path.relpath(out_dir, ROOT) + ": " + ", ".join(missing))
+
+
 if __name__ == "__main__":
     for slug, p in PARTNERS.items():
         # `out` lar en fortelling bo utenfor /partner — investorsiden har sin egen rute.
@@ -831,3 +889,5 @@ if __name__ == "__main__":
         content = page(slug, p)
         open(out, "w", encoding="utf-8").write(content)
         print("wrote", os.path.relpath(out, ROOT), len(content))
+        if p.get("standalone"):
+            copy_site_files(out_dir, content)

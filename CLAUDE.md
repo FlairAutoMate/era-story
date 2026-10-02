@@ -18,7 +18,8 @@ Sjekk ved tvil: `git rev-list --count HEAD..origin/master` skal være `0`.
 
 ## Master går rett i produksjon
 
-Vercel deployer `master` automatisk, ca. ett minutt etter merge. Ingen kjører `vercel --prod`.
+Vercel deployer `master` automatisk, ca. ett minutt etter merge. Investorsiden er et eget Vercel-prosjekt
+(`era-investor`, Root Directory `sites/investor`) og deployes av samme merge, men publiseres på en egen lenke. Ingen kjører `vercel --prod`.
 **En merge er en publisering.** Alt som er feil på master er feil på era-app.no.
 
 ## Generert HTML skal aldri redigeres for hånd
@@ -27,7 +28,7 @@ Vercel deployer `master` automatisk, ca. ett minutt etter merge. Ingen kjører `
 | --- | --- |
 | `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/`, `ny/` | `python tools/build-pages.py` |
 | `om-era/` | `python tools/build-om-era.py` (henter hodet fra `index.html`) |
-| `partner/jotun/`, `investor/` | `python tools/build-partner-story.py` |
+| `partner/jotun/`, `sites/investor/` | `python tools/build-partner-story.py` |
 
 Endrer du `index.html`s hode eller meny, må `build-om-era.py` kjøres etterpå — ellers henger
 `/om-era` igjen med den gamle versjonen.

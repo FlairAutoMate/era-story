@@ -41,15 +41,24 @@ Det var tilfellet for døren: `H(180, 0.55)` ga 99vh mot et 100dvh-barn, altså 
 Alle bilder er utskiftbare `<image-slot id="…" src="…">` uten innbakt tekst/UI. Portrettene (`team-*`) er plassholdere til foto foreligger; sett `src` i `teamDefs` i skriptet.
 
 Visuell QA: `node qa-om.mjs http://localhost:8787/om-era` (skjermbilder til `qa/om-era/`).
-## ERA Partner Story — /partner/<slug>
+## ERA Partner Story — mal, ingen partnere her lenger
 
-En egen, gjenbrukbar historieform for kommersielle partnersamtaler (`ERA × Jotun` er den første), helt separat fra den offentlige ERA-storyen og undersidene. Delt design (`pages.css`), egen komponentvokabular (`partner.css`: cinematisk scene, split, flow-diagram, crossfade-overgang, nummerert reveal, konvergens) og en lett reveal-motor (`js/partner-story.js`, IntersectionObserver) i stedet for den offentlige storyens skreddersydde scroll-motor — en partnerside skal ikke kreve endringer i `index.html`s script for å eksistere.
+En gjenbrukbar, cinematisk historieform for kommersielle partnersamtaler. `ERA × Jotun` var den
+første, og ble **skilt ut 2. okt. 2026** til et eget privat repo med sin egen deploy:
+[`FlairAutoMate/era-jotun`](https://github.com/FlairAutoMate/era-jotun) → https://era-jotun.vercel.app.
+`/partner/jotun` finnes ikke her lenger, og nav-fanen «Partnere» som pekte dit er fjernet.
 
-- Bygges av `tools/build-partner-story.py` (`python tools/build-partner-story.py`) fra en `PARTNERS`-dict med gjenbrukbare scene-typer (`hero`, `scene`, `split`, `transition`, `flow`, `dash`, `reveal_list`, `converge`, `steps_grid`). Ny partner = ny dict-oppføring i `PARTNERS`, ikke ny malkode.
-- Alle bilder gjenbrukes fra `assets/story/`. Ingen nye plassholdere.
-- Egen, diskret meny (`ERA × <partner>` + Oversikt/B2C/Distribusjon/Innsikt/Pilot + «Tilbake til ERA»), ikke lenket inn i den offentlige toppmenyen.
-- `noindex,nofollow` og utelatt fra `sitemap.xml` — møtespesifikt innhold, ikke en offentlig lansert side.
-- Påstandsdisiplin følges gjennomgående: `TAG_LABELS` skiller Dokumentert/ERA-forslag/Fremtidsbilde/I pilot, og produktkort er tydelig merket `DEMO_PRODUCT_DATA`.
+Maskineriet står igjen og brukes av investorsiden: egen komponentvokabular (`partner.css`), en lett
+reveal-motor (`js/partner-story.js`, IntersectionObserver) i stedet for storyens skreddersydde
+scroll-motor, og gjenbrukbare scenetyper (`hero`, `scene`, `split`, `transition`, `flow`, `dash`,
+`reveal_list`, `converge`, `steps_grid`). En ny fortelling = en ny oppføring i `PARTNERS`, ikke ny
+malkode.
+
+- `noindex,nofollow` og utelatt fra `sitemap.xml` — møtespesifikt innhold, ikke en lansert side.
+- Påstandsdisiplin: `TAG_LABELS` skiller Dokumentert/ERA-forslag/Fremtidsbilde/I pilot, og
+  produktkort er merket `DEMO_PRODUCT_DATA`.
+- **Skilles en fortelling ut igjen:** `pages.css` og `partner.css` kopieres med, og forkes dermed.
+  Designendringer her følger ikke automatisk med. Det er prisen for at den kan deployes for seg.
 
 ### Investorsiden — samme generator, eget Vercel-prosjekt
 

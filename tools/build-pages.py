@@ -1012,7 +1012,7 @@ def page(slug, a):
         <div><b>{esc(done_head)}</b><span>{esc(done_sub)}</span></div>
       </div>
       <div class="err" hidden></div>
-      <p class="fine">Ingen binding. Dataene lagres kryptert i Norge og brukes bare til å ta kontakt.</p>
+      <p class="fine">Ingen binding. Dataene lagres kryptert i EU/EØS og brukes bare til å ta kontakt.</p>
       {closing_note}
     </div>
   </section>
@@ -1029,24 +1029,30 @@ PRIVACY_DESC = "Hva ERA lagrer når du bruker skjemaene på denne siden, hvor de
 
 
 def privacy_page():
-    """Honest to what the site actually does today: one form, one private store in the EU, no cookies."""
+    """Honest to what the site actually does today: the address form (and on /ny an optional e-mail), the Kartverket address search, one private store in the EU, no cookies."""
     sections = [
         ("Hva vi samler inn", [
             "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
-            "Vi samler ikke inn navn, e-post eller telefonnummer gjennom skjemaet i dag, og vi lagrer ikke IP-adressen din.",
+            "På forhåndsvisningen av den nye forsiden (/ny) gjelder noe mer. Velger du et forslag i adressesøket, lagrer vi også det Kartverket returnerer for den adressen: postnummer og sted, kommune, gårds-, bruks-, feste- og seksjonsnummer og et koordinatpunkt. Velger du ikke et forslag, lagrer vi bare teksten du skrev.",
+            "Etter at du har sendt inn adressen på /ny, kan du også legge igjen e-postadressen din. Det er valgfritt. E-posten lagres som en egen post som er knyttet til innsendingen med en intern id.",
+            "Vi samler ikke inn navn eller telefonnummer, og vi lagrer ikke IP-adressen din.",
+        ]),
+        ("Adressesøket hos Kartverket", [
+            "Når du skriver i et adressefelt, sender nettleseren din det du har skrevet (fra tre tegn) til Kartverkets åpne adresse-API (Geonorge), som svarer med forslag. Kartverket mottar da teksten og IP-adressen din, slik som ved enhver nettforespørsel, og er selv ansvarlig for sin behandling av det. ERA lagrer ikke det du skriver før du trykker send.",
         ]),
         ("Hvorfor", [
-            "For å ta kontakt om ERA for den adressen, eiendommen eller virksomheten du meldte inn. Ikke til noe annet. Vi selger eller deler ikke opplysningene.",
+            "For å ta kontakt om ERA for den adressen, eiendommen eller virksomheten du meldte inn, og for å sende deg en invitasjon til ERA hvis du har lagt igjen e-post. Ikke til noe annet. Vi selger eller deler ikke opplysningene.",
         ]),
         ("Hvor og hvor lenge", [
             "Opplysningene lagres kryptert hos vår driftsleverandør Vercel, i et privat lager i Frankfurt (EU/EØS). Bare ERA technologies AS har tilgang.",
-            "Vi sletter innsendingen senest tolv måneder etter at den kom inn, eller så snart du ber om det.",
+            "Vi sletter innsendingen, og e-posten som hører til den, senest tolv måneder etter at den kom inn, eller så snart du ber om det.",
         ]),
         ("Informasjonskapsler og analyse", [
             "Siden setter ingen informasjonskapsler. Vi bruker Vercel Web Analytics, som teller sidevisninger uten cookies og uten å identifisere deg. Derfor trenger vi ikke et samtykkebanner.",
+            "På /ny teller vi også hendelser som at et adresseforslag ble valgt eller at en e-post ble sendt inn. Hendelsene inneholder verken adressen eller e-posten.",
         ]),
         ("Dine rettigheter", [
-            "Du kan når som helst be om innsyn i, retting av eller sletting av det du har sendt inn. Send oss en melding via skjemaet på siden med «personvern» først i teksten, så svarer vi. Behandlingsansvarlig er ERA technologies AS, Oslo.",
+            "Du kan når som helst be om innsyn i, retting av eller sletting av det du har sendt inn, også e-posten. Send oss en melding via skjemaet på siden med «personvern» først i teksten, så svarer vi. Behandlingsansvarlig er ERA technologies AS, Oslo.",
         ]),
     ]
     body = "".join(f'<section class="pv"><h2>{esc(h)}</h2>{"".join(f"<p>{esc(p)}</p>" for p in ps)}</section>' for h, ps in sections)
@@ -1071,7 +1077,7 @@ def privacy_page():
     <div class="label">Personvern</div>
     <h1>Din bolig. Dine data.</h1>
     <p class="lede dark">ERA lagrer boligens historie for deg, ikke om deg. Her står nøyaktig hva denne nettsiden gjør med det du sender inn.</p>
-    <p class="fine dark">Sist oppdatert 4. september 2026.</p>
+    <p class="fine dark">Sist oppdatert 2. oktober 2026.</p>
     {body}
   </div>
 </main>
@@ -1097,7 +1103,7 @@ NY_DESC = "Boligens AI-agent. Den kjenner boligen din og hjelper deg få ting gj
 def lead_form_html(suffix, a, done):
     """One address form. pages.js binds every form.lead, so a page can carry several as long as the
     input ids are unique."""
-    return f'''<form id="era-lead-{suffix}" class="lead" data-audience="{a["key"]}">
+    return f'''<form id="era-lead-{suffix}" class="lead" data-audience="{a["key"]}" data-follow="email">
         <div class="lead-pill">
           <label class="sr" for="lead-value-{suffix}">{esc(a["form_field"])}</label>
           <div class="lead-value-wrap">
@@ -1109,9 +1115,23 @@ def lead_form_html(suffix, a, done):
           <button type="submit">Finn boligen din</button>
         </div>
       </form>
-      <div class="done" role="status" aria-live="polite" hidden>
+      <div class="done done--follow" role="status" aria-live="polite" hidden>
         <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div><b>{esc(done[0])}</b><span>{esc(done[1])}</span></div>
+        <div class="done-body">
+          <b data-done-title>{esc(done[0])}</b>
+          <span data-done-sub>{esc(done[1])}</span>
+          <span data-done-note>Vi inviterer brukere fortløpende. Legg igjen e-post, så sier vi fra når det er din tur.</span>
+          <form class="follow" data-follow-form novalidate hidden>
+            <label class="sr" for="follow-email-{suffix}">E-post</label>
+            <div class="follow-row">
+              <input id="follow-email-{suffix}" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" placeholder="E-post">
+              <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+              <button type="submit">Si fra til meg</button>
+            </div>
+            <small>Valgfritt. Brukes bare til å invitere deg til ERA. Du kan be om sletting når som helst.</small>
+            <span class="follow-err" role="alert" hidden></span>
+          </form>
+        </div>
       </div>
       <div class="err" hidden></div>'''
 
@@ -1195,7 +1215,7 @@ def home_page():
 
     faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>'
                   for q, ans in (a["faq"][0], a["faq"][2], a["faq"][3]))
-    done = ("Takk. Vi finner boligen din.", "Vi sier fra når ERA er klar for adressen.")
+    done = ("Takk. Vi har adressen din.", "")
     hero_form = lead_form_html("hero", a, done)
     end_form = lead_form_html("end", a, done)
     others = " · ".join(f'<a href="/{s}">{esc(l)}</a>' for s, l in (("styret", "Borettslag og sameier"), ("handverker", "Håndverker"), ("faghandel", "Faghandel")))

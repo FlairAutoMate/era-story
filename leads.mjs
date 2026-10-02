@@ -30,17 +30,31 @@ do {
   }
   cursor = page.hasMore ? page.cursor : undefined;
 } while (cursor);
+// /ny asks for an e-mail after the address, stored as a separate "email" document that points back at
+// the first one with leadId. Join them here so each lead is one row. A follow-up whose first document
+// is gone (deleted on request, say) stays as a row of its own.
+const followups = leads.filter((l) => l.kind === "email");
+const rows = leads.filter((l) => l.kind !== "email");
+const byId = new Map(rows.map((l) => [l.id, l]));
+for (const f of followups) {
+  const lead = byId.get(f.leadId);
+  if (lead) lead.email = lead.email || f.email;
+  else rows.push({ ...f, value: f.value ? `${f.value} (kun e-post)` : "(kun e-post)" });
+}
+leads.length = 0;
+leads.push(...rows);
 leads.sort((a, b) => (b.receivedAt || "").localeCompare(a.receivedAt || ""));
+const where = (l) => (l.address ? [l.address.kommunenavn, l.address.gardsnummer !== undefined ? `gnr ${l.address.gardsnummer}/bnr ${l.address.bruksnummer ?? "-"}` : ""].filter(Boolean).join(" ") : "");
 
 const names = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel" };
 if (mode === "json") {
   console.log(JSON.stringify(leads, null, 2));
 } else if (mode === "csv") {
   const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  console.log(["receivedAt", "audience", "value", "email", "page", "id"].join(","));
-  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.page, l.id].map(esc).join(","));
+  console.log(["receivedAt", "audience", "value", "email", "kommune", "gnr", "bnr", "page", "id"].join(","));
+  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.address?.kommunenavn, l.address?.gardsnummer, l.address?.bruksnummer, l.page, l.id].map(esc).join(","));
 } else {
   if (!leads.length) console.log("Ingen leads ennå.");
-  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${l.email || ""}`);
+  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${where(l) ? `[${where(l)}]  ` : ""}${l.email || ""}`);
   console.log(`\n${leads.length} lead(s).`);
 }

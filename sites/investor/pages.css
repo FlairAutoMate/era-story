@@ -987,3 +987,28 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .kat-era span { color: var(--ink); }
 .kat-era i { display: block; font-style: normal; font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
 @media (max-width: 600px) { .kat-row { grid-template-columns: 1fr; } }
+
+/* ERA Prosjekt, produktflyten og statusmerker */
+.cap, .pflow { padding-block: clamp(56px, 9vh, 104px); }
+.cap h2, .pflow h2 { font-size: clamp(30px, 4vw, 52px); max-width: 22ch; }
+.cap-lede { margin-top: 16px; max-width: 62ch; font-size: clamp(16.5px, 1.6vw, 19px); line-height: 1.5; color: var(--muted); }
+.cap-list { list-style: none; margin: clamp(28px, 5vh, 48px) 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border-top: 1px solid var(--ink); }
+.cap-list li { display: grid; gap: 4px; justify-items: start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.cap-list b { font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -0.02em; }
+.cap-list span { max-width: 52ch; font-size: 15.5px; line-height: 1.5; color: var(--muted); }
+@media (min-width: 900px) { .cap-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(40px, 6vw, 96px); } }
+.cap-note { margin-top: 22px; max-width: 62ch; font-size: 14.5px; line-height: 1.5; color: var(--muted-2); }
+.pf-steps { list-style: none; margin: clamp(28px, 5vh, 48px) 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.pf-steps li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px; align-items: start; }
+.pf-n { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(212,177,122,0.22); color: var(--gold-2); font-weight: 800; }
+.pf-steps b { font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -0.02em; }
+.pf-steps p { margin-top: 4px; max-width: 46ch; font-size: 15.5px; line-height: 1.5; color: var(--muted); }
+@media (min-width: 900px) { .pf-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px clamp(40px, 6vw, 96px); } }
+.pflow .link { display: inline-block; margin-top: 18px; }
+.valget .label { text-align: center; }
+.valget-col .nstep-tag, .valget .nstep-tag { margin: 0 0 0 8px; padding: 2px 8px; font-size: 10.5px; color: var(--gold); border-color: var(--gold); vertical-align: middle; }
+.valget-ctx { margin: 28px auto 0; max-width: 62ch; text-align: center; font-size: 15.5px; line-height: 1.5; color: rgba(247,244,238,0.85); }
+.reise-ctx { display: none; }
+@media (max-width: 899px) { .reise-ctx { display: block; margin-top: 12px; font-size: 14px; line-height: 1.45; color: var(--muted); } }
+
+.cap .link, .pflow .link { color: var(--gold-2); }

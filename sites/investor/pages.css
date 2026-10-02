@@ -1038,3 +1038,7 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .invite-form label { font-size: 14px; font-weight: 600; }
 .invite-form input { width: 100%; max-width: 420px; min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px; color: var(--ink); background: #fff; }
 .invite-form input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Rekkefølgen er endret: reisen med fem skjermer ligger ikke lenger rett over «ERA starter ikke fra null», så linjen derfra er fjernet. */
+@media (min-width: 900px) { .flow-return::before, .flow-return::after { display: none; } }
+.om-tech .om-tech-lead { font-size: clamp(18px, 1.8vw, 21px); font-weight: 500; }

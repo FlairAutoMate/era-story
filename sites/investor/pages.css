@@ -886,3 +886,22 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 @media (min-width: 900px) { .husker-feats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; } }
 
 .husker-feats li { align-content: start; }
+
+/* Mobilgjennomgang: lesbarhet over bilder, dokumentene i to kolonner og reisen med toppjustert rad */
+@media (max-width: 899px) {
+  .flow-track { align-items: flex-start; }
+  .cine--see .cine-media::after { background: linear-gradient(180deg, rgba(15,24,48,0.62) 0%, rgba(15,24,48,0.82) 45%, rgba(15,24,48,0.9) 100%); }
+  .see-sources { display: none; }
+  .cine--sofa, .cine--ferdig { align-items: flex-end; }
+  .cine--sofa .cine-media::after, .cine--ferdig .cine-media::after { background: linear-gradient(0deg, rgba(15,24,48,0.88) 0%, rgba(15,24,48,0.5) 45%, rgba(15,24,48,0.12) 80%); }
+  .cine--bilde .cine-media::after { background: linear-gradient(0deg, rgba(15,24,48,0.9) 0%, rgba(15,24,48,0.62) 50%, rgba(15,24,48,0.1) 85%); }
+}
+@media (max-width: 520px) {
+  .docs-scatter { height: 190px; }
+  .doc-fly:nth-child(1) { --x: 24% !important; --y: 18% !important; --x2: 28% !important; --y2: 16% !important; }
+  .doc-fly:nth-child(2) { --x: 76% !important; --y: 14% !important; --x2: 72% !important; --y2: 16% !important; }
+  .doc-fly:nth-child(3) { --x: 70% !important; --y: 50% !important; --x2: 28% !important; --y2: 50% !important; }
+  .doc-fly:nth-child(4) { --x: 18% !important; --y: 56% !important; --x2: 72% !important; --y2: 50% !important; }
+  .doc-fly:nth-child(5) { --x: 60% !important; --y: 86% !important; --x2: 28% !important; --y2: 84% !important; }
+  .doc-fly:nth-child(6) { --x: 30% !important; --y: 88% !important; --x2: 72% !important; --y2: 84% !important; }
+}

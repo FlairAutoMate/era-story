@@ -375,7 +375,7 @@ document.querySelectorAll("form.lead").forEach(function (form) {
 
   // Badet: the steps light up in order. The choices are real, and the one people reach for answers with what
   // has already been done for them.
-  var list = document.querySelector("#slik .cine-flow");
+  var list = document.querySelector("#behov .cine-flow");
   if (list) {
     var items = [].slice.call(list.children);
     var lit = 0;

@@ -83,8 +83,7 @@ Den gamle adressen `era-story.vercel.app/investor` (og `/sites/investor/…`) vi
 - `steps_grid()` tar et valgfritt fjerde felt per kort: et statusmerke (`pilot`, `planned`,
   `vision`). Brukes ikke på inntektskortene i dag, se over.
 - Teamet er `TEAM` i generatoren. Mangler et portrett i `assets/story/`, vises initialene i en
-  gullring i stedet — legg inn bildet, så tas det automatisk. Adam Haeger venter på `team-adam.jpg`,
-  både her og i `teamDefs` i `index.html`.
+  gullring i stedet — legg inn bildet, så tas det automatisk.
 - **Ingen prosentsats ved siden av en motparts navn.** Sidene er `noindex`, men de er åpne URL-er som
   blir videresendt — det finnes verken adgangskontroll, utløpsdato eller mulighet til å trekke dem
   tilbake. En sats knyttet til et navn er publisert før motparten har sagt ja. Navnet hører hjemme i

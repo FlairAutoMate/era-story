@@ -489,7 +489,7 @@ AUDIENCES = {
     "styret": dict(
         key="board", nav="Styret", title="ERA for borettslag og sameier",
         label="For styret", hook="Fra vedlikeholdsbehov til ferdig jobb.",
-        lede="ERA er en AI-drevet plattform som kobler styret, eierne og håndverkerne rundt samme eiendom. Få hjelp til å forstå behovene, prioritere tiltak og følge arbeidet helt frem til dokumentert resultat.",
+        lede="ERA er en AI-agent som kobler styret, eierne og håndverkerne rundt samme eiendom. Få hjelp til å forstå behovene, prioritere tiltak og følge arbeidet helt frem til dokumentert resultat.",
         hero_support="Styret skifter. Planen består.",
         image="/assets/story/block-bikes-v3.jpg", image_pos="50% 50%",
         hero_secondary=("Se hvordan det henger sammen", "/#styret"),
@@ -675,7 +675,7 @@ AUDIENCES = {
     "handverker": dict(
         key="pro", nav="Håndverker", title="ERA for håndverkere",
         label="For håndverkere", hook="Fra kundens behov til din neste jobb.",
-        lede="ERA er en AI-drevet plattform som kobler boligeiere, styrer og håndverkere. Ta kundens behov videre til befaring, tilbud og gjennomføring, og la dokumentasjonen følge hjemmet når jobben er ferdig.",
+        lede="ERA er en AI-agent som kobler boligeiere, styrer og håndverkere. Ta kundens behov videre til befaring, tilbud og gjennomføring, og la dokumentasjonen følge hjemmet når jobben er ferdig.",
         hero_support="Du kan faget. ERA hjelper deg med flyten rundt jobben.",
         image="/assets/story/painter-v3.jpg", image_pos="30% 50%",
         hero_secondary=("Følg et oppdrag", "#slik"),

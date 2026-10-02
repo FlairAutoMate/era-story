@@ -1156,7 +1156,7 @@ def ny_nav(base=""):
 
 
 def ny_footer(base=""):
-    return f'''<footer class="foot">
+    return f'''<footer class="foot" data-nav="light">
   <div class="wrap">
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligens AI-agent</div></div>
     <div class="cols">
@@ -1174,32 +1174,36 @@ def cine(src, body, sid=None, cls="", pos="50% 50%", tag="section"):
     stem = src[:-4]
     img = (f'<img src="{src}" srcset="{stem}-m.jpg 1400w, {src} 3000w" sizes="100vw" alt="" '
            f'loading="lazy" decoding="async" style="object-position: {pos}">')
-    return (f'<{tag} class="cine {cls}"' + (f' id="{sid}"' if sid else '') + '>'
+    return (f'<{tag} class="cine {cls}" data-nav="dark"' + (f' id="{sid}"' if sid else '') + '>'
             f'<div class="cine-media">{img}</div><div class="cine-body">{body}</div></{tag}>')
 
 
 def app_flow(eyebrow, title, steps, foot, sid):
-    """The journey as one horizontal flow. The steps keep their order and numbers; their screens are
-    sized by how much they explain (large, medium, small), so the eye reads the flow instead of five
-    equal phones. On a phone it is a swipeable row."""
+    """The journey as one horizontal flow. The steps keep their order and numbers; the screens are
+    sized by how much they explain (the agent largest), so the eye reads a flow instead of five equal
+    phones. On a desktop the steps wake one by one as the section scrolls into view, and when the last
+    one is awake a line is drawn back to the first: everything returns to the home. On a phone it is a
+    swipeable row and every step is awake."""
     items = "".join(
         f'<li class="flow-step flow-step--{size}"><div class="flow-shot"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></div>'
         f'<div class="flow-cap"><span class="n">0{i+1}</span><b>{esc(t)}</b><span>{esc(d)}</span></div></li>'
         for i, (t, d, src, alt, w, h, size) in enumerate(steps))
-    return (f'<section class="section alt flow" id="{sid}"><div class="wrap wide">'
-            f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
+    return (f'<section class="section alt flow" id="{sid}" data-nav="light"><div class="wrap wide">'
+            f'<h2>{esc(title)}</h2>'
             f'<ol class="flow-track" tabindex="0" aria-label="Reisen i fem steg. Sveip sideveis for å se alle.">{items}</ol>'
+            '<div class="flow-return" aria-hidden="true"><span class="flow-return-line"></span><span class="flow-return-label">Tilbake til boligen</span></div>'
             f'<p class="flow-hint">Sveip for å se alle fem</p>'
             f'<p class="fine dark2">{esc(foot)}</p></div></section>')
 
 
 def knows_view(title, eyebrow, rows, foot):
     """What ERA knows, what it only suggests and what is missing, as an editorial list rather than a
-    dashboard card. rows: (kind, label, value, tag) with kind doc / ai / miss."""
+    dashboard card. rows: (kind, label, value, tag[, feed]) with kind doc / ai / miss; `feed` names the
+    scattered document that lights up when it has been read into this row."""
     lis = "".join(
-        f'<li class="k-{kind}"><span class="k-mark" aria-hidden="true"></span>'
+        f'<li class="k-{kind}"' + (f' data-feed="{feed[0]}"' if feed else '') + '><span class="k-mark" aria-hidden="true"></span>'
         f'<div><b>{esc(label)}</b><span>{esc(value)}</span></div><em>{esc(tag)}</em></li>'
-        for kind, label, value, tag in rows)
+        for kind, label, value, tag, *feed in rows)
     return (f'<div class="knows"><div class="knows-eyebrow">{esc(eyebrow)}</div><h3>{esc(title)}</h3>'
             f'<ul class="knows-rows">{lis}</ul><p class="knows-foot">{esc(foot)}</p></div>')
 
@@ -1207,19 +1211,20 @@ def knows_view(title, eyebrow, rows, foot):
 # The documents that lie scattered around a home, and where each ends up. Percent positions inside the
 # stage: start (scattered) and end (tidy grid). Rotation in degrees.
 SCATTER_DOCS = [
-    ("Tilstandsrapport 2021", (18, 22, -9), (24, 30)),
-    ("Kvittering tak", (80, 18, 7), (50, 30)),
-    ("FDV-dokumenter", (50, 64, -5), (76, 30)),
-    ("Bilder", (84, 74, 11), (24, 72)),
-    ("E-post med håndverker", (24, 82, 6), (50, 72)),
-    ("Garanti", (66, 40, -12), (76, 72)),
+    ("Tilstandsrapport 2021", (18, 22, -9), (24, 30), "byggeaar"),
+    ("Kvittering tak", (80, 18, 7), (50, 30), None),
+    ("FDV-dokumenter", (50, 64, -5), (76, 30), None),
+    ("Bilder", (84, 74, 11), (24, 72), None),
+    ("E-post med håndverker", (24, 82, 6), (50, 72), "sistarbeid"),
+    ("Garanti", (66, 40, -12), (76, 72), None),
 ]
 
 
 def docs_scatter():
     chips = "".join(
-        f'<span class="doc-fly" style="--x:{s[0]}%;--y:{s[1]}%;--r:{s[2]}deg;--x2:{e[0]}%;--y2:{e[1]}%;--i:{i}">{esc(t)}</span>'
-        for i, (t, s, e) in enumerate(SCATTER_DOCS))
+        f'<span class="doc-fly" style="--x:{s[0]}%;--y:{s[1]}%;--r:{s[2]}deg;--x2:{e[0]}%;--y2:{e[1]}%;--i:{i}"'
+        + (f' data-feeds="{feed}"' if feed else '') + f'>{esc(t)}</span>'
+        for i, (t, s, e, feed) in enumerate(SCATTER_DOCS))
     return (f'<div class="docs-scatter" aria-hidden="true">{chips}</div>'
             '<p class="docs-cap">Spredt i dag. Samlet i boligen.</p>')
 
@@ -1272,7 +1277,9 @@ def home_page():
     agent_alt = (f"ERA Bolig, boligagenten for {h['address']}: fotoet av huset er merket av med fasade og tak til oppfølging "
                  f"og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser», «Hva det betyr» for en bolig fra {h['year']} "
                  f"og forslaget «{h['measure']}» med estimert kostnad {h['cost']}")
-    prompts = ["Hva vet ERA om badet?", "Hva bør jeg følge opp nå?", "Finn noen som kan fikse dette"]
+    # Two questions, asked one after the other. The agent screen answers the first (it gets a ring once),
+    # then the second arrives: the chips show the product working instead of decorating the hero.
+    prompts = ["Hva bør jeg følge opp nå?", "Finn noen som kan fikse dette"]
     prompts_html = '<ul class="ny-prompts" aria-label="Eksempler på spørsmål til ERA">' + "".join(f"<li>{esc(t)}</li>" for t in prompts) + "</ul>"
     hero_visual = ('<div class="hero-visual">' + prompts_html + '<div class="hero-phones">'
                    + phone("/assets/story/app-minbolig.png", 853, 1844, minbolig_alt, "sm", eager=True)
@@ -1299,7 +1306,7 @@ def home_page():
 
     # 03: what ERA knows. Documents lie scattered and gather; the list below is an example room.
     knows = (
-        '<section class="section ny-knows" id="kjenner">'
+        '<section class="section ny-knows" id="kjenner" data-nav="light">'
         '<div class="ny-knows-bg" aria-hidden="true"><img src="/assets/story/whole-home-v3.jpg" srcset="/assets/story/whole-home-v3-m.jpg 1400w, /assets/story/whole-home-v3.jpg 2400w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>'
         '<div class="wrap ny-knows-grid"><div class="ny-knows-text">'
         '<div class="label">ERA kjenner boligen</div><h2>Det ERA vet. Og det den ikke vet.</h2>'
@@ -1310,23 +1317,26 @@ def home_page():
         '<li><b>Mangler</b>Det ERA ikke vet. Den sier ifra i stedet for å gjette.</li></ul></div>'
         '<div class="ny-knows-stage" data-reveal>' + docs_scatter()
         + knows_view("Badet", "Eksempel · ett rom i en bolig",
-                     [("doc", "Byggeår", "Kjent fra eiendomsdata", "Dokumentert"),
+                     [("doc", "Byggeår", "Fra tilstandsrapport 2021", "Dokumentert", "byggeaar"),
                       ("miss", "Dokumentasjon", "Mangler", "Mangler"),
-                      ("miss", "Sist arbeid", "Ukjent", "Mangler"),
+                      ("miss", "Sist arbeid", "Bare nevnt i en e-post", "Mangler", "sistarbeid"),
                       ("ai", "ERA anbefaler", "Følg opp", "ERA-forslag")],
                      "Eksempeldata. ERA sier ifra når den ikke vet.")
         + '</div></div></section>')
 
     # 04: one need, followed all the way to the result. The homeowner sees five steps; ERA does the rest.
-    steps = [("ERA oppdager", "Badet bør vurderes.", None), ("Forklarer", "Hva det betyr og hvorfor.", None),
-             ("Du velger", "", ["Få forslag til produkter", "Finn noen som kan gjøre det", "Minn meg på dette senere"]),
-             ("ERA ordner", "Tilbud, valg og oppfølging.", None), ("Dokumenteres", "Resultatet blir en del av boligen.", None)]
-    li = ""
-    for t, d, chips in steps:
-        extra = f'<span>{esc(d)}</span>' if d else ""
-        if chips:
-            extra += '<span class="cine-chips">' + "".join(f"<i>{esc(c)}</i>" for c in chips) + "</span>"
-        li += f"<li><b>{esc(t)}</b>{extra}</li>"
+    # The steps wake in order as the list scrolls into view. At "Du velger" the choices are buttons; the one
+    # people reach for, "Finn noen som kan gjøre det", answers with what is already done for them.
+    choices = [("Få forslag til produkter", "ERA foreslår produkter ut fra det boligen faktisk trenger."),
+               ("Finn noen som kan gjøre det", "Behovet er allerede beskrevet. Du slipper å starte fra null."),
+               ("Minn meg på dette senere", "ERA tar det opp igjen når tiden er inne.")]
+    chips = "".join(f'<button type="button" class="cine-chip" aria-pressed="false" data-note="{esc(n)}">{esc(c)}</button>' for c, n in choices)
+    li = (
+        '<li><b>ERA oppdager</b><span>Badet bør vurderes.</span></li>'
+        '<li><b>Forklarer</b><span>Hva det betyr og hvorfor.</span></li>'
+        f'<li><b>Du velger</b><span class="cine-chips">{chips}</span><span class="cine-note" aria-live="polite"></span></li>'
+        '<li><b>ERA ordner</b><span class="mini-state" aria-label="Kartlagt, tilbud, utføres"><i class="is-done">Kartlagt</i><i class="is-now">Tilbud</i><i>Utføres</i></span></li>'
+        '<li><b>Dokumenteres</b><span>Resultatet blir en del av boligen.</span></li>')
     flow_steps = f'<ol class="cine-flow">{li}</ol>'
     need = cine("/assets/story/bathroom-old-v4.jpg",
                 '<div class="cine-grid"><div class="cine-text">'
@@ -1339,13 +1349,12 @@ def home_page():
     # 05: the home remembers. The house through the seasons, and a timeline of what has been done.
     timeline_steps = [("Kjøpt", False), ("Malt", False), ("Bad kontrollert", False), ("Elektrisk arbeid", False), ("Dokumentert", False), ("Neste behov", True)]
     timeline = '<ol class="cine-timeline cine-timeline--left">' + "".join(
-        f'<li class="{"is-next" if nxt else ""}"><span>{esc(t)}</span></li>' for t, nxt in timeline_steps) + "</ol>"
+        f'<li class="{"is-next" if nxt else ""}" style="--k:{k}"><span>{esc(t)}</span></li>' for k, (t, nxt) in enumerate(timeline_steps)) + "</ol>"
     seasons = '<div class="seasons" aria-hidden="true">' + "".join(
-        f'<img src="/assets/story/block-season-{i}-v3.jpg" srcset="/assets/story/block-season-{i}-v3-m.jpg 1400w, /assets/story/block-season-{i}-v3.jpg 1600w" '
+        f'<img{" class=" + chr(34) + "is-on" + chr(34) if i == 0 else ""} src="/assets/story/block-season-{i}-v3.jpg" srcset="/assets/story/block-season-{i}-v3-m.jpg 1400w, /assets/story/block-season-{i}-v3.jpg 1600w" '
         f'sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async">' for i in range(4)) + "</div>"
     learns = cine("/assets/story/whole-home-v3.jpg",
-                  '<div class="cine-grid cine-grid--seasons"><div class="cine-text">'
-                  '<div class="label">ERA lærer boligen</div>'
+                  '<div class="cine-grid cine-grid--seasons"><div class="cine-text" data-reveal>'
                   '<h2>Boligen husker. Du slipper.</h2>'
                   '<p class="cine-lede">Alt som blir gjort blir en del av boligen. ERA blir smartere for hvert steg.</p>'
                   + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>' + seasons + '</div>',
@@ -1368,7 +1377,7 @@ def home_page():
                  sid="skjema", cls="cine--center cine--close", pos="60% 50%")
 
     # Om ERA is a teaser here and a page of its own next to this one.
-    teaser = ('<section class="ny-teaser"><div class="wrap"><div><h2>Hvert hjem får en agent.</h2>'
+    teaser = ('<section class="ny-teaser" data-nav="dark"><div class="wrap"><div><h2>Hvert hjem får en agent.</h2>'
               '<p>ERA bygger et agentisk system for hele boligens livsløp: boligdata, kunstig intelligens og dokumentasjon i én flyt rundt boligen.</p></div>'
               '<a class="link" href="/ny/om-era">Les historien om ERA →</a></div></section>')
 
@@ -1387,10 +1396,10 @@ def home_page():
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>
-<body data-audience="{a["key"]}" data-page="ny">
+<body class="ny-page" data-audience="{a["key"]}" data-page="ny">
 {ny_nav()}
 
-<header class="hero hero--product ny-hero">
+<header class="hero hero--product ny-hero" data-nav="dark">
   <div class="hero-media"><picture><source media="(max-width: 899px)" srcset="{hero_img[:-4]}-m.jpg"><img src="{hero_img}" alt="" fetchpriority="high" style="object-position: 45% 50%"></picture></div>
   <div class="hero-grid">
   <div class="hero-text">
@@ -1415,7 +1424,7 @@ def home_page():
 
   {learns}
 
-  <section class="section alt">
+  <section class="section alt" data-nav="light">
     <div class="wrap narrow">
       <div class="label">Spørsmål</div>
       <h2>Det folk lurer på.</h2>
@@ -1440,12 +1449,12 @@ def om_era_page():
     loop, and the people behind it. Sits next to /ny and leaves the existing /om-era alone."""
     a = AUDIENCES["boligeier"]
     about_src = "/assets/story/about-hero-v5.jpg"
-    hero = ('<section class="cine cine--hero om-hero"><div class="cine-media"><img src="' + about_src + '" srcset="' + about_src[:-4]
+    hero = ('<section class="cine cine--hero om-hero" data-nav="dark"><div class="cine-media"><img src="' + about_src + '" srcset="' + about_src[:-4]
             + '-m.jpg 900w, ' + about_src + ' 1600w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></div><div class="cine-body">'
             '<div class="label">Om ERA</div><h1>Hvert hjem får en agent.</h1>'
             '<p class="cine-lede">ERA bygger et agentisk system for hele boligens livsløp: boligdata, kunstig intelligens, handel, tjenester og dokumentasjon i én kontinuerlig flyt rundt boligen.</p>'
             '<p class="cine-gold">Fra boligdata til handling.<br>Fra handling tilbake til boligen.</p></div></section>')
-    why = ('<section class="section om-why"><div class="wrap narrow"><div class="label">Hvorfor ERA</div>'
+    why = ('<section class="section om-why" data-nav="light"><div class="wrap narrow"><div class="label">Hvorfor ERA</div>'
            '<h2>Boligen er spredt over mange steder.</h2>'
            '<p class="om-text">Boligen er i dag fragmentert mellom dokumenter, håndverkere, bank, forsikring, produkter og Google. ERA samler konteksten og hjelper eieren fra spørsmål til handling.</p></div></section>')
     steps = ["Bolig", "Kunnskap", "Behov", "Handling", "Dokumentasjon", "Smartere bolig"]
@@ -1454,12 +1463,12 @@ def om_era_page():
     build = cine("/assets/story/loop-home-v3.jpg",
                  '<div class="cine-center"><div class="label">Hva vi bygger</div><h2>Én enkel loop.</h2>' + loop + '</div>',
                  sid="bygger", cls="cine--center", pos="50% 55%")
-    team = ('<section class="section ny-team" id="teamet"><div class="wrap wide">'
+    team = ('<section class="section ny-team" id="teamet" data-nav="light"><div class="wrap wide">'
             '<div class="label">Menneskene bak ERA</div>'
             '<h2>Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>'
             '<p class="ny-team-lede">Bygget av et team med erfaring fra eiendom, teknologi, finans, distribusjon og AI.</p>'
             + team_html() + '</div></section>')
-    cta = ('<section class="ny-teaser ny-teaser--cta"><div class="wrap"><div><h2>Finn boligen din.</h2>'
+    cta = ('<section class="ny-teaser ny-teaser--cta" data-nav="dark"><div class="wrap"><div><h2>Finn boligen din.</h2>'
            '<p>Skriv adressen din, så åpner vi ERA for boligen din i betaperioden.</p></div>'
            '<a class="btn" href="/ny#adresse">Finn boligen din</a></div></section>')
     desc = "Hvert hjem får en agent. Hvorfor ERA finnes, hva vi bygger og menneskene bak."
@@ -1478,7 +1487,7 @@ def om_era_page():
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/pages.css">
 </head>
-<body data-audience="{a["key"]}" data-page="om-era-ny">
+<body class="ny-page" data-audience="{a["key"]}" data-page="om-era-ny">
 {ny_nav("/ny")}
 <main>
   {hero}

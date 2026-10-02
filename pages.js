@@ -316,3 +316,104 @@ document.querySelectorAll("form.lead").forEach(function (form) {
   }, { threshold: 0.35 });
   els.forEach(function (el) { io.observe(el); });
 })();
+
+// /ny: bevegelse. Regel: bevegelse forklarer hva ERA gjør. Her ligger det som følger scrollen eller
+// svarer på et trykk: menyen som følger flaten under seg, reisen som våkner steg for steg, badet som
+// går fra behov til dokumentasjon, og huset som går gjennom årstidene. Ingenting looper. Med redusert
+// bevegelse står alt i sluttstilling.
+(function () {
+  var page = document.body.getAttribute("data-page");
+  if (page !== "ny" && page !== "om-era-ny") return;
+  document.body.classList.add("has-js");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var narrow = window.matchMedia("(max-width: 899px)").matches;
+  var run = [];
+  var queued = false;
+  function frame() { queued = false; run.forEach(function (f) { f(); }); }
+  function queue() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  // How far through an element the viewport has come: 0 when its top is at `start` of the viewport height,
+  // 1 when it has moved `span` of its own height further up.
+  function progress(el, start, span) {
+    var r = el.getBoundingClientRect();
+    var t = (window.innerHeight * start - r.top) / (r.height * span);
+    return Math.max(0, Math.min(1, t));
+  }
+  function stepsFor(t, n) { return t <= 0 ? 0 : Math.max(1, Math.ceil(t * n - 0.001)); }
+
+  // The menu follows the surface under it: dark on cinematic scenes, light on light ones, and a little
+  // lower once the page has been scrolled.
+  var tones = [].slice.call(document.querySelectorAll("[data-nav]"));
+  run.push(function () {
+    var tone = "dark";
+    for (var i = 0; i < tones.length; i++) {
+      var r = tones[i].getBoundingClientRect();
+      if (r.top <= 40 && r.bottom > 40) { tone = tones[i].getAttribute("data-nav"); break; }
+    }
+    document.body.classList.toggle("nav-light", tone === "light");
+    document.body.classList.toggle("nav-compact", window.scrollY > 40);
+  });
+
+  // Din bolig. Én agent.: the five steps wake in order, and when the last is awake a line is drawn back to
+  // the first. On a phone the row is swiped, so every step is awake from the start.
+  var flow = document.querySelector(".flow");
+  if (flow) {
+    var steps = [].slice.call(flow.querySelectorAll(".flow-step"));
+    var back = flow.querySelector(".flow-return");
+    var awake = 0;
+    flow.classList.add("flow-js");
+    var wake = function (n) {
+      if (n <= awake) return;
+      awake = n;
+      steps.forEach(function (s, i) { s.classList.toggle("is-active", i < n); });
+      if (back && n >= steps.length) back.classList.add("is-drawn");
+    };
+    if (reduced || narrow) wake(steps.length);
+    else run.push(function () { wake(stepsFor(progress(flow, 0.78, 0.7), steps.length)); });
+  }
+
+  // Badet: the steps light up in order. The choices are real, and the one people reach for answers with what
+  // has already been done for them.
+  var list = document.querySelector("#slik .cine-flow");
+  if (list) {
+    var items = [].slice.call(list.children);
+    var lit = 0;
+    var note = list.querySelector(".cine-note");
+    var chips = [].slice.call(list.querySelectorAll(".cine-chip"));
+    list.classList.add("step-js");
+    var light = function (n) {
+      if (n <= lit) return;
+      lit = n;
+      items.forEach(function (li, i) { li.classList.toggle("is-active", i < n); });
+    };
+    if (reduced) light(items.length);
+    else run.push(function () { light(stepsFor(progress(list, 0.85, 0.85), items.length)); });
+    var say = function (b) { if (note) { note.textContent = b.getAttribute("data-note"); note.classList.add("is-on"); } };
+    chips.forEach(function (b) {
+      b.addEventListener("click", function () {
+        chips.forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+        say(b);
+      });
+      b.addEventListener("mouseenter", function () { say(b); });
+    });
+  }
+
+  // Boligen husker: the house moves through the seasons with the scroll, not on a timer.
+  var host = document.querySelector("#husker");
+  var sea = host && host.querySelector(".seasons");
+  if (sea && !reduced) {
+    var imgs = [].slice.call(sea.querySelectorAll("img"));
+    var cur = 0;
+    run.push(function () {
+      var r = host.getBoundingClientRect();
+      var t = (window.innerHeight * 0.85 - r.top) / (r.height + window.innerHeight * 0.3);
+      var idx = Math.floor(Math.max(0, Math.min(0.999, t)) * imgs.length);
+      if (idx === cur) return;
+      cur = idx;
+      imgs.forEach(function (im, i) { im.classList.toggle("is-on", i === idx); });
+    });
+  }
+
+  queue();
+})();

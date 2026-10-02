@@ -322,7 +322,7 @@ AUDIENCES = {
                         ("Mitt forslag", f"«{DEMO_HOME['measure']}» med kostnad, oppstart og en håndverker som kan gjøre jobben.")],
                 alt_bg=True, flip=True, sid="boligagent"),
             next_steps_section(
-                "Visualiser og velg · Planlagt", "Se det. Velg det. Kjøp det. Få det gjort.",
+                "Visualiser og velg · Planlagt", "Se det. Velg det. Få det gjort.",
                 "Med ERA skal du kunne visualisere boligen din med ulike farger, produkter og løsninger, og se hvordan resultatet kan bli før du bestemmer deg. Når du har funnet løsningen du ønsker, velger du selv hvordan du vil gå videre – alt hjemme fra sofaen.",
                 cards=[
                     ("Gjør jobben selv", "ERA hjelper deg med riktige produkter og mengder. Gjennomfør kjøpet direkte hjemmefra – hent ferdig pakkede varer i butikken, eller få alt levert på døren.", None, None, "Planlagt"),
@@ -757,7 +757,7 @@ def head_meta(path, title, description):
 <script defer src="/_vercel/insights/script.js"></script>'''
 
 
-MENU = [("/historie", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/om-era", "Om ERA"), ("/personvern", "Personvern")]
+MENU = [("/historie", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/ny/om-era", "Om ERA"), ("/personvern", "Personvern")]
 
 
 def nav_html(current, cta_label, cta_href):
@@ -809,7 +809,7 @@ def footer_html():
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
+      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/ny/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -1087,7 +1087,7 @@ def privacy_page():
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
+      <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/ny/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>

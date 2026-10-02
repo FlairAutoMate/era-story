@@ -131,10 +131,10 @@ def next_steps_section(eyebrow, title, lede, cards, sid, foot=None):
     fourth product screen, just a short next-step link per path (insurance, financing, execution).
     Deliberately non-promissory copy — see the cards passed in."""
     cards_html = "".join(
-        f'<div class="nstep"><h3>{esc(h)}</h3><p>{esc(t)}</p>'
+        f'<div class="nstep"><h3>{esc(h)}</h3>' + (f'<span class="nstep-tag">{esc(tag[0])}</span>' if tag else "") + f'<p>{esc(t)}</p>'
         + (f'<a class="link" href="{href}">{esc(link_text)} →</a>' if href else "")
         + '</div>'
-        for h, t, link_text, href in cards)
+        for h, t, link_text, href, *tag in cards)
     foot_html = f'<p class="fine dark2">{esc(foot)}</p>' if foot else ""
     return (f'<section class="section" id="{sid}"><div class="wrap">'
             f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
@@ -322,13 +322,14 @@ AUDIENCES = {
                         ("Mitt forslag", f"«{DEMO_HOME['measure']}» med kostnad, oppstart og en håndverker som kan gjøre jobben.")],
                 alt_bg=True, flip=True, sid="boligagent"),
             next_steps_section(
-                "Visualiser og velg", "Se det. Velg det. Kjøp det. Få det gjort.",
-                "Med ERA kan du visualisere boligen din med ulike farger, produkter og løsninger, og se hvordan resultatet kan bli før du bestemmer deg. Når du har funnet løsningen du ønsker, velger du selv hvordan du vil gå videre – alt hjemme fra sofaen.",
+                "Visualiser og velg · Planlagt", "Se det. Velg det. Kjøp det. Få det gjort.",
+                "Med ERA skal du kunne visualisere boligen din med ulike farger, produkter og løsninger, og se hvordan resultatet kan bli før du bestemmer deg. Når du har funnet løsningen du ønsker, velger du selv hvordan du vil gå videre – alt hjemme fra sofaen.",
                 cards=[
-                    ("Gjør jobben selv", "ERA hjelper deg med riktige produkter og mengder. Gjennomfør kjøpet direkte hjemmefra – hent ferdig pakkede varer i butikken, eller få alt levert på døren.", None, None),
+                    ("Gjør jobben selv", "ERA hjelper deg med riktige produkter og mengder. Gjennomfør kjøpet direkte hjemmefra – hent ferdig pakkede varer i butikken, eller få alt levert på døren.", None, None, "Planlagt"),
                     ("Få noen til å gjøre jobben", "Be om tilbud fra en anbefalt håndverker gjennom ERA. Motta og godkjenn tilbudet på telefonen – håndverkeren kjøper inn riktige produkter og gjennomfører jobben.", None, None),
                 ],
-                sid="visualiser"),
+                sid="visualiser",
+                foot="Visualisering og kjøp direkte i ERA er planlagt og ikke tilgjengelig ennå. Tilbud fra håndverker er en del av prosjektflyten."),
             app_section(
                 "Prosjekt", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
@@ -342,18 +343,18 @@ AUDIENCES = {
                         ("Utføres", "Fremdriften følger prosjektet til det er ferdig og dokumentert.")],
                 foot="Fasadefunnet fra boligagenten er nå et prosjekt med kostnad, håndverker og fremdrift."),
             next_steps_section(
-                "Neste steg", "Når boligen trenger mer enn en påminnelse.",
+                "Neste steg · Delvis planlagt", "Når boligen trenger mer enn en påminnelse.",
                 "ERA kobler det dokumenterte behovet med riktige muligheter for gjennomføring – enten det gjelder forsikring, finansiering eller kvalifiserte fagfolk.",
                 cards=[
                     ("Forsikring", "Sjekk om forholdet kan være relevant for forsikringen din, og finn frem nødvendig dokumentasjon.",
-                     "Avklar dekning", "#boligagent"),
+                     "Avklar dekning", "#boligagent", "Planlagt"),
                     ("Finansiering", "Få oversikt over forventet kostnad og mulige finansieringsalternativer før du starter prosjektet.",
-                     "Se muligheter", "#boligagent"),
+                     "Se muligheter", "#boligagent", "Planlagt"),
                     ("Gjennomføring", "Gå videre til kvalifisert håndverker med samme dokumentasjon, bilder og prosjektgrunnlag.",
                      "Innhent tilbud", "/handverker"),
                 ],
                 sid="neste-steg",
-                foot="ERA gir grunnlag for å vurdere alternativer. ERA gir ikke forsikrings- eller lånetilsagn, og lover ikke dekning, godkjenning eller vilkår."),
+                foot="Forsikring og finansiering er planlagt og ikke tilgjengelig ennå. ERA gir grunnlag for å vurdere alternativer. ERA gir ikke forsikrings- eller lånetilsagn, og lover ikke dekning, godkjenning eller vilkår."),
             app_section(
                 "Boligminne", "Alt som gjøres blir en del av boligen.",
                 "Arbeid, dokumentasjon og historikk følger boligen videre – slik at du slipper å starte på nytt hver gang noe skal vedlikeholdes, vurderes eller forbedres.",

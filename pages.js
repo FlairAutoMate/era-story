@@ -10,12 +10,13 @@
   document.addEventListener("pointerdown", function (e) { if (!panel.hidden && !e.target.closest("nav")) set(false); });
 })();
 
-// Audience pages: the lead form posts to /api/lead with the page's audience.
-(function () {
-  var form = document.getElementById("era-lead");
-  if (!form) return;
-  var done = document.querySelector(".done");
-  var err = document.querySelector(".err");
+// Lead forms: every form.lead posts to /api/lead with its own audience. A page can hold more than
+// one (hero and closing section on /ny); each form finds its own confirmation and error elements
+// among its siblings, so the forms never touch each other.
+document.querySelectorAll("form.lead").forEach(function (form) {
+  var scope = form.parentElement;
+  var done = scope.querySelector(".done");
+  var err = scope.querySelector(".err");
   var btn = form.querySelector("button[type=submit]");
   var label = btn.textContent;
   // Intent toggle (e.g. "Meld interesse" / "Be om demo"): a hidden field, the submit label
@@ -32,7 +33,7 @@
       label = el.getAttribute("data-label") || label; btn.textContent = label;
       var t = intentTexts[k]; if (t) { done.querySelector("b").textContent = t[0]; done.querySelector("span").textContent = t[1]; }
       if (el.tagName === "A") { form.scrollIntoView({ block: "center" }); }
-      document.getElementById("lead-value").focus({ preventScroll: el.tagName !== "A" });
+      form.elements.value.focus({ preventScroll: el.tagName !== "A" });
     });
   });
   form.addEventListener("submit", async function (e) {
@@ -56,36 +57,36 @@
     }
     btn.disabled = false; btn.textContent = label;
   });
-})();
+});
 
-// Address autocomplete: on the owner/board pages, the address field gets a Kartverket
+// Address autocomplete: on the owner/board pages, each address field gets a Kartverket
 // (Geonorge) suggestion dropdown. Any fetch failure degrades silently to a plain text field.
-(function () {
-  var form = document.getElementById("era-lead");
-  var input = document.getElementById("lead-value");
-  if (!form || !input) return;
+document.querySelectorAll("form.lead").forEach(function (form) {
+  var input = form.elements.value;
+  if (!input) return;
   if (form.dataset.audience !== "owner" && form.dataset.audience !== "board") return;
   var box = document.createElement("div");
   box.setAttribute("role", "listbox");
   box.style.cssText = "position:fixed;z-index:9999;display:none;background:#FFFFFF;border-radius:16px;box-shadow:0 20px 50px rgba(15,24,48,0.28);overflow:hidden auto;max-height:280px;font-family:'Schibsted Grotesk',system-ui,sans-serif";
   document.body.appendChild(box);
   var items = [], active = -1, timer = null, ctrl = null;
+  var optId = "era-addr-" + (input.id || "x") + "-";
   function close() { box.style.display = "none"; box.innerHTML = ""; items = []; active = -1; input.removeAttribute("aria-expanded"); input.removeAttribute("aria-activedescendant"); }
   function place() { var r = input.getBoundingClientRect(); box.style.left = r.left + "px"; box.style.top = (r.bottom + 8) + "px"; box.style.width = r.width + "px"; }
   function render() {
     if (!items.length) { close(); return; }
     place();
     box.innerHTML = items.map(function (it, i) {
-      return '<div role="option" id="era-addr-' + i + '" data-i="' + i + '" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:' + (i === active ? "#F7F4EE" : "#FFFFFF") + ";border-top:" + (i ? "1px solid #EFEAE0" : "0") + '"><div>' + it.text + '</div><div style="margin-top:2px;font-size:12.5px;color:#8A8579">' + it.sub + "</div></div>";
+      return '<div role="option" id="' + optId + i + '" data-i="' + i + '" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:' + (i === active ? "#F7F4EE" : "#FFFFFF") + ";border-top:" + (i ? "1px solid #EFEAE0" : "0") + '"><div>' + it.text + '</div><div style="margin-top:2px;font-size:12.5px;color:#8A8579">' + it.sub + "</div></div>";
     }).join("");
     box.style.display = "block";
     input.setAttribute("aria-expanded", "true");
-    if (active >= 0) input.setAttribute("aria-activedescendant", "era-addr-" + active); else input.removeAttribute("aria-activedescendant");
+    if (active >= 0) input.setAttribute("aria-activedescendant", optId + active); else input.removeAttribute("aria-activedescendant");
   }
   function select(i) {
     var it = items[i]; if (!it) return;
     input.value = it.full; close();
-    var btn = input.closest("form") && input.closest("form").querySelector('button[type="submit"]');
+    var btn = form.querySelector('button[type="submit"]');
     if (btn && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       btn.animate([{ boxShadow: "0 0 0 0 rgba(212,177,122,0.6)" }, { boxShadow: "0 0 0 4px rgba(212,177,122,0.35)" }, { boxShadow: "0 0 0 14px rgba(212,177,122,0)" }], { duration: 900, easing: "ease-out", iterations: 2 });
     }
@@ -131,15 +132,14 @@
   });
   window.addEventListener("scroll", function () { if (box.style.display === "block") place(); }, { passive: true });
   window.addEventListener("resize", function () { if (box.style.display === "block") place(); });
-})();
+});
 
 // Placeholder typewriter: cycles a few real-looking examples through the address/company
 // field until the visitor focuses or types, so the empty field feels alive rather than inert.
-(function () {
-  var form = document.getElementById("era-lead");
-  var input = document.getElementById("lead-value");
-  var span = document.getElementById("lead-typewriter");
-  if (!form || !input || !span) return;
+document.querySelectorAll("form.lead").forEach(function (form) {
+  var input = form.elements.value;
+  var span = form.querySelector("#lead-typewriter, .lead-typewriter");
+  if (!input || !span) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var EXAMPLES = {
     owner: ["Storgata 1, Oslo", "Kirkeveien 44, Bergen", "Skogveien 12, Trondheim"],
@@ -167,6 +167,17 @@
   }
   function nextWord() { typeFrom(list[exIdx % list.length], 0); }
   nextWord();
+});
+
+// /ny: the hero headline has two variants under test. B (the category line) is the default;
+// ?hero=a swaps in A for side-by-side review.
+(function () {
+  if (document.body.getAttribute("data-page") !== "ny") return;
+  if (new URLSearchParams(location.search).get("hero") !== "a") return;
+  var h1 = document.querySelector("[data-hero-h1]");
+  var sub = document.querySelector("[data-hero-sub]");
+  if (h1 && h1.getAttribute("data-a")) h1.textContent = h1.getAttribute("data-a");
+  if (sub && sub.getAttribute("data-a")) sub.textContent = sub.getAttribute("data-a");
 })();
 
 // Five-step story: tabs + prev/next. Only the selected scene is in the DOM flow; arrow keys move

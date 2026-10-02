@@ -10,7 +10,7 @@ def esc(t):
     return html.escape(t, quote=True)
 
 
-TAG_LABELS = {"customer": "Fra kunden", "doc": "Dokumentert", "ai": "ERA-forslag", "check": "Avklares på befaring", "board": "Styret", "pro": "Håndverker", "resident": "Beboer", "order": "Bestilling og levering", "pilot": "I pilot", "planned": "Planlagt", "illustration": "Illustrasjon av arbeidsflyt"}
+TAG_LABELS = {"customer": "Fra kunden", "doc": "Dokumentert", "ai": "ERA-forslag", "check": "Avklares på befaring", "board": "Styret", "pro": "Håndverker", "resident": "Beboer", "order": "Bestilling og levering", "pilot": "I pilot", "planned": "Planlagt", "illustration": "Illustrasjon av arbeidsflyt", "missing": "Mangler"}
 
 
 def detail_card(title, meta, groups, note=None):
@@ -143,7 +143,7 @@ def next_steps_section(eyebrow, title, lede, cards, sid, foot=None):
             '</div></section>')
 
 
-def app_loop(eyebrow, title, steps, foot):
+def app_loop(eyebrow, title, steps, foot, cols=5):
     """The whole loop in one row: five screens, five short labels, one grid so they stay aligned.
     Each step carries its own width/height: the screens are exported at different resolutions, and a
     hardcoded size would stretch them."""
@@ -155,8 +155,8 @@ def app_loop(eyebrow, title, steps, foot):
         for i, (t, d, _, _, _, _) in enumerate(steps))
     return ('<section class="section alt" id="loopen"><div class="wrap wide">'
             f'<div class="label">{esc(eyebrow)}</div><h2>{esc(title)}</h2>'
-            f'<div class="apploop">{shots}</div>'
-            f'<div class="apploop-steps">{labels}</div>'
+            f'<div class="apploop{" apploop--4" if cols == 4 else ""}">{shots}</div>'
+            f'<div class="apploop-steps{" apploop-steps--4" if cols == 4 else ""}">{labels}</div>'
             f'<p class="fine dark2">{esc(foot)}</p>'
             '</div></section>')
 
@@ -182,7 +182,7 @@ def maintenance_plan_view(title, meta, kpis, rows, footer):
             f'<div class="dash-foot">{esc(footer)}</div></div>')
 
 
-def styre_agent_view(question, answer_lede, picks, footer):
+def styre_agent_view(question, answer_lede, picks, footer, title="ERA Styre-agent", meta="Beslutningsstøtte basert på eiendomsdata"):
     """The ERA Styre-agent view: a question bubble, a short answer, and a numbered priority list."""
     picks_html = "".join(
         f'<div class="agent-pick"><span class="agent-n">{i+1}</span>'
@@ -190,8 +190,8 @@ def styre_agent_view(question, answer_lede, picks, footer):
         for i, (name, detail) in enumerate(picks))
     return (
         '<div class="dash agent-dash">'
-        '<div class="dash-head"><div><div class="dash-title">ERA Styre-agent</div>'
-        f'<div class="dash-meta">Beslutningsstøtte basert på eiendomsdata</div></div></div>'
+        f'<div class="dash-head"><div><div class="dash-title">{esc(title)}</div>'
+        f'<div class="dash-meta">{esc(meta)}</div></div></div>'
         f'<div class="agent-q">{esc(question)}</div>'
         f'<div class="agent-a"><p>{esc(answer_lede)}</p>{picks_html}</div>'
         f'<div class="dash-foot">{esc(footer)}</div></div>'
@@ -773,6 +773,48 @@ def nav_html(current, cta_label, cta_href):
 </nav>'''
 
 
+def scenes_html(sc, cta_label, cta_href="#skjema", item_label="Steg"):
+    """The tabbed walkthrough (numbered tabs, one panel per step). Shared by the audience pages and /ny;
+    pages.js drives it from the markup alone."""
+    items = sc["items"]
+    tabs = "".join(
+        f'<button type="button" role="tab" id="tab-{i+1}" aria-selected="{"true" if i == 0 else "false"}" aria-controls="scene-{i+1}" tabindex="{0 if i == 0 else -1}"><span class="n">0{i+1}</span><span class="t">{esc(it["nav"])}</span></button>'
+        for i, it in enumerate(items))
+    def scene_nav(i):
+        prev = f'<button type="button" class="scene-prev" data-dir="-1">← Forrige</button>' if i > 0 else '<span></span>'
+        if i < len(items) - 1:
+            nxt = f'<button type="button" class="scene-next" data-dir="1">Neste: {esc(items[i+1]["nav"])} →</button>'
+        else:
+            nxt = f'<a class="scene-next" href="{cta_href}">{esc(cta_label)}</a>'
+        return f'<div class="scene-nav">{prev}{nxt}</div>'
+    panels = "".join(
+        f'<div class="scene" role="tabpanel" id="scene-{i+1}" aria-labelledby="tab-{i+1}"{"" if i == 0 else " hidden"}>'
+        f'<div class="scene-text"><div class="label">{esc(item_label)} {i+1} · {esc(it["nav"])}</div><h3>{esc(it["heading"])}</h3><p>{esc(it["text"])}</p>'
+        f'<p class="scene-value">{esc(it["value"])}</p></div>'
+        f'<div class="scene-view">{it["view"]}</div>{scene_nav(i)}</div>'
+        for i, it in enumerate(items))
+    return (
+        '<section class="section scenes" id="slik"><div class="wrap wide">'
+        f'<div class="label">{esc(sc["eyebrow"])}</div><h2>{esc(sc["title"])}</h2><p class="steps-intro">{esc(sc["lede"])}</p>'
+        f'<div class="stepnav" role="tablist" aria-label="{len(items)} steg" style="grid-template-columns: repeat({len(items)}, minmax(0, 1fr))">{tabs}</div>'
+        f'<div class="scene-panel">{panels}</div>'
+        '</div></section>'
+    )
+
+
+def footer_html():
+    return f'''<footer class="foot">
+  <div class="wrap">
+    <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
+    <div class="cols">
+      <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
+      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
+    </div>
+  </div>
+  <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
+</footer>'''
+
+
 def page(slug, a):
     cur = ' aria-current="page"'
     beta = a.get("beta")
@@ -790,33 +832,7 @@ def page(slug, a):
     steps_label = a.get("steps_label", "Slik fungerer det")
     steps_title = a.get("steps_title", "Fire steg. Ingen gjetting.")
     steps_intro = f'<p class="steps-intro">{esc(a["steps_intro"])}</p>' if a.get("steps_intro") else ""
-    scenes_section = ""
-    if a.get("scenes"):
-        sc = a["scenes"]
-        items = sc["items"]
-        tabs = "".join(
-            f'<button type="button" role="tab" id="tab-{i+1}" aria-selected="{"true" if i == 0 else "false"}" aria-controls="scene-{i+1}" tabindex="{0 if i == 0 else -1}"><span class="n">0{i+1}</span><span class="t">{esc(it["nav"])}</span></button>'
-            for i, it in enumerate(items))
-        def scene_nav(i):
-            prev = f'<button type="button" class="scene-prev" data-dir="-1">← Forrige</button>' if i > 0 else '<span></span>'
-            if i < len(items) - 1:
-                nxt = f'<button type="button" class="scene-next" data-dir="1">Neste: {esc(items[i+1]["nav"])} →</button>'
-            else:
-                nxt = f'<a class="scene-next" href="#skjema">{esc(a["form_cta"])}</a>'
-            return f'<div class="scene-nav">{prev}{nxt}</div>'
-        panels = "".join(
-            f'<div class="scene" role="tabpanel" id="scene-{i+1}" aria-labelledby="tab-{i+1}"{"" if i == 0 else " hidden"}>'
-            f'<div class="scene-text"><div class="label">Steg {i+1} · {esc(it["nav"])}</div><h3>{esc(it["heading"])}</h3><p>{esc(it["text"])}</p>'
-            f'<p class="scene-value">{esc(it["value"])}</p></div>'
-            f'<div class="scene-view">{it["view"]}</div>{scene_nav(i)}</div>'
-            for i, it in enumerate(items))
-        scenes_section = (
-            '<section class="section scenes" id="slik"><div class="wrap wide">'
-            f'<div class="label">{esc(sc["eyebrow"])}</div><h2>{esc(sc["title"])}</h2><p class="steps-intro">{esc(sc["lede"])}</p>'
-            f'<div class="stepnav" role="tablist" aria-label="{len(items)} steg" style="grid-template-columns: repeat({len(items)}, minmax(0, 1fr))">{tabs}</div>'
-            f'<div class="scene-panel">{panels}</div>'
-            '</div></section>'
-        )
+    scenes_section = scenes_html(a["scenes"], a["form_cta"]) if a.get("scenes") else ""
     steps_section = scenes_section or (
         '<section class="section" id="slik">'
         f'<div class="label">{esc(steps_label)}</div><h2>{esc(steps_title)}</h2>{steps_intro}'
@@ -1002,16 +1018,7 @@ def page(slug, a):
   </section>
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <div><div class="brand">era<span>.</span></div><div class="tag">Boligeierskap uten gjetting</div></div>
-    <div class="cols">
-      <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
-      <div><b>ERA</b><a href="/#hva">Hva ERA gjør</a><a href="/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/">Historien</a></div>
-    </div>
-  </div>
-  <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
-</footer>
+{footer_html()}
 <script src="/pages.js" defer></script>
 </body>
 </html>
@@ -1084,6 +1091,182 @@ def privacy_page():
 '''
 
 
+NY_DESC = "Boligens AI-agent. Den kjenner boligen din og hjelper deg få ting gjort. Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det."
+
+
+def lead_form_html(suffix, a, done):
+    """One address form. pages.js binds every form.lead, so a page can carry several as long as the
+    input ids are unique."""
+    return f'''<form id="era-lead-{suffix}" class="lead" data-audience="{a["key"]}">
+        <div class="lead-pill">
+          <label class="sr" for="lead-value-{suffix}">{esc(a["form_field"])}</label>
+          <div class="lead-value-wrap">
+            <input id="lead-value-{suffix}" name="value" type="text" autocomplete="off" required minlength="3" maxlength="200" placeholder="{esc(a["form_field"])}">
+            <span class="lead-typewriter" aria-hidden="true"></span>
+            <span class="field-label" aria-hidden="true">{esc(a["form_label"])}</span>
+          </div>
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <button type="submit">Finn boligen din</button>
+        </div>
+      </form>
+      <div class="done" role="status" aria-live="polite" hidden>
+        <div class="check"><svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M2 8L7.5 13.5L18 2" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><b>{esc(done[0])}</b><span>{esc(done[1])}</span></div>
+      </div>
+      <div class="err" hidden></div>'''
+
+
+def home_page():
+    """/ny: the homeowner-first front page, built as a preview next to the existing story at /.
+    Everything on it is the homeowner's: the product in the hero, one address field as the single
+    action, and the loop from question to documented result. Other audiences keep their own pages."""
+    a = AUDIENCES["boligeier"]
+    h = DEMO_HOME
+    minbolig_alt = (f"ERA Bolig: Min bolig for {h['address']} – {h['type']} fra {h['year']} på {h['area']} med tilstand "
+                    f"{h['condition']} {h['score']}, neste prosjekt «{h['measure']}» til {h['cost']} med oppstart {h['start']} og "
+                    f"{h['pro']}, estimert verdi {h['value']} og samlet dokumentasjon")
+    agent_alt = (f"ERA Bolig, boligagenten for {h['address']}: fotoet av huset er merket av med fasade og tak til oppfølging "
+                 f"og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser», «Hva det betyr» for en bolig fra {h['year']} "
+                 f"og forslaget «{h['measure']}» med estimert kostnad {h['cost']}")
+    prompts = ["Hva vet ERA om badet?", "Hva bør jeg gjøre før vinteren?", "Finn noen som kan fikse dette"]
+    prompts_html = '<ul class="ny-prompts" aria-label="Eksempler på spørsmål til ERA">' + "".join(f"<li>{esc(t)}</li>" for t in prompts) + "</ul>"
+    hero_visual = ('<div class="hero-visual">' + prompts_html + '<div class="hero-phones">'
+                   + phone("/assets/story/app-minbolig.png", 853, 1844, minbolig_alt, "sm", eager=True)
+                   + phone("/assets/story/app-agent.png", 853, 1844, agent_alt, "md", eager=True)
+                   + '</div></div>')
+
+    loop = app_loop(
+        "Hele reisen", "Din bolig. Én agent.",
+        [("Spør eller vis", "Skriv, eller ta et bilde av det du lurer på.", "/assets/story/app-kamera.png",
+          "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu", 853, 1844),
+         ("Forstå", "Få svar ut fra det ERA faktisk vet om boligen.", "/assets/story/app-agent.png",
+          "ERA Bolig: boligagentens analyse av huset med funn, betydning og forslag", 853, 1844),
+         ("Planlegg og få hjelp", "Fra behov til tilbud, gjennomføring og godkjenning.", "/assets/story/app-prosjekt.png",
+          f"ERA Bolig: prosjektet «{h['measure']}» med kostnad, håndverker og oppgaver", 935, 1683),
+         ("Dokumenter", "Resultatet kommer tilbake til boligen.", "/assets/story/app-minbolig.png",
+          "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt, estimert verdi og dokumentasjon", 853, 1844)],
+        "Eksempeldata. Samme bolig hele veien. Visualisering av farger og løsninger kommer.",
+        cols=4)
+
+    knows = app_section(
+        "ERA kjenner boligen", "Det ERA vet. Og det den ikke vet.",
+        "ERA starter med det som finnes: adresse og tilgjengelige eiendomsdata. Så lærer den boligen over tid, uten at du fyller ut et skjema.",
+        '<div class="appsec-dash">' + dash(
+            "Det ERA vet om boligen", f"{h['address']} · {h['type']} · {h['year']}",
+            groups=[("doc", [("Nytt tak", "2024 · med dokumentasjon"), ("Varmepumpe", "2022 · med dokumentasjon"), ("Nytt bad", "2020")]),
+                    ("ai", [("Fasade og tak", "Bør følges opp"), ("Forslag", f"{h['measure']} · {h['cost']}")]),
+                    ("missing", [("El-anlegg", "Ingen dokumentasjon registrert ennå")])],
+            footer="Eksempeldata. ERA sier ifra når den ikke vet.") + '</div>',
+        points=[("Dokumentert", "Det som ligger i boligen med år, dokumentasjon eller bilder."),
+                ("ERA-forslag", "Det ERA mener, med begrunnelse. Du bestemmer."),
+                ("Mangler", "Det ERA ikke vet. Den sier ifra i stedet for å gjette.")],
+        sid="kjenner")
+
+    journeys = scenes_html(dict(
+        eyebrow="Fra spørsmål til gjort", title="Tre eksempler.",
+        lede="Slik kan ERA hjelpe, fra spørsmålet til et dokumentert resultat.",
+        items=[
+            dict(nav="Fasaden", heading="Fra «hva er det?» til dokumentert jobb.",
+                 text="ERA kjenner boligens alder og historikk, forklarer behovet og setter opp prosjektet.",
+                 value="Resultatet kommer tilbake til boligen, så neste behov starter med historikk.",
+                 view=dash(h["measure"], h["address"],
+                           kpis=[("Estimert kostnad", h["cost"]), ("Oppstart", h["start"]), ("Varighet", h["duration"]), ("Håndverker", h["pro"])],
+                           groups=[("ai", [("Hvorfor", f"Boligen er fra {h['year']}, og fasaden bør følges opp"), ("Neste steg", "Be om tilbud med behovet ferdig beskrevet")]),
+                                   ("doc", [("Etter jobben", "Bilder og dokumentasjon lagres i boligen")])],
+                           footer="Eksempeldata. ERA foreslår, du bestemmer.")),
+            dict(nav="Male stuen", heading="Fra «vi vil male stua» til riktig mengde.",
+                 text="Velg farge og produkt, og få materialene beregnet ut fra rommet.",
+                 value="Du velger selv: gjør det selv, eller få en håndverker til å gjøre det.",
+                 view=dash("Male stuen", "Gjør det selv · eksempel",
+                           kpis=[("Veggflate", "42 m²"), ("Strøk", "2"), ("Forarbeid", "Lett sparkling"), ("Tid", "1–2 dager")],
+                           groups=[("ai", [("Materialer", "Beregnes ut fra veggflate og strøk"), ("Valg", "Gjør det selv, eller be om tilbud fra håndverker")])],
+                           footer="Eksempeldata. Farge- og produktvalg er under utvikling.")),
+            dict(nav="Spør ERA", heading="Spør om boligen. Få svar fra det ERA vet.",
+                 text="ERA svarer ut fra boligens egen historikk og dokumentasjon, ikke fra et generisk søk.",
+                 value="Når ERA ikke vet, sier den ifra.",
+                 view=styre_agent_view(
+                     "Hva bør jeg gjøre med boligen før vinteren?", "Ut fra det ERA vet om boligen:",
+                     picks=[("Fasade og tak", f"Bør følges opp. Boligen er fra {h['year']}."),
+                            ("Takrenner og grunnmur", "I god stand."),
+                            ("El-anlegg", "Ingen dokumentasjon registrert. Verdt å avklare.")],
+                     footer="Eksempeldata. ERA svarer ut fra det den kjenner til.",
+                     title="Spør ERA", meta=f"Boligagenten for {h['address']}")),
+        ]), "Finn boligen din", "#adresse", item_label="Eksempel")
+
+    faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>'
+                  for q, ans in (a["faq"][0], a["faq"][2], a["faq"][3]))
+    done = ("Takk. Vi finner boligen din.", "Vi sier fra når ERA er klar for adressen.")
+    hero_form = lead_form_html("hero", a, done)
+    end_form = lead_form_html("end", a, done)
+    others = " · ".join(f'<a href="/{s}">{esc(l)}</a>' for s, l in (("styret", "Borettslag og sameier"), ("handverker", "Håndverker"), ("faghandel", "Faghandel")))
+
+    return f'''<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boligens AI-agent — ERA</title>
+<meta name="description" content="{esc(NY_DESC)}">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0F1830">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{head_meta("/ny", "Boligens AI-agent — ERA", NY_DESC)}
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body data-audience="{a["key"]}" data-page="ny">
+{nav_html("ny", "Finn boligen din", "#adresse")}
+
+<header class="hero hero--product ny-hero">
+  <div class="hero-grid">
+  <div class="hero-text">
+    <div class="label">ERA · for boligeiere</div>
+    <h1 data-hero-h1 data-a="ERA kjenner boligen din. Og hjelper deg når noe skal gjøres.">Boligens AI-agent.<span class="h1-sub">Den kjenner boligen din og hjelper deg få ting gjort.</span></h1>
+    <p class="lede" data-hero-sub data-a="Boligens AI-agent. Spør om historikk, dokumentasjon og neste steg, og få hjelp til å gjøre det.">Spør om boligen, forstå hva som bør gjøres og få hjelp til å gjennomføre det. ERA husker historikken underveis.</p>
+    <div id="adresse">
+      {hero_form}
+    </div>
+    <p class="ny-micro">Gratis i betaperioden. Ingen betalingskort.</p>
+    <a class="link" href="#loopen">Se hvordan det fungerer ↓</a>
+  </div>
+  {hero_visual}
+  </div>
+</header>
+
+<main>
+  {loop}
+
+  {knows}
+
+  {journeys}
+
+  <section class="section alt">
+    <div class="wrap narrow">
+      <div class="label">Spørsmål</div>
+      <h2>Det folk lurer på.</h2>
+      <div class="faq ny-faq">{faq}</div>
+    </div>
+  </section>
+
+  <section class="section dark" id="skjema">
+    <div class="wrap narrow">
+      <h2>Finn boligen din.</h2>
+      <p class="lede light">Skriv adressen din. ERA er gratis for boligeiere i betaperioden.</p>
+      {end_form}
+      <p class="ny-trust"><b>Dine data.</b> Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem.</p>
+      <p class="ny-others">Bor du i borettslag eller sameie, er du håndverker eller i faghandel?<br>{others}</p>
+    </div>
+  </section>
+</main>
+
+{footer_html()}
+<script src="/pages.js" defer></script>
+</body>
+</html>
+'''
+
+
 for slug in ORDER:
     d = os.path.join(ROOT, slug)
     os.makedirs(d, exist_ok=True)
@@ -1094,3 +1277,7 @@ os.makedirs(os.path.join(ROOT, "personvern"), exist_ok=True)
 with open(os.path.join(ROOT, "personvern", "index.html"), "w", encoding="utf-8") as f:
     f.write(privacy_page())
 print("wrote personvern")
+os.makedirs(os.path.join(ROOT, "ny"), exist_ok=True)
+with open(os.path.join(ROOT, "ny", "index.html"), "w", encoding="utf-8") as f:
+    f.write(home_page())
+print("wrote ny")

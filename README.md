@@ -118,6 +118,8 @@ Feltet i finalen sender `POST /api/lead` med `{ audience, value }`. Funksjonen (
 
 `/boligeier`, `/styret`, `/handverker`, `/faghandel` genereres av `python tools/build-pages.py` fra én innholdsstruktur (hook, verdiforslag, fire steg, gevinst, eksempel, spørsmål, skjema). Delt stil i `pages.css`, fonter i `fonts.css`, skjema i `pages.js` (samme `/api/lead`). Endre tekst i generatoren og kjør den på nytt.
 
+`/ny` er en forhåndsvisning av en boligeier-først forside, generert av `home_page()` i samme script. Den er `noindex`, ikke lenket fra menyen og ikke i `sitemap.xml`, og dagens forside på `/` er uendret. Heroen har to overskriftsvarianter under test: B («Boligens AI-agent.») er standard, `?hero=a` viser A. Skjemaene er `form.lead`, og `pages.js` binder alle skjemaer på en side, så hero og avslutning er uavhengige. Alt som beskriver en funksjon må være dokumentert tilgjengelig; visualisering, økonomioversikt og netthandel omtales bare som «kommer» eller «under utvikling».
+
 ### Produktflater på /boligeier
 
 Boligeiersiden viser ERA Bolig med ekte appskjermer i stedet for å forklare produktet med tekst. Rekkefølgen følger loopen: **hero** (appens forside med tilstand, neste tiltak og estimat) → **Min bolig** → **Kamera** → **ERA-assistenten** → **Prosjekt** → **Boligminne** → **hele loopen**.

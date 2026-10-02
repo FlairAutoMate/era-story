@@ -25,7 +25,7 @@ Vercel deployer `master` automatisk, ca. ett minutt etter merge. Ingen kjører `
 
 | Fil | Bygges av |
 | --- | --- |
-| `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/` | `python tools/build-pages.py` |
+| `boligeier/`, `styret/`, `handverker/`, `faghandel/`, `personvern/`, `ny/` | `python tools/build-pages.py` |
 | `om-era/` | `python tools/build-om-era.py` (henter hodet fra `index.html`) |
 | `partner/jotun/`, `investor/` | `python tools/build-partner-story.py` |
 

@@ -3,10 +3,10 @@ import { chromium } from "playwright";
 const base = process.argv[2] ?? "http://localhost:8787";
 const browser = await chromium.launch();
 const out = {};
-for (const route of ["/", "/styret"]) {
+for (const route of ["/historie", "/styret"]) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
   await page.goto(base + route, { waitUntil: "networkidle" }); await page.waitForTimeout(800);
-  if (route === "/") await page.evaluate(() => scrollTo({ top: innerHeight * 2.5, behavior: "instant" }));
+  if (route === "/historie") await page.evaluate(() => scrollTo({ top: innerHeight * 2.5, behavior: "instant" }));
   await page.waitForTimeout(400);
   const seq = [];
   for (let i = 0; i < 8; i++) { await page.keyboard.press("Tab"); seq.push(await page.evaluate(() => { const a = document.activeElement; return a.tagName + ":" + (a.textContent || a.getAttribute("aria-label") || "").trim().slice(0, 18) + ":" + getComputedStyle(a).outlineStyle; })); }

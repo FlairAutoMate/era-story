@@ -20,7 +20,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Stale values for THIS home. Scoped to /boligeier and /ny (both show Myrerveien 46A): the same figures can be legitimate elsewhere —
+# Stale values for THIS home. Scoped to /boligeier and the front page / (both show Myrerveien 46A): the same figures can be legitimate elsewhere —
 # /styret prices ventilation for a different building at 80 000-120 000 kr, and /handverker has a
 # different customer at another address. A global ban would flag both.
 STALE_BOLIGEIER = {
@@ -53,10 +53,10 @@ PENDING_REEXPORT = {}
 # Must still be present somewhere on /boligeier, so a rewrite cannot quietly drop the facts.
 REQUIRED = ["Myrerveien 46A", "1967", "85 000–140 000 kr", "6 250 000 kr", "162 m²"]
 
-PAGES = ["boligeier", "styret", "handverker", "faghandel", "ny", "ny/om-era"]
+PAGES = ["boligeier", "styret", "handverker", "faghandel", "", "ny/om-era"]
 
 # The street name is checked on the story and partner pages too, not just the audience subpages.
-EXTRA_FILES = ["index.html", "om-era/index.html"]
+EXTRA_FILES = ["historie/index.html", "om-era/index.html"]
 
 
 def main():
@@ -71,12 +71,12 @@ def main():
         with open(path, encoding="utf-8") as f:
             html = f.read()
         checks = dict(STALE_ANYWHERE)
-        if slug in ("boligeier", "ny"):
+        if slug in ("boligeier", ""):
             checks.update(STALE_BOLIGEIER)
         for bad, why in checks.items():
             if bad not in html:
                 continue
-            if slug in ("boligeier", "ny") and bad in PENDING_REEXPORT:
+            if slug in ("boligeier", "") and bad in PENDING_REEXPORT:
                 warnings.append("%s/index.html inneholder fortsatt %r — %s"
                                 % (slug, bad, PENDING_REEXPORT[bad]))
             else:

@@ -1760,13 +1760,12 @@ def om_era_page():
     build = cine("/assets/story/loop-home-v3.jpg",
                  '<div class="cine-center"><div class="label">Hva vi bygger</div><h2>Én enkel loop.</h2>' + loop + '</div>',
                  sid="bygger", cls="cine--center", pos="50% 55%")
-    tech = ('<section class="section om-tech" id="teknologien" data-nav="light"><div class="wrap narrow"><div class="label">Teknologien</div>'
-            '<h2>ERA gjør fragmenterte hjemmedata om til kontinuerlig, handlingsbar kunnskap.</h2>'
-            '<p>ERA er laget for å bygge og holde à jour en strukturert kunnskapsmodell av hjemmet. Den kombinerer eiendomsdata, bilder, dokumenter, informasjon om rom og materialer, historikk, utført arbeid og det du og fagfolk selv legger til.</p>'
-            '<p>AI brukes til å analysere og strukturere informasjonen. Rundt den ligger ERAs egen kunnskapsstruktur, som er laget for å ta hensyn til kilde, sammenheng og hvor sikker informasjonen er, og for å fange opp motstridende opplysninger og hvordan kunnskapen endrer seg over tid.</p>'
-            '<p>Det som skiller ERA ut er ikke én enkelt AI-modell, men systemet rundt: ny informasjon kobles til det ERA allerede vet om hjemmet, i stedet for at hver analyse står alene.</p>'
-            '<p>Målet er at ERA over tid går fra å beskrive hjemmet til å forstå hva som er kjent og ukjent, finne vedlikeholds- og oppussingsbehov, foreslå neste handling og dokumentere resultatet tilbake på hjemmet.</p>'
-            '<p class="om-tech-status">Deler av dette er under utvikling.</p></div></section>')
+    tech = ('<section class="section om-tech" id="teknologien" data-nav="light"><div class="wrap narrow"><div class="label">Proprietær analyseteknologi</div>'
+            '<h2>ERA gjør fragmenterte hjemmedata om til kontinuerlig, handlingsbar kunnskap om hjemmet.</h2>'
+            '<p>ERAs proprietære analyseteknologi er utviklet for å bygge og kontinuerlig oppdatere en strukturert digital kunnskapsmodell av det enkelte hjemmet.</p>'
+            '<p>Teknologien kombinerer eiendomsdata, bilder, dokumenter, rom- og materialinformasjon, historikk, utførte arbeider og bruker-/fagpersoninput. AI brukes til å analysere og strukturere informasjonen, mens ERAs egen kunnskapsarkitektur vurderer blant annet kilde, kontekst, sikkerhet, motstridende informasjon og hvordan kunnskapen endrer seg over tid.</p>'
+            '<p>Det unike ligger derfor ikke i én enkelt AI-modell, men i systemet rundt analysen: ERA bygger et vedvarende digitalt hjemmeminne hvor ny informasjon kobles til eksisterende kunnskap om hjemmet, fremfor at hver analyse behandles isolert.</p>'
+            '<p>Dette gjør at ERA over tid kan gå fra å beskrive hjemmet til å forstå hva som er kjent og ukjent, identifisere relevante vedlikeholds- og oppussingsbehov, foreslå neste handling og dokumentere resultatet tilbake på hjemmet.</p></div></section>')
     team = ('<section class="section ny-team" id="teamet" data-nav="light"><div class="wrap wide">'
             '<div class="label">Menneskene bak ERA</div>'
             '<h2>Vi kjenner hjem. Og bygger teknologien rundt dem.</h2>'

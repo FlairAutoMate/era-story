@@ -1235,18 +1235,18 @@ def docs_scatter():
 # The people behind ERA: bios and tags as the story's "Menneskene bak ERA" chapter has them (index.html,
 # teamDefs). The four leads' titles follow the brief of 2 Oct 2026. /investor keeps its own titles.
 NY_TEAM = [
-    ("Lars-Henrik Sand", "Managing Partner · Vision & AI Architect", True, "team-lars.jpg",
-     "17+ år innen teknologi, eiendom og markedsføring, med erfaring fra 400+ boligprosjekter og ledende aktører i eiendomsmarkedet.",
-     "Teknologi · Eiendom · Markedsføring · Produkt · Strategi"),
-    ("Ragnvald Løhren", "Managing Partner · Finance & Strategy", True, "team-ragnvald.jpg",
-     "Bakgrunn fra finans, investering og forretningsutvikling, blant annet fra Storebrand og VentureLab.",
-     "Finans · Investering · Forretningsutvikling · Kapitalstrategi · M&A"),
+    ("Lars-Henrik Sand", "Founder · Managing Partner · Vision & AI Architect", True, "team-lars.jpg",
+     "17+ års erfaring i skjæringspunktet mellom eiendom, teknologi og marked. Har jobbet med digitale løsninger og markedsføring for mer enn 400 boligprosjekter og en rekke ledende aktører i eiendomsmarkedet.",
+     "Eiendom · AI · Produkt · Teknologi · Strategi"),
+    ("Ragnvald Løhren", "Co-Founder · Managing Partner · Finance & Strategy", True, "team-ragnvald.jpg",
+     "Erfaring fra finans, investeringer og forretningsutvikling, blant annet fra Storebrand og VentureLab. Ansvar for ERAs finansielle strategi, forretningsutvikling og kapital.",
+     "Finans · Strategi · Investering · M&A"),
     ("Thomas Floden", "Partner · CTO", True, "team-thomas.jpg",
-     "Teknologigründer med erfaring fra SaaS, AI, systemarkitektur og digitale plattformer.",
-     "SaaS · AI · Systemarkitektur · Digitale plattformer"),
-    ("Eskild Løken Ugland", "Partner · Board Member", True, "team-eskild-v2.jpg",
-     "25+ års erfaring fra bolig, bygg, maling og faghandel, med bakgrunn fra Block Watne og som kjedesjef for Mesterfarge og Mal Proff.",
-     "Bolig · Bygg · Maling · Faghandel · Salg"),
+     "Teknologigründer med erfaring fra SaaS, AI, systemarkitektur og digitale plattformer. Leder den teknologiske utviklingen av ERA og arkitekturen bak plattformen.",
+     "Teknologi · AI · SaaS · Systemarkitektur"),
+    ("Eskild Løken Ugland", "Partner · Styremedlem", True, "team-eskild-v2.jpg",
+     "25+ års erfaring fra bolig, bygg og faghandel. Tidligere salgs- og markedsdirektør i Block Watne, og senere kjedesjef for Mal Proff og Mesterfarge i Mestergruppen. Bidrar særlig med bransjekunnskap, distribusjon og kommersiell utvikling.",
+     "Bolig · Bygg · Faghandel · Distribusjon · Salg"),
     ("Markus Frost", "Styreleder", False, "team-markus.jpg", "Leder ERAs styrearbeid.", ""),
     ("Magnus Stensrud", "Daglig leder / Sales", False, "team-magnus-v4.jpg",
      "Lang erfaring fra salg, salgsledelse og kundereiser, blant annet fra Elkjøp.", ""),
@@ -1599,8 +1599,8 @@ def om_era_page():
                  sid="bygger", cls="cine--center", pos="50% 55%")
     team = ('<section class="section ny-team" id="teamet" data-nav="light"><div class="wrap wide">'
             '<div class="label">Menneskene bak ERA</div>'
-            '<h2>Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>'
-            '<p class="ny-team-lede">Bygget av et team med erfaring fra eiendom, teknologi, finans, distribusjon og AI.</p>'
+            '<h2>Vi kjenner bolig. Og bygger teknologien rundt den.</h2>'
+            '<p class="ny-team-lede">ERA bygges av mennesker med lang erfaring fra eiendom, teknologi, finans, bygg, handel og AI. Sammen bygger vi en enklere måte å eie, forstå og ta vare på boligen på.</p>'
             + team_html() + '</div></section>')
     cta = ('<section class="ny-teaser ny-teaser--cta" data-nav="dark"><div class="wrap"><div><h2>Finn boligen din.</h2>'
            '<p>Skriv adressen din, så åpner vi ERA for boligen din i betaperioden.</p></div>'

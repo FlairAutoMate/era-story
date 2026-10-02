@@ -16,11 +16,12 @@ tilbake, og det synte i diffen. Hadde den blitt merget, ville den rullet tilbake
 
 Sjekk ved tvil: `git rev-list --count HEAD..origin/master` skal være `0`.
 
-## Master går rett i produksjon
+## Master deployer automatisk
 
 Vercel deployer `master` automatisk, ca. ett minutt etter merge. Investorsiden er et eget Vercel-prosjekt
 (`era-investor`, Root Directory `sites/investor`) og deployes av samme merge, men publiseres på en egen lenke. Ingen kjører `vercel --prod`.
-**En merge er en publisering.** Alt som er feil på master er feil på era-app.no.
+**En merge er en publisering** til https://era-story.vercel.app. Verifiser alltid mot det
+domenet — det er dit dette repoet deployer.
 
 ## Generert HTML skal aldri redigeres for hånd
 

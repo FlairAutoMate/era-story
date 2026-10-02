@@ -458,3 +458,41 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .follow small { font-size: 12.5px; line-height: 1.4; color: var(--muted-2); }
 .follow-err { font-size: 13.5px; color: #8C3B28 !important; }
 @media (max-width: 560px) { .follow-row { flex-direction: column; align-items: stretch; } .follow input[type="email"] { flex: none; width: 100%; } .follow button { width: 100%; } }
+
+/* ── /ny: cinematic ───────────────────────────────────────────────────────────
+   Bildene bærer følelsen, appskjermene bærer meningen, adressefeltet er handlingen.
+   Hver cinematic seksjon er et av de gamle ERA-bildene bak et mørkt slør og en kort tekst. */
+.ny-hero .hero-media { display: block; }
+.ny-hero .hero-media::after { background: linear-gradient(90deg, rgba(15,24,48,0.93) 0%, rgba(15,24,48,0.8) 38%, rgba(15,24,48,0.45) 68%, rgba(15,24,48,0.3) 100%), linear-gradient(180deg, rgba(15,24,48,0.55), transparent 28%, transparent 62%, rgba(15,24,48,0.8)); }
+@media (max-width: 899px) { .ny-hero .hero-media::after { background: linear-gradient(180deg, rgba(15,24,48,0.78) 0%, rgba(15,24,48,0.86) 45%, rgba(15,24,48,0.92) 100%); } }
+
+.cine { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: var(--warm); padding: clamp(72px, 12vh, 140px) clamp(24px, 7vw, 120px); }
+.cine-media { position: absolute; inset: 0; z-index: -1; }
+.cine-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cine-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,24,48,0.84) 0%, rgba(15,24,48,0.6) 55%, rgba(15,24,48,0.46) 100%); }
+.cine--center .cine-media::after { background: radial-gradient(ellipse at 50% 50%, rgba(15,24,48,0.6), rgba(15,24,48,0.8)); }
+.cine-body { max-width: 1160px; margin: 0 auto; }
+.cine h2 { color: #fff; font-size: clamp(34px, 5vw, 64px); text-wrap: balance; }
+.cine-lede { margin-top: 18px; max-width: 560px; font-size: clamp(17px, 1.9vw, 22px); line-height: 1.4; font-weight: 500; color: rgba(247,244,238,0.88); }
+.cine-fine { margin-top: 18px; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(247,244,238,0.55); }
+.cine-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+@media (min-width: 900px) { .cine-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); } }
+.cine-center { text-align: center; max-width: 880px; margin: 0 auto; }
+.cine-center .cine-lede { margin-inline: auto; }
+
+.cine-flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: flow; padding: 8px 22px; border-radius: 22px; background: rgba(15,24,48,0.55); border: 1px solid rgba(247,244,238,0.16); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.cine-flow li { position: relative; counter-increment: flow; padding: 15px 0 15px 44px; font-size: 16.5px; font-weight: 600; letter-spacing: -0.01em; color: #fff; border-top: 1px solid rgba(247,244,238,0.1); }
+.cine-flow li:first-child { border-top: 0; }
+.cine-flow li::before { content: counter(flow); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; background: rgba(212,177,122,0.18); border: 1px solid rgba(212,177,122,0.6); color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.cine-flow li:last-child::before { background: var(--gold); color: var(--navy-2); }
+
+.cine-timeline { list-style: none; margin: 40px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 0; counter-reset: tl; }
+.cine-timeline li { position: relative; display: flex; align-items: center; }
+.cine-timeline li span { padding: 10px 16px; border-radius: 999px; background: rgba(15,24,48,0.6); border: 1px solid rgba(247,244,238,0.22); font-size: 14.5px; font-weight: 600; color: #fff; white-space: nowrap; }
+.cine-timeline li:not(:last-child)::after { content: ""; width: 22px; height: 1px; background: rgba(247,244,238,0.4); }
+.cine-timeline li.is-next span { background: rgba(212,177,122,0.16); border: 1px dashed var(--gold); color: var(--gold); }
+@media (max-width: 640px) { .cine-timeline { flex-direction: column; align-items: center; gap: 0; } .cine-timeline li:not(:last-child)::after { width: 1px; height: 14px; position: static; display: block; margin: 0 auto; } .cine-timeline li { flex-direction: column; } }
+
+.cine--close { padding-block: clamp(96px, 16vh, 180px); }
+.cine--close .lead { margin-top: 30px; }
+.cine--close .ny-micro { color: rgba(247,244,238,0.8); }

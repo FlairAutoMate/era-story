@@ -33,12 +33,12 @@ do {
 // /ny asks for an e-mail after the address, stored as a separate "email" document that points back at
 // the first one with leadId. Join them here so each lead is one row. A follow-up whose first document
 // is gone (deleted on request, say) stays as a row of its own.
-const followups = leads.filter((l) => l.kind === "email");
-const rows = leads.filter((l) => l.kind !== "email");
+const followups = leads.filter((l) => l.kind === "email" || l.kind === "topic");
+const rows = leads.filter((l) => l.kind !== "email" && l.kind !== "topic");
 const byId = new Map(rows.map((l) => [l.id, l]));
 for (const f of followups) {
   const lead = byId.get(f.leadId);
-  if (lead) lead.email = lead.email || f.email;
+  if (lead) { if (f.kind === "email") lead.email = lead.email || f.email; else lead.topic = lead.topic || f.topic; }
   else rows.push({ ...f, value: f.value ? `${f.value} (kun e-post)` : "(kun e-post)" });
 }
 leads.length = 0;
@@ -51,10 +51,10 @@ if (mode === "json") {
   console.log(JSON.stringify(leads, null, 2));
 } else if (mode === "csv") {
   const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  console.log(["receivedAt", "audience", "value", "email", "kommune", "gnr", "bnr", "message", "page", "id"].join(","));
-  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.address?.kommunenavn, l.address?.gardsnummer, l.address?.bruksnummer, l.message, l.page, l.id].map(esc).join(","));
+  console.log(["receivedAt", "audience", "value", "email", "kommune", "gnr", "bnr", "message", "topic", "source", "page", "id"].join(","));
+  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.address?.kommunenavn, l.address?.gardsnummer, l.address?.bruksnummer, l.message, l.topic, l.source, l.page, l.id].map(esc).join(","));
 } else {
   if (!leads.length) console.log("Ingen leads ennå.");
-  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${where(l) ? `[${where(l)}]  ` : ""}${l.email || ""}${l.message ? `  «${l.message.slice(0, 80)}»` : ""}`);
+  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${where(l) ? `[${where(l)}]  ` : ""}${l.email || ""}${l.message ? `  «${l.message.slice(0, 80)}»` : ""}${l.topic ? `  [${l.topic}]` : ""}${l.source ? `  <${l.source}>` : ""}`);
   console.log(`\n${leads.length} lead(s).`);
 }

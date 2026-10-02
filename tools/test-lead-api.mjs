@@ -78,4 +78,27 @@ assert.equal((await call({}, "GET")).code, 405);
   assert.equal(last().body.message, undefined);
 }
 
+// 6. Private Beta: the source slug and the topic follow-up (the demand signal)
+{
+  const n0 = globalThis.__stored.length;
+  r = await call({ audience: "owner", value: "Myrerveien 46A, 0000 Oslo", source: "hjemla", page: "https://x/" });
+  assert.equal(last().body.source, "hjemla");
+  const id = r.body.id;
+  await call({ audience: "owner", value: "Abc 1", source: "Ugyldig kilde!" });
+  assert.equal(last().body.source, undefined);
+  await call({ audience: "owner", value: "Abc 1", source: "x".repeat(60) });
+  assert.equal(last().body.source, undefined);
+  const before = globalThis.__stored.length;
+  r = await call({ audience: "owner", followup: "topic", leadId: id, topic: "oppussing", value: "Myrerveien 46A, 0000 Oslo" });
+  assert.equal(r.code, 200); assert.equal(globalThis.__stored.length, before + 1);
+  assert.ok(last().path.endsWith("-tema.json")); assert.equal(last().body.kind, "topic"); assert.equal(last().body.topic, "oppussing"); assert.equal(last().body.leadId, id);
+  assert.equal(last().body.email, undefined);
+  const b2 = globalThis.__stored.length;
+  assert.equal((await call({ audience: "owner", followup: "topic", leadId: id, topic: "ikke-et-tema" })).code, 400);
+  assert.equal((await call({ audience: "owner", followup: "topic", topic: "oppussing" })).code, 400);
+  assert.equal(globalThis.__stored.length, b2);
+  // an e-mail follow-up still needs a real e-mail, a topic follow-up does not
+  assert.equal((await call({ audience: "owner", followup: "email", leadId: id, email: "nope" })).code, 400);
+}
+
 console.log("lead api: ok");

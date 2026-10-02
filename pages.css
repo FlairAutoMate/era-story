@@ -1012,3 +1012,29 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 @media (max-width: 899px) { .reise-ctx { display: block; margin-top: 12px; font-size: 14px; line-height: 1.45; color: var(--muted); } }
 
 .cap .link, .pflow .link { color: var(--gold-2); }
+
+/* Private Beta: address -> access -> handoff (front page). The card is light, so everything here is ink on cream. */
+.done--follow { width: min(560px, 100%); align-items: flex-start; }
+.done--follow .done-body { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.done--follow .done-body > b { font-size: 18px; letter-spacing: -0.01em; }
+.access-note { font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+.access-status { font-size: 14px; font-weight: 600; color: var(--ink); }
+.access-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.access-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--navy-2); font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; }
+.access-btn.is-primary { background: var(--navy-2); color: #fff; }
+.access-btn.is-secondary { background: transparent; color: var(--ink); }
+.access-btn.is-link { border: 0; background: none; color: var(--gold-2); padding: 0; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+.access-btn:focus-visible, .topic-chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.access-btn:disabled { opacity: 0.6; cursor: default; }
+.access-err { color: #A1392C; font-size: 14px; font-weight: 600; }
+.topic { border: 0; margin: 10px 0 0; padding: 0; min-width: 0; }
+.topic legend { padding: 0; margin-bottom: 8px; font-size: 14px; font-weight: 700; }
+.topic-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic-chip { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.topic-chip[aria-pressed="true"] { background: var(--navy-2); border-color: var(--navy-2); color: #fff; }
+.topic-chip:disabled { cursor: default; opacity: 0.75; }
+.topic-thanks { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); min-height: 1.3em; }
+.invite-form { display: grid; gap: 8px; justify-items: start; width: 100%; }
+.invite-form label { font-size: 14px; font-weight: 600; }
+.invite-form input { width: 100%; max-width: 420px; min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px; color: var(--ink); background: #fff; }
+.invite-form input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }

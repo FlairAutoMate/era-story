@@ -3,7 +3,7 @@
 // notification. Nothing else is sent anywhere.
 //
 // Body: { audience: "owner" | "board" | "pro" | "partner" | "samarbeid", value: string, email?: string, message?: string, intent?: "interest" | "demo", website?: string, page?: string,
-//         address?: { ...Geonorge fields, see cleanAddress }, leadId?: string, followup?: "email" }
+//         address?: { ...Geonorge fields, see cleanAddress }, leadId?: string, followup?: "email" | "topic", topic?: string, source?: string }
 // `website` is a honeypot: humans never fill it, bots do. `email` is optional. A real-shaped e-mail is
 // kept if sent.
 //
@@ -19,6 +19,10 @@ import { randomUUID } from "node:crypto";
 const AUDIENCES = new Set(["owner", "board", "pro", "partner", "samarbeid"]);
 const NAMES = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel", samarbeid: "Meglere og partnere" };
 const MAX_LEN = 200;
+// Where the visitor came from (partner or campaign), only ever a short slug. Interim attribution: the ERA app owns the permanent one.
+const SOURCE_RE = /^[a-z0-9][a-z0-9_-]{0,29}$/;
+// What the visitor wants most help with, asked after «Be om tilgang». A fixed list, so the signal is countable.
+const TOPICS = new Set(["oppfolging", "vedlikehold", "oppussing", "gjore_selv", "handverker", "dokumentasjon", "annet"]);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -53,7 +57,14 @@ async function notify(doc) {
   const who = NAMES[doc.audience] || doc.audience;
   const a = doc.address;
   const matrikkel = a && a.gardsnummer !== undefined ? `gnr ${a.gardsnummer} / bnr ${a.bruksnummer ?? "-"}` : undefined;
-  const text = doc.kind === "email" ? [
+  const text = doc.kind === "topic" ? [
+    `Hva en bruker ønsker mest hjelp med, etter en forespørsel om tilgang via era-story.`,
+    ``,
+    `${who}: ${doc.value || "-"}`,
+    `Ønsker hjelp med: ${doc.topic}`,
+    `Hører til innsending: ${doc.leadId}`,
+    `Tidspunkt: ${doc.receivedAt}`,
+  ].join("\n") : doc.kind === "email" ? [
     `E-post lagt igjen etter en adresse via era-story.`,
     ``,
     `${who}: ${doc.value || "-"}`,
@@ -67,6 +78,7 @@ async function notify(doc) {
     `${who}: ${doc.value}`,
     ...(a ? [`Adresse bekreftet mot Kartverket: ${[a.kommunenavn, matrikkel].filter(Boolean).join(", ") || "ja"}`] : []),
     `Ønsker: ${doc.intent === "demo" ? "demo" : "å bli kontaktet"}`,
+    ...(doc.source ? [`Kilde: ${doc.source}`] : []),
     ...(doc.message ? [`Melding: ${doc.message}`] : []),
     `E-post: ${doc.email || "-"}`,
     `Tidspunkt: ${doc.receivedAt}`,
@@ -77,7 +89,7 @@ async function notify(doc) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), reply_to: doc.email || undefined, subject: doc.kind === "email" ? `ERA lead · e-post · ${who}` : `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
+    body: JSON.stringify({ from, to: to.split(",").map((s) => s.trim()), reply_to: doc.email || undefined, subject: doc.kind === "topic" ? `ERA lead · tema · ${who}` : doc.kind === "email" ? `ERA lead · e-post · ${who}` : `ERA lead · ${who} · ${doc.value.slice(0, 60)}`, text }),
   });
   if (!r.ok) throw new Error(`resend ${r.status}: ${(await r.text()).slice(0, 200)}`);
   return "sent";
@@ -101,7 +113,10 @@ export default async function handler(req, res) {
   const intent = body.intent === "demo" ? "demo" : "interest";
   const message = String(body.message ?? "").trim().replace(/[ \t]+/g, " ").slice(0, 1000);
   const honeypot = String(body.website ?? "").trim();
-  const followup = body.followup === "email";
+  const followupKind = body.followup === "email" || body.followup === "topic" ? body.followup : undefined;
+  const followup = !!followupKind;
+  const source = typeof body.source === "string" && SOURCE_RE.test(body.source) ? body.source : undefined;
+  const topic = typeof body.topic === "string" && TOPICS.has(body.topic) ? body.topic : undefined;
   const leadId = typeof body.leadId === "string" && UUID_RE.test(body.leadId) ? body.leadId : undefined;
 
   // Bots get a friendly 200 and nothing stored; humans need at least a few characters and a
@@ -109,7 +124,8 @@ export default async function handler(req, res) {
   if (honeypot) return res.status(200).json({ ok: true });
   if (followup) {
     if (!leadId) return res.status(400).json({ ok: false, error: "lead" });
-    if (!EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: "email" });
+    if (followupKind === "email" && !EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: "email" });
+    if (followupKind === "topic" && !topic) return res.status(400).json({ ok: false, error: "topic" });
   } else if (value.length < 3) {
     return res.status(400).json({ ok: false, error: "short" });
   } else if (audience === "samarbeid" && !EMAIL_RE.test(email)) {
@@ -128,10 +144,10 @@ export default async function handler(req, res) {
     userAgent: (req.headers["user-agent"] || "").slice(0, 200),
   };
   const doc = followup
-    ? { ...common, kind: "email", leadId, value: value || undefined, email }
-    : { ...common, value, email: EMAIL_RE.test(email) ? email : undefined, intent, message: message || undefined, address: cleanAddress(body.address) };
+    ? { ...common, kind: followupKind, leadId, value: value || undefined, email: followupKind === "email" ? email : undefined, topic: followupKind === "topic" ? topic : undefined }
+    : { ...common, source, value, email: EMAIL_RE.test(email) ? email : undefined, intent, message: message || undefined, address: cleanAddress(body.address) };
   const day = now.toISOString().slice(0, 10);
-  const pathname = `leads/${audience}/${day}/${now.toISOString().replace(/[:.]/g, "-")}-${id.slice(0, 8)}${followup ? "-epost" : ""}.json`;
+  const pathname = `leads/${audience}/${day}/${now.toISOString().replace(/[:.]/g, "-")}-${id.slice(0, 8)}${followup ? (followupKind === "topic" ? "-tema" : "-epost") : ""}.json`;
 
   try {
     await put(pathname, JSON.stringify(doc, null, 2), {

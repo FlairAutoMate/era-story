@@ -384,12 +384,65 @@ AUDIENCES = {
             ("Alt på ett sted", "Dokumentasjonen følger boligen, også til neste eier."),
             ("Dine data", "Lagret kryptert innenfor EU/EØS. Du bestemmer hvem som ser dem."),
         ],
+        # FAQ-en er kategoriavklarende forst, kjopsnar etterpa. De seks forste staar apent;
+        # resten ligger bak «Se alle sporsmal». Rekkefolgen er bevisst: tvilen om hva ERA *er*
+        # ryddes for sporsmal om data, handling og pris.
         faq=[
-            ("Må jeg ha tilstandsrapport?", "Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen."),
-            ("Er ERA en markedsplass?", "Nei. ERA hjelper deg å ta riktig avgjørelse, også når den er å vente."),
-            ("Hva skjer med dataene mine?", "De lagres kryptert innenfor EU/EØS og deles bare når du velger det: med håndverker, styret eller kjøper."),
-            ("Hva koster ERA for boligeiere?", "ERA er gratis for de 300 boligeierne som deltar i betafasen. Du trenger ikke registrere betalingskort, og det er ingen binding. Eventuelle priser etter beta kommuniseres tydelig før noe endres."),
-            ("Hvorfor er det bare 300 plasser?", "Vi begrenser betafasen for å kunne følge opp brukerne tett, forbedre ERA basert på reelle boligbehov og sikre kvalitet før en bredere lansering."),
+            ("Er ERA et nytt FDV-system?",
+             "Nei. Et FDV-system organiserer og dokumenterer informasjon. ERA bruker informasjonen til å forstå boligen, "
+             "oppdage relevante behov og hjelpe deg videre til handling. Målet er ikke bare å lagre hva som har skjedd, "
+             "men å hjelpe deg forstå hva du bør gjøre videre."),
+            ("Hva er forskjellen på ERA og Boligmappa?",
+             "Boligmappa er først og fremst et sted for dokumentasjon og historikk knyttet til boligen. ERA bygger videre "
+             "på samme type boligkunnskap, men bruker den aktivt: Hva vet vi? → Hva betyr det? → Hva bør gjøres? → Skal "
+             "ERA hjelpe deg få det gjort? ERA skal derfor være boligens agent, ikke bare boligens arkiv."),
+            ("Hva er forskjellen på ERA og Mittanbud?",
+             "Mittanbud blir relevant når du allerede vet at du trenger en håndverker. ERA kan starte tidligere, og hjelpe "
+             "deg forstå behovet og vurdere hva som bør gjøres. Deretter velger du:",
+             [("Gjør det selv — ", "ERA hjelper med plan, produkter og veiledning."),
+              ("Få hjelp av proff — ", "behovet er allerede beskrevet, så du slipper å starte prosessen på nytt.")]),
+            ("Hva vet ERA om boligen min?",
+             "ERA starter med det som allerede finnes eller kan hentes inn om boligen, og lærer mer etter hvert som du "
+             "legger til bilder, dokumenter og informasjon. ERA skiller mellom tre ting:",
+             [("Dokumentert — ", "vi vet hvor informasjonen kommer fra."),
+              ("ERA-forslag — ", "ERA gjør en vurdering og forklarer hvorfor."),
+              ("Mangler — ", "ERA sier fra når informasjonen ikke finnes.")]),
+            ("Kan ERA hjelpe meg å gjøre det selv eller finne en proff?",
+             "Ja. ERA utvikles for begge veier. Vil du gjøre jobben selv, kan ERA hjelpe med plan → produkter → mengder → "
+             "handleliste → veiledning. Vil du heller ha hjelp, kan det samme behovet brukes videre mot en proff."),
+            ("Hva koster ERA?",
+             "ERA er gratis for boligeiere i betaperioden. Ingen betalingskort og ingen binding."),
+
+            # ── bak «Se alle spørsmål» ──
+            ("Hva er forskjellen på ERA og ChatGPT?",
+             "En generell AI kjenner ikke boligen din. ERA bygger en vedvarende hukommelse rundt din konkrete bolig — med "
+             "boligdata, bilder, dokumentasjon, historikk og det som blir gjort over tid. Derfor kan et spørsmål som «Hva "
+             "bør jeg følge opp nå?» besvares i kontekst av akkurat din bolig."),
+            ("Må jeg legge inn alt selv?",
+             "Nei. Målet er at du skal kunne starte med adressen, og at ERA bygger boligprofilen gradvis. Du skal ikke "
+             "måtte fylle ut et langt skjema før ERA blir nyttig."),
+            ("Kan jeg ta et bilde og spørre ERA?",
+             "Ja. Bilder er en viktig del av ERA-opplevelsen. Du skal kunne vise ERA noe du lurer på, og få hjelp til å "
+             "forstå hva du ser i sammenheng med resten av boligen. For eksempel:",
+             ["«Hva bør jeg gjøre med denne veggen?»",
+              "«Bør dette følges opp?»",
+              "«Hva trenger jeg hvis jeg vil fikse dette selv?»"]),
+            ("Kan ERA hente tilbud fra håndverkere?",
+             "ERA har fundamentet for reisen fra boligbehov til konkret arbeid, tilbud, valg av utførende, gjennomføring "
+             "og dokumentasjon. Målet er at du skal kunne gå fra «dette bør gjøres» til «få hjelp av proff» uten å "
+             "beskrive hele behovet på nytt."),
+            ("Får ERA betalt når jeg kjøper noe?",
+             "ERA kan få betalt fra partnere når du velger å kjøpe et produkt eller en tjeneste gjennom ERA. Det endrer "
+             "ikke at du bestemmer hva du vil gjøre og hvem du vil bruke."),
+            ("Hva skjer når jobben er ferdig?",
+             "Resultatet skal tilbake til boligen. Bilder, dokumentasjon og relevant historikk gjør boligprofilen bedre, "
+             "slik at neste prosjekt ikke starter fra null. Boligen husker. Du slipper."),
+            ("Følger informasjonen boligen over tid?",
+             "Det er selve ideen. ERA bygger en digital hukommelse rundt boligen, slik at tidligere arbeid, dokumentasjon "
+             "og historikk kan gi bedre beslutninger senere."),
+            ("Hva skjer med dataene mine?",
+             "Du bestemmer hvem som får tilgang. Data om boligen deles ikke med håndverkere, partnere eller andre bare "
+             "fordi de finnes i ERA. Deling skjer når det er relevant og du velger det. Lagret kryptert innenfor EU/EØS."),
         ],
         beta=dict(
             badge="Nå i kontrollert beta — åpnes for 300 boligeiere",
@@ -816,6 +869,42 @@ def footer_html():
 </footer>'''
 
 
+FAQ_VISIBLE = 6
+
+
+def faq_html(items, visible=FAQ_VISIBLE):
+    """FAQ-en er en del av produktforklaringen, ikke bare en hjelpefunksjon.
+
+    Et element er (spørsmål, svar) eller (spørsmål, svar, punkter). Et punkt er enten en streng
+    eller (ledetekst, tekst) — brukt der strukturen bærer meningen, som skillet mellom
+    Dokumentert, ERA-forslag og Mangler.
+
+    Bare de første `visible` vises. Resten ligger bak «Se alle spørsmål»: fjorten åpne spørsmål
+    over folden leses som en støttefunksjon, ikke som en forklaring. Løsningen er ren HTML —
+    <details> trenger ingen JavaScript, virker uten den, og er tastaturnavigerbar av seg selv.
+    """
+    def one(it):
+        q, ans = it[0], it[1]
+        bullets = it[2] if len(it) > 2 else None
+        body = "<p>" + esc(ans) + "</p>"
+        if bullets:
+            lis = []
+            for b in bullets:
+                if isinstance(b, (tuple, list)) and len(b) == 2:
+                    lis.append("<li><b>" + esc(b[0]) + "</b>" + esc(b[1]) + "</li>")
+                else:
+                    lis.append("<li>" + esc(b) + "</li>")
+            body += '<ul class="faq-points">' + "".join(lis) + "</ul>"
+        return "<details><summary>" + esc(q) + "</summary>" + body + "</details>"
+
+    head = "".join(one(it) for it in items[:visible])
+    rest = items[visible:]
+    if not rest:
+        return head
+    return (head + '<details class="faq-more"><summary>Se alle spørsmål</summary>'
+            '<div class="faq">' + "".join(one(it) for it in rest) + "</div></details>")
+
+
 def page(slug, a):
     cur = ' aria-current="page"'
     beta = a.get("beta")
@@ -897,7 +986,7 @@ def page(slug, a):
             f'<div class="card-head"><span class="label">{esc(ex["title"])}</span><span class="meta">{esc(ex["meta"])}</span></div>'
             f'{rows}</div><div class="example-text"><h2>Slik ser det ut.</h2><p>{esc(ex["note"])}</p></div></div></section>'
         )
-    faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>' for q, ans in a["faq"])
+    faq = faq_html(a["faq"])
     beta_section = ""
     if beta:
         beta_items = "".join(f"<li>{esc(it)}</li>" for it in beta["items"])

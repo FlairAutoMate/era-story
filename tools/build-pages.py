@@ -418,6 +418,12 @@ AUDIENCES = {
              "En generell AI kjenner ikke boligen din. ERA bygger en vedvarende hukommelse rundt din konkrete bolig — med "
              "boligdata, bilder, dokumentasjon, historikk og det som blir gjort over tid. Derfor kan et spørsmål som «Hva "
              "bør jeg følge opp nå?» besvares i kontekst av akkurat din bolig."),
+            ("Gjelder ERA for leilighet og borettslag, eller bare enebolig?",
+             "Begge deler. Den signerte piloten er et borettslag med 69 leiligheter. Bor du i borettslag eller sameie, "
+             "får du din egen boligoversikt, vedlikeholdsplan og påminnelser, samtidig som styret kan bruke ERA for "
+             "fellesarealene."),
+            ("Må jeg ha tilstandsrapport?",
+             "Nei. ERA starter med det du har. Jo mer du legger inn, jo mer presis blir planen."),
             ("Må jeg legge inn alt selv?",
              "Nei. Målet er at du skal kunne starte med adressen, og at ERA bygger boligprofilen gradvis. Du skal ikke "
              "måtte fylle ut et langt skjema før ERA blir nyttig."),
@@ -434,6 +440,15 @@ AUDIENCES = {
             ("Får ERA betalt når jeg kjøper noe?",
              "ERA kan få betalt fra partnere når du velger å kjøpe et produkt eller en tjeneste gjennom ERA. Det endrer "
              "ikke at du bestemmer hva du vil gjøre og hvem du vil bruke."),
+            ("Hva skjer etter betaperioden?",
+             "Du trenger ikke registrere betalingskort, og det er ingen binding. Eventuelle priser etter beta "
+             "kommuniseres tydelig før noe endres."),
+            ("Hvorfor er det bare 300 plasser?",
+             "Vi begrenser betafasen for å kunne følge opp brukerne tett, forbedre ERA basert på reelle boligbehov og "
+             "sikre kvalitet før en bredere lansering."),
+            ("Hva skjer når jeg søker om betatilgang?",
+             "Du oppgir adressen til boligen. Vi sier fra når ERA er klar for den. Ingen binding, og dataene lagres "
+             "kryptert i EU/EØS og brukes bare til å ta kontakt."),
             ("Hva skjer når jobben er ferdig?",
              "Resultatet skal tilbake til boligen. Bilder, dokumentasjon og relevant historikk gjør boligprofilen bedre, "
              "slik at neste prosjekt ikke starter fra null. Boligen husker. Du slipper."),
@@ -443,6 +458,12 @@ AUDIENCES = {
             ("Hva skjer med dataene mine?",
              "Du bestemmer hvem som får tilgang. Data om boligen deles ikke med håndverkere, partnere eller andre bare "
              "fordi de finnes i ERA. Deling skjer når det er relevant og du velger det. Lagret kryptert innenfor EU/EØS."),
+            ("Kan jeg slette alt?",
+             "Ja. Du kan når som helst be om innsyn i, retting av eller sletting av det du har sendt inn, også e-posten. "
+             "Send en melding via skjemaet med «personvern» først i teksten, så ordner vi det."),
+            ("Hvem står bak ERA?",
+             "ERA technologies AS, med base i Oslo. Teamet har bakgrunn fra eiendom, bygg, faghandel, teknologi og "
+             "finans. Du finner menneskene og hvorfor ERA finnes under Om ERA."),
         ],
         beta=dict(
             badge="Nå i kontrollert beta — åpnes for 300 boligeiere",

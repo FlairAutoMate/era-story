@@ -1295,7 +1295,7 @@ def reise_sofa():
             '<p class="cine-lede">ERA følger med på boligen og minner deg på det som bør vurderes.</p>'
             '<p class="reise-say">«Vi burde male stua.»</p></div>'
             '<div class="reise-note" aria-hidden="true"><b>ERA</b><span>Tid for å vurdere ny maling?</span><em>Det er en stund siden sist.</em></div>')
-    return cine("/assets/story/couple-sofa-v3.jpg", body, sid="sofaen", cls="cine--reise cine--sofa", pos="50% 55%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+    return cine("/assets/story/couple-reminder-v5.jpg", body, sid="sofaen", cls="cine--reise cine--sofa", pos="50% 55%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
 def reise_bilde():
@@ -1308,7 +1308,7 @@ def reise_bilde():
             '<p class="cine-fine">Eksempel. Produktforslag og handleliste er under utvikling.</p></div>'
             '<div class="reise-card" aria-hidden="false"><div class="reise-card-head"><b>era.</b><span>Myrerveien 46A</span></div>'
             f'<ul class="reise-rows">{lis}</ul></div>')
-    return cine("/assets/story/livingroom-wall-v3.jpg", body, sid="bilde", cls="cine--reise cine--bilde", pos="40% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+    return cine("/assets/story/couple-wall-v5.jpg", body, sid="bilde", cls="cine--reise cine--bilde", pos="40% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
 def valget():
@@ -1333,7 +1333,7 @@ def reise_ferdig():
     body = ('<div class="reise-text"><h2>Ferdig.<br>Og boligen husker det.</h2>'
             '<p class="cine-lede">Neste gang starter ERA med historikken, ikke fra null.</p></div>'
             f'<div class="reise-card reise-card--done"><ul class="reise-done">{lis}</ul></div>')
-    return cine("/assets/story/couple-window-v3.jpg", body, sid="ferdig", cls="cine--reise cine--ferdig", pos="50% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
+    return cine("/assets/story/couple-done-v5.jpg", body, sid="ferdig", cls="cine--reise cine--ferdig", pos="50% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
 # Three scenes from the old story, in a short form. Each one starts when it scrolls into view

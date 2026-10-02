@@ -857,3 +857,14 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
   #behov::before { content: ""; position: absolute; top: 0; left: 84%; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--gold); z-index: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .has-js .see-line { transform: none !important; transition: none; } }
+
+/* De tre parbildene er laget med paret til høyre for midten og lys vegg til venstre. Sofa og ferdig speiles
+   så teksten ligger på den rolige siden; på veggbildet ligger teksten nederst, under ansiktene. */
+.cine--sofa .cine-media img, .cine--ferdig .cine-media img { transform: scaleX(-1); }
+.cine--sofa .cine-body, .cine--ferdig .cine-body { grid-template-columns: minmax(0, 520px); }
+.cine--bilde { align-items: flex-end; }
+.cine--bilde .cine-body { align-items: end; }
+.cine--bilde .cine-media::after { background: linear-gradient(0deg, rgba(15,24,48,0.82) 0%, rgba(15,24,48,0.4) 40%, rgba(15,24,48,0.08) 70%); }
+@media (min-width: 900px) { .cine--bilde .cine-body { align-items: center; } .cine--bilde .reise-text { align-self: end; } }
+
+.cine--ferdig .reise-card { justify-self: start; width: fit-content; min-width: 280px; }

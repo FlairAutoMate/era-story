@@ -24,18 +24,17 @@ function eraTrack(name, data) {
 // one (hero and closing section on /ny); each form finds its own confirmation and error elements
 // among its siblings, so the forms never touch each other.
 //
-// A form with data-follow="email" (only /ny) is two steps: the address, then an optional e-mail.
+// A form with data-follow="email" (the front page) runs the Private Beta access flow at the end of this file.
 // The address call returns an id; the e-mail call sends it back as leadId, and the server stores the
 // e-mail as its own document that points at the first. Nothing already stored is rewritten.
 document.querySelectorAll("form.lead").forEach(function (form) {
+  if (form.dataset.follow === "email") return; // the front page: see the Private Beta access flow at the end of this file
   var scope = form.parentElement;
   var done = scope.querySelector(".done");
   var err = scope.querySelector(".err");
   var btn = form.querySelector("button[type=submit]");
   var label = btn.textContent;
-  var follow = form.dataset.follow === "email";
   var which = (form.id || "").replace("era-lead-", "") || "form";
-  var track = function (name, extra) { if (follow) eraTrack(name, Object.assign({ page: "ny", form: which }, extra || {})); };
   // Intent toggle (e.g. "Meld interesse" / "Be om demo"): a hidden field, the submit label
   // and the confirmation text follow the chosen button. Pages without a toggle skip all of it.
   var intentInput = form.elements.intent;
@@ -60,18 +59,11 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     var website = (form.elements.website && form.elements.website.value || "").trim();
     err.hidden = true;
     if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; return; }
-    // The structured fields of the suggestion the visitor picked, but only while the field still
-    // holds exactly that text. Anyone who picked and then edited sends the plain text alone.
-    var picked = form.elements.value.__eraPicked;
-    var address = follow && picked && picked.full === value ? picked.address : undefined;
     btn.disabled = true; btn.textContent = "Sender…";
-    track("find_home_started", { picked: !!address });
     try {
-      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.href, address: address }) });
+      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, value: value, intent: intent, website: website, page: location.origin + location.pathname }) });
       var j = await r.json().catch(function () { return {}; });
       if (r.ok && j.ok) {
-        track("find_home_completed", { picked: !!address });
-        if (follow) showFollow(j.id, value, address);
         form.hidden = true; done.hidden = false;
         requestAnimationFrame(function () { requestAnimationFrame(function () { done.classList.add("drawn"); }); });
       }
@@ -81,54 +73,6 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     }
     btn.disabled = false; btn.textContent = label;
   });
-
-  // Step two on /ny: say what was found (only what Kartverket actually returned for a picked
-  // suggestion), then offer to leave an e-mail. Skipping it costs nothing: the address is stored.
-  function showFollow(leadId, value, address) {
-    var title = done.querySelector("[data-done-title]");
-    var sub = done.querySelector("[data-done-sub]");
-    var note = done.querySelector("[data-done-note]");
-    var fform = done.querySelector("[data-follow-form]");
-    if (!title || !sub || !fform) return;
-    if (address) {
-      // Kartverket returns municipality names in capitals ("NORDRE FOLLO"); show them as names.
-      var place = address.kommunenavn ? String(address.kommunenavn).toLowerCase().replace(/(^|[\s-])(\S)/g, function (m, a, b) { return a + b.toUpperCase(); }) + " kommune" : "";
-      var matrikkel = address.gardsnummer !== undefined ? "gnr " + address.gardsnummer + " / bnr " + (address.bruksnummer !== undefined ? address.bruksnummer : "-") : "";
-      title.textContent = "Vi fant adressen.";
-      sub.textContent = [value, [place, matrikkel].filter(Boolean).join(" · ")].filter(Boolean).join(" · ");
-    } else {
-      title.textContent = "Takk. Vi har adressen din.";
-      sub.textContent = value;
-    }
-    if (!leadId) { if (note) note.hidden = true; return; }
-    fform.hidden = false;
-    var fbtn = fform.querySelector("button[type=submit]");
-    var ferr = fform.querySelector(".follow-err");
-    fform.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      var email = (fform.elements.email.value || "").trim();
-      ferr.hidden = true;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { ferr.textContent = "Skriv inn en e-postadresse, for eksempel navn@epost.no."; ferr.hidden = false; return; }
-      var fl = fbtn.textContent;
-      fbtn.disabled = true; fbtn.textContent = "Sender…";
-      try {
-        var r2 = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: form.dataset.audience, followup: "email", leadId: leadId, value: value, email: email, website: (fform.elements.website && fform.elements.website.value || "").trim(), page: location.href }) });
-        var j2 = await r2.json().catch(function () { return {}; });
-        if (r2.ok && j2.ok) {
-          track("email_submitted");
-          title.textContent = "Takk.";
-          sub.textContent = "Vi sier fra til " + email + " når ERA åpner for hjemmet ditt.";
-          if (note) note.hidden = true;
-          fform.hidden = true;
-          return;
-        }
-        ferr.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; ferr.hidden = false;
-      } catch (x) {
-        ferr.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; ferr.hidden = false;
-      }
-      fbtn.disabled = false; fbtn.textContent = fl;
-    });
-  }
 });
 
 // Address autocomplete: on the owner/board pages, each address field gets a Kartverket
@@ -159,7 +103,7 @@ document.querySelectorAll("form.lead").forEach(function (form) {
     var it = items[i]; if (!it) return;
     input.value = it.full; close();
     input.__eraPicked = { full: it.full, address: it.address };
-    if (form.dataset.follow === "email") eraTrack("address_selected", { page: "ny", form: (form.id || "").replace("era-lead-", "") });
+    if (form.dataset.follow === "email") eraTrack("home_selected", { page: "home", form: (form.id || "").replace("era-lead-", "") });
     var btn = form.querySelector('button[type="submit"]');
     if (btn && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       btn.animate([{ boxShadow: "0 0 0 0 rgba(212,177,122,0.6)" }, { boxShadow: "0 0 0 4px rgba(212,177,122,0.35)" }, { boxShadow: "0 0 0 14px rgba(212,177,122,0)" }], { duration: 900, easing: "ease-out", iterations: 2 });
@@ -448,3 +392,234 @@ document.querySelectorAll("form.partner-form").forEach(function (form) {
     btn.disabled = false; btn.textContent = label;
   });
 });
+
+// Private Beta access on the front page: address -> access -> handoff. The page never stores or sends anything
+// until the visitor asks for access. «Jeg har en invitasjon» is wired but only exists when the build turns the
+// flag on (meta era-config.invite) and an ERA app API answers on era-config.api; otherwise it is never created.
+// Analytics events carry which form and the partner source only: no address, no e-mail, no invite token.
+(function () {
+  var forms = document.querySelectorAll('form.lead[data-follow="email"]');
+  if (!forms.length) return;
+  var cfg = { invite: false, api: "" };
+  try { var m = document.querySelector('meta[name="era-config"]'); if (m) cfg = Object.assign(cfg, JSON.parse(m.content)); } catch (e) {}
+  var apiBase = String(cfg.api || "").replace(/\/+$/, "");
+  var inviteOn = !!cfg.invite && !!apiBase;
+
+  // Partner or campaign source from ?source= (or ?src=). A short slug only; kept for the visit.
+  var SOURCE_RE = /^[a-z0-9][a-z0-9_-]{0,29}$/;
+  var source = "";
+  try {
+    var qs0 = new URLSearchParams(location.search);
+    var s0 = (qs0.get("source") || qs0.get("src") || "").toLowerCase();
+    if (SOURCE_RE.test(s0)) { source = s0; try { sessionStorage.setItem("era_source", s0); } catch (e) {} }
+    else { try { source = sessionStorage.getItem("era_source") || ""; } catch (e) {} if (!SOURCE_RE.test(source)) source = ""; }
+  } catch (e) {}
+
+  // An invitation link (?invite=...) is read once and taken out of the address bar. It lives only in memory.
+  var inviteFromUrl = "";
+  try {
+    var qs1 = new URLSearchParams(location.search);
+    if (qs1.has("invite")) {
+      inviteFromUrl = (qs1.get("invite") || "").trim().slice(0, 200);
+      qs1.delete("invite");
+      var rest = qs1.toString();
+      history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+    }
+  } catch (e) {}
+
+  var TOPICS = [["oppfolging", "Hva bør jeg følge opp?"], ["vedlikehold", "Vedlikehold"], ["oppussing", "Oppussing"], ["gjore_selv", "Gjøre det selv"],
+                ["handverker", "Finne håndverker"], ["dokumentasjon", "Dokumentasjon"], ["annet", "Noe annet"]];
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function el(tag, attrs, text) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function place(addr) {
+    if (!addr) return "";
+    var name = addr.kommunenavn ? String(addr.kommunenavn).toLowerCase().replace(/(^|[\s-])(\S)/g, function (m2, a, b) { return a + b.toUpperCase(); }) + " kommune" : "";
+    return name;
+  }
+
+  forms.forEach(function (form) {
+    var which = (form.id || "").replace("era-lead-", "") || "form";
+    var scope = form.parentElement;
+    var done = scope.querySelector(".done");
+    var err = scope.querySelector(".err");
+    var body = done && done.querySelector("[data-body]");
+    var btn = form.querySelector("button[type=submit]");
+    if (!done || !body || !btn) return;
+    var label = btn.textContent;
+    var track = function (name, extra) {
+      var d = { page: "home", form: which };
+      if (source) d.source = source;
+      eraTrack(name, Object.assign(d, extra || {}));
+    };
+    var state = { value: "", address: undefined, leadId: "" };
+
+    function show(nodes, focusFirst) {
+      body.textContent = "";
+      nodes.forEach(function (n) { body.appendChild(n); });
+      form.hidden = true; done.hidden = false;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { done.classList.add("drawn"); }); });
+      var h = body.querySelector("b");
+      if (focusFirst !== false && h) { h.setAttribute("tabindex", "-1"); try { h.focus({ preventScroll: false }); } catch (e) { h.focus(); } }
+    }
+    function button(text, cls, onClick) {
+      var b = el("button", { type: "button", "class": "access-btn " + cls }, text);
+      b.addEventListener("click", onClick);
+      return b;
+    }
+
+    // 1. A home was found. Offer the two ways in.
+    function renderAccess() {
+      var addr = state.address;
+      var sub = state.value;
+      var info = [place(addr), addr && addr.gardsnummer !== undefined ? "gnr " + addr.gardsnummer + " / bnr " + (addr.bruksnummer !== undefined ? addr.bruksnummer : "-") : ""].filter(Boolean).join(" · ");
+      var actions = el("div", { "class": "access-actions" });
+      if (inviteOn) actions.appendChild(button("Jeg har en invitasjon", "is-primary", renderInvite));
+      actions.appendChild(button("Be om tilgang", inviteOn ? "is-secondary" : "is-primary", requestAccess));
+      var note = "ERA er foreløpig tilgjengelig på invitasjon. " + (inviteOn ? "Har du en invitasjon, kan du aktivere boligen nå. Hvis ikke kan du be om tidlig tilgang." : "Du kan be om tidlig tilgang, så åpner vi nye hjem fortløpende.");
+      show([el("b", null, "Denne boligen kan få en ERA-agent"), el("span", null, [sub, info].filter(Boolean).join(" · ")), el("span", { "class": "access-note" }, note), actions]);
+    }
+
+    // 2. Ask for access: this is the moment the request is stored.
+    async function requestAccess() {
+      var btns = body.querySelectorAll("button"); btns.forEach(function (b) { b.disabled = true; });
+      try {
+        var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", body: JSON.stringify({ audience: form.dataset.audience, value: state.value, address: state.address, source: source || undefined, page: location.origin + location.pathname }) });
+        var j = await r.json().catch(function () { return {}; });
+        if (r.ok && j.ok) { state.leadId = j.id || ""; track("early_access_requested", { picked: !!state.address }); renderWaiting(); return; }
+      } catch (x) {}
+      btns.forEach(function (b) { b.disabled = false; });
+      var msg = el("span", { "class": "access-err", role: "alert" }, "Noe gikk galt hos oss. Prøv igjen om et øyeblikk.");
+      var old = body.querySelector(".access-err"); if (old) old.remove();
+      body.appendChild(msg);
+    }
+
+    // 3. Waiting. Real facts only: the address, the status and the date of the request. No queue number.
+    function renderWaiting() {
+      var when = new Date().toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
+      var nodes = [el("b", null, "Boligen din venter på ERA."), el("span", null, state.value),
+                   el("span", { "class": "access-status" }, "Status: Venter på tilgang · Forespurt " + when)];
+      if (state.leadId) {
+        // What do you want most help with? Stored as its own small document next to the request.
+        var topic = el("fieldset", { "class": "topic" });
+        topic.appendChild(el("legend", null, "Hva ønsker du mest hjelp med?"));
+        var row = el("div", { "class": "topic-row" });
+        var thanks = el("span", { "class": "topic-thanks", role: "status", "aria-live": "polite" });
+        TOPICS.forEach(function (t) {
+          var b = el("button", { type: "button", "class": "topic-chip", "aria-pressed": "false" }, t[1]);
+          b.addEventListener("click", async function () {
+            row.querySelectorAll("button").forEach(function (x) { x.disabled = true; });
+            try {
+              var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", body: JSON.stringify({ audience: form.dataset.audience, followup: "topic", leadId: state.leadId, topic: t[0], value: state.value }) });
+              var j = await r.json().catch(function () { return {}; });
+              if (r.ok && j.ok) { b.setAttribute("aria-pressed", "true"); thanks.textContent = "Takk. Vi har notert det."; return; }
+            } catch (x) {}
+            row.querySelectorAll("button").forEach(function (x) { x.disabled = false; });
+            thanks.textContent = "Noe gikk galt. Prøv igjen.";
+          });
+          row.appendChild(b);
+        });
+        topic.appendChild(row); topic.appendChild(thanks);
+        nodes.push(topic);
+        // An optional e-mail so we can say when the home opens.
+        var f = el("form", { "class": "follow", novalidate: "" });
+        f.appendChild(el("label", { "class": "sr", "for": "follow-email-" + which }, "E-post"));
+        var frow = el("div", { "class": "follow-row" });
+        var inp = el("input", { id: "follow-email-" + which, name: "email", type: "email", autocomplete: "email", inputmode: "email", maxlength: "200", placeholder: "E-post (valgfritt)" });
+        frow.appendChild(inp); frow.appendChild(el("button", { type: "submit" }, "Si fra når boligen åpnes"));
+        f.appendChild(frow);
+        f.appendChild(el("small", null, "Brukes bare til å si fra om tilgang. Du kan be om sletting når som helst."));
+        var ferr = el("span", { "class": "follow-err", role: "alert", hidden: "" });
+        f.appendChild(ferr);
+        f.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var email = (inp.value || "").trim();
+          ferr.hidden = true;
+          if (!EMAIL_RE.test(email)) { ferr.textContent = "Skriv inn en e-postadresse, for eksempel navn@epost.no."; ferr.hidden = false; return; }
+          var sb = f.querySelector("button"); sb.disabled = true;
+          try {
+            var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", body: JSON.stringify({ audience: form.dataset.audience, followup: "email", leadId: state.leadId, value: state.value, email: email, source: source || undefined, page: location.origin + location.pathname }) });
+            var j = await r.json().catch(function () { return {}; });
+            if (r.ok && j.ok) { track("email_submitted"); f.hidden = true; var ok = el("span", { role: "status" }, "Takk. Vi sier fra til " + email + " når boligen åpnes."); f.parentNode.insertBefore(ok, f); return; }
+          } catch (x) {}
+          sb.disabled = false; ferr.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; ferr.hidden = false;
+        });
+        nodes.push(f);
+      }
+      show(nodes);
+    }
+
+    // 4. Invitation (only when the flag is on and the app API exists).
+    function renderInvite() {
+      track("invite_access_opened");
+      var f = el("form", { "class": "invite-form", novalidate: "" });
+      f.appendChild(el("label", { "for": "invite-code-" + which }, "Invitasjonskode eller invitasjonslenke"));
+      var inp = el("input", { id: "invite-code-" + which, name: "code", type: "text", autocomplete: "off", autocapitalize: "off", spellcheck: "false", maxlength: "200" });
+      if (inviteFromUrl) inp.value = inviteFromUrl;
+      var submit = el("button", { type: "submit", "class": "access-btn is-primary" }, "Aktiver ERA");
+      var msg = el("span", { "class": "access-err", role: "alert", hidden: "" });
+      f.appendChild(inp); f.appendChild(submit); f.appendChild(msg);
+      var no = button("Har du ingen invitasjon? Be om tilgang", "is-link", requestAccess);
+      f.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var raw = (inp.value || "").trim();
+        // Accept a pasted link: take the token from ?invite= or the last path segment.
+        var token = raw;
+        try { var u = new URL(raw); token = u.searchParams.get("invite") || u.pathname.split("/").filter(Boolean).pop() || raw; } catch (x) {}
+        token = token.slice(0, 200);
+        msg.hidden = true;
+        if (token.length < 6) { msg.textContent = "Skriv inn invitasjonskoden eller lim inn lenken."; msg.hidden = false; return; }
+        submit.disabled = true;
+        track("invite_code_submitted");
+        try {
+          var post = function (path, payload) { return fetch(apiBase + path, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", body: JSON.stringify(payload) }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); }); };
+          var v = await post("/invite/validate", { token: token });
+          var status = v.j && v.j.status;
+          if (!v.ok || !status) throw new Error("validate");
+          if (status === "valid") {
+            var a = await post("/invite/accept", { token: token, home: { text: state.value }, source: source || undefined });
+            status = a.j && a.j.status;
+            if (a.ok && status === "accepted") { track("invite_accepted"); renderReady(a.j.url); return; }
+            if (!a.ok || !status) throw new Error("accept");
+          }
+          renderRejected();
+        } catch (x) {
+          submit.disabled = false;
+          msg.textContent = "Noe gikk galt. Prøv igjen om et øyeblikk."; msg.hidden = false;
+        }
+      });
+      show([el("b", null, "Jeg har en invitasjon"), el("span", null, state.value), f, no]);
+      inp.focus();
+    }
+    function renderReady(url) {
+      var nodes = [el("b", null, "Boligen din er klar."), el("span", null, "ERA kan nå begynne å bygge kunnskap om boligen din.")];
+      var safe = "";
+      try { var u = new URL(url); if (u.protocol === "https:" && /(^|\.)era-app\.no$/.test(u.hostname)) safe = u.href; } catch (x) {}
+      if (safe) { var a = el("a", { "class": "access-btn is-primary", href: safe }, "Aktiver boligagenten"); nodes.push(el("div", { "class": "access-actions" })); nodes[2].appendChild(a); }
+      show(nodes);
+    }
+    // expired, already used, revoked or capacity reached: the same plain answer, and a way forward
+    function renderRejected() {
+      var actions = el("div", { "class": "access-actions" });
+      actions.appendChild(button("Be om tilgang", "is-primary", requestAccess));
+      show([el("b", null, "Denne invitasjonen kan ikke brukes."), el("span", null, state.value), actions]);
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = (form.elements.value.value || "").trim();
+      err.hidden = true;
+      if (value.length < 3) { err.textContent = "Skriv inn litt mer, så finner vi riktig sted."; err.hidden = false; return; }
+      var picked = form.elements.value.__eraPicked;
+      state.value = value;
+      state.address = picked && picked.full === value ? picked.address : undefined;
+      track("home_search_started", { picked: !!state.address });
+      renderAccess();
+    });
+  });
+})();

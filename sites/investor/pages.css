@@ -1051,3 +1051,24 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
     linear-gradient(0deg, rgba(15,24,48,0.88) 0%, rgba(15,24,48,0.7) 28%, rgba(15,24,48,0.32) 50%, rgba(15,24,48,0.05) 72%, rgba(15,24,48,0) 100%); }
   .cine--bilde .reise-text .label { color: var(--gold); text-shadow: 0 1px 12px rgba(15,24,48,0.9); }
 }
+
+/* Mobil har egne tekster og færre elementer. dm() i build-pages.py skriver samme budskap to ganger: .d-only vises fra 900 px,
+   .m-only under. Det som ikke hjelper en leser med telefonen (bilder, ekstra lister, planlagte punkter) vises ikke der. */
+.m-only { display: none; }
+@media (max-width: 899px) {
+  .d-only { display: none !important; }
+  .m-only { display: revert; }
+  span.m-only, p.m-only { display: inline; }
+  p.m-only { display: block; }
+  button.m-only { display: inline-flex; }
+  /* Bare spør ERA: tre korte rader, og bare den første viser en appskjerm */
+  .how-steps li:not(:first-child) .how-visual { display: none; }
+  .how-steps { gap: 22px; }
+  /* ERA starter ikke fra null: ingen bilde av rommet og bare de to første eksempelradene */
+  .knows-photo { display: none; }
+  .knows-rows li:nth-child(n+3) { display: none; }
+  /* Badet: tre steg, resten på forespørsel */
+  .cine-flow:not(.is-all) > li:nth-child(n+4) { display: none; }
+  .cine-more { align-items: center; justify-content: center; min-height: 44px; margin-top: 10px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(212,177,122,0.55); background: transparent; color: var(--gold); font: inherit; font-weight: 600; font-size: 14.5px; cursor: pointer; }
+  .cine-more:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+}

@@ -481,8 +481,9 @@ document.querySelectorAll("form.partner-form").forEach(function (form) {
       var actions = el("div", { "class": "access-actions" });
       if (inviteOn) actions.appendChild(button("Jeg har en invitasjon", "is-primary", renderInvite));
       actions.appendChild(button("Be om tilgang", inviteOn ? "is-secondary" : "is-primary", requestAccess));
-      var note = "ERA er foreløpig tilgjengelig på invitasjon. " + (inviteOn ? "Har du en invitasjon, kan du aktivere boligen nå. Hvis ikke kan du be om tidlig tilgang." : "Du kan be om tidlig tilgang, så åpner vi nye hjem fortløpende.");
-      show([el("b", null, "Denne boligen kan få en ERA-agent"), el("span", null, [sub, info].filter(Boolean).join(" · ")), el("span", { "class": "access-note" }, note), actions]);
+      var note = "ERA er foreløpig på invitasjon." + (inviteOn ? " Har du en, kan du aktivere boligen nå." : "");
+      var home = (addr && addr.text) || sub;
+      show([el("b", null, home + " kan få en ERA-agent."), el("span", null, info), el("span", { "class": "access-note" }, note), actions]);
     }
 
     // 2. Ask for access: this is the moment the request is stored.
@@ -507,7 +508,7 @@ document.querySelectorAll("form.partner-form").forEach(function (form) {
       if (state.leadId) {
         // What do you want most help with? Stored as its own small document next to the request.
         var topic = el("fieldset", { "class": "topic" });
-        topic.appendChild(el("legend", null, "Hva ønsker du mest hjelp med?"));
+        topic.appendChild(el("legend", null, "Hva vil du ha hjelp med først?"));
         var row = el("div", { "class": "topic-row" });
         var thanks = el("span", { "class": "topic-thanks", role: "status", "aria-live": "polite" });
         TOPICS.forEach(function (t) {
@@ -621,5 +622,18 @@ document.querySelectorAll("form.partner-form").forEach(function (form) {
       track("home_search_started", { picked: !!state.address });
       renderAccess();
     });
+  });
+})();
+
+// Badet on a phone: three steps, the rest on request.
+(function () {
+  var b = document.querySelector("[data-more]");
+  var list = b && b.previousElementSibling;
+  if (!b || !list) return;
+  b.addEventListener("click", function () {
+    var open = list.classList.toggle("is-all");
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+    b.textContent = open ? "Skjul løpet" : "Se hele løpet";
+    if (open) list.querySelectorAll("li").forEach(function (li) { li.classList.add("is-active"); });
   });
 })();

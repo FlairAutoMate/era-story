@@ -274,3 +274,8 @@ siste blokken i `pages.css`): inngang 300–450 ms, mikro 150–220 ms, scroll-t
 ut, translate maks 8–16 px, scale 0,96–1, opasitet først. Ingenting looper. Menyen følger flaten
 under seg (`data-nav="dark|light"`), uten blur. Redusert bevegelse gir sluttstilling. Scrolltilstand
 ligger i den avgrensede blokken nederst i `pages.js`.
+
+
+## Mobiltekster
+
+Forsiden har egne, kortere tekster og færre elementer på telefon. `dm(desktop, mobil)` i `tools/build-pages.py` skriver samme budskap to ganger; `.d-only` vises fra 900 px og `.m-only` under. Det som ikke hjelper en leser på telefon (bilder, ekstra lister, planlagte punkter) har `.d-only`. Bruk dette bare der telefonleseren trenger mindre tekst, ikke et annet budskap.

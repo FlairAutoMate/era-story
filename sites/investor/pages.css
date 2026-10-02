@@ -948,3 +948,22 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 
 .hero .label, .hero-text .label, .cine .label, .valget .label { color: var(--gold); }
 .nstep .link { color: var(--gold-2); }
+
+/* /partnere */
+.partner-blocks { padding-block: clamp(56px, 9vh, 104px); }
+.partner-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; }
+.partner-grid h3 { font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.02em; }
+.partner-grid p { margin-top: 10px; max-width: 38ch; font-size: 16.5px; line-height: 1.5; color: var(--muted); }
+.partner-grid li { padding-top: 18px; border-top: 1px solid var(--ink); }
+.partner-status { margin-top: clamp(32px, 6vh, 56px); max-width: 62ch; font-size: 15px; line-height: 1.5; color: var(--muted-2); }
+@media (min-width: 900px) { .partner-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(40px, 5vw, 72px); } }
+.partner-contact { padding-block: clamp(48px, 8vh, 96px); background: var(--warm); }
+.partner-form { display: grid; gap: 8px; margin-top: 24px; max-width: 560px; }
+.partner-form label { margin-top: 10px; font-size: 14px; font-weight: 600; }
+.partner-form input[type=text], .partner-form input[type=email], .partner-form textarea { width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font: inherit; font-size: 16px; color: var(--ink); }
+.partner-form input:focus-visible, .partner-form textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.partner-form .btn { justify-self: start; margin-top: 16px; min-height: 48px; border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+.partner-err { margin-top: 12px; color: #A1392C; font-size: 14.5px; font-weight: 600; }
+.partner-done { margin-top: 24px; padding: 18px 22px; border-radius: 18px; background: #fff; display: grid; gap: 4px; max-width: 560px; }
+.partner-done[hidden], .partner-err[hidden] { display: none; }
+.partner-small { margin-top: 18px; font-size: 13.5px; color: var(--muted-2); }

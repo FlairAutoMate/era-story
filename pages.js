@@ -420,3 +420,31 @@ document.querySelectorAll("form.lead").forEach(function (form) {
 
   queue();
 })();
+
+// /partnere: a plain contact form (name, e-mail, message). It posts to /api/lead as audience "samarbeid".
+// The e-mail is required: without it there is nobody to answer.
+document.querySelectorAll("form.partner-form").forEach(function (form) {
+  var scope = form.parentElement;
+  var done = scope.querySelector(".partner-done");
+  var err = scope.querySelector(".partner-err");
+  var btn = form.querySelector("button[type=submit]");
+  var label = btn.textContent;
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var f = form.elements;
+    var value = (f.value.value || "").trim();
+    var email = (f.email.value || "").trim();
+    var message = (f.message.value || "").trim();
+    err.hidden = true;
+    if (value.length < 3) { err.textContent = "Skriv navn og firma, så vet vi hvem vi svarer."; err.hidden = false; f.value.focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "Skriv en e-postadresse vi kan svare til."; err.hidden = false; f.email.focus(); return; }
+    btn.disabled = true; btn.textContent = "Sender…";
+    try {
+      var r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ audience: "samarbeid", value: value, email: email, message: message, website: (f.website && f.website.value) || "", page: location.href }) });
+      var j = await r.json().catch(function () { return {}; });
+      if (r.ok && j.ok) { form.hidden = true; done.hidden = false; done.focus && done.focus(); }
+      else { err.textContent = "Noe gikk galt hos oss. Prøv igjen om et øyeblikk."; err.hidden = false; }
+    } catch (x) { err.textContent = "Ingen kontakt med serveren. Sjekk nettet og prøv igjen."; err.hidden = false; }
+    btn.disabled = false; btn.textContent = label;
+  });
+});

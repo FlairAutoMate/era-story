@@ -46,15 +46,15 @@ leads.push(...rows);
 leads.sort((a, b) => (b.receivedAt || "").localeCompare(a.receivedAt || ""));
 const where = (l) => (l.address ? [l.address.kommunenavn, l.address.gardsnummer !== undefined ? `gnr ${l.address.gardsnummer}/bnr ${l.address.bruksnummer ?? "-"}` : ""].filter(Boolean).join(" ") : "");
 
-const names = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel" };
+const names = { owner: "Boligeier", board: "Styret", pro: "Håndverker", partner: "Faghandel", samarbeid: "Meglere og partnere" };
 if (mode === "json") {
   console.log(JSON.stringify(leads, null, 2));
 } else if (mode === "csv") {
   const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  console.log(["receivedAt", "audience", "value", "email", "kommune", "gnr", "bnr", "page", "id"].join(","));
-  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.address?.kommunenavn, l.address?.gardsnummer, l.address?.bruksnummer, l.page, l.id].map(esc).join(","));
+  console.log(["receivedAt", "audience", "value", "email", "kommune", "gnr", "bnr", "message", "page", "id"].join(","));
+  for (const l of leads) console.log([l.receivedAt, names[l.audience] || l.audience, l.value, l.email, l.address?.kommunenavn, l.address?.gardsnummer, l.address?.bruksnummer, l.message, l.page, l.id].map(esc).join(","));
 } else {
   if (!leads.length) console.log("Ingen leads ennå.");
-  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${where(l) ? `[${where(l)}]  ` : ""}${l.email || ""}`);
+  for (const l of leads) console.log(`${(l.receivedAt || "").slice(0, 16).replace("T", " ")}  ${(names[l.audience] || l.audience).padEnd(11)} ${l.value}  ${where(l) ? `[${where(l)}]  ` : ""}${l.email || ""}${l.message ? `  «${l.message.slice(0, 80)}»` : ""}`);
   console.log(`\n${leads.length} lead(s).`);
 }

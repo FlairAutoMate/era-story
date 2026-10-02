@@ -61,4 +61,21 @@ assert.equal((await call({ audience: "owner", followup: "email", leadId: first.b
 assert.equal(globalThis.__stored.length, n, "nothing is stored for rejected or honeypot requests");
 assert.equal((await call({}, "GET")).code, 405);
 
+
+// 5. meglere og partnere: a name, a real e-mail and a message are stored; no e-mail means no lead
+{
+  const n0 = globalThis.__stored.length;
+  assert.equal((await call({ audience: "samarbeid", value: "Kari Nordmann, Eksempel Eiendom", message: "Vi vil snakke om samarbeid" })).code, 400);
+  assert.equal((await call({ audience: "samarbeid", value: "Kari Nordmann", email: "ikke-en-epost", message: "Hei" })).code, 400);
+  assert.equal(globalThis.__stored.length, n0);
+  r = await call({ audience: "samarbeid", value: "Kari Nordmann, Eksempel Eiendom", email: "kari@example.no", message: "Vi vil snakke om samarbeid", page: "https://x/partnere" });
+  assert.equal(r.code, 200); assert.equal(r.body.ok, true);
+  assert.ok(last().path.startsWith("leads/samarbeid/"));
+  assert.equal(last().body.email, "kari@example.no"); assert.equal(last().body.message, "Vi vil snakke om samarbeid");
+  await call({ audience: "samarbeid", value: "Lang", email: "a@b.no", message: "x".repeat(5000) });
+  assert.equal(last().body.message.length, 1000);
+  await call({ audience: "owner", value: "Storgata 1, Oslo" });
+  assert.equal(last().body.message, undefined);
+}
+
 console.log("lead api: ok");

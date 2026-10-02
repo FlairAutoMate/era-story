@@ -1143,7 +1143,7 @@ def privacy_page():
             "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
             "På forsiden gjelder noe mer. Velger du et forslag i adressesøket, lagrer vi også det Kartverket returnerer for den adressen: postnummer og sted, kommune, gårds-, bruks-, feste- og seksjonsnummer og et koordinatpunkt. Velger du ikke et forslag, lagrer vi bare teksten du skrev.",
             "Etter at du har sendt inn adressen på forsiden, kan du også legge igjen e-postadressen din. Det er valgfritt. E-posten lagres som en egen post som er knyttet til innsendingen med en intern id.",
-            "Vi samler ikke inn navn eller telefonnummer, og vi lagrer ikke IP-adressen din.",
+            "Vi samler ikke inn navn eller telefonnummer, og vi lagrer ikke IP-adressen din. Unntaket er kontaktskjemaet for meglere og partnere (/partnere): der skriver du selv navn, firma, e-post og en melding, og vi lagrer det for å kunne svare deg. Det brukes ikke til nyhetsbrev.",
         ]),
         ("Adressesøket hos Kartverket", [
             "Når du skriver i et adressefelt, sender nettleseren din det du har skrevet (fra tre tegn) til Kartverkets åpne adresse-API (Geonorge), som svarer med forslag. Kartverket mottar da teksten og IP-adressen din, slik som ved enhver nettforespørsel, og er selv ansvarlig for sin behandling av det. ERA lagrer ikke det du skriver før du trykker send.",
@@ -1247,11 +1247,11 @@ def lead_form_html(suffix, a, done, label=None, placeholder=None):
       <div class="err" hidden></div>'''
 
 
-def ny_nav(base=""):
+def ny_nav(base="", current=True):
     """The /ny menu is the homeowner's: no audience pages, no partners. The other audiences live in the
     footer. `base` is "" on /ny and "/ny" on the pages next to it, so the in-page anchors still work."""
     items = [(base + "#produkt", "Produkt"), (base + "#slik", "Slik fungerer det"), ("/ny/om-era", "Om ERA")]
-    links = "".join(f'<a href="{h}"{" aria-current=" + chr(34) + "page" + chr(34) if h == "/ny/om-era" and base else ""}>{esc(l)}</a>' for h, l in items)
+    links = "".join(f'<a href="{h}"{" aria-current=" + chr(34) + "page" + chr(34) if h == "/ny/om-era" and base and current else ""}>{esc(l)}</a>' for h, l in items)
     panel = "".join(f'<a href="{h}" data-menu-close="1">{esc(l)}<span>→</span></a>' for h, l in items)
     return f'''<nav class="nav" aria-label="Hovedmeny">
   <div class="pill">
@@ -1269,7 +1269,7 @@ def ny_footer(base=""):
     <div><div class="brand">era<span>.</span></div><div class="tag">Boligens AI-agent</div></div>
     <div class="cols">
       <div><b>ERA</b><a href="{base}#produkt">Produkt</a><a href="{base}#slik">Slik fungerer det</a><a href="/ny/om-era">Om ERA</a><a href="/personvern">Personvern</a></div>
-      <div><b>For profesjonelle</b><a href="/styret">Borettslag og sameier</a><a href="/handverker">Håndverkere</a><a href="/faghandel">Faghandel</a></div>
+      <div><b>For profesjonelle</b><a href="/styret">Borettslag og sameier</a><a href="/handverker">Håndverkere</a><a href="/faghandel">Faghandel</a><a href="/partnere">Meglere og partnere</a></div>
     </div>
   </div>
   <div class="wrap legal"><span>© 2026 ERA technologies AS</span><span>Oslo</span></div>
@@ -1685,6 +1685,61 @@ def home_page():
 '''
 
 
+def partner_page():
+    """/partnere: for meglere and partners. Short, no figures and no named counterparties; the contact form
+    posts to /api/lead as audience "samarbeid". noindex until the text has been approved."""
+    hero = ('<section class="cine cine--hero om-hero" data-nav="dark"><div class="cine-media"><img src="/assets/story/neighbourhood-dusk-v4.jpg" srcset="/assets/story/neighbourhood-dusk-v4-m.jpg 1400w, /assets/story/neighbourhood-dusk-v4.jpg 3000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></div><div class="cine-body">'
+            '<div class="label">For meglere og partnere</div><h1>Boligen følger kjøperen videre.</h1>'
+            '<p class="cine-lede">ERA samler boligens historikk, dokumentasjon og utført arbeid på ett sted. Sammen med meglere og partnere kan boligen bli levert med historikken på plass, og eieren får hjelp også etter overtakelsen.</p></div></section>')
+    blocks = [("For meglere", "Boligen kan overleveres med dokumentasjon og historikk samlet. Kjøperen starter med en bolig ERA allerede kjenner, i stedet for en mappe med papirer."),
+              ("For leverandører og faghandel", "Når ERA har beskrevet et behov, kan det gå videre til produkter og fagfolk. Behovet er allerede forklart, og resultatet dokumenteres tilbake på boligen."),
+              ("For andre partnere", "Boligbyggerlag og andre som møter boligeiere. Vi utforsker samarbeid der boligens historikk gjør tjenesten enklere for eieren.")]
+    items = "".join(f'<li><h3>{esc(t)}</h3><p>{esc(d)}</p></li>' for t, d in blocks)
+    body = ('<section class="section partner-blocks" data-nav="light"><div class="wrap wide">'
+            '<h2 class="sr">Slik kan vi samarbeide</h2>'
+            f'<ol class="partner-grid">{items}</ol>'
+            '<p class="partner-status">ERA er i betaperiode, og enkelte deler er i pilot. Samarbeid avtales per partner, og ingenting her er et løfte om funksjoner som ikke er lansert.</p></div></section>')
+    contact = ('<section class="section partner-contact" id="kontakt" data-nav="light"><div class="wrap narrow">'
+               '<h2>Snakk med oss</h2>'
+               '<form class="partner-form" novalidate>'
+               '<label for="pf-name">Navn og firma</label><input id="pf-name" name="value" type="text" autocomplete="name" maxlength="200" required>'
+               '<label for="pf-email">E-post</label><input id="pf-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required>'
+               '<label for="pf-msg">Hva vil du samarbeide om?</label><textarea id="pf-msg" name="message" rows="4" maxlength="1000"></textarea>'
+               '<input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">'
+               '<button type="submit" class="btn">Send</button></form>'
+               '<div class="partner-err" role="alert" hidden></div>'
+               '<div class="partner-done" role="status" tabindex="-1" hidden><b>Takk. Vi har meldingen din.</b><span>Vi svarer personlig.</span></div>'
+               '<p class="partner-small">Vi svarer personlig. Ingen nyhetsbrev.</p></div></section>')
+    desc = "For meglere og partnere: ERA samler boligens historikk, dokumentasjon og utført arbeid, slik at boligen kan følge kjøperen videre."
+    return f'''<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For meglere og partnere — ERA</title>
+<meta name="description" content="{esc(desc)}">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0F1830">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{head_meta("/partnere", "For meglere og partnere — ERA", desc)}
+<link rel="preload" href="/fonts/d09f6137-d0ab-46d2-a3bf-0d7be812fb75.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body class="ny-page" data-audience="boligeier" data-page="partner">
+{ny_nav("/", current=False)}
+<main>
+  {hero}
+  {body}
+  {contact}
+</main>
+{ny_footer("/")}
+<script src="/pages.js" defer></script>
+</body>
+</html>
+'''
+
+
 def om_era_page():
     """/ny/om-era: the simple Om ERA page. A cinematic opening, why ERA exists, what is being built as one
     loop, and the people behind it. Sits next to /ny and leaves the existing /om-era alone."""
@@ -1765,3 +1820,7 @@ os.makedirs(os.path.join(ROOT, "ny", "om-era"), exist_ok=True)
 with open(os.path.join(ROOT, "ny", "om-era", "index.html"), "w", encoding="utf-8") as f:
     f.write(om_era_page())
 print("wrote ny/om-era")
+os.makedirs(os.path.join(ROOT, "partnere"), exist_ok=True)
+with open(os.path.join(ROOT, "partnere", "index.html"), "w", encoding="utf-8") as f:
+    f.write(partner_page())
+print("wrote partnere")

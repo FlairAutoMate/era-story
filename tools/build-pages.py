@@ -1308,7 +1308,8 @@ def reise_bilde():
             '<p class="cine-lede">ERA bruker det du viser den sammen med det den allerede vet om boligen.</p>'
             '<p class="cine-fine">Eksempel. Produktforslag og handleliste er under utvikling.</p></div>'
             '<div class="reise-card" aria-hidden="false"><div class="reise-card-head"><b>era.</b><span>Myrerveien 46A</span></div>'
-            f'<ul class="reise-rows">{lis}</ul></div>')
+            f'<ul class="reise-rows">{lis}</ul>'
+            '<div class="reise-paths"><span>Gjør det selv</span><span>Få tilbud fra proff</span></div></div>')
     return cine("/assets/story/couple-wall-v5.jpg", body, sid="bilde", cls="cine--reise cine--bilde", pos="40% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
 
@@ -1453,9 +1454,9 @@ def home_page():
                 sid="behov", pos="62% 50%")
 
     # 05: the home remembers. The house through the seasons, and a timeline of what has been done.
-    timeline_steps = [("Kjøpt", False), ("Malt", False), ("Bad kontrollert", False), ("Elektrisk arbeid", False), ("Dokumentert", False), ("Neste behov", True)]
+    timeline_steps = [("Kjøpt", False), ("Malt", False), ("Bad dokumentert", False), ("Elektrisk arbeid", False), ("Dokumentert", False), ("Neste behov", True)]
     timeline = '<ol class="cine-timeline cine-timeline--left">' + "".join(
-        f'<li class="{"is-next" if nxt else ""}" style="--k:{k}"><span>{esc(t)}</span></li>' for k, (t, nxt) in enumerate(timeline_steps)) + "</ol>"
+        f'<li class="{"is-next" if nxt else ("is-link" if t == "Bad dokumentert" else "")}" style="--k:{k}"><span>{esc(t)}</span></li>' for k, (t, nxt) in enumerate(timeline_steps)) + "</ol>"
     seasons = '<div class="seasons" aria-hidden="true">' + "".join(
         f'<img{" class=" + chr(34) + "is-on" + chr(34) if i == 0 else ""} src="/assets/story/block-season-{i}-v3.jpg" srcset="/assets/story/block-season-{i}-v3-m.jpg 1400w, /assets/story/block-season-{i}-v3.jpg 1600w" '
         f'sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async">' for i in range(4)) + "</div>"

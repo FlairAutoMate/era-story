@@ -522,3 +522,6 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .team-card .team-detail { margin-top: 8px; font-size: 13.5px; line-height: 1.45; color: var(--muted-2); }
 .team-tags { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.7; color: #9A968C; }
 .team-card p + .team-tags, .team-card .team-detail + .team-tags { margin-top: 14px; }
+
+/* Tastaturfokus: adressefeltet har outline: 0 på selve input-en, så ringen ligger rundt hele pillen. */
+.lead .lead-pill:focus-within { outline: 2px solid var(--gold); outline-offset: 3px; }

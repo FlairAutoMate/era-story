@@ -845,3 +845,15 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 /* Slik fungerer ERA: ekte appskjermer uten mennesker, beskåret så toppen av appen står igjen */
 .how-visual--app { display: flex; justify-content: center; align-items: flex-start; padding: 22px 22px 0; background: linear-gradient(180deg, #EAE4D8 0%, #F4F0E8 100%); }
 .how-visual--app img { width: 66%; height: auto; max-height: none; object-fit: initial; border-radius: 22px 22px 0 0; box-shadow: 0 24px 56px rgba(19,30,58,0.2), 0 3px 10px rgba(19,30,58,0.08); }
+
+/* Overganger mellom seksjonene: rolige, og de forklarer rekkefølgen */
+/* «Det ERA vet» (lys) går over i fasadebildet (mørkt) med en jevn gradient, ikke en kant */
+.cine--see .cine-media::before { content: ""; position: absolute; inset: 0 0 auto 0; height: clamp(90px, 16vh, 170px); z-index: 1; background: linear-gradient(180deg, var(--warm), rgba(241,236,226,0)); }
+@media (min-width: 900px) {
+  /* «Bad»-punktet på fasaden fortsetter som en tynn gullinje ned til badescenen */
+  .see-line { position: absolute; left: var(--x); top: var(--y); bottom: 0; width: 1px; background: var(--gold); }
+  .has-js .see-line { transform: scaleY(0); transform-origin: top; transition: transform 700ms var(--ease) 3.4s; }
+  .has-js .cine--see.is-in .see-line { transform: scaleY(1); }
+  #behov::before { content: ""; position: absolute; top: 0; left: 84%; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--gold); z-index: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .has-js .see-line { transform: none !important; transition: none; } }

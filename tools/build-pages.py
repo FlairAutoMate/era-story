@@ -1198,7 +1198,7 @@ def app_flow(eyebrow, title, steps, foot, sid, lede=None):
             f'<p class="fine dark2">{esc(foot)}</p></div></section>')
 
 
-def knows_view(title, eyebrow, rows, foot):
+def knows_view(title, eyebrow, rows, foot, photo=None):
     """What ERA knows, what it only suggests and what is missing, as an editorial list rather than a
     dashboard card. rows: (kind, label, value, tag[, feed]) with kind doc / ai / miss; `feed` names the
     scattered document that lights up when it has been read into this row."""
@@ -1206,7 +1206,8 @@ def knows_view(title, eyebrow, rows, foot):
         f'<li class="k-{kind}"' + (f' data-feed="{feed[0]}"' if feed else '') + '><span class="k-mark" aria-hidden="true"></span>'
         f'<div><b>{esc(label)}</b><span>{esc(value)}</span></div><em>{esc(tag)}</em></li>'
         for kind, label, value, tag, *feed in rows)
-    return (f'<div class="knows"><div class="knows-eyebrow">{esc(eyebrow)}</div><h3>{esc(title)}</h3>'
+    pic = (f'<div class="knows-photo"><img src="{photo}" alt="" loading="lazy" decoding="async"><span>{esc(title)}</span></div>' if photo else "")
+    return (f'<div class="knows"><div class="knows-eyebrow">{esc(eyebrow)}</div><h3>{esc(title)}</h3>{pic}'
             f'<ul class="knows-rows">{lis}</ul><p class="knows-foot">{esc(foot)}</p></div>')
 
 
@@ -1361,6 +1362,9 @@ def scene_see():
             '<p class="cine-lede">Ta et bilde. ERA kobler det du ser til resten av boligen.</p>'
             '<p class="see-sub">Fasadens tilstand, dokumentasjon, alder og tidligere arbeid kan vurderes i samme kontekst.</p>'
             f'<ul class="see-list">{rows}</ul>'
+            '<p class="see-sources"><b>ERA bruker</b> bildene dine, byggeår og materialer, tidligere arbeid og kvitteringer, og fagkunnskap.</p>'
+            '<ul class="see-areas" aria-label="Områder ERA ser på">' + "".join(f'<li>{t}</li>' for t in ("Tak", "Takrenner", "Fasade", "Vinduer", "Bad", "Ventilasjon", "Kjøkken", "Uteområde")) + '</ul>'
+            '<a class="link see-cta" href="#adresse">Start med adressen din →</a>'
             '<p class="cine-fine">Eksempeldata.</p></div>')
     return cine("/assets/story/roof-detail-v3.jpg", body, sid="ser", cls="cine--see", pos="60% 50%").replace('<section class="cine', '<section data-reveal class="cine', 1)
 
@@ -1423,7 +1427,7 @@ def home_page():
                       ("miss", "Dokumentasjon", "Mangler", "Mangler"),
                       ("miss", "Sist arbeid", "Bare nevnt i en e-post", "Mangler", "sistarbeid"),
                       ("ai", "ERA anbefaler", "Følg opp", "ERA-forslag")],
-                     "Eksempeldata. ERA sier ifra når den ikke vet.")
+                     "Eksempeldata. ERA sier ifra når den ikke vet.", photo="/assets/story/bathroom-v3-m.jpg")
         + '</div></div></section>')
 
     # 04: one need, followed all the way to the result. The homeowner sees five steps; ERA does the rest.
@@ -1459,7 +1463,11 @@ def home_page():
                   '<div class="cine-grid cine-grid--seasons"><div class="cine-text" data-reveal>'
                   '<h2>Boligen husker. Du slipper.</h2>'
                   '<p class="cine-lede">Hvert prosjekt, bilde og dokument blir en del av boligen. Derfor starter ERA smartere neste gang.</p>'
-                  + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>' + seasons + '</div>',
+                  + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>' + seasons + '</div>'
+                  + '<ul class="husker-feats">'
+                  '<li><b>Bilder og dokumentasjon</b><span>Alt samlet på ett sted.</span></li>'
+                  '<li><b>Påminnelser</b><span>Beskjed når det er tid for vedlikehold, ut fra alder, materialer og forhold.</span><i class="nstep-tag">Planlagt</i></li>'
+                  '<li><b>Del med andre</b><span>Del det som er relevant med håndverkere, styret eller kjøpere, når du selv velger det.</span><i class="nstep-tag">Planlagt</i></li></ul>',
                   sid="husker", pos="50% 60%")
 
     faq_items = [

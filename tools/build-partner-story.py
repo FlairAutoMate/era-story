@@ -647,7 +647,6 @@ def build_jotun(p):
 TEAM = [
     ("Lars-Henrik Sand", "Founder", "17+ år innen eiendom, teknologi, markedsføring og digital distribusjon.", "team-lars.jpg"),
     ("Thomas Floden", "Partner", "20 år full-stack og AI-/LLM-produktarkitektur.", "team-thomas.jpg"),
-    ("Adam Haeger", "Softwarearkitekt · fullstack", "Arkitekt og tech lead fra Digdir/Altinn Studio og Teleplan Globe. Datamodellering, systemarkitektur og frontend i stor skala.", "team-adam.jpg"),
     ("Ragnvald Løhren", "Co-founder", "Finans, investering, strategi og selskapsutvikling.", "team-ragnvald.jpg"),
     ("Eskild Løken Ugland", "Partner", "Tidligere salgs- og markedsdirektør i Block Watne. Kjedesjef i Mal Proff og Mesterfarge.", "team-eskild-v2.jpg"),
     ("Magnus Stensrud", "Daglig leder", "Administrasjon, salg, salgsledelse og kundereiser.", "team-magnus-v4.jpg"),

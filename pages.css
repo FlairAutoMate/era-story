@@ -669,7 +669,7 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 /* Badet: stegene våkner i rekkefølge. Valget er ekte, og svarer med det ERA allerede har gjort. */
 .cine-flow.step-js li { transition: opacity var(--m-scroll) var(--ease); }
 .cine-flow.step-js li:not(.is-active) { opacity: 0.4; }
-.cine-chip { font: inherit; font-size: 13px; font-weight: 600; padding: 7px 13px; min-height: 36px; border-radius: 999px; background: rgba(212,177,122,0.16); border: 1px solid rgba(212,177,122,0.5); color: var(--gold); cursor: pointer; transition: background var(--m-micro) var(--ease), border-color var(--m-micro) var(--ease), color var(--m-micro) var(--ease); }
+.cine-chip { font: inherit; font-size: 13px; font-weight: 600; padding: 11px 15px; min-height: 44px; border-radius: 999px; background: rgba(212,177,122,0.16); border: 1px solid rgba(212,177,122,0.5); color: var(--gold); cursor: pointer; transition: background var(--m-micro) var(--ease), border-color var(--m-micro) var(--ease), color var(--m-micro) var(--ease); }
 .cine-chip:hover, .cine-chip[aria-pressed="true"] { background: rgba(212,177,122,0.3); border-color: var(--gold); color: #fff; }
 .cine-chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .cine-flow .cine-note { min-height: 1.4em; margin-top: 8px; font-size: 14px; font-weight: 500; color: #fff; opacity: 0; transform: translateY(4px); transition: opacity var(--m-micro) var(--ease), transform var(--m-micro) var(--ease); }

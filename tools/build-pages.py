@@ -1250,14 +1250,13 @@ NY_TEAM = [
 
 
 def team_html():
+    """The whole team, every person the same size. The portraits are the trust."""
     def card(name, role, lead, photo, bio, tags):
         shot = f'<img src="/assets/story/{photo}" alt="{esc(name)} – {esc(role)}" loading="lazy" decoding="async">'
-        return (f'<article class="team-card{" team-card--lead" if lead else " team-card--compact"}">'
+        return (f'<article class="team-card team-card--lead">'
                 f'<div class="team-shot">{shot}</div><h3>{esc(name)}</h3><div class="team-role">{esc(role)}</div>'
                 f'<p>{esc(bio)}</p>' + (f'<div class="team-tags">{esc(tags)}</div>' if tags else "") + '</article>')
-    leads = "".join(card(*p) for p in NY_TEAM if p[2])
-    rest = "".join(card(*p) for p in NY_TEAM if not p[2])
-    return f'<div class="team-leads">{leads}</div><div class="team-rest">{rest}</div>'
+    return '<div class="team-all">' + "".join(card(*p) for p in NY_TEAM) + '</div>'
 
 
 def home_page():
@@ -1455,7 +1454,7 @@ def om_era_page():
     build = cine("/assets/story/loop-home-v3.jpg",
                  '<div class="cine-center"><div class="label">Hva vi bygger</div><h2>Én enkel loop.</h2>' + loop + '</div>',
                  sid="bygger", cls="cine--center", pos="50% 55%")
-    team = ('<section class="section ny-team" id="teamet"><div class="wrap">'
+    team = ('<section class="section ny-team" id="teamet"><div class="wrap wide">'
             '<div class="label">Menneskene bak ERA</div>'
             '<h2>Bygget i skjæringspunktet mellom bolig, teknologi og marked.</h2>'
             '<p class="ny-team-lede">Bygget av et team med erfaring fra eiendom, teknologi, finans, distribusjon og AI.</p>'

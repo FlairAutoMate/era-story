@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/om-era",
+      "destination": "/ny/om-era",
+      "permanent": false
+    },
+    {
       "source": "/ny",
       "destination": "/",
       "permanent": false

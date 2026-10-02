@@ -967,3 +967,9 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .partner-done { margin-top: 24px; padding: 18px 22px; border-radius: 18px; background: #fff; display: grid; gap: 4px; max-width: 560px; }
 .partner-done[hidden], .partner-err[hidden] { display: none; }
 .partner-small { margin-top: 18px; font-size: 13.5px; color: var(--muted-2); }
+
+/* Om ERA: teknologien. Leses som en tekst, ikke som kort. */
+.om-tech { padding-block: clamp(56px, 9vh, 104px); }
+.om-tech h2 { max-width: 26ch; text-wrap: balance; font-size: clamp(28px, 3.6vw, 46px); }
+.om-tech p { margin-top: 18px; max-width: 62ch; font-size: clamp(16.5px, 1.5vw, 18.5px); line-height: 1.6; color: var(--ink); }
+.om-tech .om-tech-status { font-size: 14px; color: var(--muted-2); }

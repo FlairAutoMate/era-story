@@ -281,7 +281,7 @@ def building_overview_view(title, meta, buildings, footer):
 
 AUDIENCES = {
     "boligeier": dict(
-        key="owner", nav="Huseier", title="ERA for huseiere",
+        key="owner", nav="Boligeier", title="ERA for boligeiere",
         meta="Hjemmets AI-agent for boligeiere. ERA kjenner hjemmet ditt, oppdager hva som bør gjøres først og samler tilstand, historikk og dokumentasjon i én plan.",
         label="For boligeiere", hook="Å eie hjem uten gjetting.",
         lede="ERA forstår hva hjemmet ditt trenger, og hva som bør gjøres først. Tilstand, historikk, dokumentasjon og prioriteringer, samlet i én plan for hjemmet.",
@@ -415,7 +415,7 @@ AUDIENCES = {
              "Ja. ERA utvikles for begge veier. Vil du gjøre jobben selv, kan ERA hjelpe med plan → produkter → mengder → "
              "handleliste → veiledning. Vil du heller ha hjelp, kan det samme behovet brukes videre mot en proff."),
             ("Hva koster ERA?",
-             "ERA er gratis for huseiere de første tolv månedene. Ingen betalingskort og ingen binding."),
+             "ERA er gratis for boligeiere de første tolv månedene. Ingen betalingskort og ingen binding."),
 
             # ── bak «Se alle spørsmål» ──
             ("Hva er forskjellen på ERA og ChatGPT?",
@@ -466,11 +466,11 @@ AUDIENCES = {
              "finans. Du finner menneskene og hvorfor ERA finnes under Om ERA."),
         ],
         beta=dict(
-            badge="Nå i kontrollert beta — åpnes for 300 huseiere",
+            badge="Nå i kontrollert beta — åpnes for 300 boligeiere",
             note="Gratis de første tolv månedene. Begrenset antall plasser.",
             cta_primary="Søk om betatilgang", cta_secondary="Se hvordan ERA fungerer",
-            heading="Bli en av 300 huseiere som tester ERA",
-            lede="ERA åpner nå en kontrollert betafase for 300 huseiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i hjemmet, uten abonnement eller kostnad de første tolv månedene.",
+            heading="Bli en av 300 boligeiere som tester ERA",
+            lede="ERA åpner nå en kontrollert betafase for 300 boligeiere. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i hjemmet, uten abonnement eller kostnad de første tolv månedene.",
             items=[
                 "Ta bilde av et behov i hjemmet.",
                 "Få analyse, oppgaveliste og prisestimat.",
@@ -575,7 +575,7 @@ AUDIENCES = {
                       "md"),
                 points=[("For eieren", "Eget hjem, dokumentasjon og vedlikeholdsplan – pluss fellesprosjekter fra styret."),
                         ("For styret", "Ingen ekstra jobb. Samme varsel gjør fellesprosjektet synlig i eierens app.")],
-                foot="Eksempeldata. Skjermbilde fra ERA for huseiere.", sid="boligeier-visning"),
+                foot="Eksempeldata. Skjermbilde fra ERA for boligeiere.", sid="boligeier-visning"),
             app_section(
                 "Fra ferdig til dokumentert", "Jobben er ferdig. Historikken lever videre.",
                 "Når arbeidet er utført, oppdaterer ERA vedlikeholdsplanen automatisk og samler dokumentasjon, bilder og kostnad på eiendommen – klart for neste styre.",
@@ -597,7 +597,7 @@ AUDIENCES = {
         ],
         scenes=dict(
             eyebrow="Fra behov til ferdig jobb", title="Én eiendom. Én sammenhengende vedlikeholdsflyt.",
-            lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver eier får egen oversikt over hjemmet, vedlikeholdsplan og påminnelser gjennom ERA for huseiere.",
+            lede="Følg det samme fasadebehovet fra første funn til gjennomført og dokumentert arbeid. Beboerne er med hele veien: hver eier får egen oversikt over hjemmet, vedlikeholdsplan og påminnelser gjennom ERA for boligeiere.",
             items=[
                 dict(nav="Oversikt", heading="Hva trenger bygget deres nå?",
                      text="Rapporter, tidligere arbeid og innmeldte behov gir styret ett samlet utgangspunkt.",
@@ -645,7 +645,7 @@ AUDIENCES = {
         aside=dict(
             label="Beboerverdi", heading="Samme prosjekt, sett fra eierens app.",
             text="Nysgjerrig på hvordan eieren opplever den andre siden av samme prosjekt – eget hjem, egen dokumentasjon, egne påminnelser?",
-            link="Se ERA for huseiere →", href="/boligeier",
+            link="Se ERA for boligeiere →", href="/boligeier",
         ),
         gains=[
             ("Forstå hva bygget trenger", "Eiendommens dokumentasjon og innmeldte behov blir grunnlag for foreslåtte tiltak, prioritering og vedlikeholdsplan."),
@@ -675,7 +675,7 @@ AUDIENCES = {
     "handverker": dict(
         key="pro", nav="Håndverker", title="ERA for håndverkere",
         label="For håndverkere", hook="Fra kundens behov til din neste jobb.",
-        lede="ERA er en AI-drevet plattform som kobler huseiere, styrer og håndverkere. Ta kundens behov videre til befaring, tilbud og gjennomføring, og la dokumentasjonen følge hjemmet når jobben er ferdig.",
+        lede="ERA er en AI-drevet plattform som kobler boligeiere, styrer og håndverkere. Ta kundens behov videre til befaring, tilbud og gjennomføring, og la dokumentasjonen følge hjemmet når jobben er ferdig.",
         hero_support="Du kan faget. ERA hjelper deg med flyten rundt jobben.",
         image="/assets/story/painter-v3.jpg", image_pos="30% 50%",
         hero_secondary=("Følg et oppdrag", "#slik"),
@@ -727,11 +727,11 @@ AUDIENCES = {
             ],
         ),
         roles=[
-            ("Huseier", "Beskriver behovet, og tar stilling til tilbud og endringer underveis."),
+            ("Boligeier", "Beskriver behovet, og tar stilling til tilbud og endringer underveis."),
             ("Håndverker", "Vurderer, utfører og dokumenterer jobben fra befaring til overlevering."),
             ("Styret", "Følger opp og godkjenner når oppdraget gjelder fellesareal, ikke eget hjem."),
         ],
-        roles_note="Ved private oppdrag er huseieren kunden. Ved fellesarbeid er det styret som bestiller og godkjenner på vegne av sameiet eller borettslaget.",
+        roles_note="Ved private oppdrag er boligeieren kunden. Ved fellesarbeid er det styret som bestiller og godkjenner på vegne av sameiet eller borettslaget.",
         gains=[
             ("Forstå oppdraget", "Se kundens behov, bilder og tilgjengelig informasjon om hjemmet før befaringen."),
             ("Ha kontroll på jobben", "Ta underlaget videre til kalkyle, tilbud, avtale og avklarte endringer."),
@@ -833,7 +833,7 @@ def head_meta(path, title, description):
 <script defer src="/_vercel/insights/script.js"></script>'''
 
 
-MENU = [("/historie", "Historien"), ("/boligeier", "Huseier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/ny/om-era", "Om ERA"), ("/personvern", "Personvern")]
+MENU = [("/historie", "Historien"), ("/boligeier", "Boligeier"), ("/styret", "Styret"), ("/handverker", "Håndverker"), ("/faghandel", "Faghandel"), ("/ny/om-era", "Om ERA"), ("/personvern", "Personvern")]
 
 
 def nav_html(current, cta_label, cta_href):
@@ -1145,7 +1145,7 @@ def privacy_page():
     """Honest to what the site actually does today: the address form (and on the front page an optional e-mail), the Kartverket address search, one private store in the EU, no cookies."""
     sections = [
         ("Hva vi samler inn", [
-            "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (huseier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
+            "Når du sender inn skjemaet på historien eller en av undersidene, lagrer vi det du skrev i feltet (adresse, adressen til bygget, firmanavn eller organisasjonsnummer, kjede eller butikk), hvilken målgruppe du leste som (boligeier, styret, håndverker eller faghandel), om du ba om en demo, tidspunkt, hvilken side du sendte fra, og nettlesertypen din.",
             "På forsiden gjelder noe mer. Velger du et forslag i adressesøket, lagrer vi også det Kartverket returnerer for den adressen: postnummer og sted, kommune, gårds-, bruks-, feste- og seksjonsnummer og et koordinatpunkt. Velger du ikke et forslag, lagrer vi bare teksten du skrev.",
             "Etter at du har sendt inn adressen på forsiden, kan du også legge igjen e-postadressen din. Det er valgfritt. E-posten lagres som en egen post som er knyttet til innsendingen med en intern id.",
             "Vi samler ikke inn navn eller telefonnummer, og vi lagrer ikke IP-adressen din. Unntaket er kontaktskjemaet for meglere og partnere (/partnere): der skriver du selv navn, firma, e-post og en melding, og vi lagrer det for å kunne svare deg. Det brukes ikke til nyhetsbrev.",
@@ -1716,7 +1716,7 @@ def partner_page():
             '<p class="cine-lede">ERA samler hjemmets historikk, dokumentasjon og utført arbeid på ett sted. Sammen med meglere og partnere kan hjemmet bli levert med historikken på plass, og eieren får hjelp også etter overtakelsen.</p></div></section>')
     blocks = [("For meglere", "Hjemmet kan overleveres med dokumentasjon og historikk samlet. Kjøperen starter med et hjem ERA allerede kjenner, i stedet for en mappe med papirer."),
               ("For leverandører og faghandel", "Når ERA har beskrevet et behov, kan det gå videre til produkter og fagfolk. Behovet er allerede forklart, og resultatet dokumenteres tilbake på hjemmet."),
-              ("For andre partnere", "Boligbyggerlag, forsikring, bank og andre som møter huseiere. Vi utforsker samarbeid der hjemmets historikk gjør tjenesten enklere for eieren.")]
+              ("For andre partnere", "Boligbyggerlag, forsikring, bank og andre som møter boligeiere. Vi utforsker samarbeid der hjemmets historikk gjør tjenesten enklere for eieren.")]
     items = "".join(f'<li><h3>{esc(t)}</h3><p>{esc(d)}</p></li>' for t, d in blocks)
     body = ('<section class="section partner-blocks" data-nav="light"><div class="wrap wide">'
             '<h2 class="sr">Slik kan vi samarbeide</h2>'

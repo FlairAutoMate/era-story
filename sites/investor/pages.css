@@ -973,3 +973,17 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .om-tech h2 { max-width: 26ch; text-wrap: balance; font-size: clamp(28px, 3.6vw, 46px); }
 .om-tech p { margin-top: 18px; max-width: 62ch; font-size: clamp(16.5px, 1.5vw, 18.5px); line-height: 1.6; color: var(--ink); }
 .om-tech .om-tech-status { font-size: 14px; color: var(--muted-2); }
+
+/* Kategoriavklaring på forsiden: fire korte rader, ikke en konkurrenttabell. ERA-raden skiller seg
+   ut med en gull strek i stedet for en farget boks, så den leses som svaret og ikke som reklame. */
+.kat { margin-top: 28px; border-top: 1px solid var(--line); }
+.kat-row { display: grid; grid-template-columns: minmax(96px, 168px) 1fr; gap: 4px 24px; align-items: baseline; padding: 17px 0; border-bottom: 1px solid var(--line); }
+.kat-row b { font-size: 17px; letter-spacing: -0.01em; }
+.kat-row span { font-size: 15.5px; line-height: 1.45; color: var(--muted); }
+.kat-era { margin-top: 6px; border-bottom: 0; position: relative; }
+/* Strek i margen, ikke en border-left: en border og polstring skyver teksten 19px til hoyre, sa ERA-raden
+   ikke lenger flukter med de andre radene. 12px henger ut i sideplassen, som er >= 20px pa mobil. */
+.kat-era::before { content: ""; position: absolute; left: -12px; top: 0; bottom: 0; width: 3px; border-radius: 2px; background: var(--gold); }
+.kat-era span { color: var(--ink); }
+.kat-era i { display: block; font-style: normal; font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
+@media (max-width: 600px) { .kat-row { grid-template-columns: 1fr; } }

@@ -1595,7 +1595,11 @@ def home_page():
         ('Hva skjer med dataene mine?', 'Du bestemmer hvem som får tilgang. Data skal ikke deles med håndverkere, partnere eller andre uten at du velger det.'),
         ('Hva koster ERA?', 'ERA er gratis de første tolv månedene. Ingen betalingskort og ingen binding.'),
     ]
-    faq = "".join(f'<details><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>' for q, ans in faq_items)
+    # Six questions open, the rest behind «Se alle spørsmål». The rest is these four plus every question on
+    # /boligeier that the front page does not already answer, so the two lists cannot drift apart.
+    covered = ("Hva er ERA?", "Hva er forskjellen på ERA og", "Hva vet ERA om", "Kan ERA hjelpe meg", "Gjelder ERA for leilighet", "Hva koster ERA", "Hva skjer med dataene")
+    extra = [it for it in AUDIENCES["boligeier"]["faq"] if not it[0].startswith(covered)]
+    faq = faq_html(faq_items + extra)
     done = ("Takk. Vi har adressen din.", "")
     hero_form = lead_form_html("hero", a, done, label="Skriv adressen din", placeholder="Myrerveien 46A, Oslo")
     end_form = lead_form_html("end", a, done, placeholder="Myrerveien 46A, Oslo")

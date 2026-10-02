@@ -257,3 +257,11 @@ Demo-styring via URL ved første last: `?rolle=styreleder|styremedlem|forretning
 ### Backend-gap
 
 Repoet har ingen backend for dette produktet (kun `api/lead.js`). Alt i `DataAdapter` mangler server-side: tenant og sesjon, bygg/oppganger/boliger, bygningsdeler, vedlikeholdstiltak, avvik med historikk og oppgaver, prosjekter med milepæler og endringsordrer, deltakelse per bolig og private tilbud, tilbudsforespørsler og standardiserte tilbud, vedtak, beboere og kontaktinfo, meldinger med status, dokumenter med AI-funn og korrigering, budsjettlinjer, aktivitet og assistentsvar. Fixtures er isolert i `src/data/fixtures/` og importeres bare av `fixtureAdapter.ts`; `tenant.isDemo` gir «Demo-data»-merket i topplinjen.
+
+## Bevegelse på /ny
+
+Bevegelse skal forklare hva ERA gjør, ikke vise at siden kan animere. Regler (tokens øverst i den
+siste blokken i `pages.css`): inngang 300–450 ms, mikro 150–220 ms, scroll-tilstand 350–500 ms, ease
+ut, translate maks 8–16 px, scale 0,96–1, opasitet først. Ingenting looper. Menyen følger flaten
+under seg (`data-nav="dark|light"`), uten blur. Redusert bevegelse gir sluttstilling. Scrolltilstand
+ligger i den avgrensede blokken nederst i `pages.js`.

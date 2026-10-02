@@ -40,11 +40,16 @@ designeksport», for hvorfor og hva som gjelder i stedet.
 
 ```bash
 python tools/check-demo-home.py
+python tools/check-investor-sync.py
 ```
 
 Obligatorisk etter endringer som berører `/boligeier`. Den fanger sprik i demoboligens data
 (Myrerveien 46A), men **kan ikke se inn i en PNG** — grønn sjekk betyr at teksten stemmer, ikke at
 skjermbildene er riktige.
+
+`check-investor-sync.py` er obligatorisk etter endringer i `pages.css`, `partner.css`, `fonts.css`, `js/` eller
+bildene investorsiden bruker. Investorsiden deployes fra `sites/investor/` med egne kopier av disse filene. Feiler
+sjekken: kjør `python tools/build-partner-story.py` og commit `sites/investor/`.
 
 `node qa-responsive.mjs http://localhost:8787 chromium all` for responsivitet og trykkflater.
 Husregelen er 44 px; WCAG 2.5.8 (AA) krever 24 px.

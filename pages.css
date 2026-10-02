@@ -2,7 +2,7 @@
 :root {
   --navy: #0F1830; --navy-2: #131E3A; --navy-3: #26344F;
   --warm: #F7F4EE; --paper: #FFFDF9; --sand: #F1EDE4; --line: #E3DDD0;
-  --gold: #D4B17A; --gold-2: #B0935F; --ink: #131E3A; --muted: #5E6472; --muted-2: #8A8579;
+  --gold: #D4B17A; --gold-2: #84632B; --ink: #131E3A; --muted: #5E6472; --muted-2: #6B6659;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -401,7 +401,7 @@ body.menu-open { overflow: hidden; }
 .foot .cols a { display: inline-flex; align-items: center; min-height: 44px; }
 .foot .cols b { color: var(--ink); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
 .foot .cols a { color: #4E5464; }
-.foot .legal { border: 0; margin-top: 18px; padding: 0; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #9A968C; }
+.foot .legal { border: 0; margin-top: 18px; padding: 0; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: #6B6659; }
 
 /* light pages: the pill matches the story's light theme */
 body.light .pill { background: rgba(255,253,248,0.85); border-color: rgba(19,30,58,0.08); color: var(--ink); }
@@ -522,7 +522,7 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .team-role { margin-top: 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-2); }
 .team-card p { margin-top: 10px; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
 .team-card .team-detail { margin-top: 8px; font-size: 13.5px; line-height: 1.45; color: var(--muted-2); }
-.team-tags { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.7; color: #9A968C; }
+.team-tags { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.7; color: #6B6659; }
 .team-card p + .team-tags, .team-card .team-detail + .team-tags { margin-top: 14px; }
 
 /* Tastaturfokus: adressefeltet har outline: 0 på selve input-en, så ringen ligger rundt hele pillen. */
@@ -944,3 +944,7 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 .faq-points li { position: relative; padding-left: 15px; font-size: 15.5px; line-height: 1.5; color: var(--muted); }
 .faq-points li::before { content: ""; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
 .faq-points b { color: var(--ink); font-weight: 700; }
+
+
+.hero .label, .hero-text .label, .cine .label, .valget .label { color: var(--gold); }
+.nstep .link { color: var(--gold-2); }

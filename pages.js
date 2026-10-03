@@ -218,7 +218,8 @@ document.querySelectorAll("form.lead").forEach(function (form) {
   function equalize() {
     var max = 0;
     panels.forEach(function (p) { var was = p.hidden; p.hidden = false; p.style.visibility = "hidden"; max = Math.max(max, p.offsetHeight); p.style.visibility = ""; p.hidden = was; });
-    panelBox.style.minHeight = max ? max + "px" : "";
+    // On a phone the panels stack and differ a lot in height; a shared minimum height only leaves blank space.
+    panelBox.style.minHeight = max && window.innerWidth >= 900 ? max + "px" : "";
   }
   function show(i, focusTab) {
     i = Math.max(0, Math.min(tabs.length - 1, i));
@@ -636,4 +637,11 @@ document.querySelectorAll("form.partner-form").forEach(function (form) {
     b.textContent = open ? "Skjul løpet" : "Se hele løpet";
     if (open) list.querySelectorAll("li").forEach(function (li) { li.classList.add("is-active"); });
   });
+})();
+// Scene panels: re-measure when the viewport crosses the phone/desktop break.
+(function () {
+  var mq = window.matchMedia("(min-width: 900px)");
+  var box = document.querySelector(".scene-panel");
+  if (!box || !mq.addEventListener) return;
+  mq.addEventListener("change", function () { window.dispatchEvent(new Event("resize")); if (!mq.matches) box.style.minHeight = ""; });
 })();

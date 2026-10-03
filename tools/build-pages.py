@@ -432,7 +432,7 @@ AUDIENCES = {
                 foot="Visualisering og kjøp direkte i ERA er planlagt og ikke tilgjengelig ennå. Handleliste og produkter er i pilot. Tilbud fra håndverker er tilgjengelig i beta."),
             prosjekt_flow_section(),
             app_section(
-                "ERA Prosjekt", "Fra anbefaling til gjennomføring.",
+                "Prosjektet i appen", "Fra anbefaling til gjennomføring.",
                 "Når noe bør gjøres, kan ERA gjøre anbefalingen om til et konkret prosjekt – fra planlegging og tilbud til gjennomføring og dokumentasjon.",
                 phone("/assets/story/app-prosjekt.png", 935, 1683,
                       f"ERA Bolig: prosjektet «{DEMO_HOME['measure']}» på {DEMO_HOME['address']} med estimert kostnad "
@@ -466,7 +466,7 @@ AUDIENCES = {
                         ("Det som kommer", "Fasadeprosjektet fra bildet står som planlagt.")],
                 alt_bg=False, flip=True, sid="boligminne"),
             app_loop(
-                "Hele loopen", "Fra spørsmål til ferdig dokumentert.",
+                "Hele løpet", "Fra spørsmål til ferdig dokumentert.",
                 [("Boligen", "ERA kjenner den.", "/assets/story/app-hjem.png",
                   "ERA Bolig: forsiden for Myrerveien 46A med tilstand og neste tiltak", 935, 1683),
                  ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
@@ -586,7 +586,7 @@ AUDIENCES = {
             note="Gratis for boligeiere i betaperioden. Ingen betalingskort.",
             cta_primary="Be om tilgang", cta_secondary="Se hvordan ERA fungerer",
             heading="Test ERA sammen med de første boligeierne",
-            lede="ERA åpner nå for de første hjemmene. Tilgang gis foreløpig på invitasjon mens vi utvikler ERA sammen med de første boligeierne. Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i boligen.",
+            lede="Som betabruker får du hjelp til å forstå, planlegge og gjennomføre vedlikehold og oppgraderinger i boligen.",
             items=[
                 "Ta bilde av et behov i boligen.",
                 "Få analyse, oppgaveliste og prisestimat.",
@@ -998,7 +998,7 @@ def scenes_html(sc, cta_label, cta_href="#skjema", item_label="Steg"):
 def footer_html():
     return f'''<footer class="foot">
   <div class="wrap">
-    <div><div class="brand">era<span>.</span></div><div class="tag">Å eie hjem uten gjetting</div></div>
+    <div><div class="brand">era<span>.</span></div><div class="tag">Boligens AI-agent</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
       <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/ny/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>
@@ -1325,7 +1325,7 @@ def privacy_page():
 </main>
 <footer class="foot">
   <div class="wrap">
-    <div><div class="brand">era<span>.</span></div><div class="tag">Å eie hjem uten gjetting</div></div>
+    <div><div class="brand">era<span>.</span></div><div class="tag">Boligens AI-agent</div></div>
     <div class="cols">
       <div><b>Målgrupper</b>{"".join(f'<a href="/{s}">{esc(AUDIENCES[s]["nav"])}</a>' for s in ORDER)}</div>
       <div><b>ERA</b><a href="/historie#hva">Hva ERA gjør</a><a href="/ny/om-era">Om ERA</a><a href="/personvern">Personvern</a><a href="/historie">Historien</a></div>

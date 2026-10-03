@@ -1089,7 +1089,7 @@ def page(slug, a):
     if a.get("aside"):
         ad = a["aside"]
         aside_section = (
-            '<section class="section"><div class="wrap narrow aside">'
+            '<section class="section aside-sec"><div class="wrap narrow aside">'
             f'<div class="label">{esc(ad["label"])}</div><h2>{esc(ad["heading"])}</h2>'
             f'<p class="aside-text">{esc(ad["text"])}</p>'
             f'<a class="link dark" href="{ad["href"]}">{esc(ad["link"])}</a>'
@@ -1138,7 +1138,7 @@ def page(slug, a):
             f'<div class="card-head"><span class="label">{esc(ex["title"])}</span><span class="meta">{esc(ex["meta"])}</span></div>'
             f'{rows}</div><div class="example-text"><h2>Slik ser det ut.</h2><p>{esc(ex["note"])}</p></div></div></section>'
         )
-    faq = faq_html(a["faq"])
+    faq = faq_html(a["faq"], m_visible=3)
     beta_section = ""
     if beta:
         beta_items = "".join(f"<li>{esc(it)}</li>" for it in beta["items"])
@@ -1212,7 +1212,7 @@ def page(slug, a):
 
   {beta_section}
 
-  <section class="section alt">
+  <section class="section alt gains-sec">
     <div class="wrap">
       <div class="label">Det får {"dere" if a["key"] in ("board", "partner") else "du"}</div>
       <h2>Gevinsten</h2>

@@ -1099,3 +1099,32 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
 @media (max-width: 389px) {
   .stepnav button .t { display: inline; }
 }
+
+/* ── Boligeier og styret på mobil: kortere sider ──────────────────────────────────────────────
+   Disse to sidene forklarer produktet i detalj og er 14 000 til 17 000 px lange på telefon. Der en seksjon gjentar det en annen
+   allerede sier, eller bare beskriver noe planlagt, vises den ikke på telefon. Alt står fortsatt på desktop. */
+@media (max-width: 899px) {
+  /* felles: punktlistene under hver appskjerm sier det samme som skjermen og overskriften */
+  body:not([data-page])[data-audience="owner"] .appsec-points,
+  body:not([data-page])[data-audience="board"] .appsec-points { display: none; }
+  /* felles: «Gevinsten» gjentar det sidene allerede har sagt */
+  body:not([data-page])[data-audience="owner"] .gains-sec,
+  body:not([data-page])[data-audience="board"] .gains-sec { display: none; }
+
+  /* /boligeier */
+  body:not([data-page])[data-audience="owner"] .hero-visual { display: none; }
+  body:not([data-page])[data-audience="owner"] .cap-list li span { display: none; }
+  body:not([data-page])[data-audience="owner"] .cap-list li { padding: 12px 0; gap: 6px; }
+  body:not([data-page])[data-audience="owner"] #neste-steg,
+  body:not([data-page])[data-audience="owner"] #loopen { display: none; }
+  body:not([data-page])[data-audience="owner"] #visualiser .nsteps { display: none; }
+  body:not([data-page])[data-audience="owner"] .beta .beta-items { display: none; }
+  /* agentskjermen sier det samme som «Vis ERA hva du ser» rett over */
+  body:not([data-page])[data-audience="owner"] #boligagent { display: none; }
+
+  /* /styret */
+  body:not([data-page])[data-audience="board"] .hero-dash,
+  body:not([data-page])[data-audience="board"] #oppsummering,
+  body:not([data-page])[data-audience="board"] #boligeier-visning,
+  body:not([data-page])[data-audience="board"] .aside-sec { display: none; }
+}

@@ -83,17 +83,21 @@ document.querySelectorAll("form.lead").forEach(function (form) {
   if (form.dataset.audience !== "owner" && form.dataset.audience !== "board") return;
   var box = document.createElement("div");
   box.setAttribute("role", "listbox");
-  box.style.cssText = "position:fixed;z-index:9999;display:none;background:#FFFFFF;border-radius:16px;box-shadow:0 20px 50px rgba(15,24,48,0.28);overflow:hidden auto;max-height:280px;font-family:'Schibsted Grotesk',system-ui,sans-serif";
-  document.body.appendChild(box);
+  box.setAttribute("aria-label", "Adresseforslag");
+  box.id = "era-addr-list-" + (input.id || "x");
+  input.setAttribute("aria-controls", box.id);
+  box.style.cssText = "position:fixed;z-index:9999;display:none;background:#FFFFFF;border-radius:16px;box-shadow:0 20px 50px rgba(15,24,48,0.28);overflow:hidden;font-family:'Schibsted Grotesk',system-ui,sans-serif";
+  // Inside the form's own landmark (header or main), so it is not loose content outside every region.
+  (form.closest("header, main, footer") || document.body).appendChild(box);
   var items = [], active = -1, timer = null, ctrl = null;
   var optId = "era-addr-" + (input.id || "x") + "-";
-  function close() { box.style.display = "none"; box.innerHTML = ""; items = []; active = -1; input.removeAttribute("aria-expanded"); input.removeAttribute("aria-activedescendant"); }
+  function close() { box.style.display = "none"; box.innerHTML = ""; items = []; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); }
   function place() { var r = input.getBoundingClientRect(); box.style.left = r.left + "px"; box.style.top = (r.bottom + 8) + "px"; box.style.width = r.width + "px"; }
   function render() {
     if (!items.length) { close(); return; }
     place();
     box.innerHTML = items.map(function (it, i) {
-      return '<div role="option" id="' + optId + i + '" data-i="' + i + '" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:' + (i === active ? "#F7F4EE" : "#FFFFFF") + ";border-top:" + (i ? "1px solid #EFEAE0" : "0") + '"><div>' + it.text + '</div><div style="margin-top:2px;font-size:12.5px;color:#8A8579">' + it.sub + "</div></div>";
+      return '<div role="option" id="' + optId + i + '" data-i="' + i + '" style="padding:11px 16px;cursor:pointer;font-size:14.5px;color:#131E3A;background:' + (i === active ? "#F7F4EE" : "#FFFFFF") + ";border-top:" + (i ? "1px solid #EFEAE0" : "0") + '"><div>' + it.text + '</div><div style="margin-top:2px;font-size:12.5px;color:#5F5A4F">' + it.sub + "</div></div>";
     }).join("");
     box.style.display = "block";
     input.setAttribute("aria-expanded", "true");

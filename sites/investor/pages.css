@@ -1072,3 +1072,9 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
   .cine-more { align-items: center; justify-content: center; min-height: 44px; margin-top: 10px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(212,177,122,0.55); background: transparent; color: var(--gold); font: inherit; font-weight: 600; font-size: 14.5px; cursor: pointer; }
   .cine-more:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 }
+
+/* ERA Prosjekt-scenen på mobil: fine print og knappen lå delvis over mannens telefon og hånd. Mørkere bunn, tonet ut før ansiktene. */
+@media (max-width: 899px) {
+  .cine--bilde .cine-media::after { background: linear-gradient(0deg, rgba(15,24,48,0.94) 0%, rgba(15,24,48,0.84) 34%, rgba(15,24,48,0.6) 56%, rgba(15,24,48,0.2) 80%, rgba(15,24,48,0.04) 100%); }
+  .cine--bilde .reise-text .label { color: var(--gold); text-shadow: 0 1px 12px rgba(15,24,48,0.9); }
+}

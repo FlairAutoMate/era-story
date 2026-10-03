@@ -151,7 +151,7 @@ Boligeiersiden viser ERA Bolig med ekte appskjermer i stedet for å forklare pro
 - **Skjermbilder skaleres aldri opp.** Størrelsesklassene i `.pw-phone` (`--sm` 236px, `--md` 300px, `--lg` 420px) og `.pw-ui` (400px) er satt etter kildeoppløsningen. Alle flater ligger i dag på 2,03× eller bedre. Legger du inn et nytt bilde, sjekk `naturalWidth` mot visningsbredden før du velger klasse.
 - Gløden bak enheten (`.pw-phone::before`) er begrenset horisontalt. Et pseudoelement teller med i `scrollWidth`, og en bleed på 18 % ga 423px dokument på en 390px skjerm.
 - **Loop-stripen bygges i HTML** av de samme fem skjermene som seksjonene bruker, ikke av et bakt komposittbilde. Da kan den ikke drifte fra seksjonene når en skjerm byttes. Under 900px skjules stripen: fem telefoner ved siden av hverandre blir ~65px brede og uleselige, og skjermene er allerede vist i lesbar størrelse i seksjonene over.
-- **Én demobolig per side.** `/boligeier` bruker **Myrerveien 46A** gjennomgående; de andre målgruppesidene bruker Myrerveien 14. Ikke bland dem på samme side.
+- **Én demobolig per side.** `/boligeier` og forsiden bruker **Eksempelveien 12** (fiktiv adresse siden 3. okt. 2026) gjennomgående; /handverker bruker samme eksempeladresse. Ikke bland dem på samme side.
 - **Skjermene har ikke samme oppløsning.** Fire ligger på 853×1844, Min bolig på 941×1672. Derfor bærer hvert steg i `app_loop()` sine egne `width`/`height`; en hardkodet størrelse strekker bildet. Ulikt sideforhold gjør også at telefonene i loop-stripen får ulik høyde — 941×1672 blir ~91px kortere enn naboene ved 236px bredde. Én felles eksportstørrelse for alle fem er å foretrekke.
 
 #### Faktaark for demoboligen
@@ -160,15 +160,14 @@ Tre ulike verdier for samme bolig har rukket å gå i produksjon ved et uhell (6
 
 | Felt | Verdi |
 | --- | --- |
-| Adresse | Myrerveien 46A, Oslo |
+| Adresse | Eksempelveien 12, Oslo (fiktiv) |
 | Boligtype · areal | Enebolig · 162 m² |
 | Byggeår | 1967 |
 | Tilstand | God · 78 av 100 |
 | Neste tiltak | Fasadevask og maling |
 | Estimert kostnad | 85 000–140 000 kr |
-| Estimert verdi | 6 250 000 kr |
 | Oppstart · varighet | April 2026 · 2–3 uker |
-| Håndverker | Oslo Fasade AS |
+| Håndverker | Fasadeeksperten (eksempel) |
 
 **Endre tallet her først, eksporter skjermen etterpå — aldri motsatt vei.** `python tools/check-demo-home.py` feiler hvis en gammel verdi dukker opp igjen i en generert side, eller hvis en verdi fra faktaarket forsvinner ut av teksten. Sjekken er avgrenset til `/boligeier` for tallene, siden de samme beløpene er gyldige andre steder — `/styret` priser ventilasjon for et annet bygg til 80 000–120 000 kr. Feilstavet adresse fanges på alle sider.
 
@@ -279,3 +278,7 @@ ligger i den avgrensede blokken nederst i `pages.js`.
 ## Mobiltekster
 
 Forsiden har egne, kortere tekster og færre elementer på telefon. `dm(desktop, mobil)` i `tools/build-pages.py` skriver samme budskap to ganger; `.d-only` vises fra 900 px og `.m-only` under. Det som ikke hjelper en leser på telefon (bilder, ekstra lister, planlagte punkter) har `.d-only`. Bruk dette bare der telefonleseren trenger mindre tekst, ikke et annet budskap.
+
+#### Posisjonering, 3. okt. 2026: det PNG-filene fortsatt viser
+
+Eksempelboligen er fiktiv og viser ingen boligverdi (verdi og marked hører til Hjemla; ERA = behov, handling og handel). All tekst, alle alt-tekster og `check-demo-home.py` følger dette. **Appskjermbildene i `assets/story/app-*.png` er ikke eksportert på nytt**, så de viser fortsatt «Myrerveien 46A», «Estimert verdi 6 250 000 kr» og «Oslo Fasade AS» inne i bildet. Sjekken ser ikke inn i PNG. De må eksporteres på nytt fra appen (uten verdifeltet, med eksempeladresse og eksempelfirma) før siden deles utenfor teamet; til da står bildene og teksten i strid.

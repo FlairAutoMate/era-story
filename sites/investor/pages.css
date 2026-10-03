@@ -1128,3 +1128,6 @@ body.light .menu-btn { border-color: rgba(19,30,58,0.15); }
   body:not([data-page])[data-audience="board"] #boligeier-visning,
   body:not([data-page])[data-audience="board"] .aside-sec { display: none; }
 }
+
+/* Forsiden har en synlig etikett («Skriv adressen din») over feltet, så den flytende «Adresse»-etiketten er overflødig. */
+.ny-page .field-label { display: none; }

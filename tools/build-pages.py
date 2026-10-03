@@ -393,7 +393,7 @@ AUDIENCES = {
             app_section(
                 "Min bolig", "Alt om boligen. Ett sted.",
                 "Ikke bare data fra registre. ERA bygger en levende boligprofil som utvikler seg når du legger til rom, dokumentasjon, arbeid og nye opplysninger.",
-                phone("/assets/story/app-minbolig.png", 853, 1844,
+                phone("/assets/story/app-minbolig.png", 719, 1534,
                       f"ERA Bolig: Min bolig for {DEMO_HOME['address']} – {DEMO_HOME['type']} fra {DEMO_HOME['year']} på "
                       f"{DEMO_HOME['area']} med tilstand {DEMO_HOME['condition']} {DEMO_HOME['score']}, neste prosjekt "
                       f"«{DEMO_HOME['measure']}» til {DEMO_HOME['cost']} med oppstart {DEMO_HOME['start']} og "
@@ -410,13 +410,13 @@ AUDIENCES = {
             app_section(
                 "Boligagent", "Ikke bare et AI-svar. Et svar om boligen din.",
                 "ERA kombinerer det du spør om eller viser med tilgjengelig informasjon om boligens alder, historikk, tilstand og tidligere arbeid.",
-                phone("/assets/story/app-agent.png", 853, 1844,
-                      f"ERA Bolig, boligagenten for {DEMO_HOME['address']}: fotoet av huset er merket av med fasade og tak "
-                      "til oppfølging og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser» med de fire "
-                      f"punktene, «Hva det betyr» for en bolig fra {DEMO_HOME['year']}, og forslaget «{DEMO_HOME['measure']}» "
-                      f"med estimert kostnad {DEMO_HOME['cost']}, oppstart {DEMO_HOME['start']} og {DEMO_HOME['pro']}",
+                phone("/assets/story/app-agent.png", 661, 1358,
+                      f"ERA Bolig, boligagenten for {DEMO_HOME['address']}, merket I pilot: fotoet av huset er merket av med "
+                      "at taket og grunnmuren ser bra ut, at vinduene har noe slitasje og at fasaden trenger vedlikehold. "
+                      f"Under står «Dette ser vi», byggeår {DEMO_HOME['year']}, areal {DEMO_HOME['area']}, «Hva det betyr» "
+                      f"og forslaget «{DEMO_HOME['measure']}»",
                       "lg"),
-                points=[("Hva jeg ser", "Fasade og tak bør følges opp. Takrenner og grunnmur er i god stand."),
+                points=[("Dette ser vi", "Fasaden trenger vedlikehold, og vinduene har noe slitasje. Taket og grunnmuren ser bra ut."),
                         ("Hva det betyr", f"Boligen er fra {DEMO_HOME['year']}. Det gjør fasade, tak og el-anlegg verdt å se nærmere på."),
                         ("Mitt forslag", f"«{DEMO_HOME['measure']}» med kostnad, oppstart og en håndverker som kan gjøre jobben.")],
                 alt_bg=True, flip=True, sid="boligagent"),
@@ -471,11 +471,11 @@ AUDIENCES = {
                  ("Kamera", "Vis ERA problemet.", "/assets/story/app-kamera.png",
                   "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu", 853, 1844),
                  ("Boligagent", "Forstå hva det betyr.", "/assets/story/app-agent.png",
-                  "ERA Bolig: boligagentens analyse av huset med funn, betydning og forslag", 853, 1844),
+                  "ERA Bolig: boligagenten viser hva den ser på huset, hva det betyr og et forslag", 661, 1358),
                  ("Prosjekt", "Planlegg og gjennomfør.", "/assets/story/app-prosjekt.png",
                   "ERA Bolig: prosjektet «Fasadevask og maling» med kostnad, håndverker og fremdrift", 935, 1683),
                  ("Min bolig", "Dokumenter og husk.", "/assets/story/app-minbolig.png",
-                  "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt og dokumentasjon", 853, 1844)],
+                  "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt og dokumentasjon", 719, 1534)],
                 "Eksempeldata. Samme eksempelbolig, Eksempelveien 12, gjennom hele løpet."),
         ],
         gains=[
@@ -683,7 +683,7 @@ AUDIENCES = {
             app_section(
                 "Eieren ser det også", "Ikke bare et varsel. Egen oppfølging.",
                 "Det samme fasadeprosjektet dukker opp i eierens egen ERA-app, sammen med resten av hjemmet deres. Fellesareal og privat hjem holdes adskilt: privat dokumentasjon om hjemmet deles ikke automatisk med styret.",
-                phone("/assets/story/app-minbolig.png", 853, 1844,
+                phone("/assets/story/app-minbolig.png", 719, 1534,
                       "ERA Bolig, boligeierens Min bolig-side: viser egen bolig med tilstand og neste prosjekt, samt fellesprosjektet fra styret",
                       "md"),
                 points=[("For eieren", "Eget hjem, dokumentasjon og vedlikeholdsplan – pluss fellesprosjekter fra styret."),
@@ -1499,9 +1499,9 @@ def how_it_works():
     is drawn from 1 to 2 to 3 as the section scrolls into view."""
     pin = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14s5-4.2 5-8a5 5 0 10-10 0c0 3.8 5 8 5 8z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6" r="1.8" stroke="currentColor" stroke-width="1.4"/></svg>'
     chk = '__CHECK__'
-    def shot(src, alt):
-        return (f'<div class="how-visual how-visual--app"><img src="{src}" width="853" height="1844" alt="{esc(alt)}" loading="lazy" decoding="async"></div>')
-    v1 = shot("/assets/story/app-agent.png", "ERA Bolig: boligagentens svar om boligen, med funn, betydning og forslag")
+    def shot(src, alt, w=853, h=1844):
+        return (f'<div class="how-visual how-visual--app"><img src="{src}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></div>')
+    v1 = shot("/assets/story/app-agent.png", "ERA Bolig: boligagentens svar om boligen, med funn, betydning og forslag", 661, 1358)
     v2 = shot("/assets/story/app-kamera.png", "ERA Bolig: kameraet rettet mot avflassende maling, klart til å analysere bildet")
     v3 = shot("/assets/story/app-prosjekt.png", "ERA Bolig: prosjektet med plan, valget mellom å gjøre det selv eller be om tilbud, og fremdrift")
     steps = [(v1, "Spør", "«Hva bør jeg følge opp?» ERA svarer ut fra det den vet om boligen.", "«Hva bør jeg følge opp?»"),
@@ -1609,16 +1609,16 @@ def home_page():
     minbolig_alt = (f"ERA Bolig: Min bolig for {h['address']} – {h['type']} fra {h['year']} på {h['area']} med tilstand "
                     f"{h['condition']} {h['score']}, neste prosjekt «{h['measure']}» til {h['cost']} med oppstart {h['start']} og "
                     f"{h['pro']} og samlet dokumentasjon")
-    agent_alt = (f"ERA Bolig, boligagenten for {h['address']}: fotoet av huset er merket av med fasade og tak til oppfølging "
-                 f"og takrenner og grunnmur i god stand, etterfulgt av «Hva jeg ser», «Hva det betyr» for en bolig fra {h['year']} "
-                 f"og forslaget «{h['measure']}» med estimert kostnad {h['cost']}")
+    agent_alt = (f"ERA Bolig, boligagenten for {h['address']}: fotoet av huset er merket av med at taket og grunnmuren ser bra ut, "
+                 f"at vinduene har noe slitasje og at fasaden trenger vedlikehold, etterfulgt av «Dette ser vi», «Hva det betyr» "
+                 f"for en bolig fra {h['year']} og forslaget «{h['measure']}»")
     # Two questions, asked one after the other. The agent screen answers the first (it gets a ring once),
     # then the second arrives: the chips show the product working instead of decorating the hero.
     prompts = ["Hva bør jeg følge opp nå?", "Finn noen som kan fikse dette"]
     prompts_html = '<ul class="ny-prompts" aria-label="Eksempler på spørsmål til ERA">' + "".join(f"<li>{esc(t)}</li>" for t in prompts) + "</ul>"
     hero_visual = ('<div class="hero-visual">' + prompts_html + '<div class="hero-phones">'
-                   + phone("/assets/story/app-minbolig.png", 853, 1844, minbolig_alt, "sm", eager=True)
-                   + phone("/assets/story/app-agent.png", 853, 1844, agent_alt, "md", eager=True)
+                   + phone("/assets/story/app-minbolig.png", 719, 1534, minbolig_alt, "sm", eager=True)
+                   + phone("/assets/story/app-agent.png", 661, 1358, agent_alt, "md", eager=True)
                    + '</div></div>')
     # The -m file of this photograph is a portrait crop (900x1519), so it is chosen with a media query. A
     # width descriptor would label it 1400w and desktop widths around 1400 px would pick the portrait.
@@ -1628,11 +1628,11 @@ def home_page():
     flow = app_flow(
         None, "Din bolig. Én agent.",
         [("Finn boligen", "Adresse inn. Boligprofil ut.", "/assets/story/app-minbolig.png",
-          "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt og dokumentasjon", 853, 1844, "md"),
+          "ERA Bolig: Min bolig med nøkkeltall, neste prosjekt og dokumentasjon", 719, 1534, "md"),
          ("Vis eller spør", "Ta et bilde eller spør ERA.", "/assets/story/app-kamera.png",
           "ERA Bolig: kameraet rettet mot avflassende maling ved et vindu", 853, 1844, "sm"),
          ("Få et forslag", "Hva, hvorfor og når. Gjør det selv, eller få tilbud.", "/assets/story/app-agent.png",
-          "ERA Bolig: boligagentens analyse av huset med funn, betydning og forslag", 853, 1844, "lg"),
+          "ERA Bolig: boligagenten viser hva den ser på huset, hva det betyr og et forslag", 661, 1358, "lg"),
          ("Få det gjort", "Behov, produkter, tilbud og oppfølging i én flyt.", "/assets/story/app-prosjekt.png",
           f"ERA Bolig: prosjektet «{h['measure']}» med kostnad, håndverker og oppgaver", 935, 1683, "lg"),
          ("Alt tilbake til boligen", "Neste gang starter ERA med historikken, ikke fra null.", "/assets/story/app-boligminne.png",

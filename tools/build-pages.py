@@ -564,7 +564,7 @@ AUDIENCES = {
              "ERA er klar for den. Ingen binding, og dataene lagres kryptert i EU/EØS og brukes bare til å ta kontakt."),
             ("Hva skjer når jobben er ferdig?",
              "Resultatet skal tilbake til boligen. Bilder, dokumentasjon og relevant historikk gjør boligprofilen bedre, "
-             "slik at neste prosjekt ikke starter fra null. ERA ser hva som kommer. Du slipper å følge med."),
+             "slik at neste prosjekt ikke starter fra null. ERA hjelper deg oppdage hva boligen trenger – og hva du bør gjøre videre."),
             ("Følger informasjonen boligen over tid?",
              "Det er selve ideen. ERA bygger en digital hukommelse rundt boligen, slik at tidligere arbeid, dokumentasjon "
              "og historikk kan gi bedre beslutninger senere."),
@@ -1693,7 +1693,7 @@ def home_page():
         f'sizes="(max-width: 900px) 80vw, 420px" alt="" loading="lazy" decoding="async">' for i in range(4)) + "</div>"
     learns = cine("/assets/story/whole-home-v3.jpg",
                   '<div class="cine-grid cine-grid--seasons"><div class="cine-text" data-reveal>'
-                  '<h2>ERA ser hva som kommer. Du slipper å følge med.</h2>'
+                  '<h2>ERA hjelper deg oppdage hva boligen trenger – og hva du bør gjøre videre.</h2>'
                   '<p class="cine-lede">Når jobben er ferdig, blir resultatet en del av det ERA vet om boligen. Jo mer boligen lever, desto mer lærer ERA om den.</p>'
                   + timeline + '<p class="cine-fine">Eksempel på en boligs tidslinje.</p></div>' + seasons + '</div>'
                   + '<ul class="husker-feats d-only">'
